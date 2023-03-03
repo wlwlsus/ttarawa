@@ -63,4 +63,4 @@
 
 
 ## 기능 명세 및 우선순위
- <img src="기능_명세_및_우선순위.png" width="1000px">
+ <img src="feat.png" width="1000px">
