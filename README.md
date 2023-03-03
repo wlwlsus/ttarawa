@@ -63,4 +63,8 @@
 
 
 ## 기능 명세 및 우선순위
- <img src="feat.png" width="1000px">
+ <img src="feat.png">
+
+
+## ERD
+<img src="erd.png">
