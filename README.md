@@ -68,3 +68,7 @@
 
 ## ERD
 <img src="erd.png">
+
+
+## API 설계
+<img src="api.png">
