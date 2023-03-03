@@ -72,3 +72,7 @@
 
 ## API 설계
 <img src="api.png">
+
+
+## 피그마
+<img src="figma.png">
