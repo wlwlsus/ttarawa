@@ -11,32 +11,30 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-@Table(name="users_info")
+@Table(name = "users_info")
 public class UsersInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="users_info_id",  nullable = false, columnDefinition = "BIGINT UNSIGNED")
-    private Long usersInfoId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "users_info_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+  private Long usersInfoId;
 
-    @OneToOne
-    @JoinColumn(name="users_id", insertable = false, updatable = false)
-    private Users users;
+  @OneToOne
+  @JoinColumn(name = "users_id", nullable = false, insertable = false, updatable = false)
+  private Users users;
 
-    @Column(name="users_id")
-    private Long userId;
+//  @Column(name = "users_id")
+//  private Long usersId;
 
+  @ManyToOne
+  @JoinColumn(name = "badge_id", nullable = false, insertable = false, updatable = false)
+  private Badge badge;
 
-    @ManyToOne
-    @JoinColumn(name="badge_id", insertable = false, updatable = false)
-    private Badge badge;
+//  @Column(name = "badge_id")
+//  private Long badgeId;
 
-    @Column(name="badge_id")
-    private Long badgeId;
-
-
-    @Column(name="total_distance", nullable = false)
-    private Long totalDistance;
+  @Column(name = "total_distance", nullable = false)
+  private Long totalDistance;
 
 
 }
