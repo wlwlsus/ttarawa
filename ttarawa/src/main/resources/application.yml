@@ -1,4 +1,19 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 'd7d7a42861b64d89868bc0f51679f971'
+            client-secret: 'B2HOXLzUbeVup0jf6403Cuwx03niLQms'
+            scope:
+              - profile_nickname
+              - account-email
+              - profile-image
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            client-authentication-method: POST
   jpa:
     hibernate:
       ddl-auto: update
@@ -10,3 +25,5 @@ spring:
     url: jdbc:mariadb://localhost:3306/ssafy605
     username: root
     password: root
+jwt:
+  secret:
