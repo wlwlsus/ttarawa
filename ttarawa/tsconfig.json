@@ -5,15 +5,23 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": [
-      "es6",
-      "es2017"
-    ],
+    "lib": ["es6", "es2017"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    // 절대경로 typescript에 설정하기
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["./*"],
+      "@components/*": ["components/*"],
+      "@screens/*": ["screens/*"],
+      "@services/*": ["services/*"],
+      "@stores/*": ["stores/*"],
+      "@styles/*": ["styles/*"]
+    }
   },
   "exclude": [
     "node_modules",
