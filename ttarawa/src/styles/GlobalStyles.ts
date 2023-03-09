@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({})
 export const color = {
   primary: '#2155CD',
   secondary: '#C9E2FF',
+  white: '#FFFFFF',
   gray: '#B5B5B5',
   lightGray: '#D9D9D9',
   yellow: '#FEE500',
