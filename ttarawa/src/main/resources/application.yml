@@ -15,8 +15,8 @@ spring:
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             client-authentication-method: POST
           naver:
-            client-id: YN1WmgMqqE5dvT2tN9K1
-            client-secret: e8ZpMggadM
+            client-id: 'YN1WmgMqqE5dvT2tN9K1'
+            client-secret: 'e8ZpMggadM'
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope:
@@ -24,6 +24,12 @@ spring:
               - email
               - profile-image
             client-name: Naver
+          google:
+            client-id: '451198103817-8b1cchldd6guatlfdg431gs119b0t8ad.apps.googleusercontent.com'
+            client-secret: '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'
+            redirect-uri: '{baseUrl}/login/{action}/oauth2/code/{registrationId}'
+            scope: profile, email
+#        provider
   jpa:
     hibernate:
       ddl-auto: update
