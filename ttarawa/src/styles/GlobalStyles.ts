@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-export const styles = StyleSheet.create({});
+export const styles = StyleSheet.create({})
 
 export const color = {
   primary: '#2155CD',
@@ -10,4 +10,4 @@ export const color = {
   yellow: '#FEE500',
   red: '#F22929',
   green: '#00C73C',
-};
+}
