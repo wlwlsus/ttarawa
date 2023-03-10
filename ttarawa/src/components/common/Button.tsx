@@ -1,6 +1,4 @@
-import { StyleSheet } from 'react-native'
-import { View, Text, Pressable } from 'react-native'
-
+import { StyleSheet, View, Text, Pressable } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
 export default function Button(props: {
@@ -27,7 +25,7 @@ export default function Button(props: {
 const styles = StyleSheet.create({
   blueBtn: {
     backgroundColor: color.primary,
-    paddingVertical: 20,
+    padding: 10,
     marginHorizontal: 20,
     borderRadius: 10,
   },
