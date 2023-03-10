@@ -1,9 +1,6 @@
 import { View, Text } from 'react-native'
+import { useState } from 'react'
 
-export default function App() {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  )
+export default function Index() {
+  return <View></View>
 }
