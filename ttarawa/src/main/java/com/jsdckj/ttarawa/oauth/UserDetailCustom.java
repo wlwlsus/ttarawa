@@ -32,7 +32,10 @@ public class UserDetailCustom implements OAuth2User {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<GrantedAuthority> collection = new ArrayList<>();
-    collection.add(users::getEmail);
+//    collection.add(users::getEmail);
+//    collection.add(users::getProvider);
+    collection.add((GrantedAuthority) () -> users.getRole().toString());
+
     return collection;
   }
 

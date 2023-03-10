@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.users.entity;
 
+import com.jsdckj.ttarawa.users.enums.Role;
 import com.jsdckj.ttarawa.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,5 +29,11 @@ public class Users extends BaseTimeEntity {
 
     @Column(name="provider", nullable = false, length = 15)
     private String provider;
+
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
 
 }

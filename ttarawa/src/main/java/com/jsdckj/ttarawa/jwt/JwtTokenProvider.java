@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.jwt;
 
+import com.jsdckj.ttarawa.oauth.UserDetailCustom;
 import com.jsdckj.ttarawa.users.dto.res.UserResDto;
 import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
@@ -43,24 +44,24 @@ public class JwtTokenProvider {
         .collect(Collectors.joining(","));
 
     long now = (new Date()).getTime();
-    String[] authoritiesSplit = authorities.split(",");
-    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
+//    String[] authoritiesSplit = authorities.split(",");
+//    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
 
     // AccessToken 생성
     Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_EXPIRE_TIME);
     String accessToken = Jwts.builder()
         .setSubject(authentication.getName())
-        .claim("userId", user.get().getUsersId()) // userId 담기
+        .claim("userId", authentication.getName()) // userId 담기
         .claim(JwtProperties.AUTHORITIES_KEY, authorities)
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
-    System.out.println();
 
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
         .setExpiration(new Date(now + JwtProperties.REFRESH_TOKEN_EXPIRE_TIME))
+        .claim("userId", authentication.getName())
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
@@ -91,7 +92,10 @@ public class JwtTokenProvider {
             .collect(Collectors.toList());
 
     // UserDetails 객체를 만들어서 Authentication 리턴
-    UserDetails principal = new User(claims.getSubject(), "", authorities);
+    Users user = userRepository.findById(Long.parseLong(claims.get("userId").toString())).orElseThrow();
+    UserDetailCustom principal = new UserDetailCustom(user);
+
+
     return new UsernamePasswordAuthenticationToken(principal, "", authorities);
   }
 
