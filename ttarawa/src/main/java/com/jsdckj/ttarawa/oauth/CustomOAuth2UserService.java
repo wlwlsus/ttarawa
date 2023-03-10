@@ -1,6 +1,8 @@
 package com.jsdckj.ttarawa.oauth;
 
+import com.jsdckj.ttarawa.oauth.provider.GoogleUserInfo;
 import com.jsdckj.ttarawa.oauth.provider.KakaoUserInfo;
+import com.jsdckj.ttarawa.oauth.provider.NaverUserInfo;
 import com.jsdckj.ttarawa.oauth.provider.OAuth2UserInfo;
 import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
@@ -22,7 +24,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   private final UserRepository userRepository;
 
-  public CustomOAuth2UserService(UserRepository userRepository){
+  public CustomOAuth2UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
@@ -33,20 +35,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     return process(userRequest, oAuth2User);
   }
 
-  private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User oAuth2User){
+  private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 
     OAuth2UserInfo userInfo = null;
 
-    if(Objects.equals(userRequest.getClientRegistration().getRegistrationId(),"kakao")){
+    if (Objects.equals(userRequest.getClientRegistration().getRegistrationId(), "kakao")) {
       userInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+    } else if (Objects.equals(userRequest.getClientRegistration().getRegistrationId(), "naver")) {
+      userInfo = new NaverUserInfo(oAuth2User.getAttributes());
     }
+    else if(Objects.equals(userRequest.getClientRegistration().getRegistrationId(),"google")){
+      userInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+    }
+
 
     // 이미 가입한 유저인지 확인
     Optional<Users> checkUser = userRepository.findByEmailAndProvider(userInfo.getEmail(), userInfo.getProvider());
 
     Users user;
     // 아직 가입이 되어있지 않다면
-    if(checkUser.isEmpty()){
+    if (checkUser.isEmpty()) {
       user = Users.builder()
           .email(userInfo.getEmail())
           .profile(userInfo.getProfileImg())
@@ -55,7 +63,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .build();
       userRepository.save(user);
 
-    }else{
+    } else {
       user = checkUser.get();
     }
 

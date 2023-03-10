@@ -1,6 +1,8 @@
 package com.jsdckj.ttarawa.jwt;
 
 import com.jsdckj.ttarawa.users.dto.res.UserResDto;
+import com.jsdckj.ttarawa.users.entity.Users;
+import com.jsdckj.ttarawa.users.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,6 +20,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,10 +28,12 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
   private final Key key;
+  private final UserRepository userRepository;
 
-  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
+    this.userRepository = userRepository;
   }
 
   // 유저 정보를 가지고 AccessToken, RefreshToken을 생성하는 메소드
@@ -38,21 +43,28 @@ public class JwtTokenProvider {
         .collect(Collectors.joining(","));
 
     long now = (new Date()).getTime();
+    String[] authoritiesSplit = authorities.split(",");
+    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
 
     // AccessToken 생성
     Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_EXPIRE_TIME);
     String accessToken = Jwts.builder()
         .setSubject(authentication.getName())
+        .claim("userId", user.get().getUsersId()) // userId 담기
         .claim(JwtProperties.AUTHORITIES_KEY, authorities)
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
+
+    System.out.println();
 
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
         .setExpiration(new Date(now + JwtProperties.REFRESH_TOKEN_EXPIRE_TIME))
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
+
+
 
     return UserResDto.TokenInfo.builder()
         .grantType(JwtProperties.BEARER_TYPE)
