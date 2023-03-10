@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { View, Text, Pressable } from 'react-native'
 
-import { color } from '../../styles/GlobalStyles'
+import { color } from '@styles/GlobalStyles'
 
 export default function Button(props: {
   text: string
