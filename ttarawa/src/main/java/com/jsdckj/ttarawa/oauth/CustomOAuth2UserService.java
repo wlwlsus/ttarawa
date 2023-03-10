@@ -5,6 +5,7 @@ import com.jsdckj.ttarawa.oauth.provider.KakaoUserInfo;
 import com.jsdckj.ttarawa.oauth.provider.NaverUserInfo;
 import com.jsdckj.ttarawa.oauth.provider.OAuth2UserInfo;
 import com.jsdckj.ttarawa.users.entity.Users;
+import com.jsdckj.ttarawa.users.enums.Role;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -60,6 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .profile(userInfo.getProfileImg())
           .nickname(userInfo.getNickname())
           .provider(userInfo.getProvider())
+          .role(Role.ROLE_USER)
           .build();
       userRepository.save(user);
 
