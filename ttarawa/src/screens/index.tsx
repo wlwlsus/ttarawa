@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native'
-import { useState } from 'react'
+import { View } from 'react-native'
 
 export default function Index() {
   return <View></View>
