@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     // refresh token Redis 저장 (expirationTime 설정 통해 자동 삭제 처리)
     redisTemplate.opsForValue()
-        .set("Refresh Token: "+authentication.getName(),tokenInfo.getRefreshToken(),tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        .set("RT:"+authentication.getName(),tokenInfo.getRefreshToken(),tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     ObjectMapper om = new ObjectMapper();
     String jsonStr = null;
