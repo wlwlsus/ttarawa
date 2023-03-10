@@ -1,5 +1,4 @@
-import React from 'react'
-import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { Text, Pressable, StyleSheet } from 'react-native'
 import { color } from '../../styles/GlobalStyles'
 
 export default function IconButton(props: {
@@ -10,16 +9,16 @@ export default function IconButton(props: {
   icon2?: Element
   style: string
   nonShadow: boolean
-  bg: string | null
+  bg: string
 }) {
-  const bgTable = {
+  const bgTable: { [key: string]: object } = {
     yellow: styles.bgYellow,
     green: styles.bgGreen,
     white: styles.bgWhite,
     blue: styles.bgBlue,
   }
 
-  const btnStyle: { btn?: object; text?: object } | null =
+  const btnStyle: { [key: string]: object } | null =
     props.style === 'skyBtn'
       ? { btn: styles.skyBtn, text: styles.skyBtnText }
       : props.style === 'blueBtn'
