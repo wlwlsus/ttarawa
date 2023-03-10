@@ -1,9 +1,5 @@
 import { View, Text } from 'react-native'
 
-export default function App() {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  )
+export default function Sns() {
+  return <View></View>
 }
