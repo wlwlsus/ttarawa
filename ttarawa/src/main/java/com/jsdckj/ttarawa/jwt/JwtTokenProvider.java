@@ -51,7 +51,7 @@ public class JwtTokenProvider {
     Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_EXPIRE_TIME);
     String accessToken = Jwts.builder()
         .setSubject(authentication.getName())
-        .claim("userId", authentication.getName()) // userId 담기
+        .claim("sub", authentication.getName()) // userId 담기
         .claim(JwtProperties.AUTHORITIES_KEY, authorities)
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS256)
@@ -61,7 +61,7 @@ public class JwtTokenProvider {
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
         .setExpiration(new Date(now + JwtProperties.REFRESH_TOKEN_EXPIRE_TIME))
-        .claim("userId", authentication.getName())
+        .claim("sub", authentication.getName())
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
@@ -92,7 +92,7 @@ public class JwtTokenProvider {
             .collect(Collectors.toList());
 
     // UserDetails 객체를 만들어서 Authentication 리턴
-    Users user = userRepository.findById(Long.parseLong(claims.get("userId").toString())).orElseThrow();
+    Users user = userRepository.findById(Long.parseLong(claims.get("sub").toString())).orElseThrow();
     UserDetailCustom principal = new UserDetailCustom(user);
 
 
