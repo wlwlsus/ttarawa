@@ -4,10 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack' // 스택 네비�
 // import { store } from '@store/index'
 // import { Provider } from 'react-redux'
 
-import Index from '@screens/index'
-import Main from '@screens/main'
-import Mypage from '@screens/mypage'
-import Sns from '@screens/sns'
+import Index from '@screens/Index'
+import Main from '@screens/Main'
+import Mypage from '@screens/Mypage'
+import Sns from '@screens/Sns'
 
 const Stack = createStackNavigator()
 
