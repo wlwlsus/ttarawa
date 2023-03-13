@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+  mariadb:
+    build:
+      context: ./mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+  redis:
+    build:
+      context: ./redis
+    ports:
+      - "6379:6379"
