@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
 
-export default function Sns() {
+export default function Map() {
   return (
     <View>
-      <Text>SNS</Text>
+      <Text>Map</Text>
     </View>
   )
 }

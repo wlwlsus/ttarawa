@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Text } from 'react-native'
 
-import Index from '@screens/index'
-import Main from '@screens/main'
-import Mypage from '@screens/mypage'
+import IndexStackScreen from '@screens/index'
+import MainStackScreen from '@screens/main'
+import MyPageStackScreen from '@screens/mypage'
 import Sns from '@screens/sns'
 
 import { color, styles } from '@styles/GlobalStyles'
@@ -17,21 +17,7 @@ import { Zocial } from '@expo/vector-icons'
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="MainTabs"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Index" component={Index} />
-        <Stack.Screen name="MainTabs" component={MainTabs} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
-
-function MainTabs() {
+function Tabs() {
   return (
     <Tab.Navigator
       initialRouteName="Main"
@@ -59,7 +45,7 @@ function MainTabs() {
       />
       <Tab.Screen
         name="Main"
-        component={Main}
+        component={MainStackScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
@@ -74,7 +60,7 @@ function MainTabs() {
       />
       <Tab.Screen
         name="Mypage"
-        component={Mypage}
+        component={MyPageStackScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Zocial name="persona" size={focused ? 26 : 30} color={color} />
@@ -84,5 +70,19 @@ function MainTabs() {
         }}
       />
     </Tab.Navigator>
+  )
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Index"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Index" component={IndexStackScreen} />
+        <Stack.Screen name="MainTabs" component={Tabs} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }

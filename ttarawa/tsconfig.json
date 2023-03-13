@@ -20,7 +20,8 @@
       "@screens/*": ["screens/*"],
       "@services/*": ["services/*"],
       "@stores/*": ["stores/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@assets/*": ["../assets/*"]
     }
   },
   "exclude": [

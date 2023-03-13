@@ -1,5 +1,18 @@
-import { View, Text } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
+import MyProfile from '~/components/mypage/MyProfile'
+const MyPageStack = createStackNavigator()
 
-export default function MyPage() {
-  return <View></View>
+// MyPage Nested Navigation
+export default function MyPageStackScreen() {
+  return (
+    <MyPageStack.Navigator
+      initialRouteName="MyProfile"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      // Mypage 하위 컴포넌트
+      <MyPageStack.Screen name="MyProfile" component={MyProfile} />
+    </MyPageStack.Navigator>
+  )
 }

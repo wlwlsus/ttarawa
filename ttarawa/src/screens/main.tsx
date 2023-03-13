@@ -1,5 +1,18 @@
-import { View, Text } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
+import Map from '@components/main/Map'
+const MainStack = createStackNavigator()
 
-export default function Main() {
-  return <View></View>
+// Main Nested Navigation
+export default function MainStackScreen() {
+  return (
+    <MainStack.Navigator
+      initialRouteName="Map"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      // Main 하위 컴포넌트
+      <MainStack.Screen name="Map" component={Map} />
+    </MainStack.Navigator>
+  )
 }

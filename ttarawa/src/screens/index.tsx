@@ -1,14 +1,20 @@
-import { View, Text } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
+import Start from '~/components/index/Start'
+import Login from '@components/index/Login'
 
-export default function Index() {
+const IndexStack = createStackNavigator()
+
+// Index Nested Navigation
+export default function IndexStackScreen() {
   return (
-    <View>
-      <Text>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero,
-        corrupti provident cumque, consequatur esse illum quaerat quasi labore
-        ipsam id reiciendis facere ab unde assumenda porro, expedita aperiam
-        ipsa officiis?
-      </Text>
-    </View>
+    <IndexStack.Navigator
+      initialRouteName="Start"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <IndexStack.Screen name="Start" component={Start} />
+      <IndexStack.Screen name="Login" component={Login} />
+    </IndexStack.Navigator>
   )
 }
