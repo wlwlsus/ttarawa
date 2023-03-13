@@ -16,7 +16,7 @@ export default function App() {
     // <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Index" // 초기(메인)페이지 설정
+        initialRouteName="Main" // 초기(메인)페이지 설정
         screenOptions={{ headerShown: false }} // 헤더 숨기기
       >
         <Stack.Screen name="Index" component={Index} />

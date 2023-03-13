@@ -10,9 +10,14 @@ export default function IconButton(props: {
   icon2?: Element
   style: string
   nonShadow: boolean
-  bg: string | null
+  bg?: string
 }) {
-  const bgTable = {
+  const bgTable: {
+    yellow: object
+    green: object
+    white: object
+    blue: object
+  } = {
     yellow: styles.bgYellow,
     green: styles.bgGreen,
     white: styles.bgWhite,
@@ -44,11 +49,13 @@ export default function IconButton(props: {
       ]}
       onPress={props.press}
     >
-      {props.icon1}
-      {props.text && (
-        <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
-      )}
-      {props.icon2}
+      <>
+        {props.icon1}
+        {props.text && (
+          <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
+        )}
+        {props.icon2}
+      </>
     </Pressable>
   )
 }
