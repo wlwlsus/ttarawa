@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native'
 
-export const styles = StyleSheet.create({})
-
 export const color = {
   primary: '#2155CD',
   secondary: '#C9E2FF',
@@ -14,3 +12,11 @@ export const color = {
   black: '#000000',
   shadow: '#000',
 }
+
+export const styles = StyleSheet.create({
+  navTab: {
+    color: color.primary,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+})
