@@ -42,7 +42,7 @@ public class UserController {
   @PostMapping("/logout")
   public ResponseEntity<?> logout(@RequestBody UserReqDto.Logout logout, Errors errors){
     if(errors.hasErrors()){
-      return Response.badRequest("로그아웃c 실패");
+      return Response.badRequest("로그아웃 실패");
     }
     
     if(userService.logout(logout)){

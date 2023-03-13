@@ -17,6 +17,8 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
   @Override
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
     // 유저 로그인 실패시 401 에러 보내기
+    System.out.println("fail");
+    System.out.println(exception);
     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 
   }

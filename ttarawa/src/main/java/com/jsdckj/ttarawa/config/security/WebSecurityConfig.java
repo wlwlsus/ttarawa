@@ -55,7 +55,7 @@ public class WebSecurityConfig {
         .and()
         // 소셜 로그인 설정 //
         .oauth2Login()
-        .loginProcessingUrl("/oauth2/code/*") // 폼 로그인을 처리할 URL 입력
+        .loginProcessingUrl("/login/oauth2/code/*") // 폼 로그인을 처리할 URL 입력
         .authorizationEndpoint(authorize -> authorize.authorizationRequestRepository(
             customOAuth2AuthorizationRequestRepository)) // 사용자가 호출하는 클라이언트의 인증시작 API에 대한 설정
         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))

@@ -69,6 +69,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       user = checkUser.get();
     }
 
+    System.out.println(user.getUsersId());
+
     return new UserDetailCustom(user, oAuth2User.getAttributes());
 
   }

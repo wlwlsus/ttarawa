@@ -47,6 +47,7 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
       }
     }
     uriVariables.put("basePath", (path != null) ? path : "");
+    System.out.println(clientRegistration.getRegistrationId());
     uriVariables.put("baseUrl", uriComponents.toUriString());
     uriVariables.put("action", "login");
     return UriComponentsBuilder.fromUriString(clientRegistration.getRedirectUri())
@@ -74,6 +75,8 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
 
 
     String redirectUri = expandRedirectUri(request, clientRegistration);
+
+    System.out.println(redirectUri);
 
     return builder.clientId(clientRegistration.getClientId())
         .authorizationUri(clientRegistration.getProviderDetails().getAuthorizationUri())
