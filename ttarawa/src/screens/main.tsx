@@ -11,7 +11,6 @@ export default function MainStackScreen() {
         headerShown: false,
       }}
     >
-      // Main 하위 컴포넌트
       <MainStack.Screen name="Map" component={Map} />
     </MainStack.Navigator>
   )

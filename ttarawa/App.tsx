@@ -22,7 +22,6 @@ function Tabs() {
     <Tab.Navigator
       initialRouteName="Main"
       screenOptions={{
-        // headerShown: false, // 헤더 숨기기
         tabBarActiveTintColor: color.primary,
         tabBarInactiveTintColor: color.lightGray,
         tabBarStyle: { height: 90 },
@@ -62,6 +61,7 @@ function Tabs() {
         name="Mypage"
         component={MyPageStackScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Zocial name="persona" size={focused ? 26 : 30} color={color} />
           ),
@@ -77,11 +77,12 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Index"
+        // initialRouteName="Index"
+        initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />
-        <Stack.Screen name="MainTabs" component={Tabs} />
+        <Stack.Screen name="Tabs" component={Tabs} />
       </Stack.Navigator>
     </NavigationContainer>
   )

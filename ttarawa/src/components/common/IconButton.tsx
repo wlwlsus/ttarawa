@@ -54,8 +54,6 @@ export default function IconButton(props: {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
-    marginHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20,
@@ -103,24 +101,26 @@ const styles = StyleSheet.create({
   Circle: {
     borderRadius: 60,
     padding: 15,
-    backgroundColor: 'black',
+    backgroundColor: color.black,
   },
   whiteBtn: {
     backgroundColor: color.white,
     borderRadius: 5,
-    paddingVertical: 30,
     justifyContent: 'space-around',
+    flexDirection: 'row',
+    paddingVertical: 30,
     paddingLeft: 40,
+    marginHorizontal: 20,
   },
   whiteBtnText: {
     color: color.black,
-    fontSize: 30,
+    fontSize: 25,
   },
   left: {
     flexDirection: 'row',
   },
   shadow: {
-    shadowColor: '#000',
+    shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
       height: 1,
