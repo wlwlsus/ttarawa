@@ -1,7 +1,7 @@
 FROM adoptopenjdk/openjdk17:jdk-17.0.1_12-alpine-slim AS build
 WORKDIR /app
 COPY . .
-RUN chmod -R 755 /var/jenkins_home/workspace/jenkins-back/ttrawa
+RUN chmod -R 755 /var/jenkins_home/workspace/jenkins-back/ttarawa
 RUN ./mvnw clean package -DskipTests
 FROM adoptopenjdk/openjdk17:jdk-17.0.1_12-alpine-slim
 WORKDIR /app
