@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, SafeAreaView } from 'react-native'
 import { index } from '@styles/GlobalStyles'
 
 import Button from '@components/common/Button'
@@ -7,7 +7,7 @@ export default function Welcome({ navigation }) {
   const imgSrc = require('@assets/logo.png')
 
   return (
-    <View style={index.introContainer}>
+    <SafeAreaView style={index.introContainer}>
       <View style={index.introBox}>
         <Image style={index.introLogo} source={imgSrc} />
         <Text style={index.introText}>가볍게 떠나는 따릉이 여행</Text>
@@ -21,9 +21,9 @@ export default function Welcome({ navigation }) {
         <Button
           text="서비스 둘러보기"
           style="white"
-          press={() => console.log('introduction')}
+          press={() => navigation.navigate('Intro')}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

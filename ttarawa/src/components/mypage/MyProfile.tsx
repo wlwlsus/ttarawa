@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 
 export default function MyProfile() {
   return (
-    <View>
+    <SafeAreaView>
       <Text>MyProfile</Text>
-    </View>
+    </SafeAreaView>
   )
 }

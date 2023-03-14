@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 
 export default function Map() {
   return (
-    <View>
+    <SafeAreaView>
       <Text>Map</Text>
-    </View>
+    </SafeAreaView>
   )
 }
