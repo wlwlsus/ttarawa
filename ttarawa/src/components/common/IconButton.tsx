@@ -7,8 +7,8 @@ export default function IconButton(props: {
   dir?: string // direction
   icon1?: Element
   icon2?: Element
-  style: string
-  nonShadow: boolean
+  style?: string
+  nonShadow?: boolean
   bg?: string
 }) {
   const bgTable: {
@@ -32,7 +32,7 @@ export default function IconButton(props: {
       ? { btn: styles.blueSquare, text: styles.blueSquareText }
       : props.style === 'whiteBtn'
       ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
-      : props.style === 'blueCircle'
+      : props.style === 'Circle'
       ? { btn: styles.Circle }
       : null
 
