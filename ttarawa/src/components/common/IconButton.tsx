@@ -55,8 +55,6 @@ export default function IconButton(props: {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
-    marginHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20,
