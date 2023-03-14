@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk17:jdk-17.0.1_12-alpine-slim AS build
+FROM openjdk:17-jdk-slim as builder
 WORKDIR /app
 COPY . .
 RUN ./mvnw clean package -DskipTests
