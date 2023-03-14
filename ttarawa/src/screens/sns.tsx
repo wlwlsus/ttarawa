@@ -5,14 +5,8 @@ const imagePath = require('../../assets/icon.png')
 
 export default function Sns() {
   return (
-    <View style={styles.header}>
-      <Image source={imagePath} style={styles.Logo} />
-      <Pressable
-        hitSlop={10}
-        onPress={() => {
-          console.log('123')
-        }}
-      ></Pressable>
+    <View>
+      <Text>SNS</Text>
     </View>
   )
 }

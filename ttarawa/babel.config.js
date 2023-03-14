@@ -25,9 +25,11 @@ module.exports = function (api) {
             '@services': './src/services',
             '@stores': './src/stores',
             '@styles': './src/styles',
+            '@assets': './assets',
           },
         },
       ],
+      'react-native-reanimated/plugin',
     ],
   }
 }

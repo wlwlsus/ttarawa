@@ -23,7 +23,7 @@ export default function IconButton(props: {
     blue: styles.bgBlue,
   }
 
-  const btnStyle: { btn?: object; text?: object } | null =
+  const btnStyle: { [key: string]: object } | null =
     props.style === 'skyBtn'
       ? { btn: styles.skyBtn, text: styles.skyBtnText }
       : props.style === 'blueBtn'
@@ -112,24 +112,26 @@ const styles = StyleSheet.create({
   Circle: {
     borderRadius: 60,
     padding: 15,
-    backgroundColor: 'black',
+    backgroundColor: color.black,
   },
   whiteBtn: {
     backgroundColor: color.white,
     borderRadius: 5,
-    paddingVertical: 30,
     justifyContent: 'space-around',
+    flexDirection: 'row',
+    paddingVertical: 30,
     paddingLeft: 40,
+    marginHorizontal: 20,
   },
   whiteBtnText: {
     color: color.black,
-    fontSize: 30,
+    fontSize: 25,
   },
   left: {
     flexDirection: 'row',
   },
   shadow: {
-    shadowColor: '#000',
+    shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
       height: 1,
