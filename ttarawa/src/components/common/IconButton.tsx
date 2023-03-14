@@ -1,6 +1,5 @@
-import React from 'react'
-import { View, Text, Pressable, StyleSheet } from 'react-native'
-import { color } from '../../styles/GlobalStyles'
+import { Text, Pressable, StyleSheet } from 'react-native'
+import { color } from '@styles/GlobalStyles'
 
 export default function IconButton(props: {
   text?: string
@@ -10,9 +9,14 @@ export default function IconButton(props: {
   icon2?: Element
   style: string
   nonShadow: boolean
-  bg: string | null
+  bg?: string
 }) {
-  const bgTable = {
+  const bgTable: {
+    yellow: object
+    green: object
+    white: object
+    blue: object
+  } = {
     yellow: styles.bgYellow,
     green: styles.bgGreen,
     white: styles.bgWhite,
@@ -44,19 +48,19 @@ export default function IconButton(props: {
       ]}
       onPress={props.press}
     >
-      {props.icon1}
-      {props.text && (
-        <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
-      )}
-      {props.icon2}
+      <>
+        {props.icon1}
+        {props.text && (
+          <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
+        )}
+        {props.icon2}
+      </>
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
-    marginHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20,
@@ -68,16 +72,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   skyBtn: {
+    marginVertical: 10,
+    marginHorizontal: 5,
     backgroundColor: color.secondary,
     borderColor: color.primary,
     borderRadius: 17,
-    padding: 10,
+    padding: 7,
     borderWidth: 1.5,
     gap: 5,
+    marginBottom: 2,
+    // marginTop: 10,
   },
   skyBtnText: {
     color: color.primary,
-    fontSize: 20,
+    fontSize: 17,
   },
   blueBtn: {
     backgroundColor: color.primary,
