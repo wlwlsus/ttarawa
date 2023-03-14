@@ -20,23 +20,17 @@ public class SpotServiceImpl implements SpotService {
   private final SpotRepository spotRepository;
 
   @Override
-  public List<SpotResDto.Spots> getSpotList(String category, Pageable pageable) {
-//    if (category.equals("음식점")) {
-//      return switch (length) {
-//        case 3, 5, 10 -> spotRepository.findByLength(length, pageable).getContent();
-//        default -> spotRepository.findAll(pageable).getContent();
-//      };
-//    } else if (category.equals("카페")) {
-//      return switch (length) {
-//        case 3, 5, 10 -> spotRepository.findByLengthAndCategoryCategoryId(length, category, pageable).getContent();
-//        default -> spotRepository.findByCategoryCategoryId(category, pageable).getContent();
-//      };
-//    }
-//    return spotRepository.findAll(pageable).getContent();
+  public List<SpotResDto.Spots> getSpotList(long category, Pageable pageable) {
+    List<Spot> data;
+
+//    List<Spot> test = spotRepository.findSpotsByLatAndLng(37.51830537, 126.9063392, pageable).getContent();
 
 
-    List<Spot> data = spotRepository.findAll(pageable).getContent();
-    log.info("data : {}", data);
+    if (category == 0)
+      data = spotRepository.findSpotsByCategoryCategoryIdNot(4L, pageable).getContent();
+    else
+      data = spotRepository.findSpotsByCategoryCategoryId(category, pageable).getContent();
+
     List<SpotResDto.Spots> resData = new ArrayList<>();
     data.forEach(d -> resData.add(SpotResDto.Spots.builder()
         .address(d.getAddress())

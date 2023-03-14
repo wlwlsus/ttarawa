@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface SpotService {
 
-  List<SpotResDto.Spots> getSpotList(String category, Pageable pageable);
+  List<SpotResDto.Spots> getSpotList(long category, Pageable pageable);
 
 }

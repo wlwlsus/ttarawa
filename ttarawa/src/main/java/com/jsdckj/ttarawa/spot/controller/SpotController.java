@@ -24,14 +24,15 @@ public class SpotController {
 
   private final SpotService spotService;
 
-  @Operation(summary = "전체 목적지 조회 API")
+  @Operation(summary = "주변 추천 목적지 조회 API")
   @GetMapping("/{users_id}")
   ResponseEntity<?> getSpotList(@Parameter(description = "카테고리 아이디")
-                                @RequestParam(required = false) String category,
+                                @RequestParam(required = false) long category,
+                                @RequestParam double lat,
+                                @RequestParam double lng,
                                 @PageableDefault(size = 10, page = 0, sort = "visit", direction = Sort.Direction.DESC) Pageable pageable,
                                 @PathVariable String users_id) {
     try {
-      log.info("요청! : {}", users_id);
       return Response.makeResponse(HttpStatus.OK,
           "목적지 리스트 조회를 성공하였습니다",
           spotService.getSpotList(category, pageable));
@@ -41,19 +42,5 @@ public class SpotController {
     }
   }
 
-//    if (data == null) return Response.notFound("목적지 리스트 조회를 실패하였습니다");
-//
-//    List<SpotResDto.Spots> resData = new ArrayList<>();
-//    data.forEach(d -> resData.add(SpotResDto.Spots.builder()
-//        .address(d.getAddress())
-//        .lat(d.getLat())
-//        .lng(d.getLng())
-//        .visit(d.getVisit())
-//        .category(d.getCategory())
-//        .sub_category(d.getSub_category())
-//        .build()));
-//
-//    log.info("data : {}", data);
-//    return Response.makeResponse(HttpStatus.OK, "목적지 리스트 조회를 성공하였습니다", resData);
 
 }
