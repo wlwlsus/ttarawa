@@ -34,8 +34,9 @@ public class Spot {
   @Column(name = "visit")
   private int visit;
 
-  @Column(name = "category")
-  private String category;
+  @ManyToOne
+  @JoinColumn(name = "category_id", nullable = false, insertable = false, updatable = false)
+  private Category category;
 
   @Column(name = "sub_category")
   private String sub_category;
