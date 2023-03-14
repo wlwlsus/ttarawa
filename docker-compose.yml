@@ -3,12 +3,12 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./ttrawa
+      context: ./ttarawa
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
-      - ./ttrawa:/app
+      - ./ttarawa:/app
     depends_on:
       - db
       - redis
