@@ -1,5 +1,9 @@
 import { View, Text } from 'react-native'
 
 export default function Sns() {
-  return <View></View>
+  return (
+    <View>
+      <Text>SNS</Text>
+    </View>
+  )
 }

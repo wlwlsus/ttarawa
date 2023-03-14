@@ -15,7 +15,7 @@ export default function Button(props: {
 
   return (
     <Pressable
-      hitSlop={50}
+      hitSlop={10}
       style={[styles.container, btnStyle.btn]}
       onPress={props.press}
     >
@@ -40,13 +40,13 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
   },
 
   blueBtn: {
     backgroundColor: color.primary,
-    padding: 10,
+    padding: 20,
     marginHorizontal: 20,
   },
   blueBtnText: {
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   },
 
   whiteBtn: {
-    backgroundColor: color.white,
-    paddingVertical: 20,
+    backgroundColor: 'transparent',
+    padding: 20,
     marginHorizontal: 20,
   },
   whiteBtnText: {
     color: color.primary,
-    fontSize: 25,
+    fontSize: 20,
   },
 
   tabBtn: {

@@ -1,6 +1,5 @@
-import React from 'react'
-import { View, Text, Pressable, StyleSheet } from 'react-native'
-import { color } from '../../styles/GlobalStyles'
+import { Text, Pressable, StyleSheet } from 'react-native'
+import { color } from '@styles/GlobalStyles'
 
 export default function IconButton(props: {
   text?: string
@@ -10,16 +9,21 @@ export default function IconButton(props: {
   icon2?: Element
   style?: string
   nonShadow?: boolean
-  bg: string | null
+  bg?: string
 }) {
-  const bgTable = {
+  const bgTable: {
+    yellow: object
+    green: object
+    white: object
+    blue: object
+  } = {
     yellow: styles.bgYellow,
     green: styles.bgGreen,
     white: styles.bgWhite,
     blue: styles.bgBlue,
   }
 
-  const btnStyle: { btn?: object; text?: object } | null =
+  const btnStyle: { [key: string]: object } | null =
     props.style === 'skyBtn'
       ? { btn: styles.skyBtn, text: styles.skyBtnText }
       : props.style === 'blueBtn'
@@ -44,11 +48,13 @@ export default function IconButton(props: {
       ]}
       onPress={props.press}
     >
-      {props.icon1}
-      {props.text && (
-        <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
-      )}
-      {props.icon2}
+      <>
+        {props.icon1}
+        {props.text && (
+          <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
+        )}
+        {props.icon2}
+      </>
     </Pressable>
   )
 }
@@ -66,16 +72,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   skyBtn: {
+    marginVertical: 10,
+    marginHorizontal: 5,
     backgroundColor: color.secondary,
     borderColor: color.primary,
     borderRadius: 17,
-    padding: 10,
+    padding: 7,
     borderWidth: 1.5,
     gap: 5,
+    marginBottom: 2,
+    // marginTop: 10,
   },
   skyBtnText: {
     color: color.primary,
-    fontSize: 20,
+    fontSize: 17,
   },
   blueBtn: {
     backgroundColor: color.primary,
@@ -102,24 +112,26 @@ const styles = StyleSheet.create({
   Circle: {
     borderRadius: 60,
     padding: 15,
-    backgroundColor: 'black',
+    backgroundColor: color.black,
   },
   whiteBtn: {
     backgroundColor: color.white,
     borderRadius: 5,
-    paddingVertical: 30,
     justifyContent: 'space-around',
+    flexDirection: 'row',
+    paddingVertical: 30,
     paddingLeft: 40,
+    marginHorizontal: 20,
   },
   whiteBtnText: {
     color: color.black,
-    fontSize: 30,
+    fontSize: 25,
   },
   left: {
     flexDirection: 'row',
   },
   shadow: {
-    shadowColor: '#000',
+    shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
       height: 1,
