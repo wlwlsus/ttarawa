@@ -3,6 +3,7 @@ package com.jsdckj.ttarawa.oauth.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsdckj.ttarawa.jwt.JwtTokenProvider;
+import com.jsdckj.ttarawa.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.jsdckj.ttarawa.users.dto.res.UserResDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,10 +27,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
   private final JwtTokenProvider tokenProvider;
   private final RedisTemplate redisTemplate;
+
+//  private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
+
+
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
     System.out.println("들어왔니??!!!!!");
+
+
 
     if (response.isCommitted()) {
       logger.info("Response has already been committed. Unable to redirect to ");

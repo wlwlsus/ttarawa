@@ -47,7 +47,7 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
       }
     }
     uriVariables.put("basePath", (path != null) ? path : "");
-    System.out.println(clientRegistration.getRegistrationId());
+    System.out.println("registration Id "+clientRegistration.getRegistrationId());
     uriVariables.put("baseUrl", uriComponents.toUriString());
     uriVariables.put("action", "login");
     return UriComponentsBuilder.fromUriString(clientRegistration.getRedirectUri())

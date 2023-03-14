@@ -43,12 +43,18 @@ public class JwtAuthenticationFilter extends GenericFilter {
   // Request Header에서 토큰 정보 추출
   private String resolveToken(HttpServletRequest request){
     String token = request.getHeader(TOKEN_HEADER);
+
+
     Enumeration names = request.getParameterNames();
     while(names.hasMoreElements()) {
       String key = (String) names.nextElement();
       System.out.println(key + ": " + request.getParameter(key));
     }
+
+
     System.out.println("header token "+token);
+
+
     if(StringUtils.hasText(token) && token.startsWith("Bearer")){
       return token.substring(7);
     }

@@ -52,7 +52,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 이미 가입한 유저인지 확인
     Optional<Users> checkUser = userRepository.findByEmailAndProvider(userInfo.getEmail(), userInfo.getProvider());
-
     Users user;
     // 아직 가입이 되어있지 않다면
     if (checkUser.isEmpty()) {
@@ -69,9 +68,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       user = checkUser.get();
     }
 
-    System.out.println(user.getUsersId());
-
-    return new UserDetailCustom(user, oAuth2User.getAttributes());
+    System.out.println("userid " + user.getUsersId());
+    log.info("og : {}", oAuth2User.getAttributes());
+    return new UserDetailCustom(user,                                                                                                              oAuth2User.getAttributes());
 
   }
 }

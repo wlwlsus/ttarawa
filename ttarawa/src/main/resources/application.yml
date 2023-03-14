@@ -4,20 +4,20 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 'd7d7a42861b64d89868bc0f51679f971'
-            client-secret: 'B2HOXLzUbeVup0jf6403Cuwx03niLQms'
+            client-id: d7d7a42861b64d89868bc0f51679f971
+            client-secret: B2HOXLzUbeVup0jf6403Cuwx03niLQms
             scope:
               - profile_nickname
               - account_email
               - profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:3000/login/oauth2/code/kakao
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-authentication-method: POST
           naver:
             client-id: 'YN1WmgMqqE5dvT2tN9K1'
             client-secret: 'e8ZpMggadM'
-            redirect-uri: "http://localhost:3000/login/oauth2/code/naver"
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -25,10 +25,12 @@ spring:
               - profile-image
             client-name: Naver
           google:
-            client-id: '451198103817-8b1cchldd6guatlfdg431gs119b0t8ad.apps.googleusercontent.com'
-            client-secret: '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'
-            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope: profile, email
+            client-id: 451198103817-8b1cchldd6guatlfdg431gs119b0t8ad.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            scope:
+              - profile
+              - email
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
@@ -61,4 +63,5 @@ data:
 
 app:
   oauth2:
-    authorizedRedirectUris: http://localhost:3000/oauth/redirect
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect

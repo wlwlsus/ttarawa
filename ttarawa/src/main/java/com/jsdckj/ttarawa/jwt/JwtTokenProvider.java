@@ -57,7 +57,7 @@ public class JwtTokenProvider {
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
-
+    System.out.println("access -- "+accessToken);
 
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
@@ -66,7 +66,7 @@ public class JwtTokenProvider {
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
-    System.out.println(refreshToken);
+    System.out.println("refresh -- "+refreshToken);
 
 
     return UserResDto.TokenInfo.builder()
