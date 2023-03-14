@@ -1,8 +1,15 @@
-FROM openjdk:17-jdk-slim as build
-WORKDIR /app
-COPY . .
-RUN ./mvnw clean package -DskipTests
+FROM openjdk:17-jdk-slim as builder
+
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar
+
 FROM openjdk:17-jdk-slim
-WORKDIR /app
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar .
-CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
+COPY --from=builder build/libs/*.jar app.jar
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "/app.jar"]
