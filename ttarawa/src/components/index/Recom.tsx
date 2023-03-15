@@ -2,10 +2,10 @@ import { View, Text, Pressable, ScrollView } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
-import { recom } from '@styles/Index'
-import Card from '~/components/common/IndexCard'
+import { recom } from '~/styles/Index'
+import Card from '@components/common/IndexCard'
 
-export default function Recom() {
+export default function Recom({ navigation }) {
   // 목적지 직접 설정하러 가는 함수 만들어야함
   const GoMap = () => {
     console.log('목적지 집적 설정하러가쟝')

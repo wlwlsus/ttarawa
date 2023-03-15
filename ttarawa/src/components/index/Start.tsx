@@ -1,5 +1,5 @@
 import { View, Text, Image, SafeAreaView } from 'react-native'
-import { start } from '@styles/index'
+import { start } from '~/styles/Index'
 
 import Button from '@components/common/Button'
 

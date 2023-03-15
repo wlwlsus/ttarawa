@@ -25,6 +25,44 @@ export const start = StyleSheet.create({
   },
 })
 
+export const login = StyleSheet.create({
+  loginContainer: {
+    flex: 1,
+    backgroundColor: color.primary,
+  },
+  headBox: {
+    paddingVertical: 50,
+    marginTop: 140,
+    marginBottom: 55,
+  },
+  headText: {
+    color: color.white,
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  headLogo: {
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    height: 200,
+    width: 250,
+    marginBottom: 40,
+  },
+  loginBox: {
+    flex: 0.4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 70,
+  },
+  loginLogo: {
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    height: 70,
+    width: 70,
+  },
+})
+
 export const recom = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,7 +72,7 @@ export const recom = StyleSheet.create({
   header: {
     alignItems: 'center',
     flex: 0.2,
-    marginVertical: 35,
+    marginVertical: 30,
   },
   title: {
     color: color.white,

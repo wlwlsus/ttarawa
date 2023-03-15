@@ -77,8 +77,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Index"
-        initialRouteName="Tabs"
+        initialRouteName="Index"
+        // initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />
