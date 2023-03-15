@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
-import { login } from '~/styles/Index'
+import { login } from '@styles/index'
 import IconButton from '@components/common/IconButton'
 
 export default function Login({ navigation }) {
