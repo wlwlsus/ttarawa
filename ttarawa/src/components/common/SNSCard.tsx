@@ -1,30 +1,49 @@
 import { useState } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { color } from '@styles/GlobalStyles'
 // import getImageSize from '@utils/getSize'
+import Label from '@components/common/Label'
 import IconButton from './IconButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
-import Label from './Label'
 
 export default function Card(props: {
-  userName?: string
-  userImg?: (params: any) => any
-  rank?: (params: any) => any
+  // User Info
+  userImg: string
+  userName?: string // User Nickname
+  rank?: (params: any) => any // User rank
+
+  // 경로 이미지
   imagepath?: (params: any) => any // require()  >>  image url 함수
+
+  // 공개 여부
   isLock?: boolean
+  presslock?: (params: any) => any // 공개, 비공개 전환 함수
+
+  // 좋아요
   likeNum?: number // 좋아요 수
-  content?: string // 내용
   isLike?: boolean // 좋아요 누른 여부
+  presslike?: (params: any) => any // 좋아요 전환 함수
+
+  // 공유 함수
+  pressShare?: (params: any) => any
+
+  // 수정메뉴 함수
+  pressMenu?: (params: any) => any
+
   distence?: string // 주행거리  ex) 3.5 km
-  hour?: string // 주행시간  ex) 30분
+  time?: string // 주행시간  ex) 30분
+
+  // 내용
+  content?: string
 }) {
   // 내용 띄어쓰기를 위한
   const contentText = props.content?.replace(/(!!|\?|\.)/g, '$&\n')
 
   const distanceText = `주행 거리 : ${props.distence}`
-  const hourText = `주행 시간 : ${props.hour}`
+  const timeText = `주행 시간 : ${props.time}`
 
   // 좋아요 여부 저장 변수 (props로 넘길???)
   const [like, setLike] = useState(props.isLike)
@@ -50,7 +69,15 @@ export default function Card(props: {
       {props.userName ? (
         <View style={styles.userInfo}>
           <View style={styles.imgContainer}>
-            <Image source={props.userImg} style={styles.userImg} />
+            {/* <Image source={require(props.userImg)} style={styles.userImg} /> */}
+            {/* <Image source={{ uri: props.userImg }} style={styles.userImg} /> */}
+            <FastImage
+              source={{
+                uri: props.userImg,
+                priority: FastImage.priority.normal,
+              }}
+              style={styles.userImg}
+            />
           </View>
           <Text style={styles.userName}>{props.userName}</Text>
           <Image source={props.rank} />
@@ -128,7 +155,7 @@ export default function Card(props: {
         {/* Label */}
         <View style={styles.label}>
           <Label text={distanceText} />
-          <Label text={hourText} />
+          <Label text={timeText} />
         </View>
 
         {/* 내용 */}
