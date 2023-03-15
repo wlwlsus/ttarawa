@@ -1,25 +1,29 @@
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
-export default function Button(props: {
+interface Proptypes {
   text: string
-  style: string
-  press: (params: any) => any // type check off (수정 필요)
-}) {
+  style?: string
+  press: (params: any) => void
+}
+
+export default function Button({ text, style, press }: Proptypes) {
   const btnStyle: { btn: object; text: object } =
-    props.style === 'blue'
+    style === 'blue'
       ? { btn: styles.blueBtn, text: styles.blueBtnText }
-      : props.style === 'white'
+      : style === 'white'
       ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
+      : style === 'tabSelected'
+      ? { btn: styles.tabSelected, text: styles.tabSelectedText }
       : { btn: styles.tabBtn, text: styles.tabBtnText }
 
   return (
     <Pressable
       hitSlop={10}
       style={[styles.container, btnStyle.btn]}
-      onPress={props.press}
+      onPress={press}
     >
-      <Text style={[styles.text, btnStyle.text]}>{props.text}</Text>
+      <Text style={[styles.text, btnStyle.text]}>{text}</Text>
     </Pressable>
   )
 }
@@ -65,9 +69,20 @@ const styles = StyleSheet.create({
 
   tabBtn: {
     backgroundColor: color.white,
-    padding: 5,
+    padding: 7,
   },
   tabBtnText: {
-    fontSize: 20,
+    fontSize: 15,
+  },
+  tabSelected: {
+    backgroundColor: color.secondary,
+    borderWidth: 1.5,
+    padding: 7,
+    borderColor: color.primary,
+  },
+  tabSelectedText: {
+    color: color.primary,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 })

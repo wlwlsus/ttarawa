@@ -28,8 +28,8 @@ export default function IconButton(props: {
       ? { btn: styles.skyBtn, text: styles.skyBtnText }
       : props.style === 'blueBtn'
       ? { btn: styles.blueBtn, text: styles.blueBtnText }
-      : props.style == 'blueSquare'
-      ? { btn: styles.blueSquare, text: styles.blueSquareText }
+      : props.style == 'square'
+      ? { btn: styles.square, text: styles.squareText }
       : props.style === 'whiteBtn'
       ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
       : props.style === 'blueCircle'
@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
     color: color.white,
     fontSize: 20,
   },
-  blueSquare: {
-    backgroundColor: color.primary,
+  square: {
+    backgroundColor: color.lightGray,
     borderRadius: 15,
     gap: 7,
     padding: 15,
   },
-  blueSquareText: {
+  squareText: {
     color: color.white,
     fontSize: 15,
   },

@@ -9,7 +9,7 @@ import {
 import IconButton from '~/components/common/IconButton'
 import { recom } from '@styles/Index'
 
-export default function Card(props: {
+export default function RecomCard(props: {
   name: string
   distance: number
   visit: number

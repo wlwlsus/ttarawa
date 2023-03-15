@@ -46,6 +46,7 @@ function Tabs() {
         name="Main"
         component={MainStackScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="map-marker-radius"

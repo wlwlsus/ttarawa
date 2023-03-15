@@ -3,7 +3,7 @@ import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/Index'
-import Card from '~/components/common/IndexCard'
+import RecomCard from '@components/common/RecomCard'
 
 export default function Recom() {
   // 목적지 직접 설정하러 가는 함수 만들어야함
@@ -93,11 +93,16 @@ export default function Recom() {
         contentInsetAdjustmentBehavior={'never'}
       >
         <View style={recom.scrollcontent}>
-          <Card name={'혜진커피'} distance={10} visit={30} category={'카페'} />
+          <RecomCard
+            name={'혜진커피'}
+            distance={10}
+            visit={30}
+            category={'카페'}
+          />
 
           {Recoms.map((reco) => {
             return (
-              <Card
+              <RecomCard
                 // spotId={reco.spotId}
                 name={reco.name}
                 distance={reco.distance}
