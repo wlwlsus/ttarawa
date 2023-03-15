@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   whiteBtnText: {
     color: color.black,
-    fontSize: 25,
+    fontSize: 23,
   },
   left: {
     flexDirection: 'row',
