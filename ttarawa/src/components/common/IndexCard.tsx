@@ -7,7 +7,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import IconButton from '~/components/common/IconButton'
-import { recom } from '@styles/Index'
+import { recom } from '~/styles/Index'
 
 export default function Card(props: {
   name: string

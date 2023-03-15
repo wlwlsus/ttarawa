@@ -7,7 +7,7 @@ export default function IconButton(props: {
   dir?: string // direction
   icon1?: Element
   icon2?: Element
-  style: string
+  style?: string
   nonShadow: boolean
   bg?: string
 }) {
@@ -32,8 +32,8 @@ export default function IconButton(props: {
       ? { btn: styles.blueSquare, text: styles.blueSquareText }
       : props.style === 'whiteBtn'
       ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
-      : props.style === 'blueCircle'
-      ? { btn: styles.Circle }
+      : props.style === 'circle'
+      ? { btn: styles.circle }
       : null
 
   return (
@@ -109,10 +109,11 @@ const styles = StyleSheet.create({
     color: color.white,
     fontSize: 15,
   },
-  Circle: {
+  circle: {
     borderRadius: 60,
     padding: 15,
     backgroundColor: color.black,
+    margin: 5,
   },
   whiteBtn: {
     backgroundColor: color.white,
