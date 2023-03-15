@@ -1,13 +1,13 @@
 import { View, Text } from 'react-native'
-import { color } from '~/styles/GlobalStyles'
+import { color } from '@styles/GlobalStyles'
 import {
   MaterialCommunityIcons,
   FontAwesome5,
   Feather,
   MaterialIcons,
 } from '@expo/vector-icons'
-import IconButton from '~/components/common/IconButton'
-import { recom } from '~/styles/Index'
+import IconButton from '@components/common/IconButton'
+import { recom } from '@styles/index'
 
 export default function Card(props: {
   name: string

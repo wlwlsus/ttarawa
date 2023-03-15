@@ -2,7 +2,7 @@ import { View, Text, Pressable, ScrollView } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
-import { recom } from '~/styles/Index'
+import { recom } from '@styles/index'
 import Card from '@components/common/IndexCard'
 
 export default function Recom({ navigation }) {
