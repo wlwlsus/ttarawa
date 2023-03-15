@@ -13,17 +13,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: color.secondary,
     padding: 5,
+
     borderRadius: 10,
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 3,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
 
-    elevation: 1,
+    elevation: 3,
   },
+
   text: {
     fontSize: 12,
     fontWeight: 'bold',

@@ -8,7 +8,7 @@ export default function IconButton(props: {
   icon1?: Element
   icon2?: Element
   style?: string
-  nonShadow: boolean
+  nonShadow?: boolean
   bg?: string
 }) {
   const bgTable: {
