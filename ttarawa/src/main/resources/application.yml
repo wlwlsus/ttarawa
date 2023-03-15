@@ -29,8 +29,8 @@ spring:
             client-secret: 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
             redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             scope:
-              - profile
               - email
+              - profile
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize

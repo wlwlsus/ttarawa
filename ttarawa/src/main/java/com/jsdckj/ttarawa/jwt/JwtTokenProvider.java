@@ -31,6 +31,12 @@ public class JwtTokenProvider {
   private final Key key;
   private final UserRepository userRepository;
 
+//  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+//    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+//    this.key = Keys.hmacShaKeyFor(keyBytes);
+//  }
+
+
   public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -80,6 +86,8 @@ public class JwtTokenProvider {
   // JWT 토큰을 복호화 하여 토큰에 들어있는 정보를 꺼내는 메소드
   public Authentication getAuthentication(String accessToken) {
 
+    System.out.println("sout getAuthentication");
+
     // 토큰 복호화
     Claims claims = parseClaims(accessToken);
 
@@ -93,9 +101,13 @@ public class JwtTokenProvider {
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
+    System.out.println("sout dd"+authorities);
+
     // UserDetails 객체를 만들어서 Authentication 리턴
     Users user = userRepository.findById(Long.parseLong(claims.get("sub").toString())).orElseThrow();
     UserDetailCustom principal = new UserDetailCustom(user);
+
+//    UserDetailCustom principal = new User(claims.getSubject(),"", authorities);
 
 
     return new UsernamePasswordAuthenticationToken(principal, "", authorities);

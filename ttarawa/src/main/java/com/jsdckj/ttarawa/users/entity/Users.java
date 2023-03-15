@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.users.entity;
 
+import com.jsdckj.ttarawa.oauth.entity.ProviderType;
 import com.jsdckj.ttarawa.users.enums.Role;
 import com.jsdckj.ttarawa.util.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ public class Users extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="users_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
-    private Long usersId;
+    private Long userId;
 
     @Column(name="email", nullable = false)
     private String email;
@@ -28,7 +29,8 @@ public class Users extends BaseTimeEntity {
     private String profile;
 
     @Column(name="provider", nullable = false, length = 15)
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private ProviderType provider;
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)

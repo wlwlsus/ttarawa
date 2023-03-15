@@ -1,5 +1,7 @@
 package com.jsdckj.ttarawa.oauth.provider;
 
+import com.jsdckj.ttarawa.oauth.entity.ProviderType;
+
 import java.util.Map;
 
 public class GoogleUserInfo implements OAuth2UserInfo {
@@ -13,7 +15,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
 
   @Override
   public String getProvider() {
-    return "google";
+    return "GOOGLE";
   }
 
   @Override

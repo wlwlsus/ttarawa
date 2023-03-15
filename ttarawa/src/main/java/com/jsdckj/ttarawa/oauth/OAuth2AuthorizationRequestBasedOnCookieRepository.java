@@ -16,6 +16,8 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
   @Override
   public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
+    System.out.println("sout loadAuthorizationRequest");
+
     return CookieUtil.getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
         .map(cookie -> CookieUtil.deserialize(cookie, OAuth2AuthorizationRequest.class))
         .orElse(null);
@@ -23,6 +25,8 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
   @Override
   public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
+    System.out.println("sout saveAuthorizationRequest");
+
     if (authorizationRequest == null) {
       CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
       CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
@@ -32,6 +36,7 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
     CookieUtil.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtil.serialize(authorizationRequest), cookieExpireSeconds);
     String redirectUriAfterLogin = request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME);
+    System.out.println("sout redirectUriAfterLogin "+redirectUriAfterLogin);
     if (StringUtils.isNotBlank(redirectUriAfterLogin)) {
       CookieUtil.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUriAfterLogin, cookieExpireSeconds);
     }
@@ -39,6 +44,8 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
   @Override
   public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request, HttpServletResponse response) {
+    System.out.println("sout removeAuthorizationRequest2");
+
     return this.loadAuthorizationRequest(request);
   }
 
