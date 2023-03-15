@@ -1,6 +1,6 @@
 package com.jsdckj.ttarawa.spot.dto.res;
 
-import com.jsdckj.ttarawa.spot.entity.Category;
+import com.jsdckj.ttarawa.info.entity.Category;
 import lombok.*;
 
 public class SpotResDto {
@@ -11,6 +11,7 @@ public class SpotResDto {
   @AllArgsConstructor
   @NoArgsConstructor
   public static class Spots {
+
     private String address;
     private String name;
     private double lat;

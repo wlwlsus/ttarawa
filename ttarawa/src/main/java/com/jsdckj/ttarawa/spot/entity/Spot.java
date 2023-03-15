@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.spot.entity;
 
+import com.jsdckj.ttarawa.info.entity.Category;
 import jakarta.persistence.*;
 import lombok.*;
 

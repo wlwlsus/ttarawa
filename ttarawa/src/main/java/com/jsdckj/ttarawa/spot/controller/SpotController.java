@@ -31,11 +31,28 @@ public class SpotController {
                                 @RequestParam double lat,
                                 @RequestParam double lng,
                                 @PageableDefault(size = 10, page = 0, sort = "visit", direction = Sort.Direction.DESC) Pageable pageable,
-                                @PathVariable String users_id) {
+                                @PathVariable long users_id) {
     try {
       return Response.makeResponse(HttpStatus.OK,
-          "목적지 리스트 조회를 성공하였습니다",
-          spotService.getSpotList(category, pageable));
+          "목적지 리스트 조회를 성공",
+          spotService.getRecommendSpotList(category, lat, lng, users_id, pageable));
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.badRequest(e.getMessage());
+    }
+  }
+
+  @Operation(summary = "근처 목적지 조회 API")
+  @GetMapping("/near")
+  ResponseEntity<?> getNearSpotList(@Parameter(description = "카테고리 아이디")
+                                    @RequestParam(required = false) long category,
+                                    @RequestParam double lat,
+                                    @RequestParam double lng,
+                                    @PageableDefault(size = 10, page = 0, sort = "visit", direction = Sort.Direction.DESC) Pageable pageable) {
+    try {
+      return Response.makeResponse(HttpStatus.OK,
+          "근처 목적지 조회 성공",
+          spotService.getNearSpotList(category, lat, lng, pageable));
     } catch (Exception e) {
       log.error(e.getMessage());
       return Response.badRequest(e.getMessage());

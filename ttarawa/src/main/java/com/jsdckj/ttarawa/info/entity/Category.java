@@ -1,4 +1,4 @@
-package com.jsdckj.ttarawa.spot.entity;
+package com.jsdckj.ttarawa.info.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

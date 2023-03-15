@@ -20,19 +20,30 @@ public class SpotServiceImpl implements SpotService {
   private final SpotRepository spotRepository;
 
   @Override
-  public List<SpotResDto.Spots> getSpotList(long category, Pageable pageable) {
+  public List<SpotResDto.Spots> getRecommendSpotList(long category, double lat, double lng, long userId, Pageable pageable) {
+    // 추천 기준
+    // 목적지 방문 횟수
+    // 사용자의 최근 방문
+    // 사용자의 평군 주헹 거리
+
     List<Spot> data;
 
-//    List<Spot> test = spotRepository.findSpotsByLatAndLng(37.51830537, 126.9063392, pageable).getContent();
-
-
     if (category == 0)
-      data = spotRepository.findSpotsByCategoryCategoryIdNot(4L, pageable).getContent();
+      data = spotRepository.findSpotsByLatAndLngAndCategoryCategoryIdNot(lat, lng, 4L, pageable).getContent();
     else
-      data = spotRepository.findSpotsByCategoryCategoryId(category, pageable).getContent();
+      data = spotRepository.findSpotsByLatAndLngAndCategoryCategoryId(lat, lng, category, pageable).getContent();
 
+    return getSpots(data);
+  }
+
+  @Override
+  public List<SpotResDto.Spots> getNearSpotList(long category, double lat, double lng, Pageable pageable) {
+    return getSpots(spotRepository.findSpotsByLatAndLngAndCategoryCategoryId(lat, lng, category, pageable).getContent());
+  }
+
+  public List<SpotResDto.Spots> getSpots(List<Spot> spots) {
     List<SpotResDto.Spots> resData = new ArrayList<>();
-    data.forEach(d -> resData.add(SpotResDto.Spots.builder()
+    spots.forEach(d -> resData.add(SpotResDto.Spots.builder()
         .address(d.getAddress())
         .name(d.getName())
         .lat(d.getLat())

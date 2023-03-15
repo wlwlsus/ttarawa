@@ -9,25 +9,43 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SpotRepository extends JpaRepository<Spot, Long> {
 
-  Page<Spot> findSpotsByCategoryCategoryId(Long categoryCategoryId, Pageable pageable);
+  @Query(value = """
+      SELECT s
+      FROM Spot s
+      WHERE (s.category.categoryId = :categoryId) and (6371*FUNCTION('acos',
+          FUNCTION('cos', FUNCTION('radians', :s_lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lng) - FUNCTION('radians', :s_lng))
+          + FUNCTION('sin', FUNCTION('radians', :s_lat))
+          * FUNCTION('sin', FUNCTION('radians', s.lat)))) < 1
+          
+      """)
+  Page<Spot> findSpotsByLatAndLngAndCategoryCategoryId(@Param("s_lat") Double s_lat, @Param("s_lng") Double s_lng, @Param("categoryId") Long categoryId, Pageable pageable);
 
-  Page<Spot> findSpotsByCategoryCategoryIdNot(Long categoryCategoryId, Pageable pageable);
+  @Query(value = """
+      SELECT s
+      FROM Spot s
+      WHERE (s.category.categoryId != :categoryId) and (6371*FUNCTION('acos',
+          FUNCTION('cos', FUNCTION('radians', :s_lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lng) - FUNCTION('radians', :s_lng))
+          + FUNCTION('sin', FUNCTION('radians', :s_lat))
+          * FUNCTION('sin', FUNCTION('radians', s.lat)))) < 1
+      """)
+  Page<Spot> findSpotsByLatAndLngAndCategoryCategoryIdNot(@Param("s_lat") Double s_lat, @Param("s_lng") Double s_lng, @Param("categoryId") Long categoryId, Pageable pageable);
 
   Page<Spot> findAll(Pageable pageable);
 
   @Query(value = """
-      SELECT s,
-          (6371*FUNCTION('acos', FUNCTION('cos', FUNCTION('radians', :lng)) *
-              FUNCTION('cos', FUNCTION('radians', s.latitude)) *
-              FUNCTION('cos', FUNCTION('radians', s.longitude) -
-                  FUNCTION('radians', :longitude)) +
-              FUNCTION('sin', FUNCTION('radians', :lat)) *
-              FUNCTION('sin', FUNCTION('radians', s.latitude))))
-          AS distance)
+      SELECT s
       FROM Spot s
-      WHERE distance <= 0.3
-      ORDER BY distance
+      WHERE (6371*FUNCTION('acos',
+          FUNCTION('cos', FUNCTION('radians', :s_lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lat))
+          * FUNCTION('cos', FUNCTION('radians', s.lng) - FUNCTION('radians', :s_lng))
+          + FUNCTION('sin', FUNCTION('radians', :s_lat))
+          * FUNCTION('sin', FUNCTION('radians', s.lat)))) < 1
       """)
-  Page<Spot> findSpotsByLatAndLng(@Param("s_lat") Double s_lat, @Param("s_lng") Double s_lng, @Param("e_lat") Double e_lat, @Param("e_lng") Double e_lng, Pageable pageable);
+  Page<Spot> findSpotsByLatAndLng(@Param("s_lat") Double s_lat, @Param("s_lng") Double s_lng, Pageable pageable);
 
 }
