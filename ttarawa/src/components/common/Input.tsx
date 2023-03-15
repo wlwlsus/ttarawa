@@ -34,21 +34,21 @@ const styles = StyleSheet.create({
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
 
-    elevation: 1,
+    elevation: 3,
   },
   input: {
-    fontSize: 20,
-    padding: 7,
+    fontSize: 17,
+    padding: 6,
     flex: 1,
   },
   label: {
-    fontSize: 20,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   right: {
     flexDirection: 'row-reverse',

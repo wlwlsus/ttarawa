@@ -30,7 +30,7 @@ export const profile = StyleSheet.create({
   },
 
   userContainer: {
-    flex: 0.65,
+    flex: 0.5,
     backgroundColor: color.white,
     borderRadius: 5,
     marginHorizontal: 20,
@@ -52,14 +52,14 @@ export const profile = StyleSheet.create({
     justifyContent: 'space-around',
   },
   userName: {
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   riding: {
-    fontSize: 28,
+    fontSize: 25,
   },
   buttons: {
-    flex: 0.8,
+    flex: 0.7,
     justifyContent: 'space-around',
   },
 

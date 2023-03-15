@@ -13,7 +13,7 @@ export const map = StyleSheet.create({
   inputs: {
     flex: 1,
     marginRight: 5,
-    gap: 3,
+    gap: 5,
   },
   buttons: {
     flexDirection: 'row',

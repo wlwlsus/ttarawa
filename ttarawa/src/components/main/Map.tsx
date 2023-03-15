@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import { useState, useEffect } from 'react'
 
-import { color } from '@styles/GlobalStyles'
+import { color, styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 
 import Input from '@components/common/Input'
@@ -22,7 +22,7 @@ export default function Map() {
   }
 
   return (
-    <SafeAreaView style={map.container}>
+    <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       <View style={map.header}>
         <View style={map.inputs}>
           <Input label="출발 |" value={depart} setValue={setDepart} />

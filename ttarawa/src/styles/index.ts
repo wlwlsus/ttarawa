@@ -4,6 +4,7 @@ import { color } from '@styles/GlobalStyles'
 export const start = StyleSheet.create({
   introContainer: {
     flex: 1,
+    backgroundColor: color.white,
   },
   introBox: {
     flex: 3,
@@ -22,6 +23,7 @@ export const start = StyleSheet.create({
   },
   introButtons: {
     flex: 1,
+    gap: 10,
   },
 })
 

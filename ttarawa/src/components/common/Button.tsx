@@ -35,17 +35,17 @@ const styles = StyleSheet.create({
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
 
-    elevation: 1,
+    elevation: 3,
   },
   text: {
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '500',
+    fontWeight: 'bold',
   },
 
   blueBtn: {
@@ -58,9 +58,10 @@ const styles = StyleSheet.create({
   },
 
   whiteBtn: {
-    backgroundColor: 'transparent',
+    backgroundColor: color.white,
     padding: 20,
     marginHorizontal: 20,
+    shadowColor: 'transparent',
   },
   whiteBtnText: {
     color: color.primary,
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
   },
 
   tabBtn: {
+    width: 57,
     backgroundColor: color.white,
     padding: 7,
   },
@@ -75,10 +77,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   tabSelected: {
+    width: 57,
     backgroundColor: color.secondary,
-    borderWidth: 1.5,
     padding: 7,
-    borderColor: color.primary,
   },
   tabSelectedText: {
     color: color.primary,

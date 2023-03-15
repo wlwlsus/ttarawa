@@ -34,7 +34,7 @@ function Tabs() {
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="format-list-checkbox"
-              size={focused ? 32 : 37}
+              size={focused ? 40 : 45}
               color={color}
             />
           ),
@@ -50,7 +50,7 @@ function Tabs() {
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="map-marker-radius"
-              size={focused ? 32 : 37}
+              size={focused ? 37 : 45}
               color={color}
             />
           ),
@@ -64,7 +64,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Zocial name="persona" size={focused ? 26 : 30} color={color} />
+            <Zocial name="persona" size={focused ? 33 : 38} color={color} />
           ),
           tabBarLabel: ({ focused }) =>
             focused ? <Text style={styles.navTab}>마이페이지</Text> : null,
