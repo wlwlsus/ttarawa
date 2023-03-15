@@ -58,6 +58,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 
     if (response.isCommitted()) {
+      System.out.println("sout 이미 commited?");
       logger.info("Response has already been committed. Unable to redirect to ");
       return;
     }
@@ -112,9 +113,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     UserResDto.TokenInfo tokenInfo = tokenProvider.generateToken(authentication);
 
-//    redisTemplate.opsForValue()
-//        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
-//
+    redisTemplate.opsForValue()
+        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
     int cookieMaxAge = (int) 604800000 / 60;
 
 
@@ -122,8 +123,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     CookieUtil.addCookie(response, REFRESH_TOKEN, tokenInfo.getRefreshToken(), cookieMaxAge);
 
     return UriComponentsBuilder.fromUriString(targetUrl)
-        .queryParam("accessToken", tokenInfo.getAccessToken())
-        .queryParam("refreshToken", tokenInfo.getRefreshToken())
+        .queryParam("token", tokenInfo.getAccessToken())
+//        .queryParam("refreshToken", tokenInfo.getRefreshToken())
         .build().toUriString();
   }
 
@@ -236,7 +237,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   private boolean isAuthorizedRedirectUri(String uri) {
     URI clientRedirectUri = URI.create(uri);
     URI authorizedUri = URI.create("http://localhost:3000/oauth/redirect");
-
+    System.out.println("sout isAuthorizedRedirectUri "+ uri);
     return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
         && authorizedUri.getPort() == clientRedirectUri.getPort();
 

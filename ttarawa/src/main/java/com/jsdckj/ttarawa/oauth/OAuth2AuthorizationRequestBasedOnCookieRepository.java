@@ -26,8 +26,10 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
   @Override
   public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
     System.out.println("sout saveAuthorizationRequest");
-
+    System.out.println("sout authorizationRequest "+authorizationRequest);
     if (authorizationRequest == null) {
+      System.out.println("sout authorizationRequest is null "+authorizationRequest);
+
       CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
       CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
       CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
@@ -45,7 +47,6 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
   @Override
   public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request, HttpServletResponse response) {
     System.out.println("sout removeAuthorizationRequest2");
-
     return this.loadAuthorizationRequest(request);
   }
 

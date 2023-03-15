@@ -71,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 " account. Please use your " + savedUser.getProvider() + " account to login."
         );
       }
-      System.out.println("update user 해야해");
+      System.out.println("sout update user");
       updateUser(savedUser, userInfo);
     } else {
       System.out.println("sout user가 없어서 생성");

@@ -105,6 +105,7 @@ public class JwtTokenProvider {
 
     // UserDetails 객체를 만들어서 Authentication 리턴
     Users user = userRepository.findById(Long.parseLong(claims.get("sub").toString())).orElseThrow();
+//    Users user = userRepository.findByNickname(claims.get("sub").toString());
     UserDetailCustom principal = new UserDetailCustom(user);
 
 //    UserDetailCustom principal = new User(claims.getSubject(),"", authorities);
@@ -116,7 +117,7 @@ public class JwtTokenProvider {
   // 토큰 정보를 검증하는 메서드
   public boolean validateToken(String token) {
     try {
-      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token);
+      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       return true;
     } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
       log.info("Invalid JWT Token", e);
