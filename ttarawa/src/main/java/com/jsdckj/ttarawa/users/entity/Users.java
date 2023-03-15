@@ -36,6 +36,10 @@ public class Users extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public void updateUserNickname(String nickname){
+        this.nickname = nickname;
+    }
+
 
 
 }

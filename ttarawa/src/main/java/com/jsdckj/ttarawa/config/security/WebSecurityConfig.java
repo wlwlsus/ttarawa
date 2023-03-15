@@ -57,23 +57,23 @@ public class WebSecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
 //        .addFilter(corsConfig.corsFilter()) // cors 설정
-        .cors()
-        .configurationSource(corsConfigurationSource());
+            .cors()
+            .configurationSource(corsConfigurationSource());
     http
-        .formLogin().disable() // 기본 로그인 화면 비활성화
-        .httpBasic().disable() // spring security form 로그인 화면 비활성화
-        .csrf().disable() // rest api 서버 이용시 csrf 보안 사용 x
+            .formLogin().disable() // 기본 로그인 화면 비활성화
+            .httpBasic().disable() // spring security form 로그인 화면 비활성화
+            .csrf().disable() // rest api 서버 이용시 csrf 보안 사용 x
 
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용하지 않으므로 STATELESS로 설정
-        .and()
-        //== URL별 권한 관리 옵션 ==//
-        .authorizeRequests()
-        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-        .requestMatchers("/swagger-ui/**", "/swagger-resources/", "/**", "/favicon.ico").permitAll()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용하지 않으므로 STATELESS로 설정
+            .and()
+            //== URL별 권한 관리 옵션 ==//
+            .authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+            .requestMatchers("/swagger-ui/**", "/swagger-resources/", "/**", "/favicon.ico").permitAll()
 //        .requestMatchers("/login/**","/auth/**", "/oauth2/**").permitAll()
-        .requestMatchers("/**").permitAll()
-        .anyRequest().authenticated();
+            .requestMatchers("/**").permitAll()
+            .anyRequest().authenticated();
 //        .and()
     // 소셜 로그인 설정 //
 //        .oauth2Login()
@@ -85,23 +85,23 @@ public class WebSecurityConfig {
 //        .baseUri("/oauth2/authorize")
 //        .authorizationRequestRepository(customOAuth2AuthorizationRequestRepository)
     http
-        .oauth2Login()
-        .authorizationEndpoint()
-        .baseUri("/oauth2/authorization")
-        .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+            .oauth2Login()
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorization")
+            .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
 
-        .and()
-        .redirectionEndpoint()
-        .baseUri("/*/oauth2/code/*")
-        .and()
-        .userInfoEndpoint()
-        .userService(customOAuth2UserService)
-        .and()
-        .successHandler(oAuth2SuccessHandler())
-        .failureHandler(oAuth2FailureHandler())
-        .and()
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
+            .and()
+            .redirectionEndpoint()
+            .baseUri("/*/oauth2/code/*")
+            .and()
+            .userInfoEndpoint()
+            .userService(customOAuth2UserService)
+            .and()
+            .successHandler(oAuth2SuccessHandler())
+            .failureHandler(oAuth2FailureHandler())
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
     return http.build();
   }
 
@@ -115,16 +115,16 @@ public class WebSecurityConfig {
   @Bean
   public OAuth2SuccessHandler oAuth2SuccessHandler() {
     return new OAuth2SuccessHandler(
-        jwtTokenProvider,
-        redisTemplate,
-        oAuth2AuthorizationRequestBasedOnCookieRepository()
+            jwtTokenProvider,
+            redisTemplate,
+            oAuth2AuthorizationRequestBasedOnCookieRepository()
     );
   }
 
   @Bean
   public OAuth2FailureHandler oAuth2FailureHandler() {
     return new OAuth2FailureHandler(
-        oAuth2AuthorizationRequestBasedOnCookieRepository()
+            oAuth2AuthorizationRequestBasedOnCookieRepository()
     );
   }
 
