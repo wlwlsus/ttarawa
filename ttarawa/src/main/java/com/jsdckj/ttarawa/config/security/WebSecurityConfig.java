@@ -33,13 +33,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig {
 
   private final JwtTokenProvider jwtTokenProvider;
-//  private final CorsConfig corsConfig;
+  //  private final CorsConfig corsConfig;
   private final RedisTemplate redisTemplate;
 
   private final CustomOAuth2UserService customOAuth2UserService;
 
 //  private final CustomOAuth2AuthorizationRequestRepository<OAuth2AuthorizationRequest> customOAuth2AuthorizationRequestRepository;
-
 
 
   @Bean
@@ -76,7 +75,7 @@ public class WebSecurityConfig {
         .requestMatchers("/**").permitAll()
         .anyRequest().authenticated();
 //        .and()
-        // 소셜 로그인 설정 //
+    // 소셜 로그인 설정 //
 //        .oauth2Login()
 //        .loginProcessingUrl("/login/oauth2/code/*") // 폼 로그인을 처리할 URL 입력
 //        .authorizationEndpoint(authorize -> authorize.authorizationRequestRepository(
@@ -85,7 +84,7 @@ public class WebSecurityConfig {
 //        .authorizationEndpoint()
 //        .baseUri("/oauth2/authorize")
 //        .authorizationRequestRepository(customOAuth2AuthorizationRequestRepository)
-      http
+    http
         .oauth2Login()
         .authorizationEndpoint()
         .baseUri("/oauth2/authorization")
@@ -107,6 +106,11 @@ public class WebSecurityConfig {
   }
 
 
+  @Bean
+  public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
+    return new OAuth2AuthorizationRequestBasedOnCookieRepository();
+  }
+
 
   @Bean
   public OAuth2SuccessHandler oAuth2SuccessHandler() {
@@ -119,13 +123,12 @@ public class WebSecurityConfig {
 
   @Bean
   public OAuth2FailureHandler oAuth2FailureHandler() {
-    return new OAuth2FailureHandler();
+    return new OAuth2FailureHandler(
+        oAuth2AuthorizationRequestBasedOnCookieRepository()
+    );
   }
 
-  @Bean
-  public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
-    return new OAuth2AuthorizationRequestBasedOnCookieRepository();
-  }
+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
