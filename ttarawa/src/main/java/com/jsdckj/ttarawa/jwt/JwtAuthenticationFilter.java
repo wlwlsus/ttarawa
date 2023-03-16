@@ -3,6 +3,7 @@ package com.jsdckj.ttarawa.jwt;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +15,12 @@ import java.util.Enumeration;
 
 import static com.jsdckj.ttarawa.jwt.JwtProperties.TOKEN_HEADER;
 
+
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
-  private final RedisTemplate redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -43,14 +45,6 @@ public class JwtAuthenticationFilter extends GenericFilter {
   // Request Header에서 토큰 정보 추출
   private String resolveToken(HttpServletRequest request){
     String token = request.getHeader(TOKEN_HEADER);
-
-
-    Enumeration names = request.getParameterNames();
-    while(names.hasMoreElements()) {
-      String key = (String) names.nextElement();
-      System.out.println(key + ": " + request.getParameter(key));
-    }
-
 
     System.out.println("header token "+token);
 

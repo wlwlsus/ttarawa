@@ -15,14 +15,15 @@ spring:
             redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-authentication-method: POST
           naver:
-            client-id: 'YN1WmgMqqE5dvT2tN9K1'
-            client-secret: 'e8ZpMggadM'
+            client-id: YN1WmgMqqE5dvT2tN9K1
+            client-secret: e8ZpMggadM
             redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
+            client-authentication-method: post
             scope:
               - name
               - email
-              - profile-image
+              - profile_image
             client-name: Naver
           google:
             client-id: 451198103817-8b1cchldd6guatlfdg431gs119b0t8ad.apps.googleusercontent.com

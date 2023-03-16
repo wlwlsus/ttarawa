@@ -3,7 +3,6 @@ package com.jsdckj.ttarawa.oauth;
 import com.jsdckj.ttarawa.users.entity.Users;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -48,13 +47,9 @@ public class UserDetailCustom implements OAuth2User, OidcUser {
     return users.getNickname();
   }
 
-//  public static UserDetailCustom create(Users users){
-//    return new UserDetailCustom(
-//        users.getUsersId(),
-//        user
-//    )
+//  public Long getUserId(){
+//    return users.getUserId();
 //  }
-
 
   public static UserDetailCustom create(Users user){
     System.out.println("sout create 1");

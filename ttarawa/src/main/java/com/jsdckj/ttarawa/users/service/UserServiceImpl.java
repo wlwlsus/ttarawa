@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
@@ -57,16 +57,18 @@ public class UserServiceImpl implements UserService {
         }
 
         // 4. 새로운 토큰 생성
-        UserResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+//        UserResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
-        redisTemplate.opsForValue()
-                .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue()
+//                .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
         return true;
     }
 
     @Override
     public boolean logout(UserReqDto.Logout logout) {
+
+
 
         // 1. Access Token 검증
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
@@ -75,6 +77,7 @@ public class UserServiceImpl implements UserService {
 
         // 2. Access Token에서 user
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
+//        Long userIdInAccessToken =
         if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
             // Refresh Token 삭제
             redisTemplate.delete("RT:" + authentication.getName());

@@ -26,9 +26,9 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
   @Override
   public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
     System.out.println("sout saveAuthorizationRequest");
-    System.out.println("sout authorizationRequest "+authorizationRequest);
+    System.out.println("sout authorizationRequest " + authorizationRequest);
     if (authorizationRequest == null) {
-      System.out.println("sout authorizationRequest is null "+authorizationRequest);
+      System.out.println("sout authorizationRequest is null " + authorizationRequest);
 
       CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
       CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
@@ -38,7 +38,7 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
     CookieUtil.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtil.serialize(authorizationRequest), cookieExpireSeconds);
     String redirectUriAfterLogin = request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME);
-    System.out.println("sout redirectUriAfterLogin "+redirectUriAfterLogin);
+    System.out.println("sout redirectUriAfterLogin " + redirectUriAfterLogin);
     if (StringUtils.isNotBlank(redirectUriAfterLogin)) {
       CookieUtil.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUriAfterLogin, cookieExpireSeconds);
     }
@@ -51,6 +51,7 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
   }
 
   public void removeAuthorizationRequestCookies(HttpServletRequest request, HttpServletResponse response) {
+    System.out.println("sout removeAuthorizationRequestCookies");
     CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
     CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
     CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);

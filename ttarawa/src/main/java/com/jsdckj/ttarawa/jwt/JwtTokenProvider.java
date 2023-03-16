@@ -21,8 +21,10 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.jsdckj.ttarawa.jwt.JwtProperties.BEARER_TYPE;
+import static com.jsdckj.ttarawa.jwt.JwtProperties.REFRESH_TOKEN_EXPIRE_TIME;
 
 @Slf4j
 @Component
@@ -31,12 +33,6 @@ public class JwtTokenProvider {
   private final Key key;
   private final UserRepository userRepository;
 
-//  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
-//    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-//    this.key = Keys.hmacShaKeyFor(keyBytes);
-//  }
-
-
   public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -44,7 +40,7 @@ public class JwtTokenProvider {
   }
 
   // 유저 정보를 가지고 AccessToken, RefreshToken을 생성하는 메소드
-  public UserResDto.TokenInfo generateToken(Authentication authentication) {
+  public UserResDto.TokenInfo generateToken(Authentication authentication, Long userId) {
     String authorities = authentication.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .collect(Collectors.joining(","));
@@ -53,33 +49,39 @@ public class JwtTokenProvider {
 //    String[] authoritiesSplit = authorities.split(",");
 //    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
 
+    System.out.println("sout authentication " + authentication.getPrincipal());
+    System.out.println("sout authentication " + authentication);
+    System.out.println("sout authentication " + authentication.getAuthorities());
     // AccessToken 생성
     Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_EXPIRE_TIME);
+
     String accessToken = Jwts.builder()
         .setSubject(authentication.getName())
+        .claim("userId", userId.longValue())
         .claim("sub", authentication.getName()) // userId 담기
         .claim(JwtProperties.AUTHORITIES_KEY, authorities)
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
-    System.out.println("access -- "+accessToken);
+    System.out.println("access -- " + accessToken);
 
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
-        .setExpiration(new Date(now + JwtProperties.REFRESH_TOKEN_EXPIRE_TIME))
-        .claim("sub", authentication.getName())
+        .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+//        .claim("sub", authentication.getName())
+//        .claim("userId", userId.longValue())
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
-    System.out.println("refresh -- "+refreshToken);
+    System.out.println("refresh -- " + refreshToken);
 
 
     return UserResDto.TokenInfo.builder()
-        .grantType(JwtProperties.BEARER_TYPE)
+        .grantType(BEARER_TYPE)
         .accessToken(accessToken)
         .refreshToken(refreshToken)
-        .refreshTokenExpirationTime(JwtProperties.REFRESH_TOKEN_EXPIRE_TIME)
+        .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRE_TIME)
         .build();
   }
 
@@ -91,20 +93,21 @@ public class JwtTokenProvider {
     // 토큰 복호화
     Claims claims = parseClaims(accessToken);
 
-    if(claims.get(JwtProperties.AUTHORITIES_KEY) == null){
+    if (claims.get(JwtProperties.AUTHORITIES_KEY) == null) {
       throw new RuntimeException("권한 정보가 없는 토큰입니다.");
     }
 
     // 클레임에서 권한 정보 가져오기
-    Collection<? extends  GrantedAuthority> authorities =
+    Collection<? extends GrantedAuthority> authorities =
         Arrays.stream(claims.get(JwtProperties.AUTHORITIES_KEY).toString().split(","))
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-    System.out.println("sout dd"+authorities);
+    System.out.println("sout dd" + authorities);
 
     // UserDetails 객체를 만들어서 Authentication 리턴
-    Users user = userRepository.findById(Long.parseLong(claims.get("sub").toString())).orElseThrow();
+    System.out.println("sout claims get " + claims.get("userId"));
+    Users user = userRepository.findById(((Number) claims.get("userId")).longValue()).get();
 //    Users user = userRepository.findByNickname(claims.get("sub").toString());
     UserDetailCustom principal = new UserDetailCustom(user);
 
