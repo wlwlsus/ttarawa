@@ -11,14 +11,10 @@ services:
       - "8081:8080"
     volumes:
       - ./ttarawa:/app
-    depends_on:
-      - db
-      - redis
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
       - SPRING_DATASOURCE_USERNAME=ssafy605
       - SPRING_DATASOURCE_PASSWORD=ssafy605
-      - REDIS_HOST=redis
 
 volumes:
   db-data:
