@@ -39,5 +39,4 @@ public class Spot {
 
   @Column(name = "sub_category")
   private String sub_category;
-
 }
