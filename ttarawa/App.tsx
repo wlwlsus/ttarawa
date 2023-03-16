@@ -2,22 +2,45 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { Text } from 'react-native'
+import { Text, View, Image } from 'react-native'
 
 import IndexStackScreen from '@screens/index'
 import MainStackScreen from '@screens/main'
 import MyPageStackScreen from '@screens/mypage'
 import Sns from '@screens/sns'
+// import SnsHeader from '@components/sns/SnsHeader'
+import IconButton from '@components/common/IconButton'
 
 import { color, styles } from '@styles/GlobalStyles'
+import { header } from '@styles/sns'
 
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Zocial } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 function Tabs() {
+  const SnsHeader = () => {
+    return (
+      <View style={header.container}>
+        <Image
+          style={header.logo}
+          source={require('@assets/ttarawa/logo.png')}
+        />
+        <IconButton
+          icon1={
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={24}
+              color={color.gray}
+            />
+          }
+          press={() => console.log('menu')}
+        />
+      </View>
+    )
+  }
+
   return (
     <Tab.Navigator
       initialRouteName="Main"
@@ -31,6 +54,8 @@ function Tabs() {
         name="Sns"
         component={Sns}
         options={{
+          headerTitle: (props) => <SnsHeader {...props} />,
+
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="format-list-checkbox"

@@ -34,7 +34,7 @@ export default function Map() {
           icon1={
             <MaterialCommunityIcons
               name="map-outline"
-              size={27}
+              size={40}
               color={color.white}
             />
           }

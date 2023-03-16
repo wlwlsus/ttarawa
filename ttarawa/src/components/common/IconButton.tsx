@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.lightGray,
     borderRadius: 15,
     gap: 7,
-    padding: 15,
+    paddingHorizontal: 15,
   },
   squareText: {
     color: color.white,
