@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     color: color.primary,
     fontSize: 15,
     fontWeight: 'bold',
-    paddingBottom: 10,
+    paddingBottom: 5,
   },
   androidSafeArea: {
     marginTop: 30,

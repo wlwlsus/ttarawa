@@ -47,7 +47,7 @@ function Tabs() {
       screenOptions={{
         tabBarActiveTintColor: color.primary,
         tabBarInactiveTintColor: color.lightGray,
-        tabBarStyle: { height: 90 },
+        tabBarStyle: { height: 70 },
       }}
     >
       <Tab.Screen
