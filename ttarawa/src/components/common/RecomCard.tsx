@@ -13,36 +13,35 @@ export default function RecomCard(props: {
   name: string
   distance: number
   visit: number
-  category: string
+  categoryId: number
 }) {
-  // 여행시작으로 가는 함수 만들어야함 (지도 만들고 난 뒤)
+  // 여행시작으로 가는 함수 만들어야함 (지도 만들고 난 뒤 아마 출발지, 목적지 등등 가지고가면될듯)
   const GOmap = () => {
-    console.log(props.name)
-    console.log('여행시작이야')
+    // console.log(props.name, '으로 출발')
   }
 
   const categoryTable: {
-    카페: Element
-    음식점: Element
-    관광지: Element
-    화장실: Element
+    1: Element
+    2: Element
+    3: Element
+    4: Element
   } = {
-    카페: <Feather name="coffee" size={20} color={color.gray} />,
-    음식점: <MaterialIcons name="restaurant" size={20} color={color.gray} />,
-    관광지: (
+    1: <Feather name="coffee" size={20} color={color.gray} />,
+    2: <MaterialIcons name="restaurant" size={20} color={color.gray} />,
+    3: (
       <MaterialCommunityIcons
         name="ferris-wheel"
         size={20}
         color={color.gray}
       />
     ),
-    화장실: <FontAwesome5 name="restroom" size={18} color={color.red} />,
+    4: <FontAwesome5 name="restroom" size={18} color={color.red} />,
   }
 
   return (
     <View style={recom.card}>
       <>
-        <View style={recom.icon}>{categoryTable[props.category]}</View>
+        <View style={recom.icon}>{categoryTable[props.categoryId]}</View>
         <Text style={recom.name}>{props.name}</Text>
         <View style={recom.cardBody}>
           <Text style={recom.distance}>주행거리: 약 {props.distance}km</Text>

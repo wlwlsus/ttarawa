@@ -5,7 +5,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import RecomCard from '@components/common/RecomCard'
 // axios 밖으로 빼야함
-// import axios from 'axios'
+import axios from 'axios'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
 
@@ -14,7 +14,7 @@ export default function Recom({ navigation }) {
     name?: string
     distance?: number
     visit?: number
-    category?: string
+    categoryId?: number
     subCategory?: string
     spotId?: number
     adress?: string
@@ -44,29 +44,10 @@ export default function Recom({ navigation }) {
 
       // 장소 추천 받기
 
-      const recomList: result[] = [
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: '화장실',
-          spotId: 10,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: '화장실',
-          spotId: 9,
-        },
-      ]
-
-      // await axios.get
-      //   `api주소`
-      // )
-
-      setRecoms(recomList)
-      console.log(latitude, longitude)
+      const result = await axios.get(
+        `http://j8a605.p.ssafy.io:8080/api/v1/spot/1?category=1&lat=${latitude}&lng=${longitude}`,
+      )
+      setRecoms(result.data.result)
     } catch (error) {
       console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
     }
@@ -112,7 +93,7 @@ export default function Recom({ navigation }) {
                 name={recom.name}
                 distance={recom.distance}
                 visit={recom.visit}
-                category={recom.category}
+                categoryId={recom.categoryId}
               />
             )
           })}
