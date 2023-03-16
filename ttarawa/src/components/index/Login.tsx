@@ -9,10 +9,12 @@ export default function Login({ navigation }) {
   const google = require('@assets/ttarawa/google.png')
 
   // login 기능 넣기
-  const toLogin = () => {
-    console.log('login 기능 넣어야합니다')
+  const toLogin = (socialType: any) => {
+    console.log(socialType)
+    navigation.navigate('SocialLogin')
+
     console.log('login 성공 & 페이지 이동합니다...')
-    navigation.navigate('Recom')
+    // navigation.navigate('Recom')
   }
 
   return (
@@ -26,17 +28,23 @@ export default function Login({ navigation }) {
         <IconButton
           icon1={<Image style={login.loginLogo} source={kakao} />}
           nonShadow={true}
-          press={toLogin}
+          press={() => {
+            toLogin('kakao')
+          }}
         />
         <IconButton
           icon1={<Image style={login.loginLogo} source={naver} />}
           nonShadow={true}
-          press={toLogin}
+          press={() => {
+            toLogin('naver')
+          }}
         />
         <IconButton
           icon1={<Image style={login.loginLogo} source={google} />}
           nonShadow={true}
-          press={toLogin}
+          press={() => {
+            toLogin('google')
+          }}
         />
       </View>
     </SafeAreaView>
