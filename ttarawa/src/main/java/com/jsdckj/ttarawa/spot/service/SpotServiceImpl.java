@@ -46,7 +46,7 @@ public class SpotServiceImpl implements SpotService {
     List<SpotResDto.Spots> resData = new ArrayList<>();
     spots.forEach(d -> {
       Spot s = d.getSpot();
-      double distance = Math.round(d.getDistance() * 1000) / 1000.0;
+      double distance = Math.round(d.getDistance() * 100) / 100.0;
 
       resData.add(SpotResDto.Spots.builder()
           .spotId(s.getSpotId())
