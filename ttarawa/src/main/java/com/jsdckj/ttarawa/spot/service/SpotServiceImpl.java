@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.spot.service;
 
 import com.jsdckj.ttarawa.spot.dto.res.SpotResDto;
+import com.jsdckj.ttarawa.spot.entity.CustomSpot;
 import com.jsdckj.ttarawa.spot.entity.Spot;
 import com.jsdckj.ttarawa.spot.repository.SpotRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class SpotServiceImpl implements SpotService {
     // 사용자의 최근 방문
     // 사용자의 평군 주헹 거리
 
-    List<Spot> data;
+    List<CustomSpot> data;
 
     if (category == 0)
       data = spotRepository.findSpotsByLatAndLngAndCategoryCategoryIdNot(lat, lng, 4L, pageable).getContent();
@@ -41,18 +42,24 @@ public class SpotServiceImpl implements SpotService {
     return getSpots(spotRepository.findSpotsByLatAndLngAndCategoryCategoryId(lat, lng, category, pageable).getContent());
   }
 
-  public List<SpotResDto.Spots> getSpots(List<Spot> spots) {
+  public List<SpotResDto.Spots> getSpots(List<CustomSpot> spots) {
     List<SpotResDto.Spots> resData = new ArrayList<>();
-    spots.forEach(d -> resData.add(SpotResDto.Spots.builder()
-        .address(d.getAddress())
-        .name(d.getName())
-        .lat(d.getLat())
-        .lng(d.getLng())
-        .visit(d.getVisit())
-        .category(d.getCategory())
-        .sub_category(d.getSub_category().trim())
-        .build()));
+    spots.forEach(d -> {
+      Spot s = d.getSpot();
+      double distance = Math.round(d.getDistance() * 1000) / 1000.0;
 
+      resData.add(SpotResDto.Spots.builder()
+          .spotId(s.getSpotId())
+          .address(s.getAddress())
+          .name(s.getName())
+          .lat(s.getLat())
+          .lng(s.getLng())
+          .visit(s.getVisit())
+          .categoryId(s.getCategory().getCategoryId())
+          .distance(distance)
+          .sub_category(s.getSub_category().trim())
+          .build());
+    });
     return resData;
   }
 }
