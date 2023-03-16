@@ -12,16 +12,14 @@ public class SpotResDto {
   @NoArgsConstructor
   public static class Spots {
 
+    private long spotId;
     private String address;
     private String name;
     private double lat;
-
     private double lng;
-
     private int visit;
-
-    private Category category;
-
+    private double distance;
+    private long categoryId;
     private String sub_category;
   }
 }
