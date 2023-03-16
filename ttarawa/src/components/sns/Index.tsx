@@ -4,28 +4,33 @@ import { color } from '@styles/GlobalStyles'
 
 export default function SNS() {
   // axios
-  // "historyId": Long,
-  // "nickname": String,
-  // "profile": String,(프로필 이미지 주소)
-  // "badgeName": String,
-  // "favoritesCount": int,
-  // "isMyFavorite": 1,(내가 좋아요를 눌렀는지,0-안누름,1-누름)
-  // "time": String,
-  // "distance": String,
-  // "image": String",
-  // "content": String,
-  // "startAddress":String(출발지 주소),
-  // "endAddress": String(도착지 주소)
 
-  const Data = [
+  interface SnsData {
+    historyId: number
+    profile: string // 프로필 이미지 주소
+    nickname: string
+    badgeName: string // Ranking
+    image: string // 주행기록
+    favoritesCount: number // 좋아요 수
+    isMyFavorite: number // 좋아요 여부  true: 1, false: 0
+    time: string // 주행 시간
+    distance: string // 주행 거리
+    content: string // 내용
+    startAddress?: string // 출발지 주소
+    endAddress?: string // 도착지 주소
+  }
+
+  const datas: SnsData[] = [
     {
+      historyId: 1,
+
       profile: '@assets/profile.png',
       nickname: '열정라이더따옹이',
       badgeName: 'racer',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
-      isMyFavorite: 1, // true: 1, false: 0
+      isMyFavorite: 1,
 
       time: '30분',
       distance: '3.5km',
@@ -34,6 +39,8 @@ export default function SNS() {
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
     {
+      historyId: 2,
+
       profile: '@assets/profile.png',
       nickname: '달려라예지',
       badgeName: 'beginner',
@@ -49,6 +56,8 @@ export default function SNS() {
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
     {
+      historyId: 3,
+
       profile: '@assets/profile.png',
       nickname: '따르릉예지',
       badgeName: 'pro',
@@ -64,6 +73,8 @@ export default function SNS() {
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
     {
+      historyId: 4,
+
       profile: '@assets/profile.png',
       nickname: '예지경주마',
       badgeName: 'racer',
@@ -82,18 +93,19 @@ export default function SNS() {
 
   return (
     <View style={styles.snsContainer}>
-      {Data.map((data) => {
-        const isLike = data.isMyFavorite == 1 ? true : false
-        const userImg = data.profile
+      {datas.map((data) => {
+        const isLike: boolean = data.isMyFavorite == 1 ? true : false
 
         return (
           <SNSCard
-            userImg={data.profile}
+            key={data.historyId}
+            userImg={require(data.profile)}
             userName={data.nickname}
-            // rank={`@assets/rank/${data.badgeName}.png`}
+            // rank={`@assets/${data.badgeName}.png`}
+            // rank={require(`@assets/${data.badgeName}.png`)}
             // imagepath={data.image}
             likeNum={data.favoritesCount}
-            islike={isLike}
+            isLike={isLike}
             distence={data.distance}
             time={data.time}
             content={data.content}
