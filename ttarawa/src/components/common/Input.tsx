@@ -30,15 +30,25 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     paddingHorizontal: 10,
     borderRadius: 10,
+
+    shadowColor: color.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 3,
   },
   input: {
-    fontSize: 20,
-    padding: 7,
+    fontSize: 17,
+    padding: 6,
     flex: 1,
   },
   label: {
-    fontSize: 20,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   right: {
     flexDirection: 'row-reverse',

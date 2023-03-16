@@ -16,7 +16,11 @@ export const color = {
 export const styles = StyleSheet.create({
   navTab: {
     color: color.primary,
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: 'bold',
+    paddingBottom: 5,
+  },
+  androidSafeArea: {
+    marginTop: 30,
   },
 })

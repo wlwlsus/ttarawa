@@ -3,15 +3,27 @@ import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
-import Card from '~/components/common/RecomCard'
+import RecomCard from '@components/common/RecomCard'
 // axios 밖으로 빼야함
 // import axios from 'axios'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
 
 export default function Recom({ navigation }) {
+  interface result {
+    name?: string
+    distance?: number
+    visit?: number
+    category?: string
+    subCategory?: string
+    spotId?: number
+    adress?: string
+    lat?: number
+    lng?: number
+  }
+
   // 밖으로 뺄 axios 함수
-  const [recoms, setRecoms] = useState([])
+  const [recoms, setRecoms] = useState<result[]>([])
   const [errorMsg, setErrorMsg] = useState('')
 
   const getRecom = async () => {
@@ -31,67 +43,14 @@ export default function Recom({ navigation }) {
       const longitude = locationData['coords']['longitude'] // 경도
 
       // 장소 추천 받기
-      type result = {
-        name?: string
-        distance?: number
-        visit?: number
-        category?: string
-        subCategory?: string
-        spotId?: number
-        adress?: string
-        lat?: number
-        lng?: number
-      }
 
-      const Data: result[] = [
+      const recomList: result[] = [
         {
-          name: '혜진커피',
-          distance: 20,
-          visit: 10,
-          category: '카페',
-          spotId: 1,
-        },
-        {
-          name: '혜진국밥',
-          distance: 50,
+          name: '혜진드기',
+          distance: 9,
           visit: 30,
-          category: '음식점',
-          spotId: 21,
-        },
-        {
-          name: '혜진빵집',
-          distance: 10,
-          visit: 3,
-          category: '카페',
-          spotId: 11,
-        },
-        {
-          name: '혜진로또',
-          distance: 40,
-          visit: 99,
-          category: '관광지',
-          spotId: 65,
-        },
-        {
-          name: '혜진진자라',
-          distance: 24,
-          visit: 12,
-          category: '음식점',
-          spotId: 2,
-        },
-        {
-          name: '혜진또배기',
-          distance: 21,
-          visit: 161,
-          category: '음식점',
-          spotId: 7,
-        },
-        {
-          name: '혜진라면',
-          distance: 12,
-          visit: 32,
-          category: '음식점',
-          spotId: 8,
+          category: '화장실',
+          spotId: 10,
         },
         {
           name: '혜진드기',
@@ -106,7 +65,7 @@ export default function Recom({ navigation }) {
       //   `api주소`
       // )
 
-      setRecoms(result)
+      setRecoms(recomList)
       console.log(latitude, longitude)
     } catch (error) {
       console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
@@ -117,7 +76,7 @@ export default function Recom({ navigation }) {
     getRecom()
   }, [])
 
-  const GoMap = () => {
+  const goMap = () => {
     console.log('목적지 집적 설정하러가쟝')
     navigation.navigate('Map')
   }
@@ -133,7 +92,7 @@ export default function Recom({ navigation }) {
       </View>
 
       {/* 지도 페이지로 넘어가도록 기능 추가해야함  */}
-      <Pressable style={recom.buttonBox} onPress={GoMap}>
+      <Pressable style={recom.buttonBox} onPress={goMap}>
         <Text style={recom.buttonText}>목적지 직접 설정</Text>
         <AntDesign name="doubleright" size={15} color={color.white} />
       </Pressable>
@@ -145,14 +104,15 @@ export default function Recom({ navigation }) {
         contentInsetAdjustmentBehavior={'never'}
       >
         <View style={recom.scrollcontent}>
-          {recoms.map((reco) => {
+          {recoms.map((recom) => {
             return (
-              <Card
-                // spotId={reco.spotId}
-                name={reco.name}
-                distance={reco.distance}
-                visit={reco.visit}
-                category={reco.category}
+              <RecomCard
+                // spotId={recom.spotId}
+                key={recom.spotId}
+                name={recom.name}
+                distance={recom.distance}
+                visit={recom.visit}
+                category={recom.category}
               />
             )
           })}

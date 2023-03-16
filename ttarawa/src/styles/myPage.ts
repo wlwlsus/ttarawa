@@ -10,10 +10,10 @@ export const profile = StyleSheet.create({
 
   imgContainer: {
     alignSelf: 'center',
-    width: 170,
-    height: 170,
+    width: 190,
+    height: 190,
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 90,
     justifyContent: 'center',
     backgroundColor: color.white,
     borderWidth: 2,
@@ -30,19 +30,21 @@ export const profile = StyleSheet.create({
   },
 
   userContainer: {
-    flex: 0.45,
+    flex: 0.5,
     backgroundColor: color.white,
     borderRadius: 5,
     marginHorizontal: 20,
-    marginTop: 120,
+    marginTop: 190,
     marginBottom: 5,
-    paddingTop: 75,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'space-around',
-    padding: 20,
   },
 
-  rank: {},
+  rank: {
+    marginTop: 80,
+    fontSize: 17,
+  },
   nameContainer: {
     width: '60%',
     flexDirection: 'row',
@@ -54,10 +56,10 @@ export const profile = StyleSheet.create({
     fontWeight: 'bold',
   },
   riding: {
-    fontSize: 23,
+    fontSize: 25,
   },
   buttons: {
-    flex: 0.8,
+    flex: 0.7,
     justifyContent: 'space-around',
   },
 

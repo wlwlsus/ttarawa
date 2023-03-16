@@ -1,25 +1,29 @@
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
-export default function Button(props: {
+interface Proptypes {
   text: string
-  style: string
-  press: (params: any) => any // type check off (수정 필요)
-}) {
+  style?: string
+  press: (params: any) => void
+}
+
+export default function Button({ text, style, press }: Proptypes) {
   const btnStyle: { btn: object; text: object } =
-    props.style === 'blue'
+    style === 'blue'
       ? { btn: styles.blueBtn, text: styles.blueBtnText }
-      : props.style === 'white'
+      : style === 'white'
       ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
+      : style === 'tabSelected'
+      ? { btn: styles.tabSelected, text: styles.tabSelectedText }
       : { btn: styles.tabBtn, text: styles.tabBtnText }
 
   return (
     <Pressable
       hitSlop={10}
       style={[styles.container, btnStyle.btn]}
-      onPress={props.press}
+      onPress={press}
     >
-      <Text style={[styles.text, btnStyle.text]}>{props.text}</Text>
+      <Text style={[styles.text, btnStyle.text]}>{text}</Text>
     </Pressable>
   )
 }
@@ -31,17 +35,17 @@ const styles = StyleSheet.create({
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
 
-    elevation: 1,
+    elevation: 3,
   },
   text: {
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '500',
+    fontWeight: 'bold',
   },
 
   blueBtn: {
@@ -54,9 +58,10 @@ const styles = StyleSheet.create({
   },
 
   whiteBtn: {
-    backgroundColor: 'transparent',
+    backgroundColor: color.white,
     padding: 20,
     marginHorizontal: 20,
+    shadowColor: 'transparent',
   },
   whiteBtnText: {
     color: color.primary,
@@ -64,10 +69,21 @@ const styles = StyleSheet.create({
   },
 
   tabBtn: {
+    width: 57,
     backgroundColor: color.white,
-    padding: 5,
+    padding: 7,
   },
   tabBtnText: {
-    fontSize: 20,
+    fontSize: 15,
+  },
+  tabSelected: {
+    width: 57,
+    backgroundColor: color.secondary,
+    padding: 7,
+  },
+  tabSelectedText: {
+    color: color.primary,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 })
