@@ -28,8 +28,8 @@ public class History extends BaseTimeEntity {
   @Column(name = "favorites_count", nullable = false)
   private int favoritesCount;
 
-  @Column(name = "personal", nullable = false)
-  private boolean personal;
+  @Column(name = "personal", nullable = false, columnDefinition = "TINYINT")
+  private int personal;
 
   @Column(name = "time", nullable = false)
   private long time;
@@ -48,5 +48,10 @@ public class History extends BaseTimeEntity {
 
   @Column(name = "end_address", nullable = false)
   private String endAddress;
+
+  public void updateHistory(int personal, String content){
+    this.personal = personal;
+    this.content = content;
+  }
 
 }

@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.history.service;
 
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
+import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface HistoryService {
@@ -9,7 +10,7 @@ public interface HistoryService {
     void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto);
 
     // 게시물 수정
-//    boolean updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq);
+    void updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq);
 
 
     // 게시물 삭제
