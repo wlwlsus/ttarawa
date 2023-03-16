@@ -17,6 +17,7 @@ public class TestController {
 
     @GetMapping
     public ResponseEntity<?> getLogs(@RequestBody String message){
+        log.debug(message);
         return Response.ok(message);
     }
 
