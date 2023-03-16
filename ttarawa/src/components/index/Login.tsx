@@ -11,10 +11,9 @@ export default function Login({ navigation }) {
   // login 기능 넣기
   const toLogin = (socialType: any) => {
     console.log(socialType)
-    navigation.navigate('SocialLogin')
-
+    // navigation.navigate('SocialLogin')
     console.log('login 성공 & 페이지 이동합니다...')
-    // navigation.navigate('Recom')
+    navigation.navigate('Recom')
   }
 
   return (
