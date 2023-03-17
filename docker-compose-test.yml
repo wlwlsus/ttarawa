@@ -8,6 +8,8 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: elasticsearch:7.10.1
+    command: ['mkdir', '-p', '/usr/share/elasticsearch/data/nodes/']
+    command: ['chown', '-R', '1000:1000', '/usr/share/elasticsearch/']
     ports:
       - 9200:9200
       - 9300:9300
