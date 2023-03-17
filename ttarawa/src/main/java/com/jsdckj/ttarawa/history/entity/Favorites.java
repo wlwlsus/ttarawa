@@ -26,4 +26,5 @@ public class Favorites {
   @ManyToOne
   @JoinColumn(name = "users_id", nullable = false)
   private Users users;
+
 }

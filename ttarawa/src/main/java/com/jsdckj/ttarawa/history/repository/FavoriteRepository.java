@@ -1,0 +1,19 @@
+package com.jsdckj.ttarawa.history.repository;
+
+import com.jsdckj.ttarawa.history.entity.Favorites;
+import com.jsdckj.ttarawa.history.entity.History;
+import com.jsdckj.ttarawa.users.entity.Users;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface FavoriteRepository extends JpaRepository<Favorites, Long> {
+
+  // 유저 한 명의 좋아요 목록
+  List<Favorites> findByUsers(Users user);
+
+  // userid, historyid로 유저가 누른 좋아요 찾기
+  Favorites findByUsersAndHistory(Users user, History history);
+
+
+}

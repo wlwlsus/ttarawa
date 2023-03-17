@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Transactional
 @RequiredArgsConstructor
-
 public class HistoryServiceImpl implements HistoryService {
 
   private final HistoryRepository historyRepository;
