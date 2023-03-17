@@ -9,15 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HistoryReqDto {
+public class HistoryUpdateReq {
 
   private int personal;
-  private Long time;
-  private Long distance;
   private String content;
-  private String startAddress;
-  private String endAddress;
-
-
 
 }
