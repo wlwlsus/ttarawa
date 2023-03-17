@@ -24,6 +24,7 @@ RUN id -u elasticsearch > /dev/null 2>&1 || \
 # set ownership to elasticsearch user/group for data folder
 RUN chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data
 
+FROM openjdk:17-jdk-slim
 # copy the built jar file from the builder stage
 COPY --from=builder build/libs/*.jar app.jar
 EXPOSE 8080
