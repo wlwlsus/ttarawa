@@ -35,7 +35,7 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
           + FUNCTION('sin', FUNCTION('radians', :s_lat))
           * FUNCTION('sin', FUNCTION('radians', s.lat)))))
       FROM Spot s
-      WHERE (s.category.categoryId = :categoryId) and (6371*FUNCTION('acos',
+      WHERE (s.category.categoryId != :categoryId) and (6371*FUNCTION('acos',
           FUNCTION('cos', FUNCTION('radians', :s_lat))
           * FUNCTION('cos', FUNCTION('radians', s.lat))
           * FUNCTION('cos', FUNCTION('radians', s.lng) - FUNCTION('radians', :s_lng))
