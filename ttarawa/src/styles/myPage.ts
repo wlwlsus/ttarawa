@@ -60,6 +60,7 @@ export const profile = StyleSheet.create({
   },
   buttons: {
     flex: 0.7,
+    paddingHorizontal: 20,
     justifyContent: 'space-around',
   },
 

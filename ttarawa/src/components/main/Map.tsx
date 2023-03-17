@@ -34,7 +34,7 @@ export default function Map() {
           <Input label="도착 |" value={destin} setValue={setDestin} />
         </View>
         <IconButton
-          style="square"
+          type="square"
           text="경로확인"
           icon1={
             <MaterialCommunityIcons
@@ -43,8 +43,12 @@ export default function Map() {
               color={color.white}
             />
           }
-          nonShadow={false}
-          bg={depart && destin ? 'blue' : undefined}
+          press={() => console.log('경로확인')}
+          style={
+            depart && destin
+              ? { container: { backgroundColor: color.primary } }
+              : undefined
+          }
         />
       </View>
       <View style={map.buttons}>

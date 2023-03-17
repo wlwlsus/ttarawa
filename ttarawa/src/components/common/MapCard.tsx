@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { ReactNode } from 'react'
 import { color } from '@styles/GlobalStyles'
 import IconButton from './IconButton'
 
@@ -7,8 +8,8 @@ export default function Card(props: {
   btn?: Element
   btnText?: string
   children?: Element
-  style?: string
-  icon?: Element
+  type?: string
+  icon: ReactNode
 }) {
   return (
     <View style={styles.container}>
@@ -16,7 +17,11 @@ export default function Card(props: {
       <>{props.children}</>
       {/* 카드 아이콘 버튼 */}
       <Pressable style={styles.iconBtn}>
-        <IconButton style={props.style} bg={'blue'} icon1={props.icon} />
+        <IconButton
+          type={props.type}
+          icon1={props.icon}
+          style={{ container: { backgroundColor: color.primary } }}
+        />
         <Text style={styles.btnText}>{props.btnText}</Text>
       </Pressable>
     </View>

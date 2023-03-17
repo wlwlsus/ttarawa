@@ -81,7 +81,6 @@ export const recom = StyleSheet.create({
     color: color.white,
     fontSize: 35,
     fontWeight: 'bold',
-    marginVertical: 10,
     paddingLeft: 10,
   },
   text: {

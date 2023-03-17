@@ -7,6 +7,7 @@ export const header = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 120,
+    alignItems: 'center',
   },
   logo: {
     width: 120,
