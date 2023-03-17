@@ -4,6 +4,7 @@ import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.history.repository.HistoryRepository;
+import com.jsdckj.ttarawa.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class HistoryServiceImpl implements HistoryService {
 
   private final HistoryRepository historyRepository;
+  private final UserRepository userRepository;
 
 
   // 게시물 저장
@@ -27,6 +29,8 @@ public class HistoryServiceImpl implements HistoryService {
         .content(historyReqDto.getContent())
         .startAddress(historyReqDto.getStartAddress())
         .endAddress(historyReqDto.getEndAddress())
+        .image("")
+        .users(userRepository.findById(userId).get())
         .build());
 
   }

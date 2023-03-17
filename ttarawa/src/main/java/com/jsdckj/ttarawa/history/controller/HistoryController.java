@@ -5,6 +5,7 @@ import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.service.FavoriteService;
 import com.jsdckj.ttarawa.history.service.HistoryService;
 import com.jsdckj.ttarawa.util.Response;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/history")
+@RequestMapping("/api/v1/history")
 @RequiredArgsConstructor
+@Tag(name = "History", description = "주행기록 API, 좋아요 API")
+
 public class HistoryController {
 
   private final HistoryService historyService;
