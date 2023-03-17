@@ -19,7 +19,7 @@ services:
       xpack.security.enabled: "true"
       xpack.security.transport.ssl.enabled: "true"
       ELASTIC_USERNAME: "elastic"
-      ELASTIC_PASSWORD: "MyPw123"
+      ELASTIC_PASSWORD: "ssafy605"
     networks:
       - elk
 
