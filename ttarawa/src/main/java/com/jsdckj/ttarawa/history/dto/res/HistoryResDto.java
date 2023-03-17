@@ -1,4 +1,28 @@
 package com.jsdckj.ttarawa.history.dto.res;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class HistoryResDto {
+
+  private Long historyId;
+  private String nickname;
+  private String profile;
+  private String badgeName;
+  private int favoritesCount;
+  private int isMyFavorite;
+  private Long time;
+  private Long distance;
+  private String image;
+  private String content;
+  private String startAddress;
+  private String endAddress;
+
+
 }
