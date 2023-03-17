@@ -6,6 +6,8 @@ export default function SocialLogin({ navigation }) {
   const kakaoURL = 'http://localhost:3000/oauth/redirect'
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoURL}`
 
+  //localhost:3000/oauth/redirect
+
   return (
     <View style={{ flex: 1 }}>
       <WebView
@@ -13,7 +15,8 @@ export default function SocialLogin({ navigation }) {
         scalesPageToFit={false}
         style={{ marginTop: 30 }}
         source={{
-          uri: KAKAO_AUTH_URL,
+          uri: `http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect`,
+          //
           //client_id에는 본인 앱 등록후 발급받은 REST API KEY
           //redirect_url도 본인 uri
         }}
