@@ -22,8 +22,9 @@ export const start = StyleSheet.create({
     fontSize: 17,
   },
   introButtons: {
+    paddingHorizontal: 20,
     flex: 1,
-    gap: 10,
+    gap: 5,
   },
 })
 
