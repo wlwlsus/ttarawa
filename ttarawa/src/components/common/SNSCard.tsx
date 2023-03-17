@@ -1,21 +1,21 @@
 import { useState } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
 // import FastImage from 'react-native-fast-image'
-// import FastImage from 'expo-fast-image'
+import FastImage from 'expo-fast-image'
+// import Image from 'expo-image'
 import { color } from '@styles/GlobalStyles'
 // import getImageSize from '@utils/getSize'
 import Label from '@components/common/Label'
 import IconButton from './IconButton'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Fontisto } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 
 export default function Card(props: {
   // User Info
   userImg: (params: any) => any
+  // userImg: string
   userName?: string // User Nickname
   // rank?: (params: any) => any // User rank
-  rank: string
+  rank?: string
 
   // 경로 이미지
   imagepath?: (params: any) => any // require()  >>  image url 함수
@@ -65,8 +65,7 @@ export default function Card(props: {
     setLock(!lock)
   }
 
-  const userImg = require('' + props.userImg)
-  const rank = require('' + props.rank)
+  // console.log(props.rank)
 
   return (
     <View style={styles.cardContainer}>
@@ -74,12 +73,6 @@ export default function Card(props: {
       {props.userName ? (
         <View style={styles.userInfo}>
           <View style={styles.imgContainer}>
-            {/* {props.rank && (
-              <Image
-                source={{ uri: `file://${props.rank}` }}
-                style={styles.userImg}
-              />
-            )} */}
             <Image source={props.userImg} style={styles.userImg} />
             {/* <FastImage
               source={{
@@ -90,13 +83,14 @@ export default function Card(props: {
             /> */}
           </View>
           <Text style={styles.userName}>{props.userName}</Text>
-          {/* <Image source={rank} /> */}
+          <Image source={{ uri: props.rank }} />
+          {/* <FastImage source={{ uri: props.rank }} /> */}
         </View>
       ) : null}
 
       {/* 경로 이미지 */}
       <View>
-        {/* <Image source={props.imagepath} style={styles.cardImg} /> */}
+        <Image source={props.imagepath} style={styles.cardImg} />
         {props.userName ? null : (
           <View style={styles.lock}>
             <IconButton

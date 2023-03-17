@@ -1,15 +1,14 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
+import { useEffect, useState } from 'react'
 import SNSCard from '@components/common/SNSCard'
 import { color } from '@styles/GlobalStyles'
 
 export default function SNS() {
-  // axios
-
   interface SnsData {
     historyId: number
     profile: string // 프로필 이미지 주소
     nickname: string
-    badgeName: string // Ranking
+    badgeImg: string
     image: string // 주행기록
     favoritesCount: number // 좋아요 수
     isMyFavorite: number // 좋아요 여부  true: 1, false: 0
@@ -20,13 +19,17 @@ export default function SNS() {
     endAddress?: string // 도착지 주소
   }
 
+  const [dataLst, setDataLst] = useState<SnsData[]>([])
+
   const datas: SnsData[] = [
     {
       historyId: 1,
 
       profile: '@assets/profile.png',
       nickname: '열정라이더따옹이',
-      badgeName: 'racer',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -43,7 +46,8 @@ export default function SNS() {
 
       profile: '@assets/profile.png',
       nickname: '달려라예지',
-      badgeName: 'beginner',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -60,7 +64,8 @@ export default function SNS() {
 
       profile: '@assets/profile.png',
       nickname: '따르릉예지',
-      badgeName: 'pro',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -77,7 +82,8 @@ export default function SNS() {
 
       profile: '@assets/profile.png',
       nickname: '예지경주마',
-      badgeName: 'racer',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -91,27 +97,39 @@ export default function SNS() {
     },
   ]
 
+  useEffect(() => {
+    // axios
+    setDataLst(datas)
+  }, [])
+
   return (
     <View style={styles.snsContainer}>
-      {datas.map((data) => {
-        const isLike: boolean = data.isMyFavorite == 1 ? true : false
+      <FlatList
+        data={dataLst}
+        renderItem={({ item }) => {
+          const isLike: boolean = item.isMyFavorite == 1 ? true : false
 
-        return (
-          <SNSCard
-            key={data.historyId}
-            userImg={require(data.profile)}
-            userName={data.nickname}
-            // rank={`@assets/${data.badgeName}.png`}
-            // rank={require(`@assets/${data.badgeName}.png`)}
-            // imagepath={data.image}
-            likeNum={data.favoritesCount}
-            isLike={isLike}
-            distence={data.distance}
-            time={data.time}
-            content={data.content}
-          />
-        )
-      })}
+          return (
+            <SNSCard
+              key={item.historyId}
+              // userImg={item.profile}
+              userImg={require('@assets/profile.png')}
+              userName={item.nickname}
+              rank={item.badgeImg}
+              // rank={require(rank)}
+              imagepath={require('@assets/riding.png')}
+              likeNum={item.favoritesCount}
+              isLike={isLike}
+              distence={item.distance}
+              time={item.time}
+              content={item.content}
+            />
+          )
+        }}
+        keyExtractor={(item) => item.historyId.toString()}
+        onEndReached={() => console.log('End reached')}
+        onEndReachedThreshold={0.1}
+      />
     </View>
   )
 }
@@ -121,5 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    backgroundColor: color.white,
   },
 })
