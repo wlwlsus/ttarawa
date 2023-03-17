@@ -18,20 +18,13 @@ public class HistoryController {
   private final HistoryService historyService;
   private final FavoriteService favoriteService;
 
+  // post //
+
   // 게시물 저장
   @PostMapping("/post/{user_id}")
   public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto){
     historyService.insertHistory(userId, image, historyReqDto);
     return Response.ok("게시물 저장 성공");
-  }
-
-
-
-  // 좋아요 등록
-  @PostMapping("/favorite/{user_id}")
-  public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId){
-    favoriteService.addFavorite(userId, historyId);
-    return Response.ok("좋아요 등록 성공");
   }
 
   // 게시물 수정
@@ -48,6 +41,25 @@ public class HistoryController {
     historyService.deleteHistory(userId,historyId);
     return Response.ok("게시물 삭제 성공");
   }
+
+  // favorite //
+
+
+  // 좋아요 등록
+  @PostMapping("/favorite/{user_id}")
+  public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId){
+    favoriteService.addFavorite(userId, historyId);
+    return Response.ok("좋아요 등록 성공");
+  }
+
+  // 좋아요한 게시글 목록 조회
+  @GetMapping("/favorite/{user_id}")
+  public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId){
+    favoriteService.selectAllFavoriteHistory(userId);
+    return Response.ok("");
+  }
+
+
 
   // 좋아요 삭제
   @DeleteMapping("/favorite/{user_id}")
