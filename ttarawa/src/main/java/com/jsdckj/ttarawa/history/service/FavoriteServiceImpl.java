@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.history.service;
 
 
+import com.jsdckj.ttarawa.history.dto.res.FavoriteResDto;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
 import com.jsdckj.ttarawa.history.entity.Favorites;
 import com.jsdckj.ttarawa.history.entity.History;
@@ -30,35 +31,75 @@ public class FavoriteServiceImpl implements FavoriteService {
 
   // 내가 좋아요 누른 게시물 목록
   @Override
-  public List<HistoryResDto> selectAllFavoriteHistory(Long userId) {
+  public List<FavoriteResDto> selectAllFavoriteHistory(Long userId) {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
     List<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser); // 내가 누른 좋아요 게시물 번호 찾기ㅌ
 
-    List<HistoryResDto> favoriteHistoryList = new ArrayList<>();
+    List<FavoriteResDto> favoriteHistoryList = new ArrayList<>();
 
-    for(Favorites favorites : favoritesList){
+//    for(Favorites favorites : favoritesList){
+//
+//      Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
+//      History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
+//      UsersInfo historyUserInfo = userInfoRepository.findById(historyUser.getUsersId()).get();
+//
+//      favoriteHistoryList.add(HistoryResDto.builder()
+//          .historyId(history.getHistoryId())
+//          .nickname(historyUser.getNickname())
+//          .profile(historyUser.getProfile())
+//          .badgeName(historyUserInfo.getBadge().getName())
+//          .favoritesCount(history.getFavoritesCount())
+//          .isMyFavorite(1)
+//          .time(history.getTime())
+//          .distance(history.getDistance())
+//          .image(history.getImage())
+//          .content(history.getContent())
+//          .startAddress(history.getStartAddress())
+//          .endAddress(history.getEndAddress())
+//          .build());
+//
+//    }    for(Favorites favorites : favoritesList){
+//
+//      Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
+//      History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
+//      UsersInfo historyUserInfo = userInfoRepository.findById(historyUser.getUsersId()).get();
+//
+//      favoriteHistoryList.add(HistoryResDto.builder()
+//          .historyId(history.getHistoryId())
+//          .nickname(historyUser.getNickname())
+//          .profile(historyUser.getProfile())
+//          .badgeName(historyUserInfo.getBadge().getName())
+//          .favoritesCount(history.getFavoritesCount())
+//          .isMyFavorite(1)
+//          .time(history.getTime())
+//          .distance(history.getDistance())
+//          .image(history.getImage())
+//          .content(history.getContent())
+//          .startAddress(history.getStartAddress())
+//          .endAddress(history.getEndAddress())
+//          .build());
+//
+//    }
+
+    for (Favorites favorites : favoritesList) {
 
       Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
       History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
-      UsersInfo historyUserInfo = userInfoRepository.findById(historyUser.getUsersId()).get();
 
-      favoriteHistoryList.add(HistoryResDto.builder()
-          .historyId(history.getHistoryId())
-          .nickname(historyUser.getNickname())
-          .profile(historyUser.getProfile())
-          .badgeName(historyUserInfo.getBadge().getName())
-          .favoritesCount(history.getFavoritesCount())
-          .isMyFavorite(1)
-          .time(history.getTime())
-          .distance(history.getDistance())
-          .image(history.getImage())
-          .content(history.getContent())
-          .startAddress(history.getStartAddress())
-          .endAddress(history.getEndAddress())
-          .build());
+      favoriteHistoryList.add(
+          FavoriteResDto.builder()
+              .favoritesId(favorites.getFavoritesId())
+              .nickname(historyUser.getNickname())
+              .image(history.getImage())
+              .distance(history.getDistance())
+              .time(history.getTime())
+              .startAddress(history.getStartAddress())
+              .endAddress(history.getEndAddress())
+              .build());
 
     }
+
 
     return favoriteHistoryList;
   }

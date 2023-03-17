@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.history.service;
 
+import com.jsdckj.ttarawa.history.dto.res.FavoriteResDto;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
 import com.jsdckj.ttarawa.history.entity.Favorites;
 import com.jsdckj.ttarawa.history.entity.History;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface FavoriteService {
   
   // 내가 좋아요한 게시글 목록 조회
-  List<HistoryResDto> selectAllFavoriteHistory(Long userId);
+  List<FavoriteResDto> selectAllFavoriteHistory(Long userId);
   
   // 주행 기록 게시물 좋아요 등록
   void addFavorite(Long userId, Long historyId);

@@ -6,6 +6,7 @@ import com.jsdckj.ttarawa.history.service.FavoriteService;
 import com.jsdckj.ttarawa.history.service.HistoryService;
 import com.jsdckj.ttarawa.util.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,8 +56,7 @@ public class HistoryController {
   // 좋아요한 게시글 목록 조회
   @GetMapping("/favorite/{user_id}")
   public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId){
-    favoriteService.selectAllFavoriteHistory(userId);
-    return Response.ok("");
+    return Response.makeResponse(HttpStatus.OK,"좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId) );
   }
 
 
