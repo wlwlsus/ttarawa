@@ -20,10 +20,10 @@ public class Favorites {
   private Long favoritesId;
 
   @ManyToOne
-  @JoinColumn(name = "history_id", nullable = false, insertable = false, updatable = false)
+  @JoinColumn(name = "history_id", nullable = false)
   private History history;
 
   @ManyToOne
-  @JoinColumn(name = "users_id", nullable = false, insertable = false, updatable = false)
+  @JoinColumn(name = "users_id", nullable = false)
   private Users users;
 }
