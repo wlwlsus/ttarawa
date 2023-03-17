@@ -2,40 +2,14 @@ version: '3.8'
 networks:
   elk:
     driver: bridge
-persistence:
-  enabled: false
-extraVolumes:
-- name: data
-  hostPath:
-    path: /data/pv0001/
-extraVolumeMounts:
-- name: data
-  mountPath: /usr/share/elasticsearch/data
-extraInitContainers: |
-   - name: create
-     image: busybox:1.28
-     command: ['mkdir', '-p', '/usr/share/elasticsearch/data/nodes/']
-     securityContext:
-       runAsUser: 0
-     volumeMounts:
-      - mountPath: /usr/share/elasticsearch/data
-        name: data
-   - name: file-permissions
-     image: busybox:1.28
-     command: ['chown', '-R', '1000:1000', '/usr/share/elasticsearch/']
-     securityContext:
-        runAsUser: 0
-     volumeMounts:
-      - mountPath: /usr/share/elasticsearch/data
-        name: data
-        
+
 services:
   # Elastic search 설정
   elasticsearch:
     container_name: elasticsearch
     image: elasticsearch:7.10.1
-    command: ['mkdir', '-p', '/usr/share/elasticsearch/data/nodes/']
-    command: ['chown', '-R', '1000:1000', '/usr/share/elasticsearch/']
+    command: mkdir -p /usr/share/elasticsearch/data/nodes/
+    command: chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/
     ports:
       - 9200:9200
       - 9300:9300
