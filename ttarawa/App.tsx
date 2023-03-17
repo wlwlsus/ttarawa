@@ -2,17 +2,15 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { Text, View, Image } from 'react-native'
+import { Text } from 'react-native'
 
 import IndexStackScreen from '@screens/Index'
 import MainStackScreen from '@screens/Main'
 import MyPageStackScreen from '@screens/Mypage'
 import Sns from '@screens/Sns'
-// import SnsHeader from '@components/sns/SnsHeader'
-import IconButton from '@components/common/IconButton'
+import SnsHeader from '@components/sns/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
-import { header } from '@styles/sns'
 
 import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
 
@@ -20,27 +18,6 @@ const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 function Tabs() {
-  const SnsHeader = () => {
-    return (
-      <View style={header.container}>
-        <Image
-          style={header.logo}
-          source={require('@assets/ttarawa/logo.png')}
-        />
-        <IconButton
-          icon1={
-            <MaterialCommunityIcons
-              name="dots-vertical"
-              size={24}
-              color={color.gray}
-            />
-          }
-          press={() => console.log('menu')}
-        />
-      </View>
-    )
-  }
-
   return (
     <Tab.Navigator
       initialRouteName="Main"
@@ -103,8 +80,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Index"
-        // initialRouteName="Tabs"
+        // initialRouteName="Index"
+        initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />

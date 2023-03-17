@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     color: color.black,
     textAlign: 'center',
     fontWeight: '600',
-    fontSize: 30,
+    fontSize: 20,
   },
   skyBtn: {
     marginVertical: 10,
