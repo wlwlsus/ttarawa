@@ -14,7 +14,7 @@ public interface FavoriteService {
   List<HistoryResDto> selectAllFavoriteHistory(Long userId);
   
   // 주행 기록 게시물 좋아요 등록
-  void insertFavorite(Long userId, Long historyId);
+  void addFavorite(Long userId, Long historyId);
 
   // 주행 기록 게시물 좋아요 제거
   void deleteFavorite(Long userId, Long historyId);

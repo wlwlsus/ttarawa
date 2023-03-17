@@ -64,7 +64,7 @@ public class FavoriteServiceImpl implements FavoriteService {
   }
 
   @Override
-  public void insertFavorite(Long userId, Long historyId) {
+  public void addFavorite(Long userId, Long historyId) {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
     History favoriteHistory = historyRepository.findById(historyId).get(); // 좋아요 누른 게시물
