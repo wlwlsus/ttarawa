@@ -16,9 +16,10 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.15.1
 ENV ES_UID=1100
 ENV ES_GID=1100
 
-# create elasticsearch group/user with specific uid/gid
-RUN groupadd -g $ES_GID elasticsearch \
-  && useradd -u $ES_UID -g $ES_GID -d /usr/share/elasticsearch elasticsearch
+# create elasticsearch user with specific uid/gid if it does not exist
+RUN id -u elasticsearch > /dev/null 2>&1 || \
+    (groupadd -g $ES_GID elasticsearch && \
+    useradd -u $ES_UID -g $ES_GID -d /usr/share/elasticsearch elasticsearch)
 
 # set ownership to elasticsearch user/group for data folder
 RUN chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data
