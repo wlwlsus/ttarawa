@@ -10,7 +10,7 @@ public interface HistoryService {
   void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto);
 
   // 게시물 수정
-  void updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq);
+  boolean updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq);
 
 
   // 게시물 삭제

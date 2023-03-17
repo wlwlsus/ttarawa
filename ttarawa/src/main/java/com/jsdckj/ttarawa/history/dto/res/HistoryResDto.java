@@ -14,7 +14,7 @@ public class HistoryResDto {
   private Long historyId;
   private String nickname;
   private String profile;
-  private String badgeName;
+  private String badgeImg;
   private int favoritesCount;
   private int isMyFavorite;
   private Long time;

@@ -4,7 +4,12 @@ import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.history.repository.HistoryRepository;
+import com.jsdckj.ttarawa.users.entity.Users;
+import com.jsdckj.ttarawa.users.entity.UsersInfo;
+import com.jsdckj.ttarawa.users.repository.UserInfoRepository;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
+import com.jsdckj.ttarawa.users.service.UserInfoService;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +22,18 @@ public class HistoryServiceImpl implements HistoryService {
 
   private final HistoryRepository historyRepository;
   private final UserRepository userRepository;
+  private final UserInfoRepository userInfoRepository;
+  private final UserInfoService userInfoService;
 
 
   // 게시물 저장
   @Override
   public void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto) {
 
+    Users currentUser = userRepository.findById(userId).get(); // 현재 유저
+
+    // 게시물 저장
+    
     historyRepository.save(History.builder()
         .time(historyReqDto.getTime())
         .distance(historyReqDto.getDistance())
@@ -30,17 +41,42 @@ public class HistoryServiceImpl implements HistoryService {
         .startAddress(historyReqDto.getStartAddress())
         .endAddress(historyReqDto.getEndAddress())
         .image("")
-        .users(userRepository.findById(userId).get())
+        .users(currentUser)
         .build());
+    
 
+    // 내 주행 거리 늘리기
+    UsersInfo userInfo = userInfoRepository.findById(userId).get();
+    Long newTotalDistance = userInfo.updateTotalDistance(historyReqDto.getDistance());
+
+    // 뱃지 업데이트
+    userInfoService.updateBadge(currentUser,newTotalDistance);
+
+
+
+    
+    // 주행 거리에 따른 뱃지 변경
   }
 
   // 게시물 수정
   @Override
-  public void updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq) {
+  public boolean updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq) {
+
+
 
     History history = historyRepository.findById(historyId).get();
-    history.updateHistory(historyUpdateReq.getPersonal(), historyUpdateReq.getContent());
+
+    // 나인지 확인
+    if(history.getUsers()==userRepository.findById(userId).get()){
+      history.updateHistory(historyUpdateReq.getPersonal(), historyUpdateReq.getContent());
+      return true;
+
+    }
+
+    else{
+      return false;
+    }
+
   }
 
 

@@ -34,8 +34,10 @@ public class HistoryController {
   // 게시물 수정
   @PutMapping("/post/{user_id}")
   public ResponseEntity<?> updateHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq){
-    historyService.updateHistory(userId, historyId, historyUpdateReq);
-    return Response.ok("게시물 수정 성공");
+    if(historyService.updateHistory(userId, historyId, historyUpdateReq))
+      return Response.ok("게시물 수정 성공");
+    else
+      return Response.badRequest("게시물 수정 실패 - 사용자 불일치");
   }
 
 
