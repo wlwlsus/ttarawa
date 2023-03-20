@@ -17,15 +17,17 @@ services:
     ports:
       - "6379:6379"
   backend:
+    image: ttarawa:latest
+    container_name: ttarawa-blue
     build:
-      context: ./ttarawa
+      context: ../docker_file
       dockerfile: Dockerfile
       args:
         SERVER_MODE: deploy
     ports:
       - "8080:8080"
     volumes:
-      - ./ttarawa:/app
+      - ../../ttarawa:/app
     depends_on:
       - db
       - redis
