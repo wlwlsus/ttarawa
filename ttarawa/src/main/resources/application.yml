@@ -59,7 +59,7 @@ jwt:
 
 data:
   redis:
-    host: localhost
+    host: j8a605.p.ssafy.io
     port: 6379
 
 app:
