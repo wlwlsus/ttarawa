@@ -27,7 +27,11 @@ public class HistoryController {
   // post //
 
   // 게시물 저장
-  @Operation(summary = "주행 기록 저장 API")
+  @Operation(summary = "주행 기록 저장 API", description = "user_id: 사용자 user_id\n" +
+      "image: Multipartfile\n" +
+      "personal: 1: 비공개, 0: 공개\n" +
+      "time: 초 단위\n" +
+      "distance: 미터 단위")
   @PostMapping("/{user_id}")
   public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) {
     historyService.insertHistory(userId, image, historyReqDto);
