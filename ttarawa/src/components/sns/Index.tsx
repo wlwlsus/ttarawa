@@ -27,9 +27,7 @@ export default function SNS() {
 
       profile: '@assets/profile.png',
       nickname: '열정라이더따옹이',
-      badgeImg:
-        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
-
+      badgeImg: '@assets/rank/amateur.png',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -46,12 +44,11 @@ export default function SNS() {
 
       profile: '@assets/profile.png',
       nickname: '달려라예지',
-      badgeImg:
-        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+      badgeImg: '@assets/rank/beginner.png',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
-      isMyFavorite: 1, // true: 1, false: 0
+      isMyFavorite: 0, // true: 1, false: 0
 
       time: '30분',
       distance: '3.5km',
@@ -65,7 +62,7 @@ export default function SNS() {
       profile: '@assets/profile.png',
       nickname: '따르릉예지',
       badgeImg:
-        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
       image: '@assets/riding.png',
 
       favoritesCount: 15,
@@ -115,10 +112,10 @@ export default function SNS() {
               // userImg={item.profile}
               userImg={require('@assets/profile.png')}
               userName={item.nickname}
-              rank={item.badgeImg}
+              rank={require('@assets/rank/beginner.png')}
               // rank={require(rank)}
               imagepath={require('@assets/riding.png')}
-              likeNum={item.favoritesCount}
+              likes={item.favoritesCount}
               isLike={isLike}
               distence={item.distance}
               time={item.time}
