@@ -54,8 +54,12 @@ public class HistoryController {
   // 좋아요 등록
   @PostMapping("/favorite/{user_id}")
   public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
-    favoriteService.addFavorite(userId, historyId);
-    return Response.ok("좋아요 등록 성공");
+    boolean isSuccess = favoriteService.addFavorite(userId, historyId);
+    if (isSuccess) {
+      return Response.ok("좋아요 등록 성공");
+    } else {
+      return Response.badRequest("좋아요 등록 실패");
+    }
   }
 
   // 좋아요한 게시글 목록 조회
