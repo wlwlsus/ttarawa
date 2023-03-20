@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,27 +35,10 @@ public class FavoriteServiceImpl implements FavoriteService {
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
     List<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser); // 내가 누른 좋아요 게시물 번호 찾기ㅌ
 
-    List<FavoriteResDto> favoriteHistoryList = new ArrayList<>();
-
-    for (Favorites favorites : favoritesList) {
-
-      Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
-      History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
-
-      favoriteHistoryList.add(
-          FavoriteResDto.builder()
-              .favoritesId(favorites.getFavoritesId())
-              .historyId(favorites.getHistory().getHistoryId())
-              .nickname(historyUser.getNickname())
-              .image(history.getImage())
-              .distance(history.getDistance())
-              .time(history.getTime())
-              .startAddress(history.getStartAddress())
-              .endAddress(history.getEndAddress())
-              .build());
-
-    }
-
+    List<FavoriteResDto> favoriteHistoryList = favoritesList.stream()
+        .filter(favorites -> favorites.getHistory().getPersonal()==0) // 공개인 게시물만
+        .map(favorites -> toFavoriteResDto(favorites, favorites.getHistory()))
+        .collect(Collectors.toList());
 
     return favoriteHistoryList;
   }

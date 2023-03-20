@@ -20,4 +20,17 @@ public interface FavoriteService {
   // 주행 기록 게시물 좋아요 제거
   boolean deleteFavorite(Long userId, Long historyId);
 
+  default FavoriteResDto toFavoriteResDto(Favorites favorites, History history){
+    return FavoriteResDto.builder()
+        .favoritesId(favorites.getFavoritesId())
+        .historyId(favorites.getHistory().getHistoryId())
+        .nickname(history.getUsers().getNickname())
+        .image(history.getImage())
+        .distance(history.getDistance())
+        .time(history.getTime())
+        .startAddress(history.getStartAddress())
+        .endAddress(history.getEndAddress())
+        .build();
+  }
+
 }
