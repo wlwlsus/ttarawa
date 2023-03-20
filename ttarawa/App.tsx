@@ -4,11 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Text } from 'react-native'
 
-import IndexStackScreen from '@screens/Index'
-import MainStackScreen from '@screens/Main'
-import MyPageStackScreen from '@screens/Mypage'
-import Sns from '@screens/Sns'
-import SnsHeader from '@components/sns/SnsHeader'
+import IndexStackScreen from '@navigations/Index'
+import MainStackScreen from '@navigations/Main'
+import MyPageStackScreen from '@navigations/Mypage'
+import Sns from '@navigations/Sns'
+import SnsHeader from '@screens/sns/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
 

@@ -3,7 +3,7 @@ import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
-import IconButton from '../common/IconButton'
+import IconButton from '../../components/common/IconButton'
 import RecomCard from '@components/common/RecomCard'
 // axios 밖으로 빼야함
 // import axios from 'axios'
