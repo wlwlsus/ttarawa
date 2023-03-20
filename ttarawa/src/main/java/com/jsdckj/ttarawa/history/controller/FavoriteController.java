@@ -2,6 +2,7 @@ package com.jsdckj.ttarawa.history.controller;
 
 import com.jsdckj.ttarawa.history.service.FavoriteService;
 import com.jsdckj.ttarawa.util.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ public class FavoriteController {
 
 
   // 좋아요 등록
+  @Operation(summary = "좋아요 등록 API")
   @PostMapping("/{user_id}")
   public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
     boolean isSuccess = favoriteService.addFavorite(userId, historyId);
@@ -30,6 +32,7 @@ public class FavoriteController {
   }
 
   // 좋아요한 게시글 목록 조회
+  @Operation(summary = "좋아요 목록 조회", description = "~~?page=0 (0부터 시작)")
   @GetMapping("/{user_id}")
   public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId, Pageable pageable) {
     return Response.makeResponse(HttpStatus.OK, "좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId, pageable));
@@ -37,6 +40,7 @@ public class FavoriteController {
 
 
   // 좋아요 삭제
+  @Operation(summary = "좋아요 삭제")
   @DeleteMapping("/{user_id}")
   public ResponseEntity<?> deleteFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
     boolean isSuccess = favoriteService.deleteFavorite(userId, historyId);
