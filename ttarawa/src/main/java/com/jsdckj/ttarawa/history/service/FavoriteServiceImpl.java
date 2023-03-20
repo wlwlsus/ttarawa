@@ -35,7 +35,7 @@ public class FavoriteServiceImpl implements FavoriteService {
   public List<FavoriteResDto> selectAllFavoriteHistory(Long userId, Pageable pageable) {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
-    Page<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser,pageable); // 내가 누른 좋아요 게시물 번호 찾기ㅌ
+    Page<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser,pageable); // 내가 누른 좋아요 게시물 번호 찾기
 
     List<FavoriteResDto> favoriteHistoryList = favoritesList.stream()
         .filter(favorites -> favorites.getHistory().getPersonal()==0) // 공개인 게시물만
@@ -52,7 +52,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
     Optional<History> favoriteHistory = historyRepository.findById(historyId); // 좋아요 누른 게시물
 
+    // 그 게시물이 존재하면 진행
     if (favoriteHistory.isPresent()) {
+      // 이미 좋아요를 눌렀다면 false 반환
+      if(favoriteRepository.findByUsersAndHistory(currentUser, favoriteHistory.get()).isPresent()){
+        return false;
+      }
       // favorite 테이블에 저장
       favoriteRepository.save(Favorites.builder().
           users(currentUser)
