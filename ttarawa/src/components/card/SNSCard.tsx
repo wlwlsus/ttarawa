@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 // import getImageSize from '@utils/getSize'
-import IconButton from './IconButton'
+import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
-import Label from './Label'
+import Label from '@components/common/Label'
 
 export default function Card(props: {
   userName?: string

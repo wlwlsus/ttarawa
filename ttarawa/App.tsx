@@ -8,7 +8,7 @@ import IndexStackScreen from '@navigations/Index'
 import MainStackScreen from '@navigations/Main'
 import MyPageStackScreen from '@navigations/Mypage'
 import Sns from '@navigations/Sns'
-import SnsHeader from '@screens/sns/SnsHeader'
+import SnsHeader from '@components/header/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
 
@@ -80,8 +80,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Index"
-        initialRouteName="Tabs"
+        initialRouteName="Index"
+        // initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />
