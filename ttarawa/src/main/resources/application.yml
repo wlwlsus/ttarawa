@@ -1,8 +1,8 @@
 spring:
   data:
     redis:
-      host: j8a605.p.ssafy.io
-#      host: localhost
+#      host: j8a605.p.ssafy.io
+      host: 3.39.209.108
       port: 6379
 
   security:
@@ -10,8 +10,8 @@ spring:
       client:
         registration:
           kakao:
-            client-id: d7d7a42861b64d89868bc0f51679f971
-            client-secret: B2HOXLzUbeVup0jf6403Cuwx03niLQms
+            client-id: 8555e0c7360a81fde3a64b11b7635fd6
+            client-secret: yj34MVMX2Dl8IZPqzHSym8dC1ek7ZeiS
             scope:
               - profile_nickname
               - account_email
@@ -57,9 +57,10 @@ spring:
   datasource:
     # mariaDB setting
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
-    username: ssafy605
-    password: ssafy605
+    url: jdbc:mariadb://3.39.209.108:3306/ssafy605
+#    url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
+    username: root
+    password: root
 jwt:
   secret: wjdtjdenchlrhwhwjdtjdenchlrhwhwjdtjdenchlrhwhwjdtjdenchlrhwh
 
@@ -67,4 +68,4 @@ jwt:
 app:
   oauth2:
     authorizedRedirectUris:
-      - http://localhost:3000/oauth/redirect
+      - exp://192.168.0.101:19000/oauth/redirect

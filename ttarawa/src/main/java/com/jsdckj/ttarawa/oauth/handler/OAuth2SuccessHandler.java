@@ -105,6 +105,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     CookieUtil.addCookie(response, REFRESH_TOKEN, tokenInfo.getRefreshToken(), cookieMaxAge);
 
     System.out.println("sout delete and add cookie");
+    System.out.println(UriComponentsBuilder.fromUriString(targetUrl) + "확인용");
     System.out.println("sout ??엥 " + UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", tokenInfo.getAccessToken())
 //        .queryParam("refreshToken", tokenInfo.getRefreshToken())
         .build().toUriString());
@@ -124,7 +125,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
   private boolean isAuthorizedRedirectUri(String uri) {
     URI clientRedirectUri = URI.create(uri);
-    URI authorizedUri = URI.create("http://localhost:3000/oauth/redirect");
+    URI authorizedUri = URI.create("exp://192.168.0.101:19000/oauth/redirect");
     System.out.println("sout isAuthorizedRedirectUri " + uri);
     return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
         && authorizedUri.getPort() == clientRedirectUri.getPort();
