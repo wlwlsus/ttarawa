@@ -3,6 +3,7 @@ package com.jsdckj.ttarawa.history.service;
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
+import com.jsdckj.ttarawa.history.dto.res.MyHistoryResDto;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.entity.UsersInfo;
@@ -15,14 +16,12 @@ public interface HistoryService {
 
   // 게시물 저장
   void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto);
-
+  // 게시물 1개 조회
   HistoryResDto selectOneHistory(Long userId, Long historyId);
-
-  //  List<HistoryResDto> selectAllHistory(Long userId, String sortBy, int page);
+  // 게시물 목록 조회
   List<HistoryResDto> selectAllHistory(Long userId, Pageable pageable);
-
-  List<HistoryResDto> selectAllMyHistory(Long userId);
-
+  // 내 주행기록 목록 조회
+  List<MyHistoryResDto> selectAllMyHistory(Long userId, Pageable pageable);
   // 게시물 수정
   boolean updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq);
   // 게시물 삭제
@@ -47,6 +46,20 @@ public interface HistoryService {
         .build();
 
   }
+
+  // Entity to MyHistortResDto
+  default MyHistoryResDto toMyHistoryResDto(History history){
+    return MyHistoryResDto.builder()
+        .historyId(history.getHistoryId())
+        .favoritesCount(history.getFavoritesCount())
+        .personal(history.getPersonal())
+        .time(history.getTime())
+        .distance(history.getDistance())
+        .content(history.getContent())
+        .build();
+
+  }
+
 
   // HistoryReqDto to History Entity
   default History toEntity(Users currentUser, HistoryReqDto historyReqDto){

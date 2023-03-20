@@ -3,6 +3,7 @@ package com.jsdckj.ttarawa.history.service;
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
+import com.jsdckj.ttarawa.history.dto.res.MyHistoryResDto;
 import com.jsdckj.ttarawa.history.entity.Favorites;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.history.repository.FavoriteRepository;
@@ -63,11 +64,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     Optional<History> history = historyRepository.findById(historyId);
     if (history.isPresent()) {
-      
-      History getHistory = history.get(); 
+
+      History getHistory = history.get();
       Users historyUser = history.get().getUsers(); // 작성한 사람 찾기
       UsersInfo historyUserInfo = userInfoRepository.findByUsers(historyUser); // 작성한 사람 정보
-      int favorite = (favoriteRepository.findByUsersAndHistory(currentUser, getHistory).isPresent()) ? 1:0; // 내가 좋아요를 눌렀는지
+      int favorite = (favoriteRepository.findByUsersAndHistory(currentUser, getHistory).isPresent()) ? 1 : 0; // 내가 좋아요를 눌렀는지
 
       return toHistoryResDto(getHistory, historyUser, historyUserInfo, favorite);
 
@@ -98,15 +99,28 @@ public class HistoryServiceImpl implements HistoryService {
 
     Page<History> allHistoryList = historyRepository.findAll(pageable);
     List<HistoryResDto> historyResDtoList = allHistoryList.stream()
-        .map(history -> toHistoryResDto(history, history.getUsers(), userInfoRepository.findByUsers(history.getUsers()), favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0))
+        .filter(history -> history.getPersonal()==0)
+        .map(history -> toHistoryResDto(
+            history,
+            history.getUsers(),
+            userInfoRepository.findByUsers(history.getUsers()),
+            favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0))
         .collect(Collectors.toList());
 
     return historyResDtoList;
   }
 
   @Override
-  public List<HistoryResDto> selectAllMyHistory(Long userId) {
-    return null;
+  public List<MyHistoryResDto> selectAllMyHistory(Long userId, Pageable pageable) {
+
+    Users currentUser = userRepository.findById(userId).get();
+    Page<History> allMyHistoryList = historyRepository.findAllByUsers(currentUser, pageable);
+    List<MyHistoryResDto> historyResDtoList = allMyHistoryList.stream()
+        .map(history -> toMyHistoryResDto(history))
+        .collect(Collectors.toList());
+
+
+    return historyResDtoList;
   }
 
   // 게시물 수정
