@@ -14,12 +14,16 @@ import com.jsdckj.ttarawa.users.repository.UserRepository;
 import com.jsdckj.ttarawa.users.service.UserInfoService;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,15 +44,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     // 게시물 저장
 
-    historyRepository.save(History.builder()
-        .time(historyReqDto.getTime())
-        .distance(historyReqDto.getDistance())
-        .content(historyReqDto.getContent())
-        .startAddress(historyReqDto.getStartAddress())
-        .endAddress(historyReqDto.getEndAddress())
-        .image("")
-        .users(currentUser)
-        .build());
+    historyRepository.save(toEntity(currentUser, historyReqDto));
 
 
     // 내 주행 거리 늘리기
@@ -73,28 +69,43 @@ public class HistoryServiceImpl implements HistoryService {
       UsersInfo historyUserInfo = userInfoRepository.findByUsers(historyUser); // 작성한 사람 정보
       int favorite = (favoriteRepository.findByUsersAndHistory(currentUser, getHistory).isPresent()) ? 1:0; // 내가 좋아요를 눌렀는지
 
-      return HistoryResDto.builder()
-          .historyId(historyId)
-          .nickname(historyUser.getNickname())
-          .userId(historyUser.getUsersId())
-          .profile(historyUser.getProfile())
-          .badgeImg(historyUserInfo.getBadge().getImage())
-          .favoritesCount(getHistory.getFavoritesCount())
-          .isMyFavorite(favorite)
-          .time(getHistory.getTime())
-          .distance(getHistory.getDistance())
-          .image(getHistory.getImage())
-          .content(getHistory.getContent())
-          .startAddress(getHistory.getStartAddress())
-          .endAddress(getHistory.getEndAddress())
-          .build();
+      return toHistoryResDto(getHistory, historyUser, historyUserInfo, favorite);
+
+//      return HistoryResDto.builder()
+//          .historyId(historyId)
+//          .nickname(historyUser.getNickname())
+//          .userId(historyUser.getUsersId())
+//          .profile(historyUser.getProfile())
+//          .badgeImg(historyUserInfo.getBadge().getImage())
+//          .favoritesCount(getHistory.getFavoritesCount())
+//          .isMyFavorite(favorite)
+//          .time(getHistory.getTime())
+//          .distance(getHistory.getDistance())
+//          .image(getHistory.getImage())
+//          .content(getHistory.getContent())
+//          .startAddress(getHistory.getStartAddress())
+//          .endAddress(getHistory.getEndAddress())
+//          .build();
     } else {
       return null;
     }
   }
 
   @Override
-  public List<HistoryResDto> selectAllHistory(Long userId, String sortBy, int page) {
+  public List<HistoryResDto> selectAllHistory(Long userId, Pageable pageable) {
+
+    Users currentUser = userRepository.findById(userId).get();
+
+    Page<History> allHistoryList = historyRepository.findAll(pageable);
+    List<HistoryResDto> historyResDtoList = allHistoryList.stream()
+        .map(history -> toHistoryResDto(history, history.getUsers(), userInfoRepository.findByUsers(history.getUsers()), favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0))
+        .collect(Collectors.toList());
+
+    return historyResDtoList;
+  }
+
+  @Override
+  public List<HistoryResDto> selectAllMyHistory(Long userId) {
     return null;
   }
 
