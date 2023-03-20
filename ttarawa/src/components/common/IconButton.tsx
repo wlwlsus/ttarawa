@@ -11,7 +11,7 @@ import { ReactNode } from 'react'
 
 interface Props {
   text?: string
-  type?: 'transparent' | 'primary' | 'secondary' | 'square' | 'large'
+  type?: 'transparent' | 'primary' | 'secondary' | 'square' | 'circle' | 'large'
   icon1?: ReactNode
   icon2?: ReactNode
   dir?: 'left' // 아이콘 & 텍스트 방향
