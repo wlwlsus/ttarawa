@@ -18,6 +18,7 @@
       "~/*": ["./*"],
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
+      "@navigations/*": ["navigations/*"],
       "@services/*": ["services/*"],
       "@stores/*": ["stores/*"],
       "@styles/*": ["styles/*"],

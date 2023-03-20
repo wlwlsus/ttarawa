@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import Map from '@components/main/Map'
+import Map from '@screens/main/Map'
 const MainStack = createStackNavigator()
 
 // Main Nested Navigation

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { ReactNode } from 'react'
 import { color } from '@styles/GlobalStyles'
-import IconButton from './IconButton'
+import IconButton from '@components/common/IconButton'
 
 interface Props {
   press?: (params: any) => any

@@ -4,11 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Text } from 'react-native'
 
-import IndexStackScreen from '@screens/Index'
-import MainStackScreen from '@screens/Main'
-import MyPageStackScreen from '@screens/Mypage'
-import Sns from '@screens/Sns'
-import SnsHeader from '@components/sns/SnsHeader'
+import IndexStackScreen from '@navigations/Intro'
+import MainStackScreen from '@navigations/Main'
+import MyPageStackScreen from '@navigations/Mypage'
+import Sns from '@screens/sns/Sns'
+import SnsHeader from '@components/header/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
 
@@ -80,8 +80,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Index"
-        initialRouteName="Tabs"
+        initialRouteName="Index"
+        // initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />
