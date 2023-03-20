@@ -49,7 +49,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 
     // 내 주행 거리 늘리기
-    UsersInfo userInfo = userInfoRepository.findById(userId).get();
+    UsersInfo userInfo = userInfoRepository.findByUsers(currentUser);
     Long newTotalDistance = userInfo.updateTotalDistance(historyReqDto.getDistance());
 
     // 주행거리에 따른 뱃지 업데이트

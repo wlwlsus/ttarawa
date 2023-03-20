@@ -36,9 +36,9 @@ public class HistoryController {
   }
 
   // 게시물 1개 조회
-  @GetMapping("/post/{history_id}")
+  @GetMapping("/post/detail/{history_id}")
   public ResponseEntity<?> selectOneHistory(@PathVariable("history_id") Long historyId) {
-    Long userId = 0L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
+    Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
     HistoryResDto historyResDto = historyService.selectOneHistory(userId, historyId);
     if (historyResDto != null) {
       return Response.makeResponse(HttpStatus.OK, "게시물 상세 조회 성공", historyResDto);
@@ -50,7 +50,7 @@ public class HistoryController {
   // 게시물 목록 조회
   @GetMapping("/post")
   public ResponseEntity<?> selectAllHistory(Pageable pageable) {
-    Long userId = 0L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
+    Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
     return Response.makeResponse(HttpStatus.OK, "게시물 조회에 성공했습니다", historyService.selectAllHistory(userId, pageable));
   }
 
@@ -61,8 +61,6 @@ public class HistoryController {
     return Response.makeResponse(HttpStatus.OK, "내 주행 기록 조회에 성공했습니다", historyService.selectAllMyHistory(userId, pageable));
 
   }
-
-
 
 
   // 게시물 수정
