@@ -3,6 +3,7 @@ import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
+import IconButton from '../common/IconButton'
 import RecomCard from '@components/common/RecomCard'
 // axios 밖으로 빼야함
 // import axios from 'axios'
@@ -92,10 +93,22 @@ export default function Recom({ navigation }) {
       </View>
 
       {/* 지도 페이지로 넘어가도록 기능 추가해야함  */}
-      <Pressable style={recom.buttonBox} onPress={goMap}>
+      {/* <Pressable style={recom.buttonBox} onPress={goMap}>
         <Text style={recom.buttonText}>목적지 직접 설정</Text>
         <AntDesign name="doubleright" size={15} color={color.white} />
-      </Pressable>
+      </Pressable> */}
+
+      <IconButton
+        type="transparent"
+        text="목적지 직접 설정"
+        icon2={<AntDesign name="doubleright" size={15} color={color.white} />}
+        press={goMap}
+        dir="left"
+        style={{
+          container: { alignSelf: 'flex-end' },
+          txt: { color: color.white },
+        }}
+      />
 
       <ScrollView
         style={recom.scrollView}

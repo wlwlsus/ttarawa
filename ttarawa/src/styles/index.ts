@@ -88,12 +88,6 @@ export const recom = StyleSheet.create({
     textAlign: 'center',
     color: color.white,
   },
-  buttonBox: {
-    flex: 0.07,
-    alignSelf: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   buttonText: {
     color: color.white,
     fontSize: 17,

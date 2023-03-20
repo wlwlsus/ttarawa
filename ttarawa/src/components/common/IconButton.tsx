@@ -68,7 +68,9 @@ const styles = StyleSheet.create({
 
   transparent: {},
 
-  transparentText: {},
+  transparentText: {
+    fontSize: 17,
+  },
 
   primary: {
     backgroundColor: color.primary,
