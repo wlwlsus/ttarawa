@@ -4,15 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Text } from 'react-native'
 
-import IndexStackScreen from '@screens/Index'
-import MainStackScreen from '@screens/Main'
-import MyPageStackScreen from '@screens/Mypage'
-import Sns from '@screens/Sns'
+import IndexStackScreen from '@navigations/Intro'
+import MainStackScreen from '@navigations/Main'
+import MyPageStackScreen from '@navigations/Mypage'
+import Sns from '@screens/sns/Sns'
+import SnsHeader from '@components/header/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
 
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Zocial } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -24,17 +24,19 @@ function Tabs() {
       screenOptions={{
         tabBarActiveTintColor: color.primary,
         tabBarInactiveTintColor: color.lightGray,
-        tabBarStyle: { height: 90 },
+        tabBarStyle: { height: 70 },
       }}
     >
       <Tab.Screen
         name="Sns"
         component={Sns}
         options={{
+          headerTitle: (props) => <SnsHeader {...props} />,
+
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="format-list-checkbox"
-              size={focused ? 32 : 37}
+              size={focused ? 40 : 45}
               color={color}
             />
           ),
@@ -46,10 +48,11 @@ function Tabs() {
         name="Main"
         component={MainStackScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name="map-marker-radius"
-              size={focused ? 32 : 37}
+              size={focused ? 37 : 45}
               color={color}
             />
           ),
@@ -63,7 +66,7 @@ function Tabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Zocial name="persona" size={focused ? 26 : 30} color={color} />
+            <Zocial name="persona" size={focused ? 33 : 38} color={color} />
           ),
           tabBarLabel: ({ focused }) =>
             focused ? <Text style={styles.navTab}>마이페이지</Text> : null,

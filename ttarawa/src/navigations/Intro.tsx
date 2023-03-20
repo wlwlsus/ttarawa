@@ -1,8 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import Start from '@components/index/Start'
-import Login from '@components/index/Login'
-import Intro from '@components/index/Intro'
-import Recom from '~/components/index/Recom'
+import Start from '@screens/intro/Start'
+import Login from '@screens/intro/Login'
+import Intro from '@screens/intro/Intro'
+import Recom from '@screens/intro/Recom'
+import SocialLogin from '@screens/intro/SocialLogin'
+import Map from '@screens/main/Map'
 
 const IndexStack = createStackNavigator()
 
@@ -19,6 +21,8 @@ export default function IndexStackScreen() {
       <IndexStack.Screen name="Login" component={Login} />
       <IndexStack.Screen name="Intro" component={Intro} />
       <IndexStack.Screen name="Recom" component={Recom} />
+      <IndexStack.Screen name="SocialLogin" component={SocialLogin} />
+      <IndexStack.Screen name="Map" component={Map} />
     </IndexStack.Navigator>
   )
 }

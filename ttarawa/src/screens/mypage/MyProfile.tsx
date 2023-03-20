@@ -1,9 +1,7 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { profile } from '@styles/myPage'
-// import { SvgUri } from 'react-native-svg'
-// // import { SvgXml } from 'react-native-svg'
-// import logoSvg from '@assets/ttarawa/logo.svg'
+
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 
@@ -18,12 +16,9 @@ export default function MyProfile({ navigation }) {
       </View>
 
       <View style={[profile.userContainer, profile.shadow]}>
-        <Text>주니어라이더까지 7km</Text>
+        <Text style={profile.rank}>주니어라이더까지 7km</Text>
         <View style={profile.nameContainer}>
-          <Image
-            source={require('@assets/rank/junior.png')}
-            style={profile.rank}
-          />
+          <Image source={require('@assets/rank/junior.png')} />
           <Text style={profile.userName}>따옹이 님</Text>
         </View>
         <Text style={profile.riding}>
@@ -34,14 +29,14 @@ export default function MyProfile({ navigation }) {
       <View style={profile.buttons}>
         <IconButton
           text="주행기록"
-          style="whiteBtn"
+          type="large"
           icon1={
-            <MaterialCommunityIcons name="bike" size={24} color={color.black} />
+            <MaterialCommunityIcons name="bike" size={30} color={color.black} />
           }
           icon2={
             <MaterialCommunityIcons
               name="chevron-right"
-              size={24}
+              size={30}
               color={color.black}
             />
           }
@@ -49,18 +44,18 @@ export default function MyProfile({ navigation }) {
         />
         <IconButton
           text="좋아요 목록"
-          style="whiteBtn"
+          type="large"
           icon1={
             <MaterialIcons
               name="local-fire-department"
-              size={24}
+              size={30}
               color={color.red}
             />
           }
           icon2={
             <MaterialCommunityIcons
               name="chevron-right"
-              size={24}
+              size={30}
               color={color.black}
             />
           }
@@ -68,7 +63,7 @@ export default function MyProfile({ navigation }) {
         />
         <IconButton
           text="앱소개"
-          style="whiteBtn"
+          type="large"
           icon1={
             <Image
               source={require('@assets/ttarawa/logo.png')}
@@ -78,7 +73,7 @@ export default function MyProfile({ navigation }) {
           icon2={
             <MaterialCommunityIcons
               name="chevron-right"
-              size={24}
+              size={30}
               color={color.black}
             />
           }

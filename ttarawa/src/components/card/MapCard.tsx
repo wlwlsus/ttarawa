@@ -1,23 +1,30 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { ReactNode } from 'react'
 import { color } from '@styles/GlobalStyles'
-import IconButton from './IconButton'
+import IconButton from '@components/common/IconButton'
 
-export default function Card(props: {
+interface Props {
   press?: (params: any) => any
   btn?: Element
   btnText?: string
   children?: Element
-  style?: string
-  icon?: Element
-}) {
+  icon: ReactNode
+}
+
+export default function Card({ press, btn, btnText, children, icon }: Props) {
   return (
     <View style={styles.container}>
       {/* 카드 내용물 */}
-      <>{props.children}</>
+      <>{children}</>
       {/* 카드 아이콘 버튼 */}
       <Pressable style={styles.iconBtn}>
-        <IconButton style={props.style} bg={'blue'} icon1={props.icon} />
-        <Text style={styles.btnText}>{props.btnText}</Text>
+        <IconButton
+          type="circle"
+          icon1={icon}
+          style={{ container: { backgroundColor: color.primary } }}
+          press={() => console.log('주행시작')}
+        />
+        <Text style={styles.btnText}>{btnText}</Text>
       </Pressable>
     </View>
   )

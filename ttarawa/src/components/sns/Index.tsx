@@ -1,9 +1,9 @@
 import { StyleSheet, View, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
-import SNSCard from '@components/common/SNSCard'
+import SNSCard from '@components/card/SNSCard'
 import { color } from '@styles/GlobalStyles'
 
-export default function SNS() {
+export default function SnsCard() {
   interface SnsData {
     historyId: number
     profile: string // 프로필 이미지 주소

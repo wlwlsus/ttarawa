@@ -5,7 +5,7 @@ import FastImage from 'expo-fast-image'
 import { color } from '@styles/GlobalStyles'
 // import getImageSize from '@utils/getSize'
 import Label from '@components/common/Label'
-import IconButton from './IconButton'
+import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 
 interface Props {
