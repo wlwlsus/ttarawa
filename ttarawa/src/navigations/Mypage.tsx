@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import MyProfile from '@screens/mypage/MyProfile'
 import MyLikes from '@screens/mypage/MyLikes'
 import MyHistory from '@screens/mypage/MyHistory'
-import Intro from '@screens/index/Intro'
+import Intro from '@screens/intro/Intro'
 
 const MyPageStack = createStackNavigator()
 

@@ -34,7 +34,7 @@ export default function Recom({ navigation }) {
 
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied')
-        console.log(errorMsg)
+        // console.log(errorMsg)
         return
       }
 
@@ -44,7 +44,6 @@ export default function Recom({ navigation }) {
       const longitude = locationData['coords']['longitude'] // 경도
 
       // 장소 추천 받기
-
       const recomList: result[] = [
         {
           name: '혜진드기',
@@ -67,7 +66,7 @@ export default function Recom({ navigation }) {
       // )
 
       setRecoms(recomList)
-      console.log(latitude, longitude)
+      // console.log(latitude, longitude)
     } catch (error) {
       console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
     }

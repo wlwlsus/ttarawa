@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import Start from '@screens/index/Start'
-import Login from '@screens/index/Login'
-import Intro from '@screens/index/Intro'
-import Recom from '@screens/index/Recom'
-import SocialLogin from '@screens/index/SocialLogin'
+import Start from '@screens/intro/Start'
+import Login from '@screens/intro/Login'
+import Intro from '@screens/intro/Intro'
+import Recom from '@screens/intro/Recom'
+import SocialLogin from '@screens/intro/SocialLogin'
 import Map from '@screens/main/Map'
 
 const IndexStack = createStackNavigator()
