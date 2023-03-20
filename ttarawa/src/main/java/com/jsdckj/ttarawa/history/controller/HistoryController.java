@@ -95,10 +95,9 @@ public class HistoryController {
   }
 
   // 좋아요한 게시글 목록 조회
-  // TODO: pageable 객체로 받기
   @GetMapping("/favorite/{user_id}")
-  public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId) {
-    return Response.makeResponse(HttpStatus.OK, "좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId));
+  public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId, Pageable pageable) {
+    return Response.makeResponse(HttpStatus.OK, "좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId, pageable));
   }
 
 

@@ -10,6 +10,8 @@ import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.repository.UserInfoRepository;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 
   // 내가 좋아요 누른 게시물 목록
   @Override
-  public List<FavoriteResDto> selectAllFavoriteHistory(Long userId) {
+  public List<FavoriteResDto> selectAllFavoriteHistory(Long userId, Pageable pageable) {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
-    List<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser); // 내가 누른 좋아요 게시물 번호 찾기ㅌ
+    Page<Favorites> favoritesList = favoriteRepository.findByUsers(currentUser,pageable); // 내가 누른 좋아요 게시물 번호 찾기ㅌ
 
     List<FavoriteResDto> favoriteHistoryList = favoritesList.stream()
         .filter(favorites -> favorites.getHistory().getPersonal()==0) // 공개인 게시물만
