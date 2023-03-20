@@ -2,7 +2,10 @@ package com.jsdckj.ttarawa.history.service;
 
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
+import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
+import com.jsdckj.ttarawa.history.entity.Favorites;
 import com.jsdckj.ttarawa.history.entity.History;
+import com.jsdckj.ttarawa.history.repository.FavoriteRepository;
 import com.jsdckj.ttarawa.history.repository.HistoryRepository;
 import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.entity.UsersInfo;
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,7 +30,7 @@ public class HistoryServiceImpl implements HistoryService {
   private final UserRepository userRepository;
   private final UserInfoRepository userInfoRepository;
   private final UserInfoService userInfoService;
-
+  private final FavoriteRepository favoriteRepository;
 
   // 게시물 저장
   @Override
@@ -33,7 +39,7 @@ public class HistoryServiceImpl implements HistoryService {
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
 
     // 게시물 저장
-    
+
     historyRepository.save(History.builder()
         .time(historyReqDto.getTime())
         .distance(historyReqDto.getDistance())
@@ -43,19 +49,53 @@ public class HistoryServiceImpl implements HistoryService {
         .image("")
         .users(currentUser)
         .build());
-    
+
 
     // 내 주행 거리 늘리기
     UsersInfo userInfo = userInfoRepository.findById(userId).get();
     Long newTotalDistance = userInfo.updateTotalDistance(historyReqDto.getDistance());
 
-    // 뱃지 업데이트
-    userInfoService.updateBadge(currentUser,newTotalDistance);
+    // 주행거리에 따른 뱃지 업데이트
+    userInfoService.updateBadge(currentUser, newTotalDistance);
 
 
+  }
 
-    
-    // 주행 거리에 따른 뱃지 변경
+  @Override
+  public HistoryResDto selectOneHistory(Long userId, Long historyId) {
+    Users currentUser = userRepository.findById(userId).get(); // 현재 유저
+
+    Optional<History> history = historyRepository.findById(historyId);
+    if (history.isPresent()) {
+      
+      History getHistory = history.get(); 
+      Users historyUser = history.get().getUsers(); // 작성한 사람 찾기
+      UsersInfo historyUserInfo = userInfoRepository.findByUsers(historyUser); // 작성한 사람 정보
+      int favorite = (favoriteRepository.findByUsersAndHistory(currentUser, getHistory).isPresent()) ? 1:0; // 내가 좋아요를 눌렀는지
+
+      return HistoryResDto.builder()
+          .historyId(historyId)
+          .nickname(historyUser.getNickname())
+          .userId(historyUser.getUsersId())
+          .profile(historyUser.getProfile())
+          .badgeImg(historyUserInfo.getBadge().getImage())
+          .favoritesCount(getHistory.getFavoritesCount())
+          .isMyFavorite(favorite)
+          .time(getHistory.getTime())
+          .distance(getHistory.getDistance())
+          .image(getHistory.getImage())
+          .content(getHistory.getContent())
+          .startAddress(getHistory.getStartAddress())
+          .endAddress(getHistory.getEndAddress())
+          .build();
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public List<HistoryResDto> selectAllHistory(Long userId, String sortBy, int page) {
+    return null;
   }
 
   // 게시물 수정
@@ -63,17 +103,14 @@ public class HistoryServiceImpl implements HistoryService {
   public boolean updateHistory(Long userId, Long historyId, HistoryUpdateReq historyUpdateReq) {
 
 
-
     History history = historyRepository.findById(historyId).get();
 
     // 나인지 확인
-    if(history.getUsers()==userRepository.findById(userId).get()){
+    if (history.getUsers() == userRepository.findById(userId).get()) {
       history.updateHistory(historyUpdateReq.getPersonal(), historyUpdateReq.getContent());
       return true;
 
-    }
-
-    else{
+    } else {
       return false;
     }
 

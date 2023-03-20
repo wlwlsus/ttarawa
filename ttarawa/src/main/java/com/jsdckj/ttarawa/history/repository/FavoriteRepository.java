@@ -6,6 +6,7 @@ import com.jsdckj.ttarawa.users.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorites, Long> {
 
@@ -13,7 +14,7 @@ public interface FavoriteRepository extends JpaRepository<Favorites, Long> {
   List<Favorites> findByUsers(Users user);
 
   // userid, historyid로 유저가 누른 좋아요 찾기
-  Favorites findByUsersAndHistory(Users user, History history);
+  Optional<Favorites> findByUsersAndHistory(Users user, History history);
 
 
 }

@@ -26,15 +26,15 @@ public class HistoryController {
 
   // 게시물 저장
   @PostMapping("/post/{user_id}")
-  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto){
+  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) {
     historyService.insertHistory(userId, image, historyReqDto);
     return Response.ok("게시물 저장 성공");
   }
 
   // 게시물 수정
   @PutMapping("/post/{user_id}")
-  public ResponseEntity<?> updateHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq){
-    if(historyService.updateHistory(userId, historyId, historyUpdateReq))
+  public ResponseEntity<?> updateHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq) {
+    if (historyService.updateHistory(userId, historyId, historyUpdateReq))
       return Response.ok("게시물 수정 성공");
     else
       return Response.badRequest("게시물 수정 실패 - 사용자 불일치");
@@ -43,8 +43,8 @@ public class HistoryController {
 
   // 게시물 삭제
   @DeleteMapping("/post/{user_id}")
-  public ResponseEntity<?> deleteHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId){
-    historyService.deleteHistory(userId,historyId);
+  public ResponseEntity<?> deleteHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
+    historyService.deleteHistory(userId, historyId);
     return Response.ok("게시물 삭제 성공");
   }
 
@@ -53,24 +53,27 @@ public class HistoryController {
 
   // 좋아요 등록
   @PostMapping("/favorite/{user_id}")
-  public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId){
+  public ResponseEntity<?> addFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
     favoriteService.addFavorite(userId, historyId);
     return Response.ok("좋아요 등록 성공");
   }
 
   // 좋아요한 게시글 목록 조회
   @GetMapping("/favorite/{user_id}")
-  public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId){
-    return Response.makeResponse(HttpStatus.OK,"좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId) );
+  public ResponseEntity<?> selectAllFavoriteHistory(@PathVariable("user_id") Long userId) {
+    return Response.makeResponse(HttpStatus.OK, "좋아요 한 게시글 목록 조회에 성공했습니다", favoriteService.selectAllFavoriteHistory(userId));
   }
-
 
 
   // 좋아요 삭제
   @DeleteMapping("/favorite/{user_id}")
-  public ResponseEntity<?> deleteFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId){
-    favoriteService.deleteFavorite(userId, historyId);
-    return Response.ok("좋아요 제거 성공");
+  public ResponseEntity<?> deleteFavorite(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
+    boolean isSuccess = favoriteService.deleteFavorite(userId, historyId);
+    if (isSuccess) {
+      return Response.ok("좋아요 제거 성공");
+    } else {
+      return Response.badRequest("좋아요 삭제 실패");
+    }
   }
 
 }

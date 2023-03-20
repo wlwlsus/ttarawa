@@ -13,6 +13,7 @@ public class HistoryResDto {
 
   private Long historyId;
   private String nickname;
+  private Long userId;
   private String profile;
   private String badgeImg;
   private int favoritesCount;

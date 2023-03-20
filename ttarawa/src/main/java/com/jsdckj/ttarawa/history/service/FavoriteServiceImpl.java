@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -78,17 +79,23 @@ public class FavoriteServiceImpl implements FavoriteService {
   }
 
   @Override
-  public void deleteFavorite(Long userId, Long historyId) {
+  public boolean deleteFavorite(Long userId, Long historyId) {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
     History favoriteHistory = historyRepository.findById(historyId).get(); // 좋아요 삭제할 게시물
 
     // favorites 테이블에서 찾기
-    Favorites favorite = favoriteRepository.findByUsersAndHistory(currentUser, favoriteHistory);
+    Optional<Favorites> favorite = favoriteRepository.findByUsersAndHistory(currentUser, favoriteHistory);
 
-    favoriteRepository.deleteById(favorite.getFavoritesId()); // 삭제하기
+    if(favorite.isPresent()){
+      favoriteRepository.deleteById(favorite.get().getFavoritesId()); // 삭제하기
+      // 그 게시물의 favorites_count 1 감소하기
+      favoriteHistory.minusFavoritesCount();
+      return true;
+    }
+    else{
+      return false;
+    }
 
-    // 그 게시물의 favorites_count 1 감소하기
-    favoriteHistory.minusFavoritesCount();
   }
 }
