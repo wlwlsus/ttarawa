@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class FavoriteResDto {
 
   private Long favoritesId;
+  private Long historyId;
   private String nickname;
   private String image;
   private Long distance;

@@ -38,50 +38,6 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     List<FavoriteResDto> favoriteHistoryList = new ArrayList<>();
 
-//    for(Favorites favorites : favoritesList){
-//
-//      Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
-//      History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
-//      UsersInfo historyUserInfo = userInfoRepository.findById(historyUser.getUsersId()).get();
-//
-//      favoriteHistoryList.add(HistoryResDto.builder()
-//          .historyId(history.getHistoryId())
-//          .nickname(historyUser.getNickname())
-//          .profile(historyUser.getProfile())
-//          .badgeName(historyUserInfo.getBadge().getName())
-//          .favoritesCount(history.getFavoritesCount())
-//          .isMyFavorite(1)
-//          .time(history.getTime())
-//          .distance(history.getDistance())
-//          .image(history.getImage())
-//          .content(history.getContent())
-//          .startAddress(history.getStartAddress())
-//          .endAddress(history.getEndAddress())
-//          .build());
-//
-//    }    for(Favorites favorites : favoritesList){
-//
-//      Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
-//      History history = historyRepository.findById(favorites.getHistory().getHistoryId()).get();
-//      UsersInfo historyUserInfo = userInfoRepository.findById(historyUser.getUsersId()).get();
-//
-//      favoriteHistoryList.add(HistoryResDto.builder()
-//          .historyId(history.getHistoryId())
-//          .nickname(historyUser.getNickname())
-//          .profile(historyUser.getProfile())
-//          .badgeName(historyUserInfo.getBadge().getName())
-//          .favoritesCount(history.getFavoritesCount())
-//          .isMyFavorite(1)
-//          .time(history.getTime())
-//          .distance(history.getDistance())
-//          .image(history.getImage())
-//          .content(history.getContent())
-//          .startAddress(history.getStartAddress())
-//          .endAddress(history.getEndAddress())
-//          .build());
-//
-//    }
-
     for (Favorites favorites : favoritesList) {
 
       Users historyUser = userRepository.findById(favorites.getUsers().getUsersId()).get();
@@ -90,6 +46,7 @@ public class FavoriteServiceImpl implements FavoriteService {
       favoriteHistoryList.add(
           FavoriteResDto.builder()
               .favoritesId(favorites.getFavoritesId())
+              .historyId(favorites.getHistory().getHistoryId())
               .nickname(historyUser.getNickname())
               .image(history.getImage())
               .distance(history.getDistance())
