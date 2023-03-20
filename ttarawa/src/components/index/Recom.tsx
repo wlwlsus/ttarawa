@@ -12,10 +12,10 @@ import { useState, useEffect } from 'react'
 
 export default function Recom({ navigation }) {
   interface result {
-    name?: string
-    distance?: number
-    visit?: number
-    category?: string
+    name: string
+    distance: number
+    visit: number
+    category: number
     subCategory?: string
     spotId?: number
     adress?: string
@@ -50,14 +50,14 @@ export default function Recom({ navigation }) {
           name: '혜진드기',
           distance: 9,
           visit: 30,
-          category: '화장실',
+          category: 0,
           spotId: 10,
         },
         {
           name: '혜진드기',
           distance: 9,
           visit: 30,
-          category: '화장실',
+          category: 1,
           spotId: 9,
         },
       ]
@@ -93,10 +93,6 @@ export default function Recom({ navigation }) {
       </View>
 
       {/* 지도 페이지로 넘어가도록 기능 추가해야함  */}
-      {/* <Pressable style={recom.buttonBox} onPress={goMap}>
-        <Text style={recom.buttonText}>목적지 직접 설정</Text>
-        <AntDesign name="doubleright" size={15} color={color.white} />
-      </Pressable> */}
 
       <IconButton
         type="transparent"
