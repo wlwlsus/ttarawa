@@ -39,7 +39,12 @@ public class HistoryController {
   }
 
   // 게시물 1개 조회
-  @Operation(summary = "게시물 1개 조회 API")
+  @Operation(summary = "게시물 1개 조회 API", description = "history_id: 주행 기록 게시물 번호\n" +
+      "favoritesCount: 좋아요 개수\n" +
+      "isMyFavorite: 1: 내가 좋아요를 누름, 0: 안누름\n" +
+      "time: 초단위\n" +
+      "distance: 미터단위\n" +
+      "image: 게시물 이미지\n")
   @GetMapping("/detail/{history_id}")
   public ResponseEntity<?> selectOneHistory(@PathVariable("history_id") Long historyId) {
     Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
@@ -52,7 +57,17 @@ public class HistoryController {
   }
 
   // 게시물 목록 조회
-  @Operation(summary = "게시물 목록 조회 API")
+  @Operation(summary = "게시물 목록 조회 API", description="최신순: ~~?page=0&sort=createdDate,desc\n" +
+      "좋아요순: ~~?page=0&sort=favoritesCount,desc\n" +
+      "추천순 미완\n" +
+      "swagger에서 요청시 \n" +
+      "{\n" +
+      "  \"page\": 0,\n" +
+      "  \"size\": 10,\n" +
+      "  \"sort\": [\n" +
+      "    \"createdDate,desc 또는 favoritesCount,desc 중 하나\"\n" +
+      "  ]\n" +
+      "}")
   @GetMapping
   public ResponseEntity<?> selectAllHistory(Pageable pageable) {
     Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
