@@ -86,7 +86,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       savedUser = createUser(userInfo, providerType);
       userInfoRepository.save(UsersInfo.builder()
           .users(savedUser)
-          .badge(badgeRepository.findByName("새싹 라이더"))
+          .badge(badgeRepository.findByName("beginner"))
           .totalDistance(0L)
           .build());
     }
@@ -108,7 +108,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         .role(Role.ROLE_USER)
         .build();
 
-    System.out.println(badgeRepository.findByName("새싹 라이더"));
+    System.out.println(badgeRepository.findByName("beginner"));
 
 
     return userRepository.saveAndFlush(user);
