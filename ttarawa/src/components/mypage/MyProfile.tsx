@@ -29,7 +29,7 @@ export default function MyProfile({ navigation }) {
       <View style={profile.buttons}>
         <IconButton
           text="주행기록"
-          style="whiteBtn"
+          type="large"
           icon1={
             <MaterialCommunityIcons name="bike" size={30} color={color.black} />
           }
@@ -44,7 +44,7 @@ export default function MyProfile({ navigation }) {
         />
         <IconButton
           text="좋아요 목록"
-          style="whiteBtn"
+          type="large"
           icon1={
             <MaterialIcons
               name="local-fire-department"
@@ -63,7 +63,7 @@ export default function MyProfile({ navigation }) {
         />
         <IconButton
           text="앱소개"
-          style="whiteBtn"
+          type="large"
           icon1={
             <Image
               source={require('@assets/ttarawa/logo.png')}

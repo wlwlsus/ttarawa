@@ -1,60 +1,53 @@
-import { Text, Pressable, StyleSheet } from 'react-native'
+import {
+  Text,
+  Pressable,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from 'react-native'
 import { color } from '@styles/GlobalStyles'
+import { ReactNode } from 'react'
 
-export default function IconButton(props: {
+interface Props {
   text?: string
-  press?: (params: any) => any
-  dir?: string // direction
-  icon1?: Element
-  icon2?: Element
-  style?: string
+  type?: 'transparent' | 'primary' | 'secondary' | 'square' | 'circle' | 'large'
+  icon1?: ReactNode
+  icon2?: ReactNode
+  dir?: 'left' // 아이콘 & 텍스트 방향
   nonShadow?: boolean
-  bg?: string
-}) {
-  const bgTable: {
-    yellow: object
-    green: object
-    white: object
-    blue: object
-  } = {
-    yellow: styles.bgYellow,
-    green: styles.bgGreen,
-    white: styles.bgWhite,
-    blue: styles.bgBlue,
+  press: (params: any) => void
+  style?: {
+    container?: StyleProp<ViewStyle>
+    txt?: StyleProp<TextStyle>
   }
+}
 
-  const btnStyle: { [key: string]: object } | null =
-    props.style === 'skyBtn'
-      ? { btn: styles.skyBtn, text: styles.skyBtnText }
-      : props.style === 'blueBtn'
-      ? { btn: styles.blueBtn, text: styles.blueBtnText }
-      : props.style == 'square'
-      ? { btn: styles.square, text: styles.squareText }
-      : props.style === 'whiteBtn'
-      ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
-      : props.style === 'circle'
-      ? { btn: styles.circle }
-      : null
+export default function IconButton({
+  text,
+  type = 'transparent',
+  icon1,
+  icon2,
+  dir,
+  nonShadow = false,
+  press,
+  style = {},
+}: Props) {
+  const { container: containerStyle = {}, txt: textStyle = {} } = style
+  const btnStyle = [
+    styles.container,
+    styles[type],
+    dir && styles.left,
+    !nonShadow && styles.shadow,
+    containerStyle,
+  ]
+  const textStyles = [styles.text, styles[`${type}Text`], textStyle]
 
   return (
-    <Pressable
-      hitSlop={10}
-      style={[
-        styles.container,
-        btnStyle?.btn,
-        props.dir === 'left' ? styles.left : null,
-        !props.nonShadow ? styles.shadow : null,
-        bgTable[props.bg],
-      ]}
-      onPress={props.press}
-    >
-      <>
-        {props.icon1}
-        {props.text && (
-          <Text style={[styles.btnText, btnStyle?.text]}>{props.text}</Text>
-        )}
-        {props.icon2}
-      </>
+    <Pressable hitSlop={10} style={btnStyle} onPress={press}>
+      {icon1}
+      {text && <Text style={textStyles}>{text}</Text>}
+      {icon2}
     </Pressable>
   )
 }
@@ -65,29 +58,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
   },
-  btnText: {
+
+  text: {
     color: color.black,
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 20,
   },
-  skyBtn: {
-    marginVertical: 10,
-    marginHorizontal: 5,
-    backgroundColor: color.secondary,
-    borderColor: color.primary,
-    borderRadius: 17,
-    padding: 7,
-    borderWidth: 1.5,
-    gap: 5,
-    marginBottom: 2,
-    // marginTop: 10,
-  },
-  skyBtnText: {
-    color: color.primary,
+
+  transparent: {},
+
+  transparentText: {
     fontSize: 17,
   },
-  blueBtn: {
+
+  primary: {
     backgroundColor: color.primary,
     borderColor: color.primary,
     borderRadius: 17,
@@ -95,42 +80,62 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: 5,
   },
-  blueBtnText: {
+
+  primaryText: {
     color: color.white,
     fontSize: 20,
   },
+
+  secondary: {
+    backgroundColor: color.secondary,
+    borderColor: color.primary,
+    borderRadius: 17,
+    padding: 7,
+    borderWidth: 1.5,
+    gap: 5,
+  },
+
+  secondaryText: {
+    color: color.primary,
+    fontSize: 17,
+  },
+
   square: {
     backgroundColor: color.lightGray,
     borderRadius: 15,
     gap: 7,
     paddingHorizontal: 15,
   },
+
   squareText: {
     color: color.white,
     fontSize: 15,
   },
+
   circle: {
     borderRadius: 60,
     padding: 15,
     backgroundColor: color.black,
-    margin: 5,
   },
-  whiteBtn: {
+
+  large: {
     backgroundColor: color.white,
     borderRadius: 5,
     justifyContent: 'space-around',
     flexDirection: 'row',
     paddingVertical: 30,
     paddingLeft: 40,
-    marginHorizontal: 20,
   },
-  whiteBtnText: {
+
+  largeText: {
     color: color.black,
     fontSize: 23,
   },
+
   left: {
     flexDirection: 'row',
   },
+
   shadow: {
     shadowColor: color.shadow,
     shadowOffset: {
@@ -140,17 +145,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
-  },
-  bgWhite: {
-    backgroundColor: color.white,
-  },
-  bgGreen: {
-    backgroundColor: color.green,
-  },
-  bgBlue: {
-    backgroundColor: color.primary,
-  },
-  bgYellow: {
-    backgroundColor: color.yellow,
   },
 })

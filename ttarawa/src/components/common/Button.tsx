@@ -1,29 +1,36 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
+import {
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  Text,
+  Pressable,
+} from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
-interface Proptypes {
+interface Props {
   text: string
-  style?: string
+  type?: 'transparent' | 'large' | 'tab'
   press: (params: any) => void
+  style?: {
+    container?: StyleProp<ViewStyle>
+    txt?: StyleProp<TextStyle>
+  }
 }
 
-export default function Button({ text, style, press }: Proptypes) {
-  const btnStyle: { btn: object; text: object } =
-    style === 'blue'
-      ? { btn: styles.blueBtn, text: styles.blueBtnText }
-      : style === 'white'
-      ? { btn: styles.whiteBtn, text: styles.whiteBtnText }
-      : style === 'tabSelected'
-      ? { btn: styles.tabSelected, text: styles.tabSelectedText }
-      : { btn: styles.tabBtn, text: styles.tabBtnText }
+export default function Button({
+  text,
+  type = 'transparent',
+  style = {},
+  press,
+}: Props) {
+  const { container: containerStyle = {}, txt: textStyle = {} } = style
+  const btnStyle = [styles.container, styles[type], containerStyle]
+  const textStyles = [styles.text, styles[`${type}Text`], textStyle]
 
   return (
-    <Pressable
-      hitSlop={10}
-      style={[styles.container, btnStyle.btn]}
-      onPress={press}
-    >
-      <Text style={[styles.text, btnStyle.text]}>{text}</Text>
+    <Pressable hitSlop={10} style={btnStyle} onPress={press}>
+      <Text style={textStyles}>{text}</Text>
     </Pressable>
   )
 }
@@ -31,7 +38,6 @@ export default function Button({ text, style, press }: Proptypes) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
@@ -39,51 +45,41 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-
     elevation: 3,
   },
   text: {
     textAlign: 'center',
-    fontSize: 20,
     fontWeight: 'bold',
   },
 
-  blueBtn: {
-    backgroundColor: color.primary,
+  transparent: {
+    backgroundColor: 'transparent',
     padding: 20,
-    marginHorizontal: 20,
-  },
-  blueBtnText: {
-    color: color.white,
-  },
-
-  whiteBtn: {
-    backgroundColor: color.white,
-    padding: 20,
-    marginHorizontal: 20,
     shadowColor: 'transparent',
   },
-  whiteBtnText: {
+
+  transparentText: {
     color: color.primary,
     fontSize: 20,
   },
 
-  tabBtn: {
+  large: {
+    backgroundColor: color.primary,
+    padding: 20,
+  },
+
+  largeText: {
+    color: color.white,
+    fontSize: 20,
+  },
+
+  tab: {
     width: 57,
     backgroundColor: color.white,
     padding: 7,
   },
-  tabBtnText: {
+
+  tabText: {
     fontSize: 15,
-  },
-  tabSelected: {
-    width: 57,
-    backgroundColor: color.secondary,
-    padding: 7,
-  },
-  tabSelectedText: {
-    color: color.primary,
-    fontSize: 15,
-    fontWeight: 'bold',
   },
 })

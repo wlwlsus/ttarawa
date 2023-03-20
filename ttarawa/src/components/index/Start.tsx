@@ -15,12 +15,12 @@ export default function Welcome({ navigation }) {
       <View style={start.introButtons}>
         <Button
           text="시작하기"
-          style="blue"
+          type="large"
           press={() => navigation.navigate('Login')}
         />
         <Button
           text="서비스 둘러보기"
-          style="white"
+          type="transparent"
           press={() => navigation.navigate('Intro')}
         />
       </View>
