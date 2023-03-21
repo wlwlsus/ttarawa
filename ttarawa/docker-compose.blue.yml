@@ -4,6 +4,8 @@ services:
   app:
     image: app:0.1
     container_name: app_blue
+    build:
+      dockerfile: Dockerfile
     environment:
       - "spring_profiles_active=blue"
     ports:
