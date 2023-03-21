@@ -10,12 +10,13 @@ import com.jsdckj.ttarawa.users.entity.UsersInfo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface HistoryService {
 
   // 게시물 저장
-  void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto);
+  void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto) throws IOException;
   // 게시물 1개 조회
   HistoryResDto selectOneHistory(Long userId, Long historyId);
   // 게시물 목록 조회
@@ -62,14 +63,14 @@ public interface HistoryService {
 
 
   // HistoryReqDto to History Entity
-  default History toEntity(Users currentUser, HistoryReqDto historyReqDto){
+  default History toEntity(Users currentUser, HistoryReqDto historyReqDto, String url){
     return History.builder()
         .time(historyReqDto.getTime())
         .distance(historyReqDto.getDistance())
         .content(historyReqDto.getContent())
         .startAddress(historyReqDto.getStartAddress())
         .endAddress(historyReqDto.getEndAddress())
-        .image("")
+        .image(url)
         .users(currentUser)
         .build();
   }

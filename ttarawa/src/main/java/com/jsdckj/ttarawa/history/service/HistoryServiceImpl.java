@@ -1,5 +1,6 @@
 package com.jsdckj.ttarawa.history.service;
 
+import com.jsdckj.ttarawa.file.service.FileUploadService;
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,16 +38,20 @@ public class HistoryServiceImpl implements HistoryService {
   private final UserInfoRepository userInfoRepository;
   private final UserInfoService userInfoService;
   private final FavoriteRepository favoriteRepository;
+  private final FileUploadService fileUploadService;
 
   // 게시물 저장
   @Override
-  public void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto) {
+  public void insertHistory(Long userId, MultipartFile img, HistoryReqDto historyReqDto) throws IOException {
 
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
 
+
+    String url = fileUploadService.uploadFile("history", img);
+
     // 게시물 저장
 
-    historyRepository.save(toEntity(currentUser, historyReqDto));
+    historyRepository.save(toEntity(currentUser, historyReqDto, url));
 
 
     // 내 주행 거리 늘리기
@@ -72,21 +78,6 @@ public class HistoryServiceImpl implements HistoryService {
 
       return toHistoryResDto(getHistory, historyUser, historyUserInfo, favorite);
 
-//      return HistoryResDto.builder()
-//          .historyId(historyId)
-//          .nickname(historyUser.getNickname())
-//          .userId(historyUser.getUsersId())
-//          .profile(historyUser.getProfile())
-//          .badgeImg(historyUserInfo.getBadge().getImage())
-//          .favoritesCount(getHistory.getFavoritesCount())
-//          .isMyFavorite(favorite)
-//          .time(getHistory.getTime())
-//          .distance(getHistory.getDistance())
-//          .image(getHistory.getImage())
-//          .content(getHistory.getContent())
-//          .startAddress(getHistory.getStartAddress())
-//          .endAddress(getHistory.getEndAddress())
-//          .build();
     } else {
       return null;
     }

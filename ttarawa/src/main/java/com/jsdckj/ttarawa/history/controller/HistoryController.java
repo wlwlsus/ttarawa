@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/v1/history/post")
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class HistoryController {
       "time: 초 단위\n\n" +
       "distance: 미터 단위")
   @PostMapping("/{user_id}")
-  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) {
+  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
     historyService.insertHistory(userId, image, historyReqDto);
     return Response.ok("게시물 저장 성공");
   }
