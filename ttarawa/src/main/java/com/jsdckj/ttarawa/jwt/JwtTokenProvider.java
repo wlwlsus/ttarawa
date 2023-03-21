@@ -50,8 +50,8 @@ public class JwtTokenProvider {
 //    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
 
     System.out.println("sout authentication " + authentication.getPrincipal());
-    System.out.println("sout authentication " + authentication);
-    System.out.println("sout authentication " + authentication.getAuthorities());
+//    System.out.println("sout authentication " + authentication);
+//    System.out.println("sout authentication " + authentication.getAuthorities());
     // AccessToken 생성
     Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_EXPIRE_TIME);
 

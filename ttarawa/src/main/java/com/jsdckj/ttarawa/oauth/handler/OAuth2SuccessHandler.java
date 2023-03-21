@@ -55,7 +55,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     String targetUrl = determineTargetUrl(request, response, authentication);
 
     if (response.isCommitted()) {
-      System.out.println("sout 이미 commited?");
       logger.info("Response has already been committed. Unable to redirect to ");
       return;
     }
@@ -94,6 +93,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     Users currentUser = userRepository.findByEmailAndProvider(userInfo.getEmail(), providerType);
 
     UserResDto.TokenInfo tokenInfo = tokenProvider.generateToken(authentication, currentUser.getUserId());
+
+
 
     redisTemplate.opsForValue()
         .set("RT:" + currentUser.getUserId().toString(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);

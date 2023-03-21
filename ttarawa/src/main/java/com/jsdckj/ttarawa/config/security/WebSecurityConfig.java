@@ -3,6 +3,7 @@ package com.jsdckj.ttarawa.config.security;
 import com.jsdckj.ttarawa.jwt.JwtAuthenticationFilter;
 import com.jsdckj.ttarawa.jwt.JwtExceptionFilter;
 import com.jsdckj.ttarawa.jwt.JwtTokenProvider;
+import com.jsdckj.ttarawa.jwt.JwtUtil;
 import com.jsdckj.ttarawa.oauth.CustomOAuth2AuthorizationRequestRepository;
 import com.jsdckj.ttarawa.oauth.CustomOAuth2UserService;
 import com.jsdckj.ttarawa.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
@@ -41,6 +42,7 @@ public class WebSecurityConfig {
 
   private final CustomOAuth2UserService customOAuth2UserService;
   private final UserRepository userRepository;
+//  private final
 
 
   @Bean
@@ -101,6 +103,11 @@ public class WebSecurityConfig {
   @Bean
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public JwtUtil jwtUtil(){
+    return new JwtUtil();
   }
 
   @Bean
