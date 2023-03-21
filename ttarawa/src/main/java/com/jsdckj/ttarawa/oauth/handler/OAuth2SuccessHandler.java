@@ -42,6 +42,9 @@ import static com.jsdckj.ttarawa.oauth.OAuth2AuthorizationRequestBasedOnCookieRe
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+  @Value("${app.oauth2.authorizedRedirectUris}")
+  private String redirectUri;
+
   private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
   private final JwtTokenProvider tokenProvider;
   private final RedisTemplate<String, String> redisTemplate;
@@ -95,7 +98,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     UserResDto.TokenInfo tokenInfo = tokenProvider.generateToken(authentication, currentUser.getUserId());
 
 
-
     redisTemplate.opsForValue()
         .set("RT:" + currentUser.getUserId().toString(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 //    System.out.println("sout redis val " + valueOperations.get("RT:" + currentUser.getUserId().toString()));
@@ -125,7 +127,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
   private boolean isAuthorizedRedirectUri(String uri) {
     URI clientRedirectUri = URI.create(uri);
-    URI authorizedUri = URI.create("http://localhost:3000/oauth/redirect");
+    URI authorizedUri = URI.create(redirectUri);
     System.out.println("sout isAuthorizedRedirectUri " + uri);
     return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
         && authorizedUri.getPort() == clientRedirectUri.getPort();
