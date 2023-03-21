@@ -2,10 +2,6 @@ version: '3.8'
 
 services:
   app:
-    build:
-      dockerfile: Dockerfile
-      args:
-        SERVER_MODE: blue
     image: app:0.2
     container_name: app_green
     environment:
