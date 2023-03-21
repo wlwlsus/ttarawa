@@ -9,6 +9,7 @@ import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 
 interface Props {
+  historyId: number
   // User Info
   userName: string
   userImg: (params: any) => any
@@ -20,12 +21,12 @@ interface Props {
 
   // 공개 여부
   isLock: boolean
-  presslock?: (params: any) => any // 공개, 비공개 전환 함수
+  pressLock?: (params: any) => any // 공개, 비공개 전환 함수
 
   // 좋아요
   likes: number // 좋아요 수
-  isLike: boolean // 좋아요 누른 여부
-  presslike?: (params: any) => any // 좋아요 전환 함수
+  isLike: number | boolean // 좋아요 누른 여부
+  pressLike: (params: any) => any // 좋아요 전환 함수
 
   // 공유 함수
   pressShare?: (params: any) => any
@@ -41,6 +42,8 @@ interface Props {
 }
 
 export default function Card({
+  historyId,
+
   userName,
   userImg,
   rank,
@@ -52,7 +55,7 @@ export default function Card({
 
   likes,
   isLike,
-  // presslike,
+  pressLike,
 
   // pressShare,
   // pressMenu,
@@ -68,16 +71,19 @@ export default function Card({
   const distanceText = `주행 거리 : ${distence}`
   const timeText = `주행 시간 : ${time}`
 
-  // 좋아요 여부 저장 변수 (props로 넘길???)
-  const [like, setLike] = useState(isLike)
+  // setLikes(isLike)
+  // setLikeNum(likes)
 
-  // 좋아요 수 변수
-  const [likeNum, setLikeNum] = useState(likes)
+  // // 좋아요 여부 저장 변수 (props로 넘길???)
+  // const [like, setLike] = useState(isLike)
 
-  const checklike = () => {
-    setLike(!like)
-    like ? setLikeNum(likeNum - 1) : setLikeNum(likeNum + 1)
-  }
+  // // 좋아요 수 변수
+  // const [likeNum, setLikeNum] = useState(likes)
+
+  // const checklike = () => {
+  //   setLike(!like)
+  //   like ? setLikeNum(likeNum - 1) : setLikeNum(likeNum + 1)
+  // }
 
   // 공개, 비공개 여부 변수
   const [lock, setLock] = useState(isLock)
@@ -93,20 +99,9 @@ export default function Card({
         <View style={styles.userInfo}>
           <View style={styles.imgContainer}>
             <Image source={userImg} style={styles.userImg} />
-            {/* <FastImage
-              source={{
-                uri: `file://${userImg}`,
-                // priority: FastImage.priority.normal,
-              }}
-              style={styles.userImg}
-            /> */}
           </View>
           <Text style={styles.userName}>{userName}</Text>
           <Image source={rank} />
-          {/* <Image source={{ uri: rank }} />
-          <FastImage
-            source={{ uri: rank,}}
-          /> */}
         </View>
       ) : null}
 
@@ -138,10 +133,12 @@ export default function Card({
                 <Ionicons
                   name="heart-sharp"
                   size={35}
-                  color={like ? 'crimson' : 'black'} // 좋아요 누르면, 색 변환
+                  color={isLike ? 'crimson' : 'black'} // 좋아요 누르면, 색 변환
                 />
               }
-              press={checklike} // 누르면, true <-> false 함수
+              press={() => {
+                pressLike(historyId)
+              }} // 누르면, true <-> false 함수
             />
             <Text style={styles.likeNum}>{likes}명</Text>
             <Text style={styles.contentText}>

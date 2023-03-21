@@ -11,7 +11,7 @@ export default function SnsCard() {
     badgeImg: string
     image: string // 주행기록
     favoritesCount: number // 좋아요 수
-    isMyFavorite: number // 좋아요 여부  true: 1, false: 0
+    isMyFavorite: number | boolean // 좋아요 여부  true: 1, false: 0
     time: string // 주행 시간
     distance: string // 주행 거리
     content: string // 내용
@@ -30,7 +30,7 @@ export default function SnsCard() {
       badgeImg: '@assets/rank/amateur.png',
       image: '@assets/riding.png',
 
-      favoritesCount: 15,
+      favoritesCount: 11,
       isMyFavorite: 1,
 
       time: '30분',
@@ -47,7 +47,7 @@ export default function SnsCard() {
       badgeImg: '@assets/rank/beginner.png',
       image: '@assets/riding.png',
 
-      favoritesCount: 15,
+      favoritesCount: 12,
       isMyFavorite: 0, // true: 1, false: 0
 
       time: '30분',
@@ -56,59 +56,86 @@ export default function SnsCard() {
       content:
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
-    {
-      historyId: 3,
+    // {
+    //   historyId: 3,
 
-      profile: '@assets/profile.png',
-      nickname: '따르릉예지',
-      badgeImg:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
-      image: '@assets/riding.png',
+    //   profile: '@assets/profile.png',
+    //   nickname: '따르릉예지',
+    //   badgeImg:
+    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
+    //   image: '@assets/riding.png',
 
-      favoritesCount: 15,
-      isMyFavorite: 1, // true: 1, false: 0
+    //   favoritesCount: 13,
+    //   isMyFavorite: 1, // true: 1, false: 0
 
-      time: '30분',
-      distance: '3.5km',
+    //   time: '30분',
+    //   distance: '3.5km',
 
-      content:
-        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    },
-    {
-      historyId: 4,
+    //   content:
+    //     '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    // },
+    // {
+    //   historyId: 4,
 
-      profile: '@assets/profile.png',
-      nickname: '예지경주마',
-      badgeImg:
-        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
-      image: '@assets/riding.png',
+    //   profile: '@assets/profile.png',
+    //   nickname: '예지경주마',
+    //   badgeImg:
+    //     'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+    //   image: '@assets/riding.png',
 
-      favoritesCount: 15,
-      isMyFavorite: 1, // true: 1, false: 0
+    //   favoritesCount: 14,
+    //   isMyFavorite: 1, // true: 1, false: 0
 
-      time: '30분',
-      distance: '3.5km',
+    //   time: '30분',
+    //   distance: '3.5km',
 
-      content:
-        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    },
+    //   content:
+    //     '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    // },
   ]
 
   useEffect(() => {
     // axios
-    setDataLst(datas)
+    const newData: SnsData[] = datas.map((data) => {
+      return {
+        ...data,
+        isMyFavorite: data.isMyFavorite === 1 ? true : false,
+      }
+    })
+    setDataLst(newData)
   }, [])
 
+  const checkLike = (key: number) => {
+    // const check = dataLst.find((data) => data.historyId === key)
+
+    const updateData: SnsData[] = dataLst.map((data) => {
+      if (data.historyId === key) {
+        return {
+          ...data,
+          isMyFavorite: !data.isMyFavorite,
+          favoritesCount: data.isMyFavorite
+            ? data.favoritesCount - 1
+            : data.favoritesCount + 1,
+        }
+      }
+      return data
+    })
+
+    setDataLst(updateData)
+  }
+
+  // console.log(dataLst)
   return (
     <View style={styles.snsContainer}>
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
-          const isLike: boolean = item.isMyFavorite == 1 ? true : false
+          // const isLike: boolean = item.isMyFavorite == 1 ? true : false
 
           return (
             <SNSCard
-              key={item.historyId}
+              // key={item.historyId}
+              historyId={item.historyId}
               // userImg={item.profile}
               userImg={require('@assets/profile.png')}
               userName={item.nickname}
@@ -116,16 +143,18 @@ export default function SnsCard() {
               // rank={require(rank)}
               imagepath={require('@assets/riding.png')}
               likes={item.favoritesCount}
-              isLike={isLike}
+              isLike={item.isMyFavorite}
               distence={item.distance}
               time={item.time}
               content={item.content}
+              pressLike={checkLike}
             />
           )
         }}
         keyExtractor={(item) => item.historyId.toString()}
+        // 끝에까지 닿았다면?
         onEndReached={() => console.log('End reached')}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
       />
     </View>
   )
