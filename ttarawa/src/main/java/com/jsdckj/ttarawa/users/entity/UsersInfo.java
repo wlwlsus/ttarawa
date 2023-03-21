@@ -38,5 +38,15 @@ public class UsersInfo {
   @Column(name = "total_distance", nullable = false)
   private Long totalDistance;
 
+  // 주행 거리 더하기
+  public Long updateTotalDistance(Long distance){
+    this.totalDistance+=distance;
+    return this.totalDistance;
+  }
+
+  public void updateBadge(Badge badge){
+    this.badge = badge;
+  }
+
 
 }

@@ -54,4 +54,14 @@ public class History extends BaseTimeEntity {
     this.content = content;
   }
 
+  // 좋아요 1 증가
+  public void plusFavoritesCount(){
+    ++this.favoritesCount;
+  }
+
+  public void minusFavoritesCount(){
+    --this.favoritesCount;
+  }
+
+
 }

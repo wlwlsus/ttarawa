@@ -1,7 +1,5 @@
 package com.jsdckj.ttarawa.users.entity;
 
-import com.jsdckj.ttarawa.oauth.entity.ProviderType;
-import com.jsdckj.ttarawa.users.enums.Role;
 import com.jsdckj.ttarawa.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,11 +17,11 @@ public class Users extends BaseTimeEntity {
     @Column(name="users_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long userId;
 
-    @Column(name="email", nullable = false)
-    private String email;
+  @Column(name = "email", nullable = false)
+  private String email;
 
-    @Column(name="nickname", nullable = false, length = 15)
-    private String nickname;
+  @Column(name = "nickname", nullable = false, length = 15)
+  private String nickname;
 
     @Column(name="profile")
     private String profile;
@@ -47,3 +45,4 @@ public class Users extends BaseTimeEntity {
 
 
 }
+

@@ -1,14 +1,13 @@
 package com.jsdckj.ttarawa.spot.entity;
 
+import com.jsdckj.ttarawa.info.entity.Category;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "spot")
@@ -34,10 +33,10 @@ public class Spot {
   @Column(name = "visit")
   private int visit;
 
-  @Column(name = "category")
-  private String category;
+  @ManyToOne
+  @JoinColumn(name = "category_id", nullable = false, insertable = false, updatable = false)
+  private Category category;
 
   @Column(name = "sub_category")
   private String sub_category;
-
 }

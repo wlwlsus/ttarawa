@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HistoryReqDto {
 
-    private int personal;
-    private Long time;
-    private Long distance;
-    private String content;
-    private String startAddress;
-    private String endAddress;
+  private int personal;
+  private Long time;
+  private Long distance;
+  private String content;
+  private String startAddress;
+  private String endAddress;
 
 
 
