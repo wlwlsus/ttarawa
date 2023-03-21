@@ -16,11 +16,6 @@ spring:
     username: ssafy605
     password: ssafy605
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 ---
 spring:
   config:
