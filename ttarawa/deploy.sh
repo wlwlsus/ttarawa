@@ -53,8 +53,8 @@ function execute_green(){
 # 현재 사용중인 어플리케이션 확인
 # 8086포트의 값이 없으면 8085포트 사용 중
 # shellcheck disable=SC2046
-RUNNING_GREEN=$(docker inspect --format '{{ .State.Pid }}' app_blue)
-RUNNING_BLUE=$(docker inspect --format '{{ .State.Pid }}' app_green)
+RUNNING_GREEN=$(docker ps -aqf "name=app_blue")
+RUNNING_BLUE=$(docker ps -aqf "name=app_green")
 
 echo ${RUNNING_GREEN}
 echo ${RUNNING_BLUE}
