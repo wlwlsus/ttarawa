@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   db:
+    container_name: ttarawa_db_1
     image: mariadb
     volumes:
       - db-data:/var/lib/mysql
@@ -13,6 +14,7 @@ services:
     ports:
       - "3306:3306"
   redis:
+    container_name: ttarawa_redis_1
     image: redis:6.2.6-alpine
     ports:
       - "6379:6379"
