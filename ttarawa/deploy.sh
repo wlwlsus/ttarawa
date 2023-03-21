@@ -68,18 +68,19 @@ if [ -z ${RUNNING_GREEN} ]
       echo "구동 앱 없음 => BLUE 실행"
 
 
-      docker-compose -p app-blue -f docker-compose.blue.yml up -d
-
-      sleep 10
       create_docker_image_blue
 
+      sleep 10
+
+      docker-compose -p app-blue -f docker-compose.blue.yml up -d
+	  
     else
       # 8086포트로 어플리케이션 구동
       echo "BLUE:8085 실행 중"
 
+      create_docker_image_green
 
       execute_green
-      create_docker_image_green
 
     fi
 else
@@ -88,9 +89,9 @@ else
 
     echo "BLUE:8085 실행"
 
+    create_docker_image_blue
 
     execute_blue
-    create_docker_image_blue
 
 fi
 
