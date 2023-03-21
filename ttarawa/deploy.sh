@@ -4,9 +4,9 @@ function create_docker_image_blue(){
 
   echo "> blue docker image 만들기"
 
-  ./gradlew clean build
-
   docker build -t app:0.1 .
+
+  ./gradlew clean build
 
 }
 
@@ -14,9 +14,9 @@ function create_docker_image_green(){
 
   echo "> green docker image 만들기"
 
-  ./gradlew clean build
-
   docker build -t app:0.2 .
+
+  ./gradlew clean build
 }
 
 function execute_blue(){
@@ -71,6 +71,7 @@ if [ -z ${RUNNING_GREEN} ]
       docker-compose -p app-blue -f docker-compose.blue.yml up -d
 
       sleep 10
+	  
       create_docker_image_blue
 
     else
@@ -79,6 +80,7 @@ if [ -z ${RUNNING_GREEN} ]
 
 
       execute_green
+	  
       create_docker_image_green
 
     fi
@@ -90,6 +92,7 @@ else
 
 
     execute_blue
+	
     create_docker_image_blue
 
 fi
