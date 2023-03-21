@@ -2,6 +2,7 @@ package com.jsdckj.ttarawa.file.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,11 @@ public class FileUploadServiceImpl implements FileUploadService {
     File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
         .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
     return upload(uploadFile, dirName);
+  }
+
+  @Override
+  public void deleteFile(String dirName) {
+//    amazonS3Client.deleteObject(new DeleteObjectRequest());
   }
 
   public String upload(File uploadFile, String filePath) {

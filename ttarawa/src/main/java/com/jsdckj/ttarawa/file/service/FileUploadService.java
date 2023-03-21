@@ -7,5 +7,5 @@ import java.io.IOException;
 public interface FileUploadService {
 
   String uploadFile(String dirName, MultipartFile multipartFile) throws IOException;
-
+  void deleteFile(String dirName);
 }
