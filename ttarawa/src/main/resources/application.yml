@@ -1,9 +1,9 @@
 spring:
-#  profiles:
-#    group:
-#      "blue" : "blue"
-#      "green" : "green"
-#    default: "blue"
+  profiles:
+    group:
+      "blue" : "blue"
+      "green" : "green"
+    default: "blue"
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,13 +16,13 @@ spring:
     username: ssafy605
     password: ssafy605
 
-#---
-#spring:
-#  config:
-#    activate:
-#      on-profile: blue
-#---
-#spring:
-#  config:
-#    activate:
-#      on-profile: green
+---
+spring:
+  config:
+    activate:
+      on-profile: blue
+---
+spring:
+  config:
+    activate:
+      on-profile: green
