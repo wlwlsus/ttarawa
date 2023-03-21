@@ -5,19 +5,24 @@ import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
 import com.jsdckj.ttarawa.history.service.FavoriteService;
 import com.jsdckj.ttarawa.history.service.HistoryService;
+import com.jsdckj.ttarawa.jwt.JwtUtil;
 import com.jsdckj.ttarawa.util.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
+import static com.jsdckj.ttarawa.jwt.JwtProperties.TOKEN_HEADER;
 
 @RestController
 @RequestMapping("/api/v1/history/post")
@@ -26,6 +31,7 @@ import java.io.IOException;
 public class HistoryController {
 
   private final HistoryService historyService;
+  private final JwtUtil jwtUtil;
   // post //
 
   // 게시물 저장
@@ -48,8 +54,8 @@ public class HistoryController {
       "distance: 미터단위\n\n" +
       "image: 게시물 이미지\n\n")
   @GetMapping("/detail/{history_id}")
-  public ResponseEntity<?> selectOneHistory(@PathVariable("history_id") Long historyId) {
-    Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
+  public ResponseEntity<?> selectOneHistory(HttpServletRequest request, @PathVariable("history_id") Long historyId) {
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER)); // 현재 유저 가져오기
     HistoryResDto historyResDto = historyService.selectOneHistory(userId, historyId);
     if (historyResDto != null) {
       return Response.makeResponse(HttpStatus.OK, "게시물 상세 조회 성공", historyResDto);
