@@ -15,9 +15,6 @@ spring:
     username: ssafy605
     password: ssafy605
 
-server:
-  port: 8085
-
 #---
 #spring:
 #  config:
