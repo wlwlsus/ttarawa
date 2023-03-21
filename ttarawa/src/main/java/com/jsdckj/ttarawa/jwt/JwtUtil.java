@@ -18,6 +18,10 @@ public class JwtUtil {
     return claims.getBody().get("userId",Long.class);
   }
 
+  public Long getUserIdAtService(String token){
+    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+    return claims.getBody().get("userId",Long.class);
+  }
 
 
 }

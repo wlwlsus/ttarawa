@@ -37,10 +37,7 @@ public class UserController {
       return Response.badRequest("토큰 재발급 실패");
     }
 
-    if(userService.reissue(reissue))
-      return Response.ok("토큰 재발급 성공");
-    else
-      return Response.badRequest("토큰 재발급 실패");
+    return userService.reissue(reissue);
 
   }
 
@@ -50,11 +47,7 @@ public class UserController {
       return Response.badRequest("로그아웃 실패");
     }
     
-    if(userService.logout(logout)){
-      return Response.ok("로그아웃 성공");
-    }
-    else
-      return Response.badRequest("로그아웃 실패");
+    return userService.logout(logout);
   }
 
   @GetMapping("/{user_id}")

@@ -13,8 +13,8 @@ public interface UserService {
 
 
   // 토큰 재발급
-  boolean reissue(UserReqDto.Reissue reissue);
-  boolean logout(UserReqDto.Logout logout);
+  ResponseEntity<?> reissue(UserReqDto.Reissue reissue);
+  ResponseEntity<?> logout(UserReqDto.Logout logout);
 
   UserInfoResDto getUserInfo(Long userId);
   void updateNickname(Long userId, String nickname);

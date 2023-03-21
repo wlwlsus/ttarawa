@@ -11,6 +11,7 @@ import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.entity.UsersInfo;
 import com.jsdckj.ttarawa.users.repository.UserInfoRepository;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
+import com.jsdckj.ttarawa.util.Response;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -49,28 +50,28 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean reissue(UserReqDto.Reissue reissue) {
+    public ResponseEntity<?> reissue(UserReqDto.Reissue reissue) {
 
         // 1. Refresh Token 검증
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
-            return false;
+            return Response.badRequest("Refresh Token 정보가 유효하지 않습니다");
         }
 
 
         // 2. Access Token에서 정보 가져오기 <????
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
-        Long userId = getUserIdAtService(reissue.getAccessToken());
+        Long userId = jwtUtil.getUserIdAtService(reissue.getAccessToken());
 
         //3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져온다
         String refreshToken = redisTemplate.opsForValue().get("RT:" + userId.toString());
 
         // 로그아웃 되어 Redis에 refresh token이 존재하지 않는 경우 처리
         if (ObjectUtils.isEmpty(refreshToken)) {
-            return false;
+            return Response.badRequest("잘못된 요청입니다");
         }
         if (!refreshToken.equals(reissue.getRefreshToken())) {
-            return false;
+            return Response.badRequest("Refresh Token 정보가 일치하지 않습니다");
         }
 
 
@@ -81,20 +82,20 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForValue()
                 .set("RT:" + userId, tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
         System.out.println("sout refresh token reissue "+tokenInfo.getRefreshToken());
-        return true;
+        return Response.makeResponse(HttpStatus.OK,"Token 재발급 성공", tokenInfo);
     }
 
     @Override
-    public boolean logout(UserReqDto.Logout logout) {
+    public ResponseEntity<?> logout(UserReqDto.Logout logout) {
 
         // 1. Access Token 검증
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
-            return false;
+            return Response.badRequest("잘못된 요청입니다");
         }
 
         // 2. Access Token에서 user
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
-        Long userId = getUserIdAtService(logout.getAccessToken());
+        Long userId = jwtUtil.getUserIdAtService(logout.getAccessToken());
 
 //        Long userIdInAccessToken =
         if (redisTemplate.opsForValue().get("RT:" + userId.toString()) != null) {
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForValue()
                 .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
-        return true;
+        return Response.ok("로그아웃 성공");
     }
 
     // 내 정보 반환
@@ -138,12 +139,6 @@ public class UserServiceImpl implements UserService {
         Users currentUser = userRepository.findById(userId).get();
         String url = fileUploadService.uploadFile("profile", multipartFile);
         currentUser.updateUserProfile(url);
-    }
-
-    public Long getUserIdAtService(String token){
-        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-        return claims.getBody().get("userId",Long.class);
-
     }
 
 
