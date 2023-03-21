@@ -25,7 +25,7 @@ public class Users extends BaseTimeEntity {
     @Column(name="nickname", nullable = false, length = 15)
     private String nickname;
 
-    @Column(name="profile", nullable = false)
+    @Column(name="profile")
     private String profile;
 
     @Column(name="provider", nullable = false, length = 15)
@@ -38,6 +38,10 @@ public class Users extends BaseTimeEntity {
 
     public void updateUserNickname(String nickname){
         this.nickname = nickname;
+    }
+
+    public void updateUserProfile(String profile){
+        this.profile = profile;
     }
 
 

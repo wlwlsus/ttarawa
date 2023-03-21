@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.users.service;
 
 
+import com.jsdckj.ttarawa.file.service.FileUploadService;
 import com.jsdckj.ttarawa.jwt.JwtTokenProvider;
 import com.jsdckj.ttarawa.users.dto.req.UserReqDto;
 import com.jsdckj.ttarawa.users.dto.res.UserInfoResDto;
@@ -18,7 +19,9 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
+    private final FileUploadService fileUploadService;
 
 
     @Override
@@ -112,6 +116,13 @@ public class UserServiceImpl implements UserService {
     public void updateNickname(Long userId, String nickname) {
         Users user = userRepository.findById(userId).get();
         user.updateUserNickname(nickname);
+    }
+
+    @Override
+    public void updateProfile(Long userId, MultipartFile multipartFile) throws IOException {
+        Users currentUser = userRepository.findById(userId).get();
+        String url = fileUploadService.uploadFile("profile", multipartFile);
+        currentUser.updateUserProfile(url);
     }
 
 

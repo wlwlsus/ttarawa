@@ -5,6 +5,9 @@ import com.jsdckj.ttarawa.users.dto.req.UserReqDto;
 import com.jsdckj.ttarawa.users.dto.res.UserInfoResDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface UserService {
 
@@ -15,7 +18,7 @@ public interface UserService {
 
   UserInfoResDto getUserInfo(Long userId);
   void updateNickname(Long userId, String nickname);
-
+  void updateProfile(Long userId, MultipartFile multipartFile) throws IOException;
 
 
 }
