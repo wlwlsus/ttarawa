@@ -95,11 +95,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     System.out.println("sout email " + userInfo.getEmail());
     Users currentUser = userRepository.findByEmailAndProvider(userInfo.getEmail(), providerType);
 
-    UserResDto.TokenInfo tokenInfo = tokenProvider.generateToken(authentication, currentUser.getUserId());
+    UserResDto.TokenInfo tokenInfo = tokenProvider.generateToken(authentication, currentUser.getUsersId());
 
 
     redisTemplate.opsForValue()
-        .set("RT:" + currentUser.getUserId().toString(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        .set("RT:" + currentUser.getUsersId().toString(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 //    System.out.println("sout redis val " + valueOperations.get("RT:" + currentUser.getUserId().toString()));
     int cookieMaxAge = (int) REFRESH_TOKEN_EXPIRE_TIME / 60;
 

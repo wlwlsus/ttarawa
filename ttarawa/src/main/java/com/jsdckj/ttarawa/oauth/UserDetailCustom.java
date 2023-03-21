@@ -53,7 +53,7 @@ public class UserDetailCustom implements OAuth2User, OidcUser {
 
   public static UserDetailCustom create(Users user){
     System.out.println("sout create 1");
-    System.out.println(user.getUserId()+" "+user.getNickname());
+    System.out.println(user.getUsersId()+" "+user.getNickname());
     return new UserDetailCustom(
       user
     );
