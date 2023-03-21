@@ -4,7 +4,8 @@ services:
   app:
     image: app:0.2
     container_name: app_green
-    environment:
-      - "spring_profiles_active=green"
+#    environment:
+#      - "spring_profiles_active=green"
     ports:
-      - "8086:8086"
+      - "8086:8080"
+#      - "8086:8086"
