@@ -11,6 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/ttarawa/notification.png",
+      "color": "#ffffff"
+    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true

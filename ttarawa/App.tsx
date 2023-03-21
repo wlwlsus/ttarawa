@@ -1,8 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
-import { Text } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 import IndexStackScreen from '@navigations/Intro'
 import MainStackScreen from '@navigations/Main'
@@ -13,6 +12,28 @@ import SnsHeader from '@components/header/SnsHeader'
 import { color, styles } from '@styles/GlobalStyles'
 
 import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
+
+import * as Notifications from 'expo-notifications'
+
+// 알람을 누르면 수행할 동작
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+})
+
+// 기존 채널 삭제 및 따라와 채널로 추가
+if (Platform.OS === 'android') {
+  Notifications.deleteNotificationChannelAsync(
+    'expo_notifications_fallback_notification_channel',
+  )
+  Notifications.setNotificationChannelAsync('default', {
+    name: '따라와',
+    importance: Notifications.AndroidImportance.HIGH,
+  })
+}
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -80,8 +101,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Index"
-        // initialRouteName="Tabs"
+        // initialRouteName="Index"
+        initialRouteName="Tabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Index" component={IndexStackScreen} />
