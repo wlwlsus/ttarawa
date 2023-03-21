@@ -9,13 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
+@Table(name="users")
 public class Users extends BaseTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "users_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
-  private Long usersId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="users_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+    private Long userId;
 
   @Column(name = "email", nullable = false)
   private String email;
@@ -23,11 +23,26 @@ public class Users extends BaseTimeEntity {
   @Column(name = "nickname", nullable = false, length = 15)
   private String nickname;
 
-  @Column(name = "profile", nullable = true)
-  private String profile;
+    @Column(name="profile")
+    private String profile;
 
-  @Column(name = "provider", nullable = false, length = 15)
-  private String provider;
+    @Column(name="provider", nullable = false, length = 15)
+    @Enumerated(EnumType.STRING)
+    private ProviderType provider;
+
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public void updateUserNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateUserProfile(String profile){
+        this.profile = profile;
+    }
+
+
 
 }
 
