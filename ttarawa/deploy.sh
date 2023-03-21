@@ -56,6 +56,9 @@ function execute_green(){
 RUNNING_GREEN=$(sudo lsof -ti tcp:8086)
 RUNNING_BLUE=$(sudo lsof -ti tcp:8085)
 
+echo ${RUNNING_GREEN}
+echo ${RUNNING_BLUE}
+
 # Blue or Green
 if [ -z ${RUNNING_GREEN} ]
   then
