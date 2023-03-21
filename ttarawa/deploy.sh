@@ -53,8 +53,8 @@ function execute_green(){
 # 현재 사용중인 어플리케이션 확인
 # 8086포트의 값이 없으면 8085포트 사용 중
 # shellcheck disable=SC2046
-RUNNING_GREEN=$(sudo lsof -ti tcp:8086)
-RUNNING_BLUE=$(sudo lsof -ti tcp:8085)
+RUNNING_GREEN=$(docker inspect --format '{{ .State.Pid }}' app_blue)
+RUNNING_BLUE=$(docker inspect --format '{{ .State.Pid }}' app_blue)
 
 echo ${RUNNING_GREEN}
 echo ${RUNNING_BLUE}
