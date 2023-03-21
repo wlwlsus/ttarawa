@@ -1,4 +1,4 @@
-#!/user/bin/env bash
+#!/bin/bash
 
 function create_docker_image_blue(){
 
