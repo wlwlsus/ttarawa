@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  db:
+    image: mariadb
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ssafy605
+      - MYSQL_DATABASE=ssafy605
+      - MYSQL_USER=ssafy605
+      - MYSQL_PASSWORD=ssafy605
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis:6.2.6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - /host/system/path:/container/path
   app:
     image: app:0.1
     container_name: app_blue
@@ -8,3 +25,15 @@ services:
       - "spring_profiles_active=blue"
     ports:
       - "8085:8085"
+    volumes:
+      - ./ttarawa:/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
+      - SPRING_DATASOURCE_USERNAME=ssafy605
+      - SPRING_DATASOURCE_PASSWORD=ssafy605
+      - REDIS_HOST=redis
+volumes:
+    db-data:
