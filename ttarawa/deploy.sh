@@ -53,11 +53,11 @@ function execute_green(){
 # 현재 사용중인 어플리케이션 확인
 # 8086포트의 값이 없으면 8085포트 사용 중
 # shellcheck disable=SC2046
-RUNNING_GREEN=$(sudo lsof -ti tcp:8086)
-RUNNING_BLUE=$(sudo lsof -ti tcp:8085)
+RUNNING_GREEN=$(lsof -ti tcp:8086)
+RUNNING_BLUE=$(lsof -ti tcp:8085)
 
-echo $(sudo lsof -ti tcp:8086)
-echo $(sudo lsof -ti tcp:8085)
+echo $(lsof -ti tcp:8086)
+echo $(lsof -ti tcp:8085)
 
 # Blue or Green
 if [ -z ${RUNNING_GREEN} ]
