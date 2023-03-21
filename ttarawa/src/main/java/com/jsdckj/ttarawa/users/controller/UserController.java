@@ -83,7 +83,7 @@ public class UserController {
       return Response.badRequest("사용자 불일치");
     }
     userService.updateProfile(userId, multipartFile);
-    return Response.ok("");
+    return Response.ok("프로필 사진 변경 성공");
   }
 
   @DeleteMapping("/profile/{user_id}")
