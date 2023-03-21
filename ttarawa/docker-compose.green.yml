@@ -7,4 +7,4 @@ services:
     environment:
       - "spring_profiles_active=green"
     ports:
-      - "8086:8086"
+      - "8081:8081"
