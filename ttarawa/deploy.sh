@@ -51,7 +51,7 @@ function execute_green(){
 }
 
 # 현재 사용중인 어플리케이션 확인
-# 8082포트의 값이 없으면 8081포트 사용 중
+# 8086포트의 값이 없으면 8085포트 사용 중
 # shellcheck disable=SC2046
 RUNNING_GREEN=$(lsof -ti tcp:8086)
 RUNNING_BLUE=$(lsof -ti tcp:8085)
@@ -71,7 +71,7 @@ if [ -z ${RUNNING_GREEN} ]
       docker-compose -p app-blue -f docker-compose.blue.yml up -d
 
     else
-      # 8082포트로 어플리케이션 구동
+      # 8086포트로 어플리케이션 구동
       echo "BLUE:8085 실행 중"
 
       create_docker_image_green
@@ -80,7 +80,7 @@ if [ -z ${RUNNING_GREEN} ]
 
     fi
 else
-    # 8081포트로 어플리케이션 구동
+    # 8085포트로 어플리케이션 구동
     echo "GREEN:8086 실행 중"
 
     echo "BLUE:8085 실행"
