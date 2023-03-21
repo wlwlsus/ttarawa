@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    group:
+      "blue" : "blue"
+      "green" : "green"
+    default: "blue"
   jpa:
     hibernate:
       ddl-auto: update
@@ -10,3 +15,18 @@ spring:
     url: jdbc:mariadb://localhost:3306/ssafy605
     username: root
     password: root
+
+---
+spring:
+  config:
+    activate:
+      on-profile: blue
+server:
+  port: 8085
+---
+spring:
+  config:
+    activate:
+      on-profile: green
+server:
+  port: 8086
