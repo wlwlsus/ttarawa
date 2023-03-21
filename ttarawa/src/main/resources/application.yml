@@ -3,7 +3,6 @@ spring:
     group:
       "blue" : "blue"
       "green" : "green"
-    default: "blue"
   jpa:
     hibernate:
       ddl-auto: update
