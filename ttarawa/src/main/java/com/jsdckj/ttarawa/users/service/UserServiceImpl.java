@@ -1,6 +1,5 @@
 package com.jsdckj.ttarawa.users.service;
 
-
 import com.jsdckj.ttarawa.file.service.FileService;
 import com.jsdckj.ttarawa.jwt.JwtTokenProvider;
 import com.jsdckj.ttarawa.jwt.JwtUtil;
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
         Long userId = jwtUtil.getUserIdAtService(reissue.getAccessToken());
 
         //3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져온다
-        String refreshToken = redisTemplate.opsForValue().get("RT:" + userId.toString());
+        String refreshToken = redisTemplate.opsForValue().get(userId.toString());
 
         // 로그아웃 되어 Redis에 refresh token이 존재하지 않는 경우 처리
         if (ObjectUtils.isEmpty(refreshToken)) {
@@ -99,8 +98,11 @@ public class UserServiceImpl implements UserService {
 
         // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
+//        refreshTokenRepository.logout(logout.getAccessToken(), expiration);
         redisTemplate.opsForValue()
                 .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+
+//        refreshTokenRepository.save();
 
         return Response.ok("로그아웃 성공");
     }
