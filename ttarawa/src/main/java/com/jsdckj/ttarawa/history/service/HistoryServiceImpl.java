@@ -73,7 +73,7 @@ public class HistoryServiceImpl implements HistoryService {
       UsersInfo historyUserInfo = userInfoRepository.findByUsers(historyUser); // 작성한 사람 정보
       int favorite = (favoriteRepository.findByUsersAndHistory(currentUser, getHistory).isPresent()) ? 1 : 0; // 내가 좋아요를 눌렀는지
 
-      return toHistoryResDto(getHistory, historyUser, historyUserInfo, favorite);
+      return toHistoryResDto(getHistory, historyUser, historyUserInfo, favorite, userId);
 
     } else {
       return null;
@@ -92,7 +92,7 @@ public class HistoryServiceImpl implements HistoryService {
             history,
             history.getUsers(),
             userInfoRepository.findByUsers(history.getUsers()),
-            favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0))
+            favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0, userId))
         .collect(Collectors.toList());
 
     return historyResDtoList;

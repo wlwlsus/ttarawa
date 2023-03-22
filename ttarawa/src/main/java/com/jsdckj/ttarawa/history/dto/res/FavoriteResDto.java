@@ -19,6 +19,7 @@ public class FavoriteResDto {
   private Long time;
   private String startAddress;
   private String endAddress;
+  private int isMyHistory;
 
 
 

@@ -24,6 +24,7 @@ public class HistoryResDto {
   private String content;
   private String startAddress;
   private String endAddress;
+  private int isMyHistory;
 
 
 }

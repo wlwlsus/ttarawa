@@ -29,7 +29,7 @@ public interface HistoryService {
   void deleteHistory(Long userId, Long historyId);
 
   // Entity to HistoryResDto
-  default HistoryResDto toHistoryResDto(History history, Users historyUser, UsersInfo historyUserInfo, int isMyFavorite) {
+  default HistoryResDto toHistoryResDto(History history, Users historyUser, UsersInfo historyUserInfo, int isMyFavorite, Long userId) {
     return HistoryResDto.builder()
         .historyId(history.getHistoryId())
         .userId(historyUser.getUsersId())
@@ -44,6 +44,7 @@ public interface HistoryService {
         .content(history.getContent())
         .startAddress(history.getStartAddress())
         .endAddress(history.getEndAddress())
+        .isMyHistory(userId==history.getUsers().getUsersId() ? 1:0)
         .build();
 
   }

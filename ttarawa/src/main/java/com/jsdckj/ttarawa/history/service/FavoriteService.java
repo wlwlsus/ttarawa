@@ -31,6 +31,7 @@ public interface FavoriteService {
         .time(history.getTime())
         .startAddress(history.getStartAddress())
         .endAddress(history.getEndAddress())
+        .isMyHistory(favorites.getUsers().getUsersId()==history.getUsers().getUsersId() ? 1:0)
         .build();
   }
 
