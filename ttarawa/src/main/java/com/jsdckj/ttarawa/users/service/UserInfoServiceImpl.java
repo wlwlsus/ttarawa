@@ -24,13 +24,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     // 주행 거리에 따라 뱃지 업데이트
     UsersInfo usersInfo = userInfoRepository.findByUsers(user);
 
-    if (totalDistance < 10L) {
+    if (totalDistance < 1000000L) {
       usersInfo.updateBadge(badgeRepository.findById(1L).get());
-    } else if (totalDistance < 20L) {
+    } else if (totalDistance < 2000000) {
       usersInfo.updateBadge(badgeRepository.findById(2L).get());
-    } else if (totalDistance < 40L) {
+    } else if (totalDistance < 4000000) {
       usersInfo.updateBadge(badgeRepository.findById(3L).get());
-    } else if (totalDistance < 60L) {
+    } else if (totalDistance < 5000000) {
       usersInfo.updateBadge(badgeRepository.findById(4L).get());
     } else {
       usersInfo.updateBadge(badgeRepository.findById(5L).get());
