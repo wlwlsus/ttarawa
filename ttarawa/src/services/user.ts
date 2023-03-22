@@ -38,6 +38,15 @@ const updateNickname = async (nickname: string): Promise<object> => {
     .catch((err) => Promise.reject(err.data))
 }
 
+const updateProfile = async (image: FormData): Promise<object> => {
+  return await apiRequest
+    .put(`user/profile`, { image })
+    .then((res) => {
+      return Promise.resolve(res.data.message)
+    })
+    .catch((err) => Promise.reject(err.data))
+}
+
 // DELETE Request
 const deleteProfile = async (): Promise<object> => {
   return await apiRequest
@@ -53,6 +62,7 @@ const user = {
   fetchRide,
   fetchLikes,
   updateNickname,
+  updateProfile,
   deleteProfile,
 }
 
