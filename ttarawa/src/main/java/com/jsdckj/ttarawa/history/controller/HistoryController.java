@@ -44,8 +44,10 @@ public class HistoryController {
       "personal: 1: 비공개, 0: 공개\n\n" +
       "time: 초 단위\n\n" +
       "distance: 미터 단위")
-  @PostMapping(value = "/{user_id}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
+  @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<?> insertHistory(HttpServletRequest request, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+
     historyService.insertHistory(userId, image, historyReqDto);
     return Response.ok("게시물 저장 성공");
   }
@@ -88,8 +90,9 @@ public class HistoryController {
 
   // 내 주행기록 조회
   @Operation(summary = "내 주행 기록 목록 조회 API", description = "~~?page=0 -> 0부터 시작")
-  @GetMapping("/{user_id}")
-  public ResponseEntity<?> selectAllMyHistory(@PathVariable("user_id") Long userId, @PageableDefault(sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable){
+  @GetMapping
+  public ResponseEntity<?> selectAllMyHistory(HttpServletRequest request, @PageableDefault(sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable){
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
 
     return Response.makeResponse(HttpStatus.OK, "내 주행 기록 조회에 성공했습니다", historyService.selectAllMyHistory(userId, pageable));
 
@@ -98,8 +101,10 @@ public class HistoryController {
 
   // 게시물 수정
   @Operation(summary = "게시물 수정 API", description = "personal: 1: 비공개, 0: 공개")
-  @PutMapping("/{user_id}")
-  public ResponseEntity<?> updateHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq) {
+  @PutMapping
+  public ResponseEntity<?> updateHistory(HttpServletRequest request, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq) {
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+
     if (historyService.updateHistory(userId, historyId, historyUpdateReq))
       return Response.ok("게시물 수정 성공");
     else
@@ -109,8 +114,10 @@ public class HistoryController {
 
   // 게시물 삭제
   @Operation(summary = "게시물 삭제 API")
-  @DeleteMapping("/{user_id}")
-  public ResponseEntity<?> deleteHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
+  @DeleteMapping
+  public ResponseEntity<?> deleteHistory(HttpServletRequest request, @RequestParam("history_id") Long historyId) {
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+
     historyService.deleteHistory(userId, historyId);
     return Response.ok("게시물 삭제 성공");
   }
