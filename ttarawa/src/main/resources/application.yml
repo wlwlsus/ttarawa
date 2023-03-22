@@ -1,8 +1,4 @@
 spring:
-#  profiles:
-#    group:
-#      "blue" : "blue"
-#      "green" : "green"
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,13 +13,19 @@ spring:
 
 server:
   port: 8080
-#---
-#spring:
-#  config:
-#    activate:
-#      on-profile: blue
-#---
-#spring:
-#  config:
-#    activate:
-#      on-profile: green
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "info"
+          - "health"
+          - "httptrace"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  info:
+    git:
+      mode: SIMPLE # FULL or SIMPLE
