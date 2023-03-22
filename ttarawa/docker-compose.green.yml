@@ -13,3 +13,4 @@ services:
 
 networks:
   ttarawa-net:
+    name: ttarawa-net
