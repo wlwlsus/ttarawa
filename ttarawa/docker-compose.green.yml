@@ -8,3 +8,8 @@ services:
       - "spring_profiles_active=green"
     ports:
       - "8086:8080"
+    networks:
+      - ttarawa-net
+
+networks:
+  ttarawa-net:
