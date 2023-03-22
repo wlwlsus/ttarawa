@@ -10,6 +10,12 @@ spring:
     url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
     username: ssafy605
     password: ssafy605
+  # redis
+  data:
+    redis:
+      host: j8a605.p.ssafy.io
+      #      host: localhost
+      port: 6379
 
 server:
   port: 8080
