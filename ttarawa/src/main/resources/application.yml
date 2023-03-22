@@ -19,13 +19,13 @@ management:
     web:
       exposure:
         include:
-          - "info"
+          - "httpexchanges"
           - "health"
-          - "httptrace"
   endpoint:
     health:
       enabled: true
       show-details: always
-  info:
-    git:
-      mode: SIMPLE # FULL or SIMPLE
+
+  httpexchanges:
+    recording:
+      enabled: true
