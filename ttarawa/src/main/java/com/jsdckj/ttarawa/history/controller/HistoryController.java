@@ -82,14 +82,15 @@ public class HistoryController {
       "    \"createdDate,desc 또는 favoritesCount,desc 중 하나\"\n" +
       "  ]\n\n" +
       "}")
-  @GetMapping
-  public ResponseEntity<?> selectAllHistory(Pageable pageable) {
-    Long userId = 38L; // 현재 유저 가져오기 -> jwt 복호화 하는 메소드 추가 해야함
+  @GetMapping("/all")
+  public ResponseEntity<?> selectAllHistory(HttpServletRequest request, Pageable pageable) {
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER)); // 현재 유저 가져오기
     return Response.makeResponse(HttpStatus.OK, "게시물 조회에 성공했습니다", historyService.selectAllHistory(userId, pageable));
   }
 
   // 내 주행기록 조회
-  @Operation(summary = "내 주행 기록 목록 조회 API", description = "~~?page=0 -> 0부터 시작")
+  @Operation(summary = "내 주행 기록 목록 조회 API", description = "~~?page=0 -> 0부터 시작 \n\n" +
+      "swagger에서 test시 sort는 sort:[] 상태로 요청해야 함")
   @GetMapping
   public ResponseEntity<?> selectAllMyHistory(HttpServletRequest request, @PageableDefault(sort="createdDate",direction= Sort.Direction.DESC) Pageable pageable){
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));

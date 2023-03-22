@@ -67,7 +67,7 @@ public class UserController {
 
 
   @Operation(summary = "닉네임 변경 API")
-  @PutMapping("/nickname}")
+  @PutMapping("/nickname")
   public ResponseEntity<?> updateUserNickname(HttpServletRequest request, @RequestBody UserNicknameReqDto userNicknameReqDto) {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
 
@@ -84,7 +84,7 @@ public class UserController {
     return Response.ok("프로필 사진 변경 성공");
   }
 
-  @Operation(summary = "프로필 사진 샥제 API")
+  @Operation(summary = "프로필 사진 삭제 API")
   @DeleteMapping("/profile")
   public ResponseEntity<?> deleteProfile(HttpServletRequest request) {
 

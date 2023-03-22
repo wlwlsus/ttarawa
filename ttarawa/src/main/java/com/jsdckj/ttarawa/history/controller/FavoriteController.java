@@ -38,7 +38,8 @@ public class FavoriteController {
   }
 
   // 좋아요한 게시글 목록 조회
-  @Operation(summary = "좋아요 목록 조회 API", description = "~~?page=0 (0부터 시작)")
+  @Operation(summary = "좋아요 목록 조회 API", description = "~~?page=0 (0부터 시작),\n\n" +
+      "swagger에서 test시 sort는 sort:[] 상태로 요청해야 함")
   @GetMapping
   public ResponseEntity<?> selectAllFavoriteHistory(HttpServletRequest request, Pageable pageable) {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));

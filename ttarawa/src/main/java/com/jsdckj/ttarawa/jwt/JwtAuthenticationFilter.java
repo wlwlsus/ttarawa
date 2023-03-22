@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
   private String resolveToken(HttpServletRequest request){
     String token = request.getHeader(TOKEN_HEADER);
 
-    System.out.println("header token "+token);
+//    System.out.println("header token "+token);
 
 
     if(StringUtils.hasText(token) && token.startsWith("Bearer")){
