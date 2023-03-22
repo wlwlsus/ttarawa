@@ -1,7 +1,7 @@
 package com.jsdckj.ttarawa.users.service;
 
 
-import com.jsdckj.ttarawa.file.service.FileUploadService;
+import com.jsdckj.ttarawa.file.service.FileService;
 import com.jsdckj.ttarawa.jwt.JwtTokenProvider;
 import com.jsdckj.ttarawa.jwt.JwtUtil;
 import com.jsdckj.ttarawa.users.dto.req.UserReqDto;
@@ -12,24 +12,18 @@ import com.jsdckj.ttarawa.users.entity.UsersInfo;
 import com.jsdckj.ttarawa.users.repository.UserInfoRepository;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
 import com.jsdckj.ttarawa.util.Response;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -45,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
-    private final FileUploadService fileUploadService;
+    private final FileService fileService;
     private final JwtUtil jwtUtil;
 
 
@@ -137,8 +131,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateProfile(Long userId, MultipartFile multipartFile) throws IOException {
         Users currentUser = userRepository.findById(userId).get();
-        String url = fileUploadService.uploadFile("profile", multipartFile);
+        String currentProfile = currentUser.getProfile();
+        System.out.println(currentProfile);
+
+        if(currentProfile!=null && currentProfile.startsWith("https://ttarawa-bucket.s3.ap-northeast-2.amazonaws.com")){
+            fileService.deleteFile("profile", currentProfile);
+        }
+
+        String url = fileService.uploadFile("profile", multipartFile);
         currentUser.updateUserProfile(url);
+    }
+
+    @Override
+    public void deleteProfile(Long userId) {
+        Users currentUser = userRepository.findById(userId).get();
+        String currentProfile = currentUser.getProfile();
+
+        if(currentProfile!=null && currentProfile.startsWith("https://ttarawa-bucket.s3.ap-northeast-2.amazonaws.com")){
+            fileService.deleteFile("profile", currentProfile);
+        }
+
+        currentUser.updateUserProfile(null);
     }
 
 

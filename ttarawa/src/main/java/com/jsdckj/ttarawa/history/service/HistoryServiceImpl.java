@@ -1,11 +1,10 @@
 package com.jsdckj.ttarawa.history.service;
 
-import com.jsdckj.ttarawa.file.service.FileUploadService;
+import com.jsdckj.ttarawa.file.service.FileService;
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
 import com.jsdckj.ttarawa.history.dto.res.MyHistoryResDto;
-import com.jsdckj.ttarawa.history.entity.Favorites;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.history.repository.FavoriteRepository;
 import com.jsdckj.ttarawa.history.repository.HistoryRepository;
@@ -14,7 +13,6 @@ import com.jsdckj.ttarawa.users.entity.UsersInfo;
 import com.jsdckj.ttarawa.users.repository.UserInfoRepository;
 import com.jsdckj.ttarawa.users.repository.UserRepository;
 import com.jsdckj.ttarawa.users.service.UserInfoService;
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,7 +35,7 @@ public class HistoryServiceImpl implements HistoryService {
   private final UserInfoRepository userInfoRepository;
   private final UserInfoService userInfoService;
   private final FavoriteRepository favoriteRepository;
-  private final FileUploadService fileUploadService;
+  private final FileService fileService;
 
   // 게시물 저장
   @Override
@@ -47,7 +44,7 @@ public class HistoryServiceImpl implements HistoryService {
     Users currentUser = userRepository.findById(userId).get(); // 현재 유저
 
 
-    String url = fileUploadService.uploadFile("history", img);
+    String url = fileService.uploadFile("history", img);
 
     // 게시물 저장
 
@@ -136,6 +133,7 @@ public class HistoryServiceImpl implements HistoryService {
   // 게시물 삭제
   @Override
   public void deleteHistory(Long userId, Long historyId) {
+    fileService.deleteFile("history", historyRepository.findById(historyId).get().getImage());
 
     historyRepository.deleteByHistoryId(historyId);
 

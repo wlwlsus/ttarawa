@@ -4,8 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public interface FileUploadService {
+public interface FileService {
 
   String uploadFile(String dirName, MultipartFile multipartFile) throws IOException;
-  void deleteFile(String dirName);
+  void deleteFile(String dirName, String fileUrl);
 }

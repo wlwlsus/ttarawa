@@ -8,6 +8,9 @@ import com.jsdckj.ttarawa.history.service.HistoryService;
 import com.jsdckj.ttarawa.jwt.JwtUtil;
 import com.jsdckj.ttarawa.util.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,12 +40,12 @@ public class HistoryController {
 
   // 게시물 저장
   @Operation(summary = "주행 기록 저장 API", description = "user_id: 사용자 user_id\n\n" +
-      "image: Multipartfile => 아직 안됨 \n\n" +
+      "image: Multipartfile\n\n" +
       "personal: 1: 비공개, 0: 공개\n\n" +
       "time: 초 단위\n\n" +
       "distance: 미터 단위")
-  @PostMapping("/{user_id}")
-  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
+  @PostMapping(value = "/{user_id}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<?> insertHistory(@PathVariable("user_id") Long userId, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
     historyService.insertHistory(userId, image, historyReqDto);
     return Response.ok("게시물 저장 성공");
   }
@@ -94,7 +98,7 @@ public class HistoryController {
 
   // 게시물 수정
   @Operation(summary = "게시물 수정 API", description = "personal: 1: 비공개, 0: 공개")
-  @PutMapping("/post/{user_id}")
+  @PutMapping("/{user_id}")
   public ResponseEntity<?> updateHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId, @RequestBody HistoryUpdateReq historyUpdateReq) {
     if (historyService.updateHistory(userId, historyId, historyUpdateReq))
       return Response.ok("게시물 수정 성공");
@@ -105,7 +109,7 @@ public class HistoryController {
 
   // 게시물 삭제
   @Operation(summary = "게시물 삭제 API")
-  @DeleteMapping("/post/{user_id}")
+  @DeleteMapping("/{user_id}")
   public ResponseEntity<?> deleteHistory(@PathVariable("user_id") Long userId, @RequestParam("history_id") Long historyId) {
     historyService.deleteHistory(userId, historyId);
     return Response.ok("게시물 삭제 성공");

@@ -1,5 +1,7 @@
 package com.jsdckj.ttarawa.file.service;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -17,8 +19,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadServiceImpl implements FileUploadService {
+public class FileServiceImpl implements FileService {
   private final AmazonS3Client amazonS3Client;
+  private final int urlPrefixLength = "https://ttarawa-bucket.s3.ap-northeast-2.amazonaws.com/".length();
   @Value("${cloud.aws.s3.bucket}")
   private String bucket;
 
@@ -33,33 +36,44 @@ public class FileUploadServiceImpl implements FileUploadService {
     return upload(uploadFile, dirName);
   }
 
+  // 파일 삭제
   @Override
-  public void deleteFile(String dirName) {
-//    amazonS3Client.deleteObject(new DeleteObjectRequest());
+  public void deleteFile(String dirName, String fileUrl) {
+    String fileName = fileUrl.substring(urlPrefixLength);
+
+    try {
+      amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+      System.out.println("name "+bucket + "/" + fileName);
+    } catch (AmazonServiceException e) {
+      e.printStackTrace();
+    } catch (SdkClientException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public String upload(File uploadFile, String filePath) {
-    String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+    String fileName = filePath + "/" + UUID.randomUUID();// + uploadFile.getName();   // S3에 저장된 파일 이름
     String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-    removeNewFile(uploadFile);
+    removeLocalFile(uploadFile);
     return uploadImageUrl;
   }
-  
+
   // S3로 업로드
   private String putS3(File uploadFile, String fileName) {
     amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
     return amazonS3Client.getUrl(bucket, fileName).toString();
   }
-  
+
   // 로컬에 저장된 이미지 삭제
-  private void removeNewFile(File targetFile) {
+  private void removeLocalFile(File targetFile) {
     if (targetFile.delete()) {
-      System.out.println("File delete success");
+      System.out.println("Local File delete success");
       return;
     }
-    System.out.println("File delete fail");
+    System.out.println("Local delete fail");
   }
-  
+
   // 로컬에 파일 업로드
   private Optional<File> convert(MultipartFile file) throws IOException {
     File convertFile = new File(System.getProperty("user.dir") + "/" + file.getOriginalFilename());

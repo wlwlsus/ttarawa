@@ -77,18 +77,25 @@ public class UserController {
 
   @PutMapping(value="/profile/{user_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> updateProfile(HttpServletRequest request, @PathVariable("user_id")Long userId, @RequestPart("image") MultipartFile multipartFile) throws IOException {
-    Long headerUserId =jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
-
-    if(userId!=headerUserId){
-      return Response.badRequest("사용자 불일치");
-    }
+//    Long headerUserId =jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+//
+//    if(userId!=headerUserId){
+//      return Response.badRequest("사용자 불일치");
+//    }
     userService.updateProfile(userId, multipartFile);
     return Response.ok("프로필 사진 변경 성공");
   }
 
   @DeleteMapping("/profile/{user_id}")
   public ResponseEntity<?> deleteProfile(HttpServletRequest request, @PathVariable("user_id")Long userId){
-    return null;
+//    Long headerUserId =jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+//
+//    if(userId!=headerUserId){
+//      return Response.badRequest("사용자 불일치");
+//    }
+
+    userService.deleteProfile(userId);
+    return Response.ok("프로필 사진 삭제 성공");
   }
 
 

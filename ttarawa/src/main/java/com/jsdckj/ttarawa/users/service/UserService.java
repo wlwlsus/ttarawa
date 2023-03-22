@@ -19,6 +19,7 @@ public interface UserService {
   UserInfoResDto getUserInfo(Long userId);
   void updateNickname(Long userId, String nickname);
   void updateProfile(Long userId, MultipartFile multipartFile) throws IOException;
+  void deleteProfile(Long userId);
 
 
 }
