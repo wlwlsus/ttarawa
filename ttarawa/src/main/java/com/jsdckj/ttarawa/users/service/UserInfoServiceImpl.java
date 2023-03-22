@@ -25,15 +25,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     UsersInfo usersInfo = userInfoRepository.findByUsers(user);
 
     if (totalDistance < 10L) {
-      usersInfo.updateBadge(badgeRepository.findByName("새싹 라이더"));
+      usersInfo.updateBadge(badgeRepository.findById(1L).get());
     } else if (totalDistance < 20L) {
-      usersInfo.updateBadge(badgeRepository.findByName("주니어 라이더"));
+      usersInfo.updateBadge(badgeRepository.findById(2L).get());
     } else if (totalDistance < 40L) {
-      usersInfo.updateBadge(badgeRepository.findByName("아마추어 라이더"));
+      usersInfo.updateBadge(badgeRepository.findById(3L).get());
     } else if (totalDistance < 60L) {
-      usersInfo.updateBadge(badgeRepository.findByName("프로 라이더"));
+      usersInfo.updateBadge(badgeRepository.findById(4L).get());
     } else {
-      usersInfo.updateBadge(badgeRepository.findByName("레이서"));
+      usersInfo.updateBadge(badgeRepository.findById(5L).get());
 
     }
   }
