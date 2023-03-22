@@ -22,3 +22,9 @@ export const map = StyleSheet.create({
     gap: 10,
   },
 })
+
+export const searchpath = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
