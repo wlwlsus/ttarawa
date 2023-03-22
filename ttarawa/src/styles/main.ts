@@ -5,10 +5,16 @@ export const map = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
+  headerContainer: {
     width: '100%',
-    flexDirection: 'row',
+    flex: 1,
     paddingHorizontal: 10,
+    paddingTop: 10,
+    position: 'absolute',
+    zIndex: 999,
+  },
+  header: {
+    flexDirection: 'row',
   },
   inputs: {
     flex: 1,
@@ -20,5 +26,12 @@ export const map = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 8,
     gap: 10,
+  },
+  location: {
+    position: 'absolute',
+    zIndex: 999,
+    left: 0,
+    bottom: 0,
+    margin: 15,
   },
 })
