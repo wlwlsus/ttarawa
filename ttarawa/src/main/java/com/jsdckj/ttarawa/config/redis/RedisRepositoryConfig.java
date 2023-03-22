@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.config.redis;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,25 +11,57 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@RequiredArgsConstructor
+
 @Configuration
-@EnableRedisRepositories
 public class RedisRepositoryConfig {
 
-  private final RedisProperties redisProperties;
+  private String redisHost;
+  private int redisPort;
+
+  public RedisRepositoryConfig(@Value("${spring.data.redis.host}") String redisHost,
+                     @Value("${spring.data.redis.port}") int redisPort) {
+    this.redisHost = redisHost;
+    this.redisPort = redisPort;
+  }
 
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
-    return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+    return new LettuceConnectionFactory(redisHost, redisPort);
   }
 
   @Bean
-  public RedisTemplate<String, Object> redisTemplate() {
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+  public RedisTemplate<?, ?> redisTemplate() {
+    RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setValueSerializer(new StringRedisSerializer());
     return redisTemplate;
   }
-
 }
+
+
+//@RequiredArgsConstructor
+//@Configuration
+//@EnableRedisRepositories
+//public class RedisRepositoryConfig {
+//
+//  @Value("${spring.data.redis.host}")
+//  private String redisHost;
+//  @Value("${spring.data.redis.post}")
+//  private int redisPort;
+//
+//  private final RedisProperties redisProperties;
+//
+//  @Bean
+//  public RedisConnectionFactory redisConnectionFactory() {
+//    return new LettuceConnectionFactory(redisHost, redisPort);
+//  }
+//
+//  @Bean
+//  public RedisTemplate<String, Object> redisTemplate() {
+//    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//    redisTemplate.setConnectionFactory(redisConnectionFactory());
+//    redisTemplate.setKeySerializer(new StringRedisSerializer());
+//    redisTemplate.setValueSerializer(new StringRedisSerializer());
+//    return redisTemplate;
+//  }
+//
+//}
