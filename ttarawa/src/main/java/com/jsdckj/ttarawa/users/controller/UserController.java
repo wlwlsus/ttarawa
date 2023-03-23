@@ -75,7 +75,7 @@ public class UserController {
     return Response.ok("닉네임 변경 성공");
   }
 
-  @Operation(summary = "프로필 사진 변경 API")
+  @Operation(summary = "프로필 사진 변경 API", description = "사진 파일로 전송  -> multipart/form-data")
   @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> updateProfile(HttpServletRequest request,@RequestPart("image") MultipartFile multipartFile) throws IOException {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));

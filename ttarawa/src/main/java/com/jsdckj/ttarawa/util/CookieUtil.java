@@ -30,8 +30,8 @@ public class CookieUtil {
     cookie.setPath("/");
     cookie.setHttpOnly(true);
     cookie.setMaxAge(maxAge);
-    System.out.println("addcookie");
-    System.out.println("sout addcookie name " + cookie.getName());
+//    System.out.println("addcookie");
+//    System.out.println("sout addcookie name " + cookie.getName());
     response.addCookie(cookie);
   }
 
@@ -41,13 +41,13 @@ public class CookieUtil {
 
 
     if (cookies != null && cookies.length > 0) {
-      System.out.println("sout delete 쿠키1");
+//      System.out.println("sout delete 쿠키1");
       for (Cookie cookie : cookies) {
-        System.out.println("sout delete cookie name "+ name);
-        System.out.println("sout delete 쿠키2 "+cookie.getName());
+//        System.out.println("sout delete cookie name "+ name);
+//        System.out.println("sout delete 쿠키2 "+cookie.getName());
 
         if (name.equals(cookie.getName())) {
-          System.out.println("sout delete 쿠키2 이름 일치 "+cookie.getName());
+//          System.out.println("sout delete 쿠키2 이름 일치 "+cookie.getName());
 
           cookie.setValue("");
           cookie.setPath("/");

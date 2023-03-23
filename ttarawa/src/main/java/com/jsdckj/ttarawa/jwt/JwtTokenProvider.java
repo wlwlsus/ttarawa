@@ -49,7 +49,7 @@ public class JwtTokenProvider {
 //    String[] authoritiesSplit = authorities.split(",");
 //    Optional<Users> user = userRepository.findByEmailAndProvider(authoritiesSplit[0], authoritiesSplit[1]);
 
-    System.out.println("sout authentication " + authentication.getPrincipal());
+//    System.out.println("sout authentication " + authentication.getPrincipal());
 //    System.out.println("sout authentication " + authentication);
 //    System.out.println("sout authentication " + authentication.getAuthorities());
     // AccessToken 생성
@@ -87,7 +87,7 @@ public class JwtTokenProvider {
   // JWT 토큰을 복호화 하여 토큰에 들어있는 정보를 꺼내는 메소드
   public Authentication getAuthentication(String accessToken) {
 
-    System.out.println("sout getAuthentication");
+//    System.out.println("sout getAuthentication");
 
     // 토큰 복호화
     Claims claims = parseClaims(accessToken);
@@ -102,10 +102,10 @@ public class JwtTokenProvider {
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-    System.out.println("sout dd" + authorities);
+//    System.out.println("sout dd" + authorities);
 
     // UserDetails 객체를 만들어서 Authentication 리턴
-    System.out.println("sout claims get " + claims.get("userId"));
+//    System.out.println("sout claims get " + claims.get("userId"));
     Users user = userRepository.findById(((Number) claims.get("userId")).longValue()).get();
 //    Users user = userRepository.findByNickname(claims.get("sub").toString());
     UserDetailCustom principal = new UserDetailCustom(user);

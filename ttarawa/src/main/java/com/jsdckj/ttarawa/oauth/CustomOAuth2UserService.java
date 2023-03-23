@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // accessToken으로 서드파디에 요청해서 사용자 정보를 얻어옴
     OAuth2User user = super.loadUser(userRequest);
-    System.out.println("sout load user");
+//    System.out.println("sout load user");
 
     try {
       return this.process(userRequest, user);
@@ -66,23 +66,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
     ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
-    System.out.println("sout process providerType" + providerType);
+//    System.out.println("sout process providerType" + providerType);
     OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
     Users savedUser = userRepository.findByEmailAndProvider(userInfo.getEmail(), ProviderType.valueOf(userInfo.getProvider()));
 
     if (savedUser != null) {
-      System.out.println("sout p1 " + providerType);
-      System.out.println("sout p2 " + savedUser.getProvider());
+//      System.out.println("sout p1 " + providerType);
+//      System.out.println("sout p2 " + savedUser.getProvider());
       if (providerType != savedUser.getProvider()) {
         throw new OAuthProviderMissMatchException(
             "Looks like you're signed up with " + providerType +
                 " account. Please use your " + savedUser.getProvider() + " account to login."
         );
       }
-      System.out.println("sout update user");
+//      System.out.println("sout update user");
       updateUser(savedUser, userInfo);
     } else {
-      System.out.println("sout user가 없어서 생성");
+//      System.out.println("sout user가 없어서 생성");
       savedUser = createUser(userInfo, providerType);
       userInfoRepository.save(UsersInfo.builder()
           .users(savedUser)
@@ -98,7 +98,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   }
 
   private Users createUser(OAuth2UserInfo oAuthUserInfo, ProviderType providerType) {
-    System.out.println("sout create user");
+//    System.out.println("sout create user");
 
     Users user = Users.builder()
         .email(oAuthUserInfo.getEmail())
@@ -115,14 +115,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private Users updateUser(Users user, OAuth2UserInfo userInfo) {
 
-    System.out.println("sout updateUser");
-//    if (userInfo.getNickname() != null && !user.getNickname().equals(userInfo.getNickname())) {
-//      user.setNi(userInfo.getNickname());
-//    }
-//
-//    if (userInfo.getImageUrl() != null && !user.getProfileImageUrl().equals(userInfo.getImageUrl())) {
-//      user.setProfileImageUrl(userInfo.getImageUrl());
-//    }
+//    System.out.println("sout updateUser");
+
 
     return user.builder()
         .nickname(user.getNickname())

@@ -52,7 +52,7 @@ public class UserDetailCustom implements OAuth2User, OidcUser {
 //  }
 
   public static UserDetailCustom create(Users user){
-    System.out.println("sout create 1");
+//    System.out.println("sout create 1");
     System.out.println(user.getUsersId()+" "+user.getNickname());
     return new UserDetailCustom(
       user
@@ -60,7 +60,7 @@ public class UserDetailCustom implements OAuth2User, OidcUser {
   }
 
   public static UserDetailCustom create(Users user, Map<String, Object> attributes) {
-    System.out.println("sout create 2");
+//    System.out.println("sout create 2");
 
     UserDetailCustom userDetailCustom = create(user);
     userDetailCustom.setAttributes(attributes);

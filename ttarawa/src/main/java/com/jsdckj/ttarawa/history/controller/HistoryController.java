@@ -40,10 +40,11 @@ public class HistoryController {
 
   // 게시물 저장
   @Operation(summary = "주행 기록 저장 API", description = "user_id: 사용자 user_id\n\n" +
-      "image: Multipartfile\n\n" +
+      "image: multipart/form-data\n\n" +
       "personal: 1: 비공개, 0: 공개\n\n" +
       "time: 초 단위\n\n" +
-      "distance: 미터 단위")
+      "distance: 미터 단위 \n\n" +
+      "swagger에서 test 불가능 image 파일 하나 body 하나 보내야함")
   @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<?> insertHistory(HttpServletRequest request, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
@@ -77,7 +78,7 @@ public class HistoryController {
       "swagger에서 요청시 \n\n" +
       "{\n\n" +
       "  \"page\": 0(0부터 시작),\n\n" +
-      "  \"size\": 10,\n\n" +
+      "  \"size\": 10(한번 요청시 가져올 개수),\n\n" +
       "  \"sort\": [ \n\n" +
       "    \"createdDate,desc 또는 favoritesCount,desc 중 하나\"\n" +
       "  ]\n\n" +

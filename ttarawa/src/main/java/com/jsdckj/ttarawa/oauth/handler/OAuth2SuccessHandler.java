@@ -68,7 +68,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   }
 
   protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-    System.out.println("sout determineTargetUrl");
+//    System.out.println("sout determineTargetUrl");
 
     Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
         .map(Cookie::getValue);
@@ -78,13 +78,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-    System.out.println("sout Target Uri " + targetUrl);
+//    System.out.println("sout Target Uri " + targetUrl);
 
     OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
     ProviderType providerType = ProviderType.valueOf(authToken.getAuthorizedClientRegistrationId().toUpperCase());
 
-    System.out.println("sout auth Token " + authToken);
-    System.out.println("sout provider type " + providerType);
+//    System.out.println("sout auth Token " + authToken);
+//    System.out.println("sout provider type " + providerType);
 
     OidcUser user = ((OidcUser) authentication.getPrincipal());
     OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
@@ -110,8 +110,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
     CookieUtil.addCookie(response, REFRESH_TOKEN, tokenInfo.getRefreshToken(), cookieMaxAge);
 
-    System.out.println("sout delete and add cookie");
-    System.out.println("sout ??엥 " + UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", tokenInfo.getAccessToken())
+//    System.out.println("sout delete and add cookie");
+    System.out.println("redirect " + UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", tokenInfo.getAccessToken())
 //        .queryParam("refreshToken", tokenInfo.getRefreshToken())
         .build().toUriString());
 
@@ -124,14 +124,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
     super.clearAuthenticationAttributes(request);
 
-    System.out.println("sout clearAuthenticationAttributes");
+//    System.out.println("sout clearAuthenticationAttributes");
     authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
   }
 
   private boolean isAuthorizedRedirectUri(String uri) {
     URI clientRedirectUri = URI.create(uri);
     URI authorizedUri = URI.create(redirectUri);
-    System.out.println("sout isAuthorizedRedirectUri " + uri);
+//    System.out.println("sout isAuthorizedRedirectUri " + uri);
     return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
         && authorizedUri.getPort() == clientRedirectUri.getPort();
 
