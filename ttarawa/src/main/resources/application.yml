@@ -62,7 +62,8 @@ spring:
     url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
     username: ssafy605
     password: ssafy605
-
+  profiles:
+    include: aws
 
 server:
   port: 8080
@@ -82,8 +83,7 @@ management:
   httpexchanges:
     recording:
       enabled: true
-  profiles:
-    include: aws
+
 
 jwt:
   secret: wjdtjdenchlrhwhwjdtjdenchlrhwhwjdtjdenchlrhwhwjdtjdenchlrhwh
