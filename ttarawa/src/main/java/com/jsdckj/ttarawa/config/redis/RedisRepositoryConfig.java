@@ -17,16 +17,22 @@ public class RedisRepositoryConfig {
 
   private String redisHost;
   private int redisPort;
+  private String redisPassword;
 
   public RedisRepositoryConfig(@Value("${spring.data.redis.host}") String redisHost,
-                     @Value("${spring.data.redis.port}") int redisPort) {
+                     @Value("${spring.data.redis.port}") int redisPort, @Value("${spring.data.redis.password}")String redisPassword) {
     this.redisHost = redisHost;
     this.redisPort = redisPort;
+    this.redisPassword = redisPassword;
   }
 
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
-    return new LettuceConnectionFactory(redisHost, redisPort);
+    LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
+    lettuceConnectionFactory.setHostName(redisHost);
+    lettuceConnectionFactory.setPort(redisPort);
+    lettuceConnectionFactory.setPassword(redisPassword);
+    return lettuceConnectionFactory;
   }
 
   @Bean
