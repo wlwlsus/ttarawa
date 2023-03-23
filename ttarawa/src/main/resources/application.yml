@@ -5,7 +5,6 @@ spring:
       host: j8a605.p.ssafy.io
 #      host: localhost
       port: 6379
-      password: ssafy605
 
   security:
     oauth2:
@@ -83,9 +82,6 @@ management:
   httpexchanges:
     recording:
       enabled: true
-  health:
-    redis:
-      enabled: false
 
 
 
