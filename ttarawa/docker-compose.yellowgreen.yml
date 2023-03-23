@@ -7,7 +7,7 @@ services:
     environment:
       - "spring_profiles_active=yellowgreen"
     ports:
-      - "8086:8080"
+      - "8087:8080"
     networks:
       - ttarawa-net
 
