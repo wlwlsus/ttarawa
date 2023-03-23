@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
-import MapHeader from '@components/header/MapHeader'
-import { mapHtml } from '@utils/initTmap'
+import MapHeader from '@components/main/MapHeader'
+import { mapHtml } from '@utils/map/initTmap'
 import { MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import * as Location from 'expo-location'
@@ -40,11 +40,11 @@ export default function Map() {
         destin={destin}
         setDestin={setDestin}
       />
-      {/* <WebView
+      <WebView
         source={{ html: mapHtml }}
         style={{ flex: 1, zIndex: 0 }}
         originWhitelist={['*']}
-      /> */}
+      />
       <IconButton
         icon1={
           <MaterialIcons

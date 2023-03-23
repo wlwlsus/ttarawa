@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import MainStackScreen from '@navigations/Main'
 import MyPageStackScreen from '@navigations/Mypage'
 import Sns from '@screens/sns/Sns'
-import SnsHeader from '@components/header/SnsHeader'
+import SnsHeader from '@components/sns/SnsHeader'
 
 import { color, styles } from '@styles/GlobalStyles'
 import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
