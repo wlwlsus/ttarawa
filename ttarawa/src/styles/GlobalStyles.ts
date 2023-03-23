@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   androidSafeArea: {
-    marginTop: 40,
+    marginTop: 30,
   },
 })
 

@@ -13,12 +13,20 @@ const fetchDestin = async (
       `/spot/near?category=${category}&page=${page}&size=${size}&lat=${lat}&lng=${lng}`,
     )
     .then((res) => {
-      console.log(res.data)
       return Promise.resolve(res.data.result)
     })
     .catch((err) => Promise.reject(err.data))
 }
 
-const main = { fetchDestin }
+const fetchCategory = async (): Promise<number> => {
+  return await apiRequest
+    .get(`info/category`)
+    .then((res) => {
+      return Promise.resolve(res.data.result)
+    })
+    .catch((err) => Promise.reject(err.data))
+}
+
+const main = { fetchDestin, fetchCategory }
 
 export default main
