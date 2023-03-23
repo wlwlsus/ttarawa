@@ -32,7 +32,7 @@ function execute_blue(){
 
     sleep 10
 
-    echo "GREEN:8085 종료"
+    echo "GREEN:8086 종료"
     docker-compose -p app-green -f docker-compose.green.yml down
     docker-compose -p app-yellowgreen -f docker-compose.yellowgreen.yml down
 
@@ -44,13 +44,13 @@ function execute_green(){
   docker ps -q --filter "name=app_green" || grep -q . && docker stop app_green && docker rm app_green || true
   docker ps -q --filter "name=app_yellowgreen" || grep -q . && docker stop app_yellowgreen && docker rm app_yellowgreen || true
 
-    echo "GREEN:8085 실행"
+    echo "GREEN:8086 실행"
     docker-compose -p app-green -f docker-compose.green.yml up -d
     docker-compose -p app-yellowgreen -f docker-compose.yellowgreen.yml up -d
 
     sleep 10
 
-    echo "BLUE:8080 종료"
+    echo "BLUE:8085 종료"
     docker-compose -p app-blue -f docker-compose.blue.yml down
     docker-compose -p app-skyblue -f docker-compose.skyblue.yml down
 
@@ -59,7 +59,7 @@ function execute_green(){
 }
 
 # 현재 사용중인 어플리케이션 확인
-# 8085포트의 값이 없으면 8080포트 사용 중
+# 8086포트의 값이 없으면 8085포트 사용 중
 # shellcheck disable=SC2046
 RUNNING_GREEN=$(docker ps -aqf "name=app_green")
 RUNNING_BLUE=$(docker ps -aqf "name=app_blue")
@@ -82,10 +82,10 @@ if [ -z ${RUNNING_GREEN} ]
 
       docker-compose -p app-blue -f docker-compose.blue.yml up -d
       docker-compose -p app-skyblue -f docker-compose.skyblue.yml up -d
-	  
+
     else
-      # 8085포트로 어플리케이션 구동
-      echo "BLUE:8080 실행 중"
+      # 8086포트로 어플리케이션 구동
+      echo "BLUE:8085 실행 중"
 
       create_docker_image_green
 
@@ -93,10 +93,10 @@ if [ -z ${RUNNING_GREEN} ]
 
     fi
 else
-    # 8080포트로 어플리케이션 구동
-    echo "GREEN:8085 실행 중"
+    # 8085포트로 어플리케이션 구동
+    echo "GREEN:8086 실행 중"
 
-    echo "BLUE:8080 실행"
+    echo "BLUE:8085 실행"
 
     create_docker_image_blue
 

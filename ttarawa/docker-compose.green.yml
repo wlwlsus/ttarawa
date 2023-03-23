@@ -3,17 +3,13 @@ version: '3.8'
 services:
   app:
     image: app:0.2
-    container_name:
-      - app_green_1
-      - app_green_2
+    container_name: app_green
     environment:
       - "spring_profiles_active=green"
     ports:
-      - "8085:8080"
+      - "8086:8080"
     networks:
       - ttarawa-net
-    deploy:
-      replicas: 2
 
 networks:
   ttarawa-net:

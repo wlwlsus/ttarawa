@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   app:
-    image: app:0.1
-    container_name: app_blue
+    image: app:0.25
+    container_name: app_yellowgreen
     environment:
-      - "spring_profiles_active=blue"
+      - "spring_profiles_active=yellowgreen"
     ports:
-      - "8084:8080"
+      - "8087:8080"
     networks:
       - ttarawa-net
 

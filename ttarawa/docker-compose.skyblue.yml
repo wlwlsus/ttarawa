@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   app:
-    image: app:0.1
-    container_name: app_blue
+    image: app:0.15
+    container_name: app_skyblue
     environment:
-      - "spring_profiles_active=blue"
+      - "spring_profiles_active=skyblue"
     ports:
-      - "8084:8080"
+      - "8085:8080"
     networks:
       - ttarawa-net
 
