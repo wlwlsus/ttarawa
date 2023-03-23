@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
+
 import Map from '@screens/main/Map'
 import SearchPath from '@screens/main/SearchPath'
 

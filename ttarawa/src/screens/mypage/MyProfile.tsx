@@ -59,7 +59,7 @@ export default function MyProfile({ navigation }) {
               color={color.black}
             />
           }
-          press={() => navigation.push('MyLikes')}
+          press={() => navigation.navigate('MyLikes')}
         />
         <IconButton
           text="앱소개"
@@ -77,7 +77,7 @@ export default function MyProfile({ navigation }) {
               color={color.black}
             />
           }
-          press={() => navigation.push('Intro')}
+          press={() => navigation.navigate('Intro')}
         />
       </View>
     </SafeAreaView>

@@ -1,28 +1,44 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import Start from '@screens/intro/Start'
-import Login from '@screens/intro/Login'
-import Intro from '@screens/intro/Intro'
-import Recom from '@screens/intro/Recom'
-import SocialLogin from '@screens/intro/SocialLogin'
-import Map from '@screens/main/Map'
+import GuideOne from '@screens/intro/GuideOne'
+import { useEffect } from 'react'
+import { BackHandler } from 'react-native'
 
-const IndexStack = createStackNavigator()
+const IntroStack = createStackNavigator()
 
-// Index Nested Navigation
-export default function IndexStackScreen() {
+export default function Intro({ route, navigation }) {
+  useEffect(() => {
+    // Index에서 Intro 렌더링 시
+    if (route.params === undefined) return
+
+    // Tabs에서 Intro 렌더링 시
+    const { setIsVisible } = route.params
+    // 마운트 됐을 때 BottomTab 없애기
+    setIsVisible({ display: 'none' })
+
+    // 뒤로가기 감지 => BottomTab 생성
+    const backAction = () => {
+      setIsVisible({ height: 70 })
+      navigation.navigate('MyProfile')
+      return true
+    }
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    )
+
+    // 언마운트시 eventListener 제거
+    return () => backHandler.remove()
+  }, [])
+
   return (
-    <IndexStack.Navigator
-      initialRouteName="Start"
+    <IntroStack.Navigator
+      initialRouteName="GuideOne"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <IndexStack.Screen name="Start" component={Start} />
-      <IndexStack.Screen name="Login" component={Login} />
-      <IndexStack.Screen name="Intro" component={Intro} />
-      <IndexStack.Screen name="Recom" component={Recom} />
-      <IndexStack.Screen name="SocialLogin" component={SocialLogin} />
-      <IndexStack.Screen name="Map" component={Map} />
-    </IndexStack.Navigator>
+      <IntroStack.Screen name="GuideOne" component={GuideOne} />
+    </IntroStack.Navigator>
   )
 }
