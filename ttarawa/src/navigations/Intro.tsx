@@ -6,9 +6,12 @@ import { BackHandler } from 'react-native'
 const IntroStack = createStackNavigator()
 
 export default function Intro({ route, navigation }) {
-  const { setIsVisible } = route.params
-
   useEffect(() => {
+    // Index에서 Intro 렌더링 시
+    if (route.params === undefined) return
+
+    // Tabs에서 Intro 렌더링 시
+    const { setIsVisible } = route.params
     // 마운트 됐을 때 BottomTab 없애기
     setIsVisible({ display: 'none' })
 
