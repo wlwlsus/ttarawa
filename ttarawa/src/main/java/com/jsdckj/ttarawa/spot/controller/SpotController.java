@@ -25,7 +25,7 @@ public class SpotController {
 
   private final SpotService spotService;
 
-  @Operation(summary = "주변 추천 목적지 조회 API")
+  @Operation(summary = "추천 목적지 조회 API")
   @GetMapping("/{users_id}")
   ResponseEntity<?> getSpotList(
       @Schema(description = "유저 번호", example = "1")
