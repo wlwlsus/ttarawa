@@ -59,7 +59,9 @@ public class HistoryController {
       "isMyFavorite: 1: 내가 좋아요를 누름, 0: 안누름\n\n" +
       "time: 초단위\n\n" +
       "distance: 미터단위\n\n" +
-      "image: 게시물 이미지\n\n")
+      "image: 게시물 이미지\n\n"+
+      "isMyHistory: 내가 쓴 게시물인지 -> 1 내가 씀, 0: 아님 \n\n" +
+      "isMyFavorite: 내가 좋아요를 눌렀는지: 1: 누름, 0: 안누름")
   @GetMapping("/detail/{history_id}")
   public ResponseEntity<?> selectOneHistory(HttpServletRequest request, @PathVariable("history_id") Long historyId) {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER)); // 현재 유저 가져오기
@@ -82,7 +84,9 @@ public class HistoryController {
       "  \"sort\": [ \n\n" +
       "    \"createdDate,desc 또는 favoritesCount,desc 중 하나\"\n" +
       "  ]\n\n" +
-      "}")
+      "} \n\n" +
+      "isMyHistory: 내가 쓴 게시물인지 -> 1 내가 씀, 0: 아님 \n\n" +
+      "isMyFavorite: 내가 좋아요를 눌렀는지: 1: 누름, 0: 안누름")
   @GetMapping("/all")
   public ResponseEntity<?> selectAllHistory(HttpServletRequest request, Pageable pageable) {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER)); // 현재 유저 가져오기
