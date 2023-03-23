@@ -5,6 +5,7 @@ spring:
       host: j8a605.p.ssafy.io
 #      host: localhost
       port: 6379
+      password: ssafy605
 
   security:
     oauth2:
@@ -91,4 +92,4 @@ jwt:
 
 app:
   oauth2:
-    authorizedRedirectUris: exp://192.168.0.101:19000/oauth/redirect
+    authorizedRedirectUris: http://localhost:3000/oauth/redirect
