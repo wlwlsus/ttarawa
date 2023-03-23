@@ -40,11 +40,11 @@ export default function Map() {
         destin={destin}
         setDestin={setDestin}
       />
-      <WebView
+      {/* <WebView
         source={{ html: mapHtml }}
         style={{ flex: 1, zIndex: 0 }}
         originWhitelist={['*']}
-      />
+      /> */}
       <IconButton
         icon1={
           <MaterialIcons

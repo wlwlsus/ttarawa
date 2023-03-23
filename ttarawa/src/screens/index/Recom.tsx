@@ -5,8 +5,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import IconButton from '@components/common/IconButton'
 import RecomCard from '@components/card/RecomCard'
-// axios 밖으로 빼야함
-// import axios from 'axios'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
 
@@ -78,7 +76,7 @@ export default function Recom({ navigation }) {
 
   const goMap = () => {
     console.log('목적지 집적 설정하러가쟝')
-    navigation.navigate('Map')
+    navigation.navigate('Tabs', { screen: 'Main' })
   }
 
   return (
