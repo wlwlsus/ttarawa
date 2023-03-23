@@ -1885,6 +1885,13 @@
   dependencies:
     "@sinonjs/commons" "^2.0.0"
 
+"@types/expo@^33.0.1":
+  "integrity" "sha512-0ka6bRIgfhkq3whAv3mOE/jMEGJFhbFYPA9ADS/nak/nDyaUoCIhD6bWf0yt+a5m0IKK9x0FeUkFkDVHY7+O4w=="
+  "resolved" "https://registry.npmjs.org/@types/expo/-/expo-33.0.1.tgz"
+  "version" "33.0.1"
+  dependencies:
+    "expo" "*"
+
 "@types/hammerjs@^2.0.36":
   "integrity" "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA=="
   "resolved" "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz"
