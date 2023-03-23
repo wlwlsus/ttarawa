@@ -1,9 +1,10 @@
 spring:
   data:
     redis:
-#      host: j8a605.p.ssafy.io
-      host: localhost
+      host: j8a605.p.ssafy.io
+#      host: localhost
       port: 6379
+      password: ssafy605
 
   security:
     oauth2:
@@ -57,12 +58,12 @@ spring:
   datasource:
     # mariaDB setting
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
-#    username: ssafy605
-#    password: ssafy605
-    url: jdbc:mariadb://localhost:3307/ssafy605
-    username: root
-    password: root
+    url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
+    username: ssafy605
+    password: ssafy605
+#    url: jdbc:mariadb://localhost:3307/ssafy605
+#    username: root
+#    password: root
 
   profiles:
     include: aws
@@ -73,4 +74,4 @@ jwt:
 
 app:
   oauth2:
-    authorizedRedirectUris: http://localhost:3000/oauth/redirect
+    authorizedRedirectUris: exp://192.168.0.101:19000/oauth/redirect
