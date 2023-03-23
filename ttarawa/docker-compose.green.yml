@@ -3,7 +3,9 @@ version: '3.8'
 services:
   app:
     image: app:0.2
-    container_name: app_green
+    container_name:
+      - app_green_1
+      - app_green_2
     environment:
       - "spring_profiles_active=green"
     ports:
