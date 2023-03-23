@@ -85,8 +85,7 @@ management:
       enabled: true
   health:
     redis:
-      enabled: true
-      password: ssafy605
+      enabled: false
 
 
 
