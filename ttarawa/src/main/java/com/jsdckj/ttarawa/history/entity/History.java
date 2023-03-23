@@ -22,14 +22,14 @@ public class History extends BaseTimeEntity {
   private Long historyId;
 
   @OneToOne
-  @JoinColumn(name = "users_id", nullable = false, insertable = false, updatable = false)
+  @JoinColumn(name = "users_id")
   private Users users;
 
   @Column(name = "favorites_count", nullable = false)
   private int favoritesCount;
 
-  @Column(name = "personal", nullable = false)
-  private boolean personal;
+  @Column(name = "personal", nullable = false, columnDefinition = "TINYINT")
+  private int personal;
 
   @Column(name = "time", nullable = false)
   private long time;
@@ -48,5 +48,20 @@ public class History extends BaseTimeEntity {
 
   @Column(name = "end_address", nullable = false)
   private String endAddress;
+
+  public void updateHistory(int personal, String content){
+    this.personal = personal;
+    this.content = content;
+  }
+
+  // 좋아요 1 증가
+  public void plusFavoritesCount(){
+    ++this.favoritesCount;
+  }
+
+  public void minusFavoritesCount(){
+    --this.favoritesCount;
+  }
+
 
 }
