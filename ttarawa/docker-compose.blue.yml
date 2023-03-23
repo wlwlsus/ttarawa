@@ -7,9 +7,11 @@ services:
     environment:
       - "spring_profiles_active=blue"
     ports:
-      - "8084:8080"
+      - "8080:8080"
     networks:
       - ttarawa-net
+    deploy:
+      replicas: 2
 
 networks:
   ttarawa-net:
