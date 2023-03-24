@@ -4713,7 +4713,7 @@
   "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"
 
-"lodash@^4.17.13", "lodash@^4.17.21", "lodash@^4.17.4":
+"lodash@^4.0.0", "lodash@^4.17.13", "lodash@^4.17.21", "lodash@^4.17.4":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -6009,6 +6009,13 @@
   "integrity" "sha512-H2BjG2zk7B7Wii9sXvd9qhCVRQYDAHSWdMw9tscmZBqSP62DkIWEQSk4/B2GhQ4aK9ydVXgtqR6tBeg3yy8TSA=="
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.16.tgz"
   "version" "0.71.16"
+
+"react-native-intersection-observer@^0.0.9":
+  "integrity" "sha512-vH+g6Pm6WYo0j2QylRVwwJU3U+qc4n42pesn/6gWMUDwO9YKHSgbq43s1lQN2D/2tm07IFgbVe7HtB3GX9Gbvg=="
+  "resolved" "https://registry.npmjs.org/react-native-intersection-observer/-/react-native-intersection-observer-0.0.9.tgz"
+  "version" "0.0.9"
+  dependencies:
+    "lodash" "^4.0.0"
 
 "react-native-paper@^5.4.0", "react-native-paper@>= 3.0.0":
   "integrity" "sha512-f1etvm1RZakDH/oKUNH5BSFBysip3dv++Wr63Ng2p0YfG/iH4rzeQ5DVhksHObnIFWPFHRkrPsqcisaUlkl0oA=="

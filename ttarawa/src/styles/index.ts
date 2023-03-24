@@ -103,43 +103,32 @@ export const recom = StyleSheet.create({
     flexWrap: 'wrap',
     marginBottom: 20,
   },
+})
 
-  // card: {
-  //   width: 162,
-  //   backgroundColor: color.white,
-  //   alignItems: 'center',
-  //   borderRadius: 13,
-  //   margin: 11,
-  //   padding: 10,
-  //   shadowColor: color.shadow,
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 2,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 3.84,
-
-  //   elevation: 5,
-  // },
-  // icon: {
-  //   alignSelf: 'flex-end',
-  // },
-
-  // name: {
-  //   fontSize: 19,
-  //   fontWeight: 'bold',
-  //   marginBottom: 10,
-  // },
-  // cardBody: {
-  //   alignItems: 'center',
-  //   justifyContent: 'space-between',
-  //   paddingTop: 3,
-  // },
-  // cnt: {
-  //   fontWeight: '700',
-  // },
-  // distance: {
-  //   fontSize: 14,
-  //   paddingVertical: 2,
-  // },
+export const guide = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: color.primary,
+    paddingHorizontal: 40,
+    position: 'relative',
+  },
+  index: {
+    position: 'absolute',
+    top: 50,
+    left: 30,
+  },
+  scroll: {
+    paddingTop: 240,
+  },
+  socialLogin: {
+    backgroundColor: color.white,
+    position: 'absolute',
+    bottom: 100,
+  },
+  back: {
+    backgroundColor: color.white,
+    position: 'absolute',
+    bottom: 100,
+    right: 40,
+  },
 })

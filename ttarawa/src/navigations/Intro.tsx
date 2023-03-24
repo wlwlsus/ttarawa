@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import GuideOne from '@screens/intro/GuideOne'
+import Guide from '~/screens/intro/Guide'
 import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
 
@@ -38,7 +38,7 @@ export default function Intro({ route, navigation }) {
         headerShown: false,
       }}
     >
-      <IntroStack.Screen name="GuideOne" component={GuideOne} />
+      <IntroStack.Screen name="GuideOne" component={Guide} />
     </IntroStack.Navigator>
   )
 }
