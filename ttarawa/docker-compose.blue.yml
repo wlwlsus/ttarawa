@@ -11,7 +11,7 @@ services:
     networks:
       - ttarawa-net
     volumes:
-      - /var/log/logs:/app/logs
+      - /var/log/logs:/logs
 
 
 networks:
