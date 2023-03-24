@@ -1,9 +1,9 @@
 package com.jsdckj.ttarawa.history.repository;
 
 import com.jsdckj.ttarawa.history.entity.History;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
