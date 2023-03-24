@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from flask import abort
 
-from app.config.database import get_db_conn
+from app.models.models import Tour
 
 
 def haversine(lat1, lng1, lat2, lng2):
@@ -32,37 +32,29 @@ def haversine(lat1, lng1, lat2, lng2):
 
 
 def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destinations=10):
-    conn = None
     try:
-        print(f'데이터 수신 : {lat}, {lng}')
-        conn = get_db_conn()
-        cursor = conn.cursor()
-        sql = """
-                SELECT tour_id, address, category, lat, lng, mid_category, name, rating, reviews, search, sub_category
-                FROM tour
-            """
-        cursor.execute(sql)
-        rows = cursor.fetchall()
+        tours = Tour.query.with_entities(
+            Tour.tour_id, Tour.address, Tour.category, Tour.lat, Tour.lng,
+            Tour.mid_category, Tour.name, Tour.rating, Tour.reviews,
+            Tour.search, Tour.sub_category
+        ).all()
 
-        df = pd.DataFrame(rows,
+        df = pd.DataFrame(tours,
                           columns=['tour_id', 'address', 'category', 'lat', 'lng', 'mid_category', 'name', 'rating',
                                    'reviews', 'search', 'sub_category'])
 
-        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']), axis=1)
-        nearby_destinations = df[
-            (distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.3) & (df['reviews'] >= 20)]
-
+        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']),
+                             axis=1)
+        nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.3) & (
+                df['reviews'] >= 20)]
         shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:4]
         other_destinations = nearby_destinations[nearby_destinations['mid_category'] != '쇼핑']
         nearby_destinations = pd.concat([shopping_destinations, other_destinations])
         nearby_destinations = nearby_destinations.sort_values(by='search', ascending=False).iloc[:num_destinations]
-
         return nearby_destinations
     except Exception as e:
-        print(f'error : {e}')
+        print(f'Flask Server Error : {e}')
         abort(500, str(e))
-    finally:
-        conn.close()
 
 
 def get_recommendations(lat, lng, min_distance=0, max_distance=1, num_destinations=10, user_info=None):
@@ -70,8 +62,8 @@ def get_recommendations(lat, lng, min_distance=0, max_distance=1, num_destinatio
         print('ERROR - 미구현')
         # similar_destinations = get_user_similar_destinations(user_info, data, num_destinations)
         # return similar_destinations
+        abort(500, str("Not implemented"))
         return "ERROR - 미구현"
     else:
-        print(f'get_recommendations : {lat} {lng} {min_distance} {max_distance}')
         nearby_destinations = get_nearby_destinations(lat, lng, min_distance, max_distance, num_destinations)
         return nearby_destinations
