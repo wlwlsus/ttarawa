@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SpotService {
 
-  List<SpotResDto.Spots> getRecommendSpotList(long category, double lat, double lng, long userId, Pageable pageable);
+  List<SpotResDto.RecommendSpot> getRecommendSpotList(double lat, double lng, int minDistance, int maxDistance, Pageable pageable, long userId);
 
   List<SpotResDto.Spots> getNearSpotList(long category, double lat, double lng, Pageable pageable);
 

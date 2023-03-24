@@ -22,13 +22,13 @@ def haversine(lat1, lng1, lat2, lng2):
     return distance
 
 
-# def get_user_similar_destinations(user_info, data, num_destinations=30):
-#     df = pd.read_csv(data, encoding='cp949')
-#     vectors = df[['rating', 'reviews', 'search']].values
-#     similarities = cosine_similarity([user_info], vectors)
-#     similar_destinations_indices = similarities[0].argsort()[::-1][:num_destinations]
-#     similar_destinations = df.loc[similar_destinations_indices]
-#     return similar_destinations
+def get_user_similar_destinations(user_info, data, num_destinations=10):
+    df = pd.read_csv(data, encoding='cp949')
+    vectors = df[['rating', 'reviews', 'search']].values
+    similarities = cosine_similarity([user_info], vectors)
+    similar_destinations_indices = similarities[0].argsort()[::-1][:num_destinations]
+    similar_destinations = df.loc[similar_destinations_indices]
+    return similar_destinations
 
 
 def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destinations=10):
@@ -45,8 +45,9 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
 
         distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']),
                              axis=1)
-        nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.3) & (
-                df['reviews'] >= 20)]
+        df['distances'] = distances
+        nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
+                df['reviews'] >= 5)]
         shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:4]
         other_destinations = nearby_destinations[nearby_destinations['mid_category'] != '쇼핑']
         nearby_destinations = pd.concat([shopping_destinations, other_destinations])
@@ -59,11 +60,8 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
 
 def get_recommendations(lat, lng, min_distance=0, max_distance=1, num_destinations=10, user_info=None):
     if user_info is not None:
-        print('ERROR - 미구현')
-        # similar_destinations = get_user_similar_destinations(user_info, data, num_destinations)
-        # return similar_destinations
-        abort(500, str("Not implemented"))
-        return "ERROR - 미구현"
+        similar_destinations = get_user_similar_destinations(user_info, data, num_destinations)
+        return similar_destinations
     else:
         nearby_destinations = get_nearby_destinations(lat, lng, min_distance, max_distance, num_destinations)
         return nearby_destinations

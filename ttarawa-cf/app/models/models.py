@@ -16,7 +16,8 @@ class Tour(db.Model):
     search = db.Column(db.Integer, nullable=True)
     sub_category = db.Column(db.String(255), nullable=True)
 
-    def __init__(self, address, category, lat, lng, mid_category, name, rating, reviews, search, sub_category):
+    def __init__(self, tour_id, address, category, lat, lng, mid_category, name, rating, reviews, search, sub_category):
+        self.tour_id = tour_id
         self.address = address
         self.category = category
         self.lat = lat

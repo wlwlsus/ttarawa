@@ -4,9 +4,12 @@ spring:
       ddl-auto: update
       generate-ddl: false
       show-sql: true
+
   datasource:
     # mariaDB setting
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/ssafy605
     username: root
     password: root
+
+flask-address: "http://127.0.0.1:5000"
