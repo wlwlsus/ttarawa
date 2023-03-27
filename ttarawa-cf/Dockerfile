@@ -1,6 +1,11 @@
 # 기반 이미지를 Python 3.8 버전을 사용하는 이미지로 설정합니다.
 FROM python:3.8
 
+RUN apt update && \
+    apt install -y libmariadb-dev-compat libmariadb-dev && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # 작업 디렉토리를 /app으로 설정합니다.
 WORKDIR /app
 

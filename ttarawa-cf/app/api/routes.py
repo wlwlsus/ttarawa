@@ -31,4 +31,5 @@ def create_recommendation():
         return jsonify(response)
 
     except Exception as e:
+        print(f'Error {e}')
         abort(500, f'Error : {e}')

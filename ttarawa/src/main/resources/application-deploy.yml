@@ -10,3 +10,6 @@ spring:
     url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
     username: ssafy605
     password: ssafy605
+
+
+flask-address: "http://3.39.209.108:5000"
