@@ -39,7 +39,6 @@ public class SpotServiceImpl implements SpotService {
 
     Optional<UsersInfo> usersInfo = userInfoRepository.findUsersInfoByUsers_UsersId(userId);
 
-    System.out.println("맞는데 " + userId);
     Long count = historyRepository.countByUserId(userId);
     double avgDistance = 0;
     if (usersInfo.isPresent()) {
