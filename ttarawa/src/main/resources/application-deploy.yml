@@ -12,4 +12,4 @@ spring:
     password: ssafy605
 
 
-flask-address: "http://3.39.209.108:5000"
+flask-address: "http://j8a605.p.ssafy.io:5000"

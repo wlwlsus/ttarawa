@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    image: app:0.2
+    container_name: app_green
+    environment:
+      - "spring_profiles_active=green"
+    ports:
+      - "8086:8080"
+    networks:
+      - ttarawa-net
+
+networks:
+  ttarawa-net:
+    name: docker_ttarawa-net
