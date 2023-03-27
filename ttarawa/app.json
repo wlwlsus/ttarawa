@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "ttarawa",
+    "slug": "ttarawa",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ttarawa/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/ttarawa/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "notification": {
+      "icon": "./assets/ttarawa/notification.png",
+      "color": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["location"]
+      }
+    },
+
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ttarawa/icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/ttarawa/logo.png"
+    }
+  }
+}
