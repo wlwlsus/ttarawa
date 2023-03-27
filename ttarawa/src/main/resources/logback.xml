@@ -3,7 +3,7 @@
     <property name="CONSOLE_LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %magenta(%-4relative) --- [ %thread{10} ] %cyan(%logger{20}) : %msg%n"/>
     <property name="LOG_PATH" value="./logs"/>
-    <property name="FILE_NAME" value="wetayo-logs"/>
+    <property name="FILE_NAME" value="ttarawa-logs"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -28,4 +28,22 @@
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>
+
+    <appender name="ELASTIC" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>j8a605.p.ssafy.io:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"ttarawa"}</customFields>
+        </encoder>
+        <includeCallerData>true</includeCallerData>
+    </appender>
+
+    <logger name="org.springframework" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="ELASTIC" />
+    </logger>
+
+    <logger name="ttarawa" level="DEBUG" additivity="false">
+        <appender-ref ref="ELASTIC"/>
+    </logger>
+
 </configuration>
