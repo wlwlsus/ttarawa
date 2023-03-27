@@ -1,20 +1,11 @@
 import { SafeAreaView, Text, View } from 'react-native'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
-// import MapHeader from '@components/header/MapHeader'
-import { pathHtml } from '@utils/map/initPath'
-import { MaterialIcons } from '@expo/vector-icons'
-import IconButton from '@components/common/IconButton'
-// import * as Location from 'expo-location'
-
-import Input from '@components/common/Input'
-import Button from '@components/common/Button'
-
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
+import InitPath from '@utils/map/InitPath'
 
 export default function SearchPath() {
   const [depart, setDepart] = useState<{
@@ -89,20 +80,14 @@ export default function SearchPath() {
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {resultData && (
-        <View>
+        <View style={map.container}>
           <MapHeader
             depart={depart?.title}
             destin={destin?.title}
             noneButton={true}
           />
-          <WebView
-            source={{
-              html: pathHtml,
-            }}
-            style={{ flex: 1, zIndex: 0 }}
-            originWhitelist={['*']}
-          />
-          <MapCard />
+          <InitPath />
+          {/* <MapCard /> */}
         </View>
       )}
     </SafeAreaView>

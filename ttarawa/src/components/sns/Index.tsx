@@ -1,7 +1,8 @@
-import { StyleSheet, View, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
 import FeedCard from '@components/common/FeedCard'
 import { color } from '@styles/GlobalStyles'
+import { sns } from '@styles/sns'
 
 export default function SnsCard() {
   interface SnsData {
@@ -56,42 +57,6 @@ export default function SnsCard() {
       content:
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
-    // {
-    //   historyId: 3,
-
-    //   profile: '@assets/profile.png',
-    //   nickname: '따르릉예지',
-    //   badgeImg:
-    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
-    //   image: '@assets/riding.png',
-
-    //   favoritesCount: 13,
-    //   isMyFavorite: 1, // true: 1, false: 0
-
-    //   time: '30분',
-    //   distance: '3.5km',
-
-    //   content:
-    //     '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    // },
-    // {
-    //   historyId: 4,
-
-    //   profile: '@assets/profile.png',
-    //   nickname: '예지경주마',
-    //   badgeImg:
-    //     'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
-    //   image: '@assets/riding.png',
-
-    //   favoritesCount: 14,
-    //   isMyFavorite: 1, // true: 1, false: 0
-
-    //   time: '30분',
-    //   distance: '3.5km',
-
-    //   content:
-    //     '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    // },
   ]
 
   useEffect(() => {
@@ -126,7 +91,7 @@ export default function SnsCard() {
 
   // console.log(dataLst)
   return (
-    <View style={styles.snsContainer}>
+    <View style={sns.container}>
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
@@ -134,7 +99,6 @@ export default function SnsCard() {
 
           return (
             <FeedCard
-              // key={item.historyId}
               historyId={item.historyId}
               // userImg={item.profile}
               userImg={require('@assets/profile.png')}
@@ -159,12 +123,3 @@ export default function SnsCard() {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  snsContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: color.white,
-  },
-})

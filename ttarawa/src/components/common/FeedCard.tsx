@@ -11,16 +11,16 @@ import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 interface Props {
   historyId: number
   // User Info
-  userName: string
-  userImg: (params: any) => any
+  userName?: string
+  userImg?: (params: any) => any
   // rank: string
-  rank: (params: any) => any
+  rank?: (params: any) => any
 
   // 경로 이미지
   imagepath: (params: any) => any // require()  >>  image url 함수
 
   // 공개 여부
-  isLock: boolean
+  isLock?: boolean
   pressLock?: (params: any) => any // 공개, 비공개 전환 함수
 
   // 좋아요
