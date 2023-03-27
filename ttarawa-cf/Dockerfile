@@ -22,4 +22,4 @@ COPY . /app
 RUN pip install gunicorn
 
 # gunicorn으로 Flask 애플리케이션을 실행합니다.
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
