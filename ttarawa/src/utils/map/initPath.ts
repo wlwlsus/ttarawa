@@ -589,7 +589,7 @@ export const pathHtml: string = `<!DOCTYPE html>
           marker_s = new Tmapv2.Marker({
             position : new Tmapv2.LatLng(depart.latitude, depart.longitude),
             icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',
-            iconSize: new Tmapv2.Size(48, 76),
+            iconSize: new Tmapv2.Size(60, 95),
             map: map,
           })
 
@@ -597,7 +597,7 @@ export const pathHtml: string = `<!DOCTYPE html>
           marker_e = new Tmapv2.Marker({
             position : new Tmapv2.LatLng(destin.latitude, destin.longitude),
             icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',
-            iconSize: new Tmapv2.Size(48, 76),
+            iconSize: new Tmapv2.Size(60, 95),
             map: map,
           })
 
@@ -646,13 +646,13 @@ export const pathHtml: string = `<!DOCTYPE html>
                 markerImg =
                   'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png'
                 pType = 'S'
-                size = new Tmapv2.Size(24, 38)
+                size = new Tmapv2.Size(36, 57)
               } else if (properties.pointType == 'E') {
                 //도착지 마커
                 markerImg =
                   'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png'
                 pType = 'E'
-                size = new Tmapv2.Size(24, 38)
+                size = new Tmapv2.Size(36, 57)
               } else {
                 //각 포인트 마커
                 markerImg = 'http://topopen.tmap.co.kr/imgs/point.png'
@@ -702,7 +702,7 @@ export const pathHtml: string = `<!DOCTYPE html>
           polyline_ = new Tmapv2.Polyline({
             path: arrPoint,
             strokeColor: '#0000AA',
-            strokeWeight: 6,
+            strokeWeight: 15,
             map: map,
           })
           resultdrawArr.push(polyline_)

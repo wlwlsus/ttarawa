@@ -1,6 +1,6 @@
 import { StyleSheet, View, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
-import SNSCard from '@components/card/SNSCard'
+import FeedCard from '@components/common/FeedCard'
 import { color } from '@styles/GlobalStyles'
 
 export default function SnsCard() {
@@ -133,7 +133,7 @@ export default function SnsCard() {
           // const isLike: boolean = item.isMyFavorite == 1 ? true : false
 
           return (
-            <SNSCard
+            <FeedCard
               // key={item.historyId}
               historyId={item.historyId}
               // userImg={item.profile}

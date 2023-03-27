@@ -41,7 +41,7 @@ interface Props {
   content: string
 }
 
-export default function Card({
+export default function FeedCard({
   historyId,
 
   userName,

@@ -35,9 +35,3 @@ export const map = StyleSheet.create({
     margin: 15,
   },
 })
-
-export const searchpath = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})

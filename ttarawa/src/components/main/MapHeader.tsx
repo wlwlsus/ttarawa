@@ -17,6 +17,7 @@ interface Props {
   destin: string
   setDepart: (params: string) => void
   setDestin: (params: string) => void
+  noneButton?: boolean
 }
 
 export default function MapHeader({
@@ -24,33 +25,46 @@ export default function MapHeader({
   setDepart,
   destin,
   setDestin,
+  noneButton,
 }: Props) {
   return (
     <View style={map.headerContainer}>
       <View style={map.header}>
         <View style={map.inputs}>
-          <Input label="출발 |" value={depart} setValue={setDepart} />
-          <Input label="도착 |" value={destin} setValue={setDestin} />
+          <Input
+            label="출발 |"
+            value={depart}
+            setValue={setDepart}
+            disabled={noneButton}
+          />
+          <Input
+            label="도착 |"
+            value={destin}
+            setValue={setDestin}
+            disabled={noneButton}
+          />
         </View>
-        <IconButton
-          type="square"
-          text="경로확인"
-          icon1={
-            <MaterialCommunityIcons
-              name="map-outline"
-              size={40}
-              color={color.white}
-            />
-          }
-          press={() => console.log('경로확인')}
-          style={
-            depart && destin
-              ? { container: { backgroundColor: color.primary } }
-              : undefined
-          }
-        />
+        {!noneButton && (
+          <IconButton
+            type="square"
+            text="경로확인"
+            icon1={
+              <MaterialCommunityIcons
+                name="map-outline"
+                size={40}
+                color={color.white}
+              />
+            }
+            press={() => console.log('경로확인')}
+            style={
+              depart && destin
+                ? { container: { backgroundColor: color.primary } }
+                : undefined
+            }
+          />
+        )}
       </View>
-      <Categories />
+      {!noneButton && <Categories />}
     </View>
   )
 }

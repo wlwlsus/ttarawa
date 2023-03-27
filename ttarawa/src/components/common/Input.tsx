@@ -7,6 +7,7 @@ export default function Input(props: {
   value?: string
   setValue: (params: string) => any
   dir?: string
+  disabled?: boolean
 }) {
   const direction = props.dir === 'right' ? styles.right : null
 
@@ -18,6 +19,7 @@ export default function Input(props: {
         placeholder={props.placeholder}
         value={props.value}
         onChangeText={(payload: string) => props.setValue(payload)}
+        editable={!props.disabled}
       />
     </View>
   )
