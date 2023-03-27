@@ -32,6 +32,7 @@ export const map = StyleSheet.create({
     zIndex: 999,
     left: 0,
     bottom: 0,
-    margin: 15,
+    padding: 10,
+    width: '100%',
   },
 })
