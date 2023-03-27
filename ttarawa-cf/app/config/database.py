@@ -1,10 +1,10 @@
 import os
 
 # DB 연결 정보
-DB_HOST = '3.39.209.108'
+DB_HOST = 'j8a605.p.ssafy.io'
 DB_PORT = 3306
-DB_USER = 'root'
-DB_PASSWORD = 'root'
+DB_USER = 'ssafy605'
+DB_PASSWORD = 'ssafy605'
 DB_NAME = 'ssafy605'
 
 # SQLAlchemy 설정
