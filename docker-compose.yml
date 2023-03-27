@@ -41,7 +41,7 @@ services:
       context: ./ttarawa-cf
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       - ./ttarawa-cf:/app
     depends_on:
