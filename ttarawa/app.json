@@ -17,8 +17,12 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["location"]
+      }
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/ttarawa/icon.png",
