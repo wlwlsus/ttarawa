@@ -1,53 +1,58 @@
 import { SafeAreaView, View } from 'react-native'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
-import { mapHtml } from '@utils/map/initTmap'
-import { MaterialIcons } from '@expo/vector-icons'
+import InitTmap from '@utils/map/InitTmap'
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import * as Location from 'expo-location'
 import MapCard from '@components/card/MapCard'
-import { FontAwesome5 } from '@expo/vector-icons'
 import CategoryContent from '@components/main/CategoryContent'
+import { useSetRecoilState, useRecoilState } from 'recoil'
+import { departState, destinState, markerListState } from '~/store/atoms'
+import main from '~/services/main'
 
 export default function Map() {
-  const [depart, setDepart] = useState('')
-  const [destin, setDestin] = useState('')
+  const [depart, setDepart] = useRecoilState(departState)
+  const [destin, setDestin] = useRecoilState(destinState)
+  const setMarkerList = useSetRecoilState(markerListState)
 
-  // 현재위치 가져오기
+  const latitude = 37.4979
+  const longitude = 127.0276
+
   const getCurrent = async () => {
-    // 현재 경도 위도
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({ accuracy: 5 })
+    let { status } = await Location.requestForegroundPermissionsAsync()
 
-    // 현재 위치
+    if (status !== 'granted') return console.log('위치허용해줘')
+
     const location = await Location.reverseGeocodeAsync(
       { latitude, longitude },
       { useGoogleMaps: false },
     )
-    setDepart(location[0].city)
+
+    setDepart({
+      lat: latitude,
+      lng: longitude,
+      title: location[0].name,
+    })
   }
 
   useEffect(() => {
     getCurrent()
-  })
+    main
+      .fetchDestin(1, 0, 10, latitude, longitude)
+      .then((res) => {
+        setMarkerList(res)
+      })
+      .catch((err) => console.log(err))
+  }, [])
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      <MapHeader
-        depart={depart}
-        setDepart={setDepart}
-        destin={destin}
-        setDestin={setDestin}
-      />
-      <WebView
-        source={{ html: mapHtml }}
-        style={{ flex: 1, zIndex: 0 }}
-        originWhitelist={['*']}
-      />
+      <MapHeader />
+      <InitTmap />
       <View style={map.location}>
         <IconButton
           icon1={
@@ -58,7 +63,7 @@ export default function Map() {
               style={map.location}
             />
           }
-          press={() => getCurrent}
+          press={getCurrent}
         />
         <MapCard
           children={

@@ -9,3 +9,38 @@ export const userState = atom({
     riding: '32',
   },
 })
+
+export const departState = atom<object | undefined>({
+  key: 'departState',
+  default: {
+    title: undefined,
+    lat: undefined,
+    lng: undefined,
+  },
+})
+
+export const destinState = atom({
+  key: 'destinState',
+  default: {
+    title: undefined,
+    lat: undefined,
+    lng: undefined,
+  },
+})
+
+export const markerListState = atom({
+  key: 'pinListStaste',
+  default: [],
+})
+
+export const markerState = atom({
+  key: 'markerState',
+  default: {
+    address: undefined,
+    distance: undefined,
+    lat: undefined,
+    lng: undefined,
+    name: undefined,
+    spotId: undefined,
+  },
+})
