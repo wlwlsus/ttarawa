@@ -28,7 +28,7 @@ public class SpotController {
 	private final JwtUtil jwtUtil;
 
 	@Operation(summary = "추천 목적지 조회 API")
-	@GetMapping("/")
+	@GetMapping("")
 	ResponseEntity<?> getSpotList(
 			HttpServletRequest request,
 //      @Schema(description = "유저 번호", example = "1")
