@@ -81,9 +81,9 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
 
 
 def get_recommendations(lat, lng, min_distance=0, max_distance=1, num_destinations=10, user_info=None):
-    if user_info > 0:
-        similar_destinations = get_user_similar_destinations(user_info, lat, lng, num_destinations)
-        return similar_destinations
-    else:
+    if 0 < user_info < 1:
         nearby_destinations = get_nearby_destinations(lat, lng, min_distance, max_distance, num_destinations)
         return nearby_destinations
+    else:
+        similar_destinations = get_user_similar_destinations(user_info, lat, lng, num_destinations)
+        return similar_destinations
