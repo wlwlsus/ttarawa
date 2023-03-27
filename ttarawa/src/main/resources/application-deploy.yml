@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      generate-ddl: false
+      show-sql: true
+  datasource:
+    # mariaDB setting
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://j8a605.p.ssafy.io:3306/ssafy605
+    username: ssafy605
+    password: ssafy605
+
+
+flask-address: "http://j8a605.p.ssafy.io:5000"
