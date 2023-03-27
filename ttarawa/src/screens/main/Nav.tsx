@@ -41,7 +41,7 @@ export default function Map() {
   useEffect(() => {
     console.log(locationData)
   }, [locationData])
-
+  // 리코일로 locationData를 빼야함
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {/* 주행 시작 & 종료 버튼으로 대체 */}
@@ -53,6 +53,7 @@ export default function Map() {
           onValueChange={toggleSwitch}
           value={isEnabled}
         />
+
         <Text>
           {isEnabled
             ? '위치 정보 저장을 켰습니다.'
