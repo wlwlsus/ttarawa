@@ -94,10 +94,10 @@ app:
   oauth2:
     authorizedRedirectUris: exp://192.168.0.101:19000/oauth/redirect
 
+---
+spring:
+  profiles:
+    active: local
+
 logging:
-  level:
-    com:
-      jsdckj:
-        ttarawa: info
-  config:
-    classpath:logback.xml
+  config: classpath:logback.xml
