@@ -6,8 +6,9 @@ import { SafeAreaView } from 'react-native'
 import * as Location from 'expo-location'
 import { useRecoilState } from 'recoil'
 import { locationListState } from '~/store/atoms'
+import { longPressHandlerName } from 'react-native-gesture-handler/lib/typescript/handlers/LongPressGestureHandler'
 
-export default function Map() {
+export default function Nav({ navigation }) {
   type LocationObject = Location.LocationObject
 
   const [isEnabled, setIsEnabled] = useState(false)
@@ -24,13 +25,15 @@ export default function Map() {
       const newWatchId = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 5000,
-          distanceInterval: 10,
+          timeInterval: 5,
+          distanceInterval: 3,
         },
         (location) => {
           const { latitude, longitude } = location.coords
-          const newData = [...locationData, { latitude, longitude }]
-          setLocationData(newData)
+          // const newData = [...locationData, { latitude, longitude }]
+
+          setLocationData((prevData) => [...prevData, latitude, longitude])
+          // setLocationData(longitude)
         },
       )
       setWatchId(newWatchId)
@@ -45,7 +48,7 @@ export default function Map() {
   }
 
   useEffect(() => {
-    console.log(locationData)
+    console.log(locationData, '>>locationData 갱신<<')
   }, [locationData])
   // 리코일로 locationData를 빼야함
   return (
@@ -65,6 +68,8 @@ export default function Map() {
             ? '위치 정보 저장을 켰습니다.'
             : '위치 정보 저장을 껐습니다.'}
         </Text>
+
+        <Text onPress={() => navigation.navigate('Road')}>gogogogog제발</Text>
       </View>
     </SafeAreaView>
   )
