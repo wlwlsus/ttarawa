@@ -36,6 +36,18 @@ services:
       - SPRING_DATASOURCE_USERNAME=ssafy605
       - SPRING_DATASOURCE_PASSWORD=ssafy605
       - REDIS_HOST=redis
-
+  cf:
+    build:
+      context: ./ttarawa-cf
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ttarawa-cf:/app
+    depends_on:
+      - db
+      - redis
+      - backend
+    
 volumes:
   db-data:

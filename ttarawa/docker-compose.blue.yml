@@ -3,11 +3,11 @@ version: '3.8'
 services:
   app:
     image: app:0.1
-    container_name: app_test_blue
+    container_name: app_blue
     environment:
       - "spring_profiles_active=blue"
     ports:
-      - "8080:8080"
+      - "8085:8080"
     networks:
       - ttarawa-net
     volumes:
