@@ -1,11 +1,24 @@
 import { WebView } from 'react-native-webview'
-import { useRecoilValue } from 'recoil'
-import { departState, destinState, markerListState } from '~/store/atoms'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import {
+  departState,
+  destinState,
+  markerListState,
+  markerState,
+} from '~/store/atoms'
+
 export default function InitTmap() {
   // store에서 현재 위치 불러오기
   const depart = useRecoilValue(departState)
   const destin = useRecoilValue(destinState)
   const markerData = useRecoilValue(markerListState)
+  const setMarker = useSetRecoilState(markerState)
+
+  // 마커 클릭 시 해당 장소 인덱스 저장
+  function handleMessage(event: any) {
+    const index = JSON.parse(event.nativeEvent.data)
+    setMarker(index)
+  }
 
   const mapHtml: string = `<!DOCTYPE html>
   <html>
@@ -46,14 +59,14 @@ export default function InitTmap() {
             
           })
           marker.id =  String(markerData[i].spotId) // 마커 id를 마커 객체에 저장
-            markers.push(marker)
-
-            // 마커 클릭 시 React Native state 업데이트
-            marker.addListener('click', () => {
-              window.ReactNativeWebView.postMessage(marker.id)
-            })
-          }
+          
+          // 마커에 클릭 이벤트
+          marker.on("Click", function(evt) {
+            window.ReactNativeWebView.postMessage(JSON.stringify(i));
+          });
+          markers.push(marker)
         }
+      }
 
       // 모든 마커 제거
       function removeMarkers() {
@@ -74,6 +87,7 @@ export default function InitTmap() {
       source={{ html: mapHtml }}
       style={{ flex: 1, zIndex: 0 }}
       originWhitelist={['*']}
+      onMessage={handleMessage}
     />
   )
 }

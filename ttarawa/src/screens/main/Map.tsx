@@ -1,6 +1,5 @@
 import { SafeAreaView, View, ScrollView } from 'react-native'
-import { useEffect } from 'react'
-import { WebView } from 'react-native-webview'
+import { useEffect, useState } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
@@ -10,19 +9,25 @@ import IconButton from '@components/common/IconButton'
 import * as Location from 'expo-location'
 import MapCard from '@components/card/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
-import { useSetRecoilState, useRecoilState } from 'recoil'
-import { departState, destinState, markerListState } from '~/store/atoms'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import {
+  departState,
+  destinState,
+  markerListState,
+  markerState,
+} from '~/store/atoms'
 import main from '~/services/main'
 
 export default function Map() {
   const [depart, setDepart] = useRecoilState(departState)
-  const [destin, setDestin] = useRecoilState(destinState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
+  const marker = useRecoilValue(markerState)
 
   // Todo: 현재위치로 바꾸기
   const latitude = 37.4979
   const longitude = 127.0276
 
+  // 현재 위치 가져오기
   const getCurrent = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync()
 
@@ -72,8 +77,8 @@ export default function Map() {
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
           >
-            {markerList.map((marker) => (
-              <View key={marker.spotId} style={map.cardContainer}>
+            {markerList.map((marker, index) => (
+              <View key={index} style={map.cardContainer}>
                 <MapCard
                   children={
                     <CategoryContent
