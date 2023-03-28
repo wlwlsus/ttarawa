@@ -93,4 +93,14 @@ app:
   oauth2:
     authorizedRedirectUris: exp://192.168.0.101:19000/oauth/redirect
 
+
+logging:
+  level:
+    com:
+      jsdckj:
+        ttarawa: info
+  config:
+    classpath:logback.xml
+
 flask-address: "http://j8a605.p.ssafy.io:8000"
+
