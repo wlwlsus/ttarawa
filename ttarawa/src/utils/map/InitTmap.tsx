@@ -7,11 +7,6 @@ export default function InitTmap() {
   const destin = useRecoilValue(destinState)
   const markerData = useRecoilValue(markerListState)
 
-  const onMessage = (e: any) => {
-    const data = e.nativeEvent.data
-    console.log(data)
-  }
-
   const mapHtml: string = `<!DOCTYPE html>
   <html>
     <head>
@@ -28,7 +23,7 @@ export default function InitTmap() {
           center: new Tmapv3.LatLng(lat, lng),
           width: '100%', // 지도의 넓이
           height: '100vh', // 지도의 높이
-          zoom: 17, // 지도 줌레벨
+          zoom: 16, // 지도 줌레벨
         })
         
         // 마커 등록 함수
@@ -77,9 +72,8 @@ export default function InitTmap() {
   return (
     <WebView
       source={{ html: mapHtml }}
-      style={{ flex: 1, zIndex: 0, pointerEvents: 'auto' }}
+      style={{ flex: 1, zIndex: 0 }}
       originWhitelist={['*']}
-      onMessage={(event) => console.log(event.nativeEvent.data)}
     />
   )
 }

@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from 'react-native'
+import { SafeAreaView, View, ScrollView } from 'react-native'
 import { useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { styles, color } from '@styles/GlobalStyles'
@@ -17,8 +17,9 @@ import main from '~/services/main'
 export default function Map() {
   const [depart, setDepart] = useRecoilState(departState)
   const [destin, setDestin] = useRecoilState(destinState)
-  const setMarkerList = useSetRecoilState(markerListState)
+  const [markerList, setMarkerList] = useRecoilState(markerListState)
 
+  // Todo: 현재위치로 바꾸기
   const latitude = 37.4979
   const longitude = 127.0276
 
@@ -42,7 +43,7 @@ export default function Map() {
   useEffect(() => {
     getCurrent()
     main
-      .fetchDestin(1, 0, 10, latitude, longitude)
+      .fetchDestin(3, 0, 10, latitude, longitude)
       .then((res) => {
         setMarkerList(res)
       })
@@ -53,7 +54,7 @@ export default function Map() {
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       <MapHeader />
       <InitTmap />
-      <View style={map.location}>
+      <View style={map.content}>
         <IconButton
           icon1={
             <MaterialIcons
@@ -65,20 +66,36 @@ export default function Map() {
           }
           press={getCurrent}
         />
-        <MapCard
-          children={
-            <CategoryContent
-              title="멀티캠퍼스 역삼"
-              distance={2.3}
-              address="서울 강남구 테헤란로 212(역삼동)"
-            />
-          }
-          icon={
-            <FontAwesome5 name="flag-checkered" size={30} color={color.white} />
-          }
-          btnText="목적지 설정"
-          press={() => console.log('hi')}
-        />
+        {markerList.length ? (
+          <ScrollView
+            horizontal={true}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            {markerList.map((marker) => (
+              <View key={marker.spotId} style={map.cardContainer}>
+                <MapCard
+                  children={
+                    <CategoryContent
+                      title={marker.name}
+                      distance={marker.distance}
+                      address={marker.address}
+                    />
+                  }
+                  icon={
+                    <FontAwesome5
+                      name="flag-checkered"
+                      size={30}
+                      color={color.white}
+                    />
+                  }
+                  btnText="목적지 설정"
+                  press={() => console.log('hi')}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        ) : null}
       </View>
     </SafeAreaView>
   )

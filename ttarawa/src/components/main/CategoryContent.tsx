@@ -14,8 +14,8 @@ export default function CategoryContent({ title, distance, address }: Props) {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.distance}>{distance}km</Text>
       </View>
-      <View>
-        <Text style={styles.address}>{address}</Text>
+      <View style={styles.address}>
+        <Text>{address}</Text>
       </View>
     </View>
   )
@@ -24,13 +24,20 @@ export default function CategoryContent({ title, distance, address }: Props) {
 const styles = StyleSheet.create({
   content: {
     justifyContent: 'space-around',
+    flex: 1,
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
-  title: { fontSize: 18, fontWeight: 'bold' },
-  distance: { fontSize: 15, color: color.primary },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  distance: {
+    marginLeft: 5,
+    fontSize: 15,
+    color: color.primary,
+  },
   address: {},
 })

@@ -20,8 +20,7 @@ export default function MapCard({
 }: Props) {
   return (
     <View style={[styles.container, styles.shadow]}>
-      {/* 카드 내용물 */}
-      <>{children}</>
+      <View style={styles.content}>{children}</View>
       <Pressable onPress={press} style={styles.iconBtn}>
         <View style={[styles.iconContainer, styles.shadow]}>{icon}</View>
         <Text style={styles.btnText}>{btnText}</Text>
@@ -35,11 +34,13 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     padding: 10,
     borderRadius: 15,
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    width: '100%',
+    flex: 1,
+  },
+  content: {
+    flex: 0.8,
   },
   iconBtn: {
+    flex: 0.2,
     alignItems: 'center',
   },
   iconContainer: {

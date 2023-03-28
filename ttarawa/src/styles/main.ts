@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { color } from '@styles/GlobalStyles'
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const map = StyleSheet.create({
   container: {
@@ -21,6 +22,12 @@ export const map = StyleSheet.create({
     marginRight: 5,
     gap: 5,
   },
+  content: {
+    position: 'absolute',
+    zIndex: 999,
+    left: 0,
+    bottom: 0,
+  },
   buttons: {
     flexDirection: 'row',
     marginHorizontal: 10,
@@ -28,11 +35,12 @@ export const map = StyleSheet.create({
     gap: 10,
   },
   location: {
-    position: 'absolute',
-    zIndex: 999,
-    left: 0,
-    bottom: 0,
+    paddingLeft: 10,
+    alignSelf: 'flex-start',
+  },
+  cardContainer: {
+    width: SCREEN_WIDTH,
     padding: 10,
-    width: '100%',
+    flex: 1,
   },
 })

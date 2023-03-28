@@ -29,7 +29,7 @@ export const destinState = atom({
 })
 
 export const markerListState = atom({
-  key: 'pinListStaste',
+  key: 'markerListStaste',
   default: [],
 })
 
