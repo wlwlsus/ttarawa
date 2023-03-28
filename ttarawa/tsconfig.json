@@ -20,7 +20,7 @@
       "@screens/*": ["screens/*"],
       "@navigations/*": ["navigations/*"],
       "@services/*": ["services/*"],
-      "@stores/*": ["stores/*"],
+      "@store/*": ["store/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
       "@assets/*": ["../assets/*"]

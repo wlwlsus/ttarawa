@@ -1,25 +1,33 @@
 import { WebView } from 'react-native-webview'
-
-// // store에서 현재 위치 불러오기
-// const lat: number = 37.5652045
-// const lng: number = 126.98702028
-
-// store에서 markers 불러오기
+import { useRecoilValue } from 'recoil'
+import { map } from '@styles/main'
+import { departState, destinState, pathInfo } from '@store/atoms'
 
 export default function InitPath() {
-  const departData: { latitude: number; longitude: number } = {
-    latitude: 37.564991,
-    longitude: 126.983937,
+  // store에서 출발, 도작지 불러오기
+
+  // --------------------- 삭제 -----------------------
+  const departData: { lat: number; lng: number } = {
+    lat: 37.564991,
+    lng: 126.983937,
   }
 
-  const destinData: { latitude: number; longitude: number } = {
-    latitude: 37.566158,
-    longitude: 126.98894,
+  const destinData: { lat: number; lng: number } = {
+    lat: 37.566158,
+    lng: 126.98894,
   }
+  // ---------------------------------------------------
 
-  const middlePoint: { latitude: number; longitude: number } = {
-    latitude: (departData.latitude + destinData.latitude) / 2,
-    longitude: (departData.longitude + destinData.longitude) / 2,
+  // Recoil 적용
+  // const departData: { title: string; lat: number; lng: number } =
+  //   useRecoilValue(departState)
+
+  // const destinData: { title: string; lat: number; lng: number } =
+  //   useRecoilValue(destinState)
+
+  const middlePoint: { lat: number; lng: number } = {
+    lat: (departData.lat + destinData.lat) / 2,
+    lng: (departData.lng + destinData.lng) / 2,
   }
 
   interface FeatureProperties {
@@ -54,510 +62,7 @@ export default function InitPath() {
     properties: FeatureProperties
   }
 
-  const resultData: Feature[] = [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14135786, 4518153],
-      },
-      properties: {
-        totalDistance: 604,
-        totalTime: 496,
-        index: 0,
-        pointIndex: 0,
-        name: '',
-        description: '29m 이동',
-        direction: '',
-        nearPoiName: '',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 200,
-        pointType: 'SP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14135786, 4518153],
-          [14135822, 4518155],
-        ],
-      },
-      properties: {
-        index: 1,
-        lineIndex: 0,
-        name: '',
-        description: ', 29m',
-        distance: 29,
-        time: 21,
-        roadType: 0,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14135822, 4518155],
-      },
-      properties: {
-        index: 2,
-        pointIndex: 1,
-        name: '미스터빈대떡 명동점',
-        description: '미스터빈대떡 명동점 에서 좌회전 후 95m 이동 ',
-        direction: '',
-        nearPoiName: '미스터빈대떡 명동점',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 12,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14135822, 4518155],
-          [14135823, 4518177],
-          [14135819, 4518221],
-          [14135815, 4518243],
-          [14135809, 4518275],
-        ],
-      },
-      properties: {
-        index: 3,
-        lineIndex: 1,
-        name: '',
-        description: ', 95m',
-        distance: 95,
-        time: 74,
-        roadType: 22,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14135809, 4518275],
-      },
-      properties: {
-        index: 4,
-        pointIndex: 2,
-        name: '화로이야기',
-        description: '화로이야기 에서 우회전 후 보행자도로 을 따라 14m 이동 ',
-        direction: '',
-        nearPoiName: '화로이야기',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 13,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14135809, 4518275],
-          [14135814, 4518281],
-          [14135821, 4518288],
-        ],
-      },
-      properties: {
-        index: 5,
-        lineIndex: 2,
-        name: '보행자도로',
-        description: '보행자도로, 14m',
-        distance: 14,
-        time: 11,
-        roadType: 22,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14135821, 4518288],
-          [14135835, 4518289],
-          [14135957, 4518290],
-          [14135972, 4518291],
-          [14135986, 4518291],
-          [14135997, 4518291],
-        ],
-      },
-      properties: {
-        index: 6,
-        lineIndex: 3,
-        name: '을지로',
-        description: '을지로, 140m',
-        distance: 140,
-        time: 129,
-        roadType: 22,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14135997, 4518291],
-      },
-      properties: {
-        index: 7,
-        pointIndex: 3,
-        name: '',
-        description: '횡단보도 후 보행자도로 을 따라 6m 이동 ',
-        direction: '',
-        nearPoiName: '',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '15',
-        facilityName: '',
-        turnType: 211,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14135997, 4518291],
-          [14136005, 4518292],
-        ],
-      },
-      properties: {
-        index: 8,
-        lineIndex: 4,
-        name: '보행자도로',
-        description: '보행자도로, 6m',
-        distance: 6,
-        time: 5,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '15',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136005, 4518292],
-      },
-      properties: {
-        index: 9,
-        pointIndex: 4,
-        name: '',
-        description: '직진 후 107m 이동 ',
-        direction: '',
-        nearPoiName: '',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 11,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136005, 4518292],
-          [14136030, 4518293],
-          [14136058, 4518295],
-          [14136139, 4518300],
-        ],
-      },
-      properties: {
-        index: 10,
-        lineIndex: 5,
-        name: '',
-        description: ', 107m',
-        distance: 107,
-        time: 76,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136139, 4518300],
-      },
-      properties: {
-        index: 11,
-        pointIndex: 5,
-        name: '을지지하쇼핑센터',
-        description: '을지지하쇼핑센터 에서 우회전 후 을지로 을 따라 15m 이동 ',
-        direction: '',
-        nearPoiName: '을지지하쇼핑센터',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '을지2가7번출구',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 13,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136139, 4518300],
-          [14136154, 4518289],
-        ],
-      },
-      properties: {
-        index: 12,
-        lineIndex: 6,
-        name: '을지로',
-        description: '을지로, 15m',
-        distance: 15,
-        time: 10,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136154, 4518289],
-          [14136166, 4518282],
-          [14136168, 4518259],
-        ],
-      },
-      properties: {
-        index: 13,
-        lineIndex: 7,
-        name: '삼일대로',
-        description: '삼일대로, 29m',
-        distance: 29,
-        time: 51,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136168, 4518259],
-      },
-      properties: {
-        index: 14,
-        pointIndex: 6,
-        name: '정관장 을지로본점',
-        description:
-          '정관장 을지로본점 에서 좌측 횡단보도 후 보행자도로 을 따라 35m 이동 ',
-        direction: '',
-        nearPoiName: '정관장 을지로본점',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '15',
-        facilityName: '',
-        turnType: 212,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136168, 4518259],
-          [14136212, 4518261],
-        ],
-      },
-      properties: {
-        index: 15,
-        lineIndex: 8,
-        name: '보행자도로',
-        description: '보행자도로, 35m',
-        distance: 35,
-        time: 24,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '15',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136212, 4518261],
-      },
-      properties: {
-        index: 16,
-        pointIndex: 7,
-        name: '',
-        description: '좌회전 후 17m 이동 ',
-        direction: '',
-        nearPoiName: '',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 12,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136212, 4518261],
-          [14136212, 4518272],
-          [14136213, 4518283],
-        ],
-      },
-      properties: {
-        index: 17,
-        lineIndex: 9,
-        name: '',
-        description: ', 17m',
-        distance: 17,
-        time: 12,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136213, 4518283],
-      },
-      properties: {
-        index: 18,
-        pointIndex: 8,
-        name: '',
-        description: '우회전 후 삼일대로 을 따라 15m 이동 ',
-        direction: '',
-        nearPoiName: '',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '을지2가5번출구',
-        facilityType: '11',
-        facilityName: '',
-        turnType: 13,
-        pointType: 'GP',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136213, 4518283],
-          [14136216, 4518302],
-        ],
-      },
-      properties: {
-        index: 19,
-        lineIndex: 10,
-        name: '삼일대로',
-        description: '삼일대로, 15m',
-        distance: 15,
-        time: 11,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [14136216, 4518302],
-          [14136217, 4518302],
-          [14136218, 4518302],
-          [14136232, 4518303],
-          [14136344, 4518307],
-        ],
-      },
-      properties: {
-        index: 20,
-        lineIndex: 11,
-        name: '을지로',
-        description: '을지로, 102m',
-        distance: 102,
-        time: 72,
-        roadType: 21,
-        categoryRoadType: 0,
-        facilityType: '11',
-        facilityName: '',
-      },
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [14136344, 4518307],
-      },
-      properties: {
-        index: 21,
-        pointIndex: 9,
-        name: '도착지',
-        description: '도착',
-        direction: '',
-        nearPoiName: '도착지',
-        nearPoiX: '0.0',
-        nearPoiY: '0.0',
-        intersectionName: '을지로3가역',
-        facilityType: '',
-        facilityName: '',
-        turnType: 201,
-        pointType: 'EP',
-      },
-    },
-  ]
+  const resultData: Feature[] = useRecoilValue(pathInfo)
 
   const pathHtml: string = `<!DOCTYPE html>
     <html>
@@ -582,16 +87,16 @@ export default function InitPath() {
           function initTmap() {
             // 1. 지도 띄우기
             map = new Tmapv2.Map('map_div', {
-              center : new Tmapv2.LatLng(middlePoint.latitude, middlePoint.longitude),
+              center : new Tmapv2.LatLng(middlePoint.lat, middlePoint.lng),
               width: '100%',
               height: '1900px',
-              zoom: 17,
+              zoom: 15,
             })
   
             // 2. 시작, 도착 심볼찍기
             // 시작
             marker_s = new Tmapv2.Marker({
-              position : new Tmapv2.LatLng(depart.latitude, depart.longitude),
+              position : new Tmapv2.LatLng(depart.lat, depart.lng),
               icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',
               iconSize: new Tmapv2.Size(60, 95),
               map: map,
@@ -599,7 +104,7 @@ export default function InitPath() {
   
             // 도착
             marker_e = new Tmapv2.Marker({
-              position : new Tmapv2.LatLng(destin.latitude, destin.longitude),
+              position : new Tmapv2.LatLng(destin.lat, destin.lng),
               icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',
               iconSize: new Tmapv2.Size(60, 95),
               map: map,
@@ -721,13 +226,14 @@ export default function InitPath() {
         <div class="map_act_btn_wrap clear_box"></div>
       </body>
     </html>  
-    `
+  `
+
   return (
     <WebView
       source={{
         html: pathHtml,
       }}
-      style={{ flex: 1, zIndex: 0 }}
+      style={map.mapContainer}
       originWhitelist={['*']}
     />
   )

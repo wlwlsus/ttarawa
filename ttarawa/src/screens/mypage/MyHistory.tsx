@@ -1,13 +1,3 @@
-// import { View, Text, SafeAreaView } from 'react-native'
-
-// export default function MyHistory() {
-//   return (
-//     <SafeAreaView>
-//       <Text>MyHistory</Text>
-//     </SafeAreaView>
-//   )
-// }
-
 import { View, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
 import FeedCard from '@components/common/FeedCard'
@@ -18,8 +8,8 @@ export default function SnsCard() {
   interface SnsData {
     historyId: number
     image: string // 주행기록
-    personal: number // 공개여부
-    favoritesCount: number | boolean // 좋아요 수
+    personal: number | boolean // 공개여부
+    favoritesCount: number // 좋아요 수
     isMyFavorite: number | boolean // 좋아요 여부  true: 1, false: 0
     time: string // 주행 시간
     distance: string // 주행 거리
@@ -69,7 +59,7 @@ export default function SnsCard() {
     setDataLst(newData)
   }, [])
 
-  const checkLike = (key: number) => {
+  const pressLike = (key: number) => {
     // const check = dataLst.find((data) => data.historyId === key)
 
     const updateData: SnsData[] = dataLst.map((data) => {
@@ -84,11 +74,28 @@ export default function SnsCard() {
       }
       return data
     })
-
     setDataLst(updateData)
   }
 
-  // console.log(dataLst)
+  const pressLock = (key: number) => {
+    const updateData: SnsData[] = dataLst.map((data) => {
+      if (data.historyId === key) {
+        return {
+          ...data,
+          personal: !data.personal,
+        }
+      }
+      return data
+    })
+    setDataLst(updateData)
+  }
+
+  // 예지's  ---------------------------------------------------
+  // 하단 네브바 생성??
+  const pressMenu = () => {}
+
+  // -----------------------------------------------------------
+
   return (
     <View style={sns.container}>
       <FlatList
@@ -99,19 +106,19 @@ export default function SnsCard() {
               historyId={item.historyId}
               imagepath={require('@assets/riding.png')}
               isLock={item.personal}
+              pressLock={pressLock}
               likes={item.favoritesCount}
               isLike={item.isMyFavorite}
+              pressLike={pressLike}
               distence={item.distance}
               time={item.time}
               content={item.content}
-              pressLike={checkLike}
             />
           )
         }}
         keyExtractor={(item) => item.historyId.toString()}
-        // 끝에까지 닿았다면?
-        onEndReached={() => console.log('End reached')}
-        onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
+        // 스크롤 감추기
+        showsVerticalScrollIndicator={false}
       />
     </View>
   )

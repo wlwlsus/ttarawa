@@ -57,6 +57,42 @@ export default function SnsCard() {
       content:
         '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
     },
+    {
+      historyId: 3,
+
+      profile: '@assets/profile.png',
+      nickname: '따르릉예지',
+      badgeImg:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
+      image: '@assets/riding.png',
+
+      favoritesCount: 13,
+      isMyFavorite: 1, // true: 1, false: 0
+
+      time: '30분',
+      distance: '3.5km',
+
+      content:
+        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    },
+    {
+      historyId: 4,
+
+      profile: '@assets/profile.png',
+      nickname: '예지경주마',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+      image: '@assets/riding.png',
+
+      favoritesCount: 14,
+      isMyFavorite: 1, // true: 1, false: 0
+
+      time: '30분',
+      distance: '3.5km',
+
+      content:
+        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    },
   ]
 
   useEffect(() => {
@@ -70,7 +106,7 @@ export default function SnsCard() {
     setDataLst(newData)
   }, [])
 
-  const checkLike = (key: number) => {
+  const pressLike = (key: number) => {
     // const check = dataLst.find((data) => data.historyId === key)
 
     const updateData: SnsData[] = dataLst.map((data) => {
@@ -95,8 +131,6 @@ export default function SnsCard() {
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
-          // const isLike: boolean = item.isMyFavorite == 1 ? true : false
-
           return (
             <FeedCard
               historyId={item.historyId}
@@ -111,7 +145,7 @@ export default function SnsCard() {
               distence={item.distance}
               time={item.time}
               content={item.content}
-              pressLike={checkLike}
+              pressLike={pressLike}
             />
           )
         }}
@@ -119,6 +153,10 @@ export default function SnsCard() {
         // 끝에까지 닿았다면?
         onEndReached={() => console.log('End reached')}
         onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
+        // 하나씩 넘기기
+        pagingEnabled={true}
+        // 스크롤 감추기
+        showsVerticalScrollIndicator={false}
       />
     </View>
   )

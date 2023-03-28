@@ -20,8 +20,8 @@ interface Props {
   imagepath: (params: any) => any // require()  >>  image url 함수
 
   // 공개 여부
-  isLock?: boolean
-  pressLock?: (params: any) => any // 공개, 비공개 전환 함수
+  isLock?: number | boolean
+  pressLock: (params: any) => any | undefined // 공개, 비공개 전환 함수
 
   // 좋아요
   likes: number // 좋아요 수
@@ -51,14 +51,14 @@ export default function FeedCard({
   imagepath,
 
   isLock,
-  // presslock,
+  pressLock,
 
   likes,
   isLike,
   pressLike,
 
-  // pressShare,
-  // pressMenu,
+  pressShare,
+  pressMenu,
 
   distence,
   time,
@@ -71,26 +71,12 @@ export default function FeedCard({
   const distanceText = `주행 거리 : ${distence}`
   const timeText = `주행 시간 : ${time}`
 
-  // setLikes(isLike)
-  // setLikeNum(likes)
-
-  // // 좋아요 여부 저장 변수 (props로 넘길???)
-  // const [like, setLike] = useState(isLike)
-
-  // // 좋아요 수 변수
-  // const [likeNum, setLikeNum] = useState(likes)
-
-  // const checklike = () => {
-  //   setLike(!like)
-  //   like ? setLikeNum(likeNum - 1) : setLikeNum(likeNum + 1)
-  // }
-
   // 공개, 비공개 여부 변수
-  const [lock, setLock] = useState(isLock)
+  // const [lock, setLock] = useState(isLock)
 
-  const checklock = () => {
-    setLock(!lock)
-  }
+  // const checklock = () => {
+  //   setLock(!lock)
+  // }
 
   return (
     <View style={styles.cardContainer}>
@@ -112,13 +98,15 @@ export default function FeedCard({
           <View style={styles.lock}>
             <IconButton
               icon1={
-                lock ? (
+                isLock ? (
                   <Fontisto name="locked" size={24} color="black" />
                 ) : (
                   <Fontisto name="unlocked" size={24} color="black" />
                 )
               }
-              press={checklock}
+              press={() => {
+                pressLock(historyId)
+              }}
             />
           </View>
         )}
