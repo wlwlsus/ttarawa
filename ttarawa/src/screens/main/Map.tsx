@@ -1,5 +1,5 @@
-import { SafeAreaView, View, ScrollView } from 'react-native'
-import { useEffect, useState } from 'react'
+import { SafeAreaView, View, ScrollView, Dimensions } from 'react-native'
+import { useEffect, useState, useRef } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
@@ -10,13 +10,10 @@ import * as Location from 'expo-location'
 import MapCard from '@components/card/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import {
-  departState,
-  destinState,
-  markerListState,
-  markerState,
-} from '~/store/atoms'
-import main from '~/services/main'
+import { departState, markerListState, markerState } from '~/store/atoms'
+import main from '@services/main'
+
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Map() {
   const [depart, setDepart] = useRecoilState(departState)
@@ -38,12 +35,23 @@ export default function Map() {
       { useGoogleMaps: false },
     )
 
+    // 도착지 설정
     setDepart({
       lat: latitude,
       lng: longitude,
       title: location[0].name,
     })
   }
+
+  // 해당 마커로 카드 스크롤
+  const scrollViewRef = useRef()
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollTo({
+      x: SCREEN_WIDTH * marker,
+      animated: true,
+    })
+  }, [marker])
 
   useEffect(() => {
     getCurrent()
@@ -73,6 +81,7 @@ export default function Map() {
         />
         {markerList.length ? (
           <ScrollView
+            ref={scrollViewRef}
             horizontal={true}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}

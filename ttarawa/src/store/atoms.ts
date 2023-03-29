@@ -10,7 +10,7 @@ export const userState = atom({
   },
 })
 
-export const departState = atom<object | undefined>({
+export const departState = atom<object>({
   key: 'departState',
   default: {
     title: undefined,

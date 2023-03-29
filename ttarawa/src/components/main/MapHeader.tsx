@@ -16,10 +16,6 @@ export default function MapHeader() {
   const [depart, setDepart] = useRecoilState(departState)
   const [destin, setDestin] = useRecoilState(destinState)
 
-  useEffect(() => {
-    console.log(destin)
-  }, [destin])
-
   return (
     <View style={map.headerContainer}>
       <View style={map.header}>

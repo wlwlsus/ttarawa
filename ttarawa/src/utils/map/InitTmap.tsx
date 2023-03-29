@@ -1,24 +1,32 @@
 import { WebView } from 'react-native-webview'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 import {
   departState,
   destinState,
   markerListState,
   markerState,
 } from '~/store/atoms'
+import { useEffect } from 'react'
 
 export default function InitTmap() {
-  // store에서 현재 위치 불러오기
   const depart = useRecoilValue(departState)
-  const destin = useRecoilValue(destinState)
+  const [destin, setDestin] = useRecoilState(destinState)
   const markerData = useRecoilValue(markerListState)
   const setMarker = useSetRecoilState(markerState)
 
-  // 마커 클릭 시 해당 장소 인덱스 저장
+  // 마커 클릭 시
   function handleMessage(event: any) {
+    // 마커 인덱스 저장
     const index = JSON.parse(event.nativeEvent.data)
     setMarker(index)
+
+    // 도착지로 지정
+    const { name, lat, lng } = markerData[index]
+    setDestin({ ...destin, title: name, lat, lng })
   }
+
+  // 지도 센터
+  let center = destin.title ? destin : depart
 
   const mapHtml: string = `<!DOCTYPE html>
   <html>
@@ -29,14 +37,14 @@ export default function InitTmap() {
       <script type="text/javascript">
       let map
   
-      const {lat, lng} =  ${JSON.stringify(depart)}
+      const {lat, lng} =  ${JSON.stringify(center)}
 
       function initTmap() {
         map = new Tmapv3.Map('map_div', {
-          center: new Tmapv3.LatLng(lat, lng),
-          width: '100%', // 지도의 넓이
-          height: '100vh', // 지도의 높이
-          zoom: 16, // 지도 줌레벨
+          center: new Tmapv3.LatLng(lat, lng),  // 지도 센터
+          width: '100%', 
+          height: '100vh',
+          zoom: 16, // 줌레벨
         })
         
         // 마커 등록 함수
