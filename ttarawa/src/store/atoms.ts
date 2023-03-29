@@ -56,3 +56,8 @@ export const snsModal = atom({
   key: 'snsModalState',
   default: false,
 })
+
+export const locationListState = atom({
+  key: 'locationListState',
+  default: [],
+})
