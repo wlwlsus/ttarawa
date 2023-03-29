@@ -7,7 +7,7 @@ import InitTmap from '@utils/map/InitTmap'
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import * as Location from 'expo-location'
-import MapCard from '@components/card/MapCard'
+import MapCard from '@components/main/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import {
@@ -20,7 +20,7 @@ import main from '@services/main'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-export default function Map() {
+export default function Map({ navigation }) {
   const [depart, setDepart] = useRecoilState(departState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const marker = useRecoilValue(markerState)
@@ -86,7 +86,7 @@ export default function Map() {
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      <MapHeader />
+      <MapHeader navigation={navigation} />
       <InitTmap />
       <View style={map.content}>
         <IconButton

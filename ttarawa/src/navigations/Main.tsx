@@ -9,7 +9,7 @@ const MainStack = createStackNavigator()
 export default function MainStackScreen() {
   return (
     <MainStack.Navigator
-      initialRouteName="SearchPath"
+      initialRouteName="Map"
       screenOptions={{ headerShown: false }}
     >
       <MainStack.Screen name="Map" component={Map} />

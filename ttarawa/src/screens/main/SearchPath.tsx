@@ -90,11 +90,7 @@ export default function SearchPath() {
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {resultData && (
         <View style={map.container}>
-          <MapHeader
-            depart={depart?.name}
-            destin={destin?.name}
-            noneButton={true}
-          />
+          <MapHeader noneButton={true} />
           <InitPath />
           {/* <MapCard /> */}
         </View>

@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
+import { NavigationProp } from '@react-navigation/native'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { useEffect } from 'react'
 import Input from '@components/common/Input'
 import IconButton from '@components/common/IconButton'
 
@@ -11,15 +11,14 @@ import { color } from '@styles/GlobalStyles'
 import { departState, destinState } from '~/store/atoms'
 
 import Categories from '@components/main/Categories'
+import SearchPath from '~/screens/main/SearchPath'
 
 interface Props {
+  navigation: NavigationProp<any>
   noneButton?: boolean
 }
 
-export default function MapHeader({
-  noneButton
-}: Props) {
-
+export default function MapHeader({ noneButton, navigation }: Props) {
   const [depart, setDepart] = useRecoilState(departState)
   const [destin, setDestin] = useRecoilState(destinState)
 
@@ -51,7 +50,7 @@ export default function MapHeader({
                 color={color.white}
               />
             }
-            press={() => console.log('경로확인')}
+            press={() => navigation.navigate(SearchPath)}
             style={
               depart.name && destin.name
                 ? { container: { backgroundColor: color.primary } }
