@@ -38,14 +38,7 @@ export const markerListState = atom({
 
 export const markerState = atom({
   key: 'markerState',
-  default: {
-    address: undefined,
-    distance: undefined,
-    lat: undefined,
-    lng: undefined,
-    name: undefined,
-    spotId: undefined,
-  },
+  default: 0
 })
 
 // 길안내 좌표

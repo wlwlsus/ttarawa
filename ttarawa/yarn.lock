@@ -3432,6 +3432,14 @@
     "find-up" "^5.0.0"
     "fs-extra" "^9.1.0"
 
+"expo-modules-core@^1.2.6":
+  "integrity" "sha512-vyleKepkP8F6L+D55B/E4FbZ8x9pdy3yw/mdbGBkDkrmo2gmeMjOM1mKLSszOkLIqet05O7Wy8m0FZHZTo0VBg=="
+  "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.2.6.tgz"
+  "version" "1.2.6"
+  dependencies:
+    "compare-versions" "^3.4.0"
+    "invariant" "^2.2.4"
+
 "expo-modules-core@1.2.4":
   "integrity" "sha512-AV0NCTy9O8xQqpKgX6gvsDzV1ogpCzYpGxqM85Vw1xHsOF51s7Avu7NdNjBPUZOVuDderUXAvd97dWrtefSKcA=="
   "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.2.4.tgz"
@@ -3454,6 +3462,11 @@
     "expo-constants" "~14.2.0"
     "fs-extra" "^9.1.0"
     "uuid" "^3.4.0"
+
+"expo-permissions@^14.1.1":
+  "integrity" "sha512-hOuAOBz+ZLsSJ3E8Ere/oA7YIYLNGf9fCApTi9OQmeJyCBsBHynf1yqMfVVpuDcCMixZ2XzsWlScq75f+7U1dQ=="
+  "resolved" "https://registry.npmjs.org/expo-permissions/-/expo-permissions-14.1.1.tgz"
+  "version" "14.1.1"
 
 "expo-status-bar@~1.4.4":
   "integrity" "sha512-5DV0hIEWgatSC3UgQuAZBoQeaS9CqeWRZ3vzBR9R/+IUD87Adbi4FGhU10nymRqFXOizGsureButGZIXPs7zEA=="
@@ -4725,7 +4738,7 @@
   "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"
 
-"lodash@^4.17.13", "lodash@^4.17.21", "lodash@^4.17.4":
+"lodash@^4.0.0", "lodash@^4.17.13", "lodash@^4.17.21", "lodash@^4.17.4":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -6022,6 +6035,13 @@
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.16.tgz"
   "version" "0.71.16"
 
+"react-native-intersection-observer@^0.0.9":
+  "integrity" "sha512-vH+g6Pm6WYo0j2QylRVwwJU3U+qc4n42pesn/6gWMUDwO9YKHSgbq43s1lQN2D/2tm07IFgbVe7HtB3GX9Gbvg=="
+  "resolved" "https://registry.npmjs.org/react-native-intersection-observer/-/react-native-intersection-observer-0.0.9.tgz"
+  "version" "0.0.9"
+  dependencies:
+    "lodash" "^4.0.0"
+
 "react-native-paper@^5.4.0", "react-native-paper@>= 3.0.0":
   "integrity" "sha512-f1etvm1RZakDH/oKUNH5BSFBysip3dv++Wr63Ng2p0YfG/iH4rzeQ5DVhksHObnIFWPFHRkrPsqcisaUlkl0oA=="
   "resolved" "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.4.0.tgz"
@@ -6133,7 +6153,7 @@
     "whatwg-fetch" "^3.0.0"
     "ws" "^6.2.2"
 
-"react-redux@^7.2.1 || ^8.0.2", "react-redux@^8.0.5":
+"react-redux@^7.2.1 || ^8.0.2":
   "integrity" "sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw=="
   "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-8.0.5.tgz"
   "version" "8.0.5"
@@ -6214,7 +6234,7 @@
   "resolved" "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.4.2.tgz"
   "version" "2.4.2"
 
-"redux@*", "redux@^4", "redux@^4.2.0", "redux@^4.2.1":
+"redux@*", "redux@^4", "redux@^4.2.0":
   "integrity" "sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w=="
   "resolved" "https://registry.npmjs.org/redux/-/redux-4.2.1.tgz"
   "version" "4.2.1"

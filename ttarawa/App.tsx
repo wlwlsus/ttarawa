@@ -36,8 +36,8 @@ export default function App() {
     <RecoilRoot>
       <NavigationContainer independent={true}>
         <Stack.Navigator
-          // initialRouteName="Index"
-          initialRouteName="Tabs"
+          initialRouteName="Index"
+          // initialRouteName="Tabs"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Index" component={Index} />

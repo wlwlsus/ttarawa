@@ -15,7 +15,7 @@ const fetchDestin = async (
     .then((res) => {
       return Promise.resolve(res.data.result)
     })
-    .catch((err) => Promise.reject(err.data))
+    .catch((err) => Promise.reject(err))
 }
 
 const fetchCategory = async (): Promise<number> => {
