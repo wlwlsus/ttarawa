@@ -1,5 +1,6 @@
 import { atom } from 'recoil'
 
+// 유저 정보
 export const userState = atom({
   key: 'userState', // 고유한 값
   default: {
@@ -10,6 +11,7 @@ export const userState = atom({
   },
 })
 
+// 출발
 export const departState = atom<object>({
   key: 'departState',
   default: {
@@ -19,6 +21,7 @@ export const departState = atom<object>({
   },
 })
 
+// 도착
 export const destinState = atom({
   key: 'destinState',
   default: {
@@ -35,5 +38,15 @@ export const markerListState = atom({
 
 export const markerState = atom({
   key: 'markerState',
-  default: 0,
+  default: 0
+})
+
+// 길안내 좌표
+export const pathInfo = atom({
+  key: 'pathInfo',
+  default: {
+    type: '',
+    geometry: {},
+    properties: {},
+  },
 })

@@ -14,3 +14,17 @@ export const header = StyleSheet.create({
     height: 35,
   },
 })
+
+export const sns = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: color.white,
+  },
+})

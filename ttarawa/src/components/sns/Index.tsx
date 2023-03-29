@@ -7,13 +7,17 @@ import { sns } from '@styles/sns'
 export default function SnsCard() {
   interface SnsData {
     historyId: number
+    profile: string // 프로필 이미지 주소
+    nickname: string
+    badgeImg: string
     image: string // 주행기록
-    personal: number | boolean // 공개여부
     favoritesCount: number // 좋아요 수
     isMyFavorite: number | boolean // 좋아요 여부  true: 1, false: 0
     time: string // 주행 시간
     distance: string // 주행 거리
     content: string // 내용
+    startAddress?: string // 출발지 주소
+    endAddress?: string // 도착지 주소
   }
 
   const [dataLst, setDataLst] = useState<SnsData[]>([])
@@ -21,8 +25,12 @@ export default function SnsCard() {
   const datas: SnsData[] = [
     {
       historyId: 1,
+
+      profile: '@assets/profile.png',
+      nickname: '열정라이더따옹이',
+      badgeImg: '@assets/rank/amateur.png',
       image: '@assets/riding.png',
-      personal: 1,
+
       favoritesCount: 11,
       isMyFavorite: 1,
 
@@ -34,10 +42,50 @@ export default function SnsCard() {
     },
     {
       historyId: 2,
+
+      profile: '@assets/profile.png',
+      nickname: '달려라예지',
+      badgeImg: '@assets/rank/beginner.png',
       image: '@assets/riding.png',
-      personal: 0,
+
       favoritesCount: 12,
       isMyFavorite: 0, // true: 1, false: 0
+
+      time: '30분',
+      distance: '3.5km',
+
+      content:
+        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    },
+    {
+      historyId: 3,
+
+      profile: '@assets/profile.png',
+      nickname: '따르릉예지',
+      badgeImg:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRroBwNcmJFu3Q7gjYq18s9vaaY8-QTbOW5_Q&usqp=CAU',
+      image: '@assets/riding.png',
+
+      favoritesCount: 13,
+      isMyFavorite: 1, // true: 1, false: 0
+
+      time: '30분',
+      distance: '3.5km',
+
+      content:
+        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
+    },
+    {
+      historyId: 4,
+
+      profile: '@assets/profile.png',
+      nickname: '예지경주마',
+      badgeImg:
+        'https://contents.sixshop.com/uploadedFiles/84218/default/image_1547035192141.jpg',
+      image: '@assets/riding.png',
+
+      favoritesCount: 14,
+      isMyFavorite: 1, // true: 1, false: 0
 
       time: '30분',
       distance: '3.5km',
@@ -53,7 +101,6 @@ export default function SnsCard() {
       return {
         ...data,
         isMyFavorite: data.isMyFavorite === 1 ? true : false,
-        personal: data.personal === 1 ? true : false,
       }
     })
     setDataLst(newData)
@@ -74,28 +121,11 @@ export default function SnsCard() {
       }
       return data
     })
+
     setDataLst(updateData)
   }
 
-  const pressLock = (key: number) => {
-    const updateData: SnsData[] = dataLst.map((data) => {
-      if (data.historyId === key) {
-        return {
-          ...data,
-          personal: !data.personal,
-        }
-      }
-      return data
-    })
-    setDataLst(updateData)
-  }
-
-  // 예지's  ---------------------------------------------------
-  // 하단 네브바 생성??
-  const pressMenu = () => {}
-
-  // -----------------------------------------------------------
-
+  // console.log(dataLst)
   return (
     <View style={sns.container}>
       <FlatList
@@ -104,19 +134,27 @@ export default function SnsCard() {
           return (
             <FeedCard
               historyId={item.historyId}
+              // userImg={item.profile}
+              userImg={require('@assets/profile.png')}
+              userName={item.nickname}
+              rank={require('@assets/rank/beginner.png')}
+              // rank={require(rank)}
               imagePath={require('@assets/riding.png')}
-              isLock={item.personal}
-              pressLock={pressLock}
               likes={item.favoritesCount}
               isLike={item.isMyFavorite}
-              pressLike={pressLike}
               distence={item.distance}
               time={item.time}
               content={item.content}
+              pressLike={pressLike}
             />
           )
         }}
         keyExtractor={(item) => item.historyId.toString()}
+        // 끝에까지 닿았다면?
+        onEndReached={() => console.log('End reached')}
+        onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
+        // 하나씩 넘기기
+        pagingEnabled={true}
         // 스크롤 감추기
         showsVerticalScrollIndicator={false}
       />

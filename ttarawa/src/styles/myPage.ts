@@ -85,3 +85,5 @@ export const profile = StyleSheet.create({
     elevation: 3,
   },
 })
+
+export const mylikes = StyleSheet.create({})

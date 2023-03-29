@@ -43,4 +43,5 @@ export const map = StyleSheet.create({
     padding: 10,
     flex: 1,
   },
+  mapContainer: { flex: 1, zIndex: 0 },
 })
