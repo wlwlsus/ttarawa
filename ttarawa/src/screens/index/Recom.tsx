@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import IconButton from '@components/common/IconButton'
-import RecomCard from '@components/card/RecomCard'
+import RecomCard from '@components/index/RecomCard'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
 

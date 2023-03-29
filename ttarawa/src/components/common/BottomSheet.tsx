@@ -6,11 +6,11 @@ import {
   Pressable,
   Dimensions,
   PanResponder,
+  StyleSheet,
 } from 'react-native'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
-
-import { bottomSheet } from '@styles/GlobalStyles'
+import { color } from '@styles/GlobalStyles'
 
 export default function BottomSheet(props) {
   const { modalVisible, setModalVisible } = props
@@ -98,6 +98,9 @@ export default function BottomSheet(props) {
               }
               dir="left"
               press={() => console.log('최신')}
+              style={{
+                container: bottomSheet.button,
+              }}
             />
             <View style={bottomSheet.lineStyle} />
             <IconButton
@@ -105,6 +108,9 @@ export default function BottomSheet(props) {
               icon1={<Ionicons name="heart-sharp" size={24} color="black" />}
               dir="left"
               press={() => console.log('좋아요')}
+              style={{
+                container: bottomSheet.button,
+              }}
             />
             <View style={bottomSheet.lineStyle} />
             <IconButton
@@ -118,6 +124,9 @@ export default function BottomSheet(props) {
               }
               dir="left"
               press={() => console.log('추천')}
+              style={{
+                container: bottomSheet.button,
+              }}
             />
           </View>
         </Animated.View>
@@ -125,3 +134,41 @@ export default function BottomSheet(props) {
     </Modal>
   )
 }
+
+export const bottomSheet = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: color.modalBg,
+  },
+  container: {
+    height: 270,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.white,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  buttons: {
+    width: '90%',
+    height: '85%',
+    backgroundColor: color.whiteGray,
+    borderRadius: 10,
+  },
+  button: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'flex-start',
+    paddingLeft: 40,
+  },
+  lineStyle: {
+    width: '80%',
+    alignSelf: 'center',
+    borderWidth: 0.2,
+    borderColor: color.gray,
+    marginLeft: -30,
+  },
+})
