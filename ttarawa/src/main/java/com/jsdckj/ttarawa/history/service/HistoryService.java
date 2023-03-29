@@ -7,6 +7,7 @@ import com.jsdckj.ttarawa.history.dto.res.MyHistoryResDto;
 import com.jsdckj.ttarawa.history.entity.History;
 import com.jsdckj.ttarawa.users.entity.Users;
 import com.jsdckj.ttarawa.users.entity.UsersInfo;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ public interface HistoryService {
   HistoryResDto selectOneHistory(Long userId, Long historyId);
   // 게시물 목록 조회
   List<HistoryResDto> selectAllHistory(Long userId, Pageable pageable);
+  List<HistoryResDto> selectAllHistoryByRecommend(Long userId, int size, double lat, double lng);
   // 내 주행기록 목록 조회
   List<MyHistoryResDto> selectAllMyHistory(Long userId, Pageable pageable);
   // 게시물 수정
@@ -49,10 +51,13 @@ public interface HistoryService {
 
   }
 
+
+
   // Entity to MyHistortResDto
-  default MyHistoryResDto toMyHistoryResDto(History history){
+  default MyHistoryResDto toMyHistoryResDto(History history, int isMyFavorite){
     return MyHistoryResDto.builder()
         .historyId(history.getHistoryId())
+        .isMyFavorite(isMyFavorite)
         .favoritesCount(history.getFavoritesCount())
         .personal(history.getPersonal())
         .time(history.getTime())
