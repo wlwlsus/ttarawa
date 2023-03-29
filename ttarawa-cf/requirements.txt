@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+pandas
+scikit-learn
+numpy
+scipy
+mysqlclient
+mariadb==1.0.11

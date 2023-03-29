@@ -22,4 +22,24 @@ public class SpotResDto {
     private long categoryId;
     private String sub_category;
   }
+
+  @Builder
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class RecommendSpot {
+
+    private Long tourId;
+    private String address;
+    private String name;
+    private double lat;
+    private double lng;
+    private String category;
+    private String midCategory;
+    private String subCategory;
+    private double rating;
+    private double reviews;
+    private double distances;
+  }
 }

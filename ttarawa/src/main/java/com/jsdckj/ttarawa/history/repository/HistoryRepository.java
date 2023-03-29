@@ -16,7 +16,10 @@ import java.util.Optional;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
-  Page<History> findAllByUsers(Users user, Pageable pageable);
+	@Query("SELECT COUNT(h) FROM History h WHERE h.users.usersId = :userId")
+	Long countByUserId(@Param("userId") long userId);
+
+	Page<History> findAllByUsers(Users user, Pageable pageable);
 
   List<History> findAllByUsersId(Long userId);
   @Query("SELECT e FROM History e WHERE e.usersId <> :value")

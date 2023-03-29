@@ -10,6 +10,9 @@ services:
       - "8085:8080"
     networks:
       - ttarawa-net
+    volumes:
+      - /var/log/logs:/logs
+
 
 networks:
   ttarawa-net:
