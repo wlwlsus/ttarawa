@@ -77,7 +77,7 @@ export default function InitPath() {
             map = new Tmapv2.Map('map_div', {
               center : new Tmapv2.LatLng(middlePoint.lat, middlePoint.lng),
               width: '100%',
-              height: '1900px',
+              height: '100vh',
               zoom: 15,
             })
   
@@ -85,7 +85,7 @@ export default function InitPath() {
             // 시작
             marker_s = new Tmapv2.Marker({
               position : new Tmapv2.LatLng(depart.lat, depart.lng),
-              icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',
+              icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_b_s.png',
               iconSize: new Tmapv2.Size(60, 95),
               map: map,
             })
@@ -93,7 +93,7 @@ export default function InitPath() {
             // 도착
             marker_e = new Tmapv2.Marker({
               position : new Tmapv2.LatLng(destin.lat, destin.lng),
-              icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',
+              icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_b_e.png',
               iconSize: new Tmapv2.Size(60, 95),
               map: map,
             })
@@ -143,13 +143,13 @@ export default function InitPath() {
                   markerImg =
                     'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png'
                   pType = 'S'
-                  size = new Tmapv2.Size(36, 57)
+                  size = new Tmapv2.Size(0, 0)
                 } else if (properties.pointType == 'E') {
                   //도착지 마커
                   markerImg =
                     'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png'
-                  pType = 'E'
-                  size = new Tmapv2.Size(36, 57)
+                  pType = 'Eㄱ'
+                  size = new Tmapv2.Size(0, 0)
                 } else {
                   //각 포인트 마커
                   markerImg = 'http://topopen.tmap.co.kr/imgs/point.png'
@@ -198,7 +198,7 @@ export default function InitPath() {
             var polyline_
             polyline_ = new Tmapv2.Polyline({
               path: arrPoint,
-              strokeColor: '#0000AA',
+              strokeColor: '#AA0000',
               strokeWeight: 15,
               map: map,
             })

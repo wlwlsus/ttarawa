@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { View, Text, Button } from 'react-native'
 import BottomSheet from '@components/common/BottomSheet'
-import SnsComponent from '@components/sns/Index'
+import SnsContent from '~/components/sns/SnsContent'
 import { sns } from '@styles/sns'
 
 export default function Sns() {
@@ -17,7 +17,7 @@ export default function Sns() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <SnsComponent />
+      <SnsContent />
     </View>
   )
 }

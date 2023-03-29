@@ -71,13 +71,6 @@ export default function FeedCard({
   const distanceText = `주행 거리 : ${distence}`
   const timeText = `주행 시간 : ${time}`
 
-  // 공개, 비공개 여부 변수
-  // const [lock, setLock] = useState(isLock)
-
-  // const checklock = () => {
-  //   setLock(!lock)
-  // }
-
   return (
     <View style={styles.cardContainer}>
       {/* ID, Profile */}
