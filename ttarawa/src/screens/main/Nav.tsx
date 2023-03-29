@@ -30,10 +30,7 @@ export default function Nav({ navigation }) {
         },
         (location) => {
           const { latitude, longitude } = location.coords
-          // const newData = [...locationData, { latitude, longitude }]
-
           setLocationData((prevData) => [...prevData, latitude, longitude])
-          // setLocationData(longitude)
         },
       )
       setWatchId(newWatchId)

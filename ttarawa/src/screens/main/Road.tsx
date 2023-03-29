@@ -13,8 +13,8 @@ import { useRecoilValue } from 'recoil'
 import { locationListState } from '~/store/atoms'
 
 export default function Road() {
+  // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
-
   const [depart, setDepart] = useState('')
   const [destin, setDestin] = useState('')
   const [pressed, setPressed] = useState<Number>()
@@ -377,17 +377,13 @@ export default function Road() {
 		*/
 		DrawLine.initData = function() {
 
-			DrawLine.arrPoint = [locationData]
+			DrawLine.arrPoint = locationData3
 		}
 		
 	</script>
 </body>
 </html>
 `
-  useEffect(() => {
-    console.log('>>>>>>>>>>><<<<<<<<<<')
-    console.log(locationData)
-  }, [])
 
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
@@ -470,7 +466,6 @@ export default function Road() {
       <TouchableOpacity onPress={captureWebview}>
         <Text>Capture WebView</Text>
       </TouchableOpacity>
-      <Text>{locationData}</Text>
     </SafeAreaView>
   )
 }
