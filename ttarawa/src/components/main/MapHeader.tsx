@@ -35,7 +35,7 @@ export default function MapHeader() {
           }
           press={() => console.log('경로확인')}
           style={
-            depart && destin
+            depart.name && destin.name
               ? { container: { backgroundColor: color.primary } }
               : undefined
           }
