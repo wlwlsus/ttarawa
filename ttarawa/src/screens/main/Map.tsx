@@ -9,8 +9,13 @@ import IconButton from '@components/common/IconButton'
 import * as Location from 'expo-location'
 import MapCard from '@components/card/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
-import { useRecoilValue, useRecoilState } from 'recoil'
-import { departState, markerListState, markerState } from '~/store/atoms'
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
+import {
+  departState,
+  destinState,
+  markerListState,
+  markerState,
+} from '~/store/atoms'
 import main from '@services/main'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -19,6 +24,7 @@ export default function Map() {
   const [depart, setDepart] = useRecoilState(departState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const marker = useRecoilValue(markerState)
+  const setDestin = useSetRecoilState(destinState)
 
   // Todo: 현재위치로 바꾸기
   const latitude = 37.4979
@@ -39,19 +45,34 @@ export default function Map() {
     setDepart({
       lat: latitude,
       lng: longitude,
-      title: location[0].name,
+      name: location[0].name,
     })
   }
 
   // 해당 마커로 카드 스크롤
   const scrollViewRef = useRef()
 
-  useEffect(() => {
+  const handleScroll = (index: number) => {
     scrollViewRef.current?.scrollTo({
-      x: SCREEN_WIDTH * marker,
+      x: SCREEN_WIDTH * index,
       animated: true,
     })
+  }
+
+  useEffect(() => {
+    handleScroll(marker)
   }, [marker])
+
+  // 새로운 카테고리 선택시 처음으로 스크롤
+  useEffect(() => {
+    handleScroll(0)
+  }, [markerList])
+
+  // 목적지 설정
+  const handleDestin = (index: number) => {
+    const { name, lat, lng } = markerList[index]
+    setDestin({ ...depart, name, lat, lng })
+  }
 
   useEffect(() => {
     getCurrent()
@@ -104,7 +125,7 @@ export default function Map() {
                     />
                   }
                   btnText="목적지 설정"
-                  press={() => console.log('hi')}
+                  press={() => handleDestin(index)}
                 />
               </View>
             ))}

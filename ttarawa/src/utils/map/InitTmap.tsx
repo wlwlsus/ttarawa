@@ -22,11 +22,11 @@ export default function InitTmap() {
 
     // 도착지로 지정
     const { name, lat, lng } = markerData[index]
-    setDestin({ ...destin, title: name, lat, lng })
+    setDestin({ ...destin, name, lat, lng })
   }
 
   // 지도 센터
-  let center = destin.title ? destin : depart
+  let center = destin.name ? destin : depart
 
   const mapHtml: string = `<!DOCTYPE html>
   <html>

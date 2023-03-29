@@ -20,8 +20,8 @@ export default function MapHeader() {
     <View style={map.headerContainer}>
       <View style={map.header}>
         <View style={map.inputs}>
-          <Input label="출발 |" value={depart.title} setValue={setDepart} />
-          <Input label="도착 |" value={destin.title} setValue={setDestin} />
+          <Input label="출발 |" value={depart.name} setValue={setDepart} />
+          <Input label="도착 |" value={destin.name} setValue={setDestin} />
         </View>
         <IconButton
           type="square"
