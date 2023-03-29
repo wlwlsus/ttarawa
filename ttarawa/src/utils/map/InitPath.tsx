@@ -6,24 +6,12 @@ import { departState, destinState, pathInfo } from '@store/atoms'
 export default function InitPath() {
   // store에서 출발, 도작지 불러오기
 
-  // --------------------- 삭제 -----------------------
-  const departData: { lat: number; lng: number } = {
-    lat: 37.564991,
-    lng: 126.983937,
-  }
-
-  const destinData: { lat: number; lng: number } = {
-    lat: 37.566158,
-    lng: 126.98894,
-  }
-  // ---------------------------------------------------
-
   // Recoil 적용
-  // const departData: { name: string; lat: number; lng: number } =
-  //   useRecoilValue(departState)
+  const departData: { name: string; lat: number; lng: number } =
+    useRecoilValue(departState)
 
-  // const destinData: { name: string; lat: number; lng: number } =
-  //   useRecoilValue(destinState)
+  const destinData: { name: string; lat: number; lng: number } =
+    useRecoilValue(destinState)
 
   const middlePoint: { lat: number; lng: number } = {
     lat: (departData.lat + destinData.lat) / 2,
