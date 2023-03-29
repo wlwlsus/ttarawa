@@ -21,9 +21,12 @@ public class History extends BaseTimeEntity {
   @Column(name = "history_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long historyId;
 
-  @OneToOne
-  @JoinColumn(name = "users_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "users_id", insertable = false, updatable = false)
   private Users users;
+
+  @Column(name="users_id")
+  private Long usersId;
 
   @Column(name = "favorites_count", nullable = false)
   private int favoritesCount;

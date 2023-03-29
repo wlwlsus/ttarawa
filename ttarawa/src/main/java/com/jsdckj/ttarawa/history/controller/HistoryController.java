@@ -105,10 +105,14 @@ public class HistoryController {
   }
 
   // 추천순 조회
+  @Operation(summary = "주행기록 추천순 목록 조회 API", description = "size: 가져올 갯수(pagination 없음)\n\n" +
+      "lat: 위도, lng: 경도")
   @GetMapping("/recommend")
   public ResponseEntity<?> selectAllHistoryByRecommend(HttpServletRequest request, @RequestParam("size") int size, @RequestParam("lat") Double lat, @RequestParam("lng") Double lng){
+    long startTime = System.currentTimeMillis();
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
-
+    long stopTime = System.currentTimeMillis();
+    System.out.println("time "+(stopTime - startTime));
     return Response.makeResponse(HttpStatus.OK, "추천순 조회 성공", historyService.selectAllHistoryByRecommend(userId, size, lat, lng));
   }
 

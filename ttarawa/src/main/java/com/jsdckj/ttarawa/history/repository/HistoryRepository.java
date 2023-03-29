@@ -18,9 +18,9 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
   Page<History> findAllByUsers(Users user, Pageable pageable);
 
-  List<History> findAllByUsers(Users user);
-  @Query("SELECT e FROM History e WHERE e.users <> :value")
-  List<History> findAllByUsersNotEqual(@Param("value") Users users);
+  List<History> findAllByUsersId(Long userId);
+  @Query("SELECT e FROM History e WHERE e.usersId <> :value")
+  List<History> findAllByUsersIdNotEqual(@Param("value") Long usersId);
 
 //  List<History> findAllByUsersNotE
 

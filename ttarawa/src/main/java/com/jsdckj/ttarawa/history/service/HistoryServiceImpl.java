@@ -21,12 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -108,16 +103,15 @@ public class HistoryServiceImpl implements HistoryService {
 
   @Override
   public List<HistoryResDto> selectAllHistoryByRecommend(Long userId, int size, double lat, double lng) {
+
     Users currentUser = userRepository.findById(userId).get();
 
 
-    List<History> myHistoriesList = historyRepository.findAllByUsers(currentUser); // 현재 유저의 모든 기록
+    List<History> myHistoriesList = historyRepository.findAllByUsersId(userId); // 현재 유저의 모든 기록
     if(myHistoriesList.isEmpty()){
       return null;
     }
-    System.out.println("1222");
-    List<History> allHistories = historyRepository.findAllByUsersNotEqual(currentUser); // 다른 사람들의 기록
-    System.out.println(allHistories);
+    List<History> allHistories = historyRepository.findAllByUsersIdNotEqual(userId); // 다른 사람들의 기록
 
     // 사용자의 주행기록과 다른 사람들의 주행 기록 유사도 비교 -> 맨하탄 거리
     Map<Long, Double> similarityScores = new HashMap<>();
@@ -150,6 +144,7 @@ public class HistoryServiceImpl implements HistoryService {
       double dist = DistanceUtils.getDistance(lat, lng, Double.parseDouble(addressToCoordinate.get("y")),Double.parseDouble(addressToCoordinate.get("x")));
 
       distances.put(historyId, dist);
+
     }
 
     allHistories = allHistories.stream().filter((History x) -> distances.containsKey((x.getHistoryId()))).collect(Collectors.toList());
@@ -164,6 +159,7 @@ public class HistoryServiceImpl implements HistoryService {
             favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0, userId))
         .limit(size)
         .collect(Collectors.toList());
+
   }
 
   @Override

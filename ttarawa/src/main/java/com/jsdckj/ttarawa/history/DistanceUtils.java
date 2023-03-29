@@ -81,7 +81,6 @@ public class DistanceUtils {
         JSONObject jsonX = (JSONObject) data.get(0);
         result.put("x", jsonX.get("x").toString());
         result.put("y", jsonX.get("y").toString());
-        System.out.println(result.get("X"));
 
       }
       else{
