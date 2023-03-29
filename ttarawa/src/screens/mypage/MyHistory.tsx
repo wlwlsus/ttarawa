@@ -104,7 +104,7 @@ export default function SnsCard() {
           return (
             <FeedCard
               historyId={item.historyId}
-              imagepath={require('@assets/riding.png')}
+              imagePath={require('@assets/riding.png')}
               isLock={item.personal}
               pressLock={pressLock}
               likes={item.favoritesCount}

@@ -19,10 +19,10 @@ export default function InitPath() {
   // ---------------------------------------------------
 
   // Recoil 적용
-  // const departData: { title: string; lat: number; lng: number } =
+  // const departData: { name: string; lat: number; lng: number } =
   //   useRecoilValue(departState)
 
-  // const destinData: { title: string; lat: number; lng: number } =
+  // const destinData: { name: string; lat: number; lng: number } =
   //   useRecoilValue(destinState)
 
   const middlePoint: { lat: number; lng: number } = {

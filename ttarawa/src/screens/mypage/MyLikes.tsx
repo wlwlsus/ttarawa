@@ -1,7 +1,6 @@
-import { View, Text, FlatList } from 'react-native'
+import { View, StyleSheet, Text, FlatList, Image } from 'react-native'
 import { useEffect, useState } from 'react'
 import { color } from '@styles/GlobalStyles'
-import { mylikes } from '@styles/myPage'
 
 export default function MyLikes() {
   interface SnsData {
@@ -120,29 +119,27 @@ export default function MyLikes() {
 
   return (
     <View>
-      <View></View>
-      {/* <FlatList
+      <FlatList
         data={dataLst}
         renderItem={({ item }) => {
+          const imagePath = require('@assets/riding.png')
+
           return (
-            <FeedCard
-              historyId={item.historyId}
-              imagepath={require('@assets/riding.png')}
-              isLock={item.personal}
-              pressLock={pressLock}
-              likes={item.favoritesCount}
-              isLike={item.isMyFavorite}
-              pressLike={pressLike}
-              distence={item.distance}
-              time={item.time}
-              content={item.content}
-            />
+            <View>
+              <Image source={imagePath} />
+            </View>
           )
         }}
         keyExtractor={(item) => item.historyId.toString()}
         // 스크롤 감추기
         showsVerticalScrollIndicator={false}
-      /> */}
+      />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+  },
+})

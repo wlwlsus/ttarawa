@@ -17,7 +17,7 @@ interface Props {
   rank?: (params: any) => any
 
   // 경로 이미지
-  imagepath: (params: any) => any // require()  >>  image url 함수
+  imagePath: (params: any) => any // require()  >>  image url 함수
 
   // 공개 여부
   isLock?: number | boolean
@@ -48,7 +48,7 @@ export default function FeedCard({
   userImg,
   rank,
 
-  imagepath,
+  imagePath,
 
   isLock,
   pressLock,
@@ -93,7 +93,7 @@ export default function FeedCard({
 
       {/* 경로 이미지 */}
       <View>
-        <Image source={imagepath} style={styles.cardImg} />
+        <Image source={imagePath} style={styles.cardImg} />
         {userName ? null : (
           <View style={styles.lock}>
             <IconButton

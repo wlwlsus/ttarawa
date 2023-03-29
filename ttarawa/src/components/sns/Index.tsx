@@ -139,7 +139,7 @@ export default function SnsCard() {
               userName={item.nickname}
               rank={require('@assets/rank/beginner.png')}
               // rank={require(rank)}
-              imagepath={require('@assets/riding.png')}
+              imagePath={require('@assets/riding.png')}
               likes={item.favoritesCount}
               isLike={item.isMyFavorite}
               distence={item.distance}

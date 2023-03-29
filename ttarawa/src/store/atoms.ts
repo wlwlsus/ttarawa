@@ -15,7 +15,7 @@ export const userState = atom({
 export const departState = atom<object>({
   key: 'departState',
   default: {
-    title: undefined,
+    name: undefined,
     lat: undefined,
     lng: undefined,
   },
@@ -25,7 +25,7 @@ export const departState = atom<object>({
 export const destinState = atom({
   key: 'destinState',
   default: {
-    title: undefined,
+    name: undefined,
     lat: undefined,
     lng: undefined,
   },

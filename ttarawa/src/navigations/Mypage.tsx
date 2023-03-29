@@ -17,8 +17,30 @@ export default function MyPageStackScreen({ route }) {
         component={MyProfile}
         options={{ headerShown: false }}
       />
-      <MyPageStack.Screen name="MyLikes" component={MyLikes} />
-      <MyPageStack.Screen name="MyHistory" component={MyHistory} />
+      <MyPageStack.Screen
+        name="MyLikes"
+        component={MyLikes}
+        options={{
+          title: '좋아요 목록',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            textAlign: 'center',
+            fontSize: 20,
+          },
+        }}
+      />
+      <MyPageStack.Screen
+        name="MyHistory"
+        component={MyHistory}
+        options={{
+          title: '주행기록',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            textAlign: 'center',
+            fontSize: 20,
+          },
+        }}
+      />
       <MyPageStack.Screen
         name="Intro"
         component={Intro}

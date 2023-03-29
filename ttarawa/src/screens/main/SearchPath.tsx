@@ -12,31 +12,31 @@ import { departState, destinState, pathInfo } from '@store/atoms'
 
 export default function SearchPath() {
   // Recoil 적용
-  // const depart: { title: string; lat: number; lng: number } =
+  // const depart: { name: string; lat: number; lng: number } =
   //   useRecoilValue(departState)
 
-  // const destin: { title: string; lat: number; lng: number } =
+  // const destin: { name: string; lat: number; lng: number } =
   //   useRecoilValue(destinState)
 
   const [resultData, setResultData] = useRecoilState(pathInfo)
 
   // ---------- 삭제할 부분 -----------------------
   const [depart, setDepart] = useState<{
-    title: string
+    name: string
     lat: number
     lng: number
   }>({
-    title: '메트로호텔',
+    name: '메트로호텔',
     lat: 37.564991,
     lng: 126.983937,
   })
 
   const [destin, setDestin] = useState<{
-    title: string
+    name: string
     lat: number
     lng: number
   }>({
-    title: '을지로 3가',
+    name: '을지로 3가',
     lat: 37.566158,
     lng: 126.98894,
   })
@@ -91,8 +91,8 @@ export default function SearchPath() {
       {resultData && (
         <View style={map.container}>
           <MapHeader
-            depart={depart?.title}
-            destin={destin?.title}
+            depart={depart?.name}
+            destin={destin?.name}
             noneButton={true}
           />
           <InitPath />
