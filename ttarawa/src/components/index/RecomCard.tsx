@@ -18,9 +18,9 @@ export default function RecomCard({ name, distance, visit, category }: Props) {
   }
 
   const categoryTable: ReactNode[] = [
-    <Feather name="coffee" size={18} color={color.gray} />,
+    <Feather name="coffee" size={18} color={color.black} />,
     <MaterialIcons name="restaurant" size={18} color={color.gray} />,
-    <FontAwesome5 name="landmark" size={18} color={color.green} />,
+    <FontAwesome5 name="landmark" size={18} color={color.secondary} />,
   ]
 
   return (
@@ -41,7 +41,7 @@ export default function RecomCard({ name, distance, visit, category }: Props) {
         icon1={
           <MaterialIcons
             name="directions-bike"
-            size={22}
+            size={20}
             color={color.primary}
           />
         }
@@ -52,12 +52,12 @@ export default function RecomCard({ name, distance, visit, category }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 162,
+    width: '45%',
     backgroundColor: color.white,
     alignItems: 'center',
     borderRadius: 13,
-    margin: 11,
     padding: 10,
+    marginBottom: 20,
     shadowColor: color.shadow,
     shadowOffset: {
       width: 0,
@@ -75,12 +75,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 19,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   cardBody: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 3,
+    marginVertical: 10,
   },
   cnt: {
     fontWeight: '700',
