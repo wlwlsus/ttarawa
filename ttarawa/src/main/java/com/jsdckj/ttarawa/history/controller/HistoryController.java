@@ -104,6 +104,13 @@ public class HistoryController {
 
   }
 
+  // 추천순 조회
+  @GetMapping("/recommend")
+  public ResponseEntity<?> selectAllHistoryByRecommend(HttpServletRequest request, @RequestParam("size") int size, @RequestParam("lat") Double lat, @RequestParam("lng") Double lng){
+    Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
+
+    return Response.makeResponse(HttpStatus.OK, "추천순 조회 성공", historyService.selectAllHistoryByRecommend(userId, size, lat, lng));
+  }
 
   // 게시물 수정
   @Operation(summary = "게시물 수정 API", description = "personal: 1: 비공개, 0: 공개")

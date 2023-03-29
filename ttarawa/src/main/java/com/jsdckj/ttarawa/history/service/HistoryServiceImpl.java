@@ -1,6 +1,7 @@
 package com.jsdckj.ttarawa.history.service;
 
 import com.jsdckj.ttarawa.file.service.FileService;
+import com.jsdckj.ttarawa.history.DistanceUtils;
 import com.jsdckj.ttarawa.history.dto.req.HistoryReqDto;
 import com.jsdckj.ttarawa.history.dto.req.HistoryUpdateReq;
 import com.jsdckj.ttarawa.history.dto.res.HistoryResDto;
@@ -20,10 +21,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.jsdckj.ttarawa.history.DistanceUtils.manhattanDistance;
+import static com.jsdckj.ttarawa.history.DistanceUtils.toCoordinate;
 
 @Service
 @Transactional
@@ -99,12 +107,72 @@ public class HistoryServiceImpl implements HistoryService {
   }
 
   @Override
+  public List<HistoryResDto> selectAllHistoryByRecommend(Long userId, int size, double lat, double lng) {
+    Users currentUser = userRepository.findById(userId).get();
+
+
+    List<History> myHistoriesList = historyRepository.findAllByUsers(currentUser); // 현재 유저의 모든 기록
+    if(myHistoriesList.isEmpty()){
+      return null;
+    }
+    System.out.println("1222");
+    List<History> allHistories = historyRepository.findAllByUsersNotEqual(currentUser); // 다른 사람들의 기록
+    System.out.println(allHistories);
+
+    // 사용자의 주행기록과 다른 사람들의 주행 기록 유사도 비교 -> 맨하탄 거리
+    Map<Long, Double> similarityScores = new HashMap<>();
+    for(History history : allHistories){
+      Long historyId = history.getHistoryId();
+      Long distance = history.getDistance();
+      Long time = history.getTime();
+      Double similarityScore = 0.0;
+      for(History myHistory: myHistoriesList){
+        similarityScore+= 1.0/ (1.0+ manhattanDistance(myHistory.getTime(),myHistory.getDistance(), time, distance));
+      }
+      similarityScores.put(historyId, similarityScore);
+    }
+
+    // 유사도가 가까운 순으로 정렬
+    List<History> sortedHistory = allHistories.stream()
+        .sorted(Comparator.comparingDouble((History x) -> similarityScores.get(x.getHistoryId())).reversed())
+        .collect(Collectors.toList());
+
+    Map<Long, Double> distances = new HashMap<>();
+    for (History history : sortedHistory) {
+      Long historyId = history.getHistoryId();
+      String startAddress = history.getStartAddress();
+      Map<String, String> addressToCoordinate = toCoordinate(startAddress);
+
+      if (addressToCoordinate == null) {
+        continue;
+      }
+
+      double dist = DistanceUtils.getDistance(lat, lng, Double.parseDouble(addressToCoordinate.get("y")),Double.parseDouble(addressToCoordinate.get("x")));
+
+      distances.put(historyId, dist);
+    }
+
+    allHistories = allHistories.stream().filter((History x) -> distances.containsKey((x.getHistoryId()))).collect(Collectors.toList());
+    allHistories = allHistories.stream().sorted(Comparator.comparingDouble((History x) -> distances.get((x.getHistoryId())))).collect(Collectors.toList());
+
+    return allHistories.stream()
+        .filter(history -> history.getPersonal()==0)
+        .map(history -> toHistoryResDto(
+            history,
+            history.getUsers(),
+            userInfoRepository.findByUsers(history.getUsers()),
+            favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0, userId))
+        .limit(size)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public List<MyHistoryResDto> selectAllMyHistory(Long userId, Pageable pageable) {
 
     Users currentUser = userRepository.findById(userId).get();
     Page<History> allMyHistoryList = historyRepository.findAllByUsers(currentUser, pageable);
     List<MyHistoryResDto> historyResDtoList = allMyHistoryList.stream()
-        .map(history -> toMyHistoryResDto(history))
+        .map(history -> toMyHistoryResDto(history, favoriteRepository.findByUsersAndHistory(currentUser, history).isPresent() ? 1 : 0))
         .collect(Collectors.toList());
 
 
@@ -138,4 +206,8 @@ public class HistoryServiceImpl implements HistoryService {
     historyRepository.deleteByHistoryId(historyId);
 
   }
+
+
+
+
 }
