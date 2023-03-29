@@ -4,7 +4,7 @@ import FeedCard from '@components/common/FeedCard'
 import { color } from '@styles/GlobalStyles'
 import { sns } from '@styles/sns'
 
-export default function SnsCard() {
+export default function SnsContent() {
   interface SnsData {
     historyId: number
     profile: string // 프로필 이미지 주소
