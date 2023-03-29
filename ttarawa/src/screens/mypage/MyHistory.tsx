@@ -1,22 +1,25 @@
 import { View, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
 import FeedCard from '@components/common/FeedCard'
-import { color } from '@styles/GlobalStyles'
+
 import { sns } from '@styles/sns'
+import BottomSheet from '@components/common/BottomSheet'
+import HistoryMenu from '@components/mypage/HistoryMenu'
+
+interface SnsData {
+  historyId: number
+  image: string // 주행기록
+  personal: number | boolean // 공개여부
+  favoritesCount: number // 좋아요 수
+  isMyFavorite: number | boolean // 좋아요 여부  true: 1, false: 0
+  time: string // 주행 시간
+  distance: string // 주행 거리
+  content: string // 내용
+}
 
 export default function SnsCard() {
-  interface SnsData {
-    historyId: number
-    image: string // 주행기록
-    personal: number | boolean // 공개여부
-    favoritesCount: number // 좋아요 수
-    isMyFavorite: number | boolean // 좋아요 여부  true: 1, false: 0
-    time: string // 주행 시간
-    distance: string // 주행 거리
-    content: string // 내용
-  }
-
   const [dataLst, setDataLst] = useState<SnsData[]>([])
+  const [modalVisible, setModalVisible] = useState(false)
 
   const datas: SnsData[] = [
     {
@@ -77,6 +80,7 @@ export default function SnsCard() {
     setDataLst(updateData)
   }
 
+  // 공개 비공개
   const pressLock = (key: number) => {
     const updateData: SnsData[] = dataLst.map((data) => {
       if (data.historyId === key) {
@@ -92,7 +96,9 @@ export default function SnsCard() {
 
   // 예지's  ---------------------------------------------------
   // 하단 네브바 생성??
-  const pressMenu = () => {}
+  const pressMenu = () => {
+    setModalVisible(true)
+  }
 
   // -----------------------------------------------------------
 
@@ -113,12 +119,18 @@ export default function SnsCard() {
               distence={item.distance}
               time={item.time}
               content={item.content}
+              pressMenu={pressMenu}
             />
           )
         }}
         keyExtractor={(item) => item.historyId.toString()}
         // 스크롤 감추기
         showsVerticalScrollIndicator={false}
+      />
+      <BottomSheet
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        children={<HistoryMenu />}
       />
     </View>
   )

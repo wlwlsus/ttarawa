@@ -26,3 +26,41 @@ export const styles = StyleSheet.create({
     marginTop: 30,
   },
 })
+
+export const bottomSheet = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: color.modalBg,
+  },
+  container: {
+    height: 270,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.white,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  buttons: {
+    width: '90%',
+    height: '85%',
+    backgroundColor: color.whiteGray,
+    borderRadius: 10,
+  },
+  button: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'flex-start',
+    paddingLeft: 40,
+  },
+  lineStyle: {
+    width: '80%',
+    alignSelf: 'center',
+    borderWidth: 0.2,
+    borderColor: color.gray,
+    marginLeft: -30,
+  },
+})
