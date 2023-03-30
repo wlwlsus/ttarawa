@@ -1,8 +1,10 @@
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import Label from '@components/common/Label'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
+
+const SCREEN_HEIGHT = Dimensions.get('window').height
 
 interface Props {
   historyId: number
@@ -169,9 +171,8 @@ export default function FeedCard({
 
 const styles = StyleSheet.create({
   cardContainer: {
+    height: SCREEN_HEIGHT * 0.85,
     flex: 1,
-    marginHorizontal: 10,
-    // marginVertical: 10,
   },
 
   userInfo: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 7,
     marginHorizontal: 10,
-    marginVertical: 5,
+    marginVertical: 10,
   },
 
   imgContainer: {
@@ -203,8 +204,6 @@ const styles = StyleSheet.create({
 
   cardImg: {
     width: '100%',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
   },
 
   lock: {
@@ -214,27 +213,15 @@ const styles = StyleSheet.create({
   },
 
   cardContent: {
-    backgroundColor: color.white,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
     paddingHorizontal: 20,
-    flex: 0.55,
-
-    shadowColor: color.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
+    flex: 1,
   },
 
   likeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginVertical: 10,
   },
 
   like: {
@@ -245,7 +232,6 @@ const styles = StyleSheet.create({
   likeNum: {
     fontSize: 18,
     fontWeight: 'bold',
-    paddingVertical: 10,
   },
 
   contentText: {
@@ -256,11 +242,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     gap: 10,
+    marginBottom: 10,
   },
 
   cardText: {
-    marginVertical: 10,
-    fontSize: 15,
-    flex: 1,
+    fontSize: 16,
   },
 })
