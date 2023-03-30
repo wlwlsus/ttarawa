@@ -61,6 +61,7 @@ public interface HistoryService {
         .favoritesCount(history.getFavoritesCount())
         .personal(history.getPersonal())
         .time(history.getTime())
+        .image(history.getImage())
         .distance(history.getDistance())
         .content(history.getContent())
         .build();
