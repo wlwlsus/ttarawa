@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
-export const profile = StyleSheet.create({
+export const myPage = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',

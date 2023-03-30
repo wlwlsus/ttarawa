@@ -7,23 +7,26 @@ import IconButton from '@components/common/IconButton'
 import RecomCard from '@components/index/RecomCard'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
+import { userState } from '@store/atoms'
+import { useRecoilState } from 'recoil'
+import user from '@services/user'
+
+interface result {
+  name: string
+  distance: number
+  visit: number
+  category: number
+  subCategory?: string
+  spotId?: number
+  adress?: string
+  lat?: number
+  lng?: number
+}
 
 export default function Recom({ navigation }) {
-  interface result {
-    name: string
-    distance: number
-    visit: number
-    category: number
-    subCategory?: string
-    spotId?: number
-    adress?: string
-    lat?: number
-    lng?: number
-  }
-
   // 밖으로 뺄 axios 함수
   const [recoms, setRecoms] = useState<result[]>([])
-  const [errorMsg, setErrorMsg] = useState('')
+  const [userInfo, setUserInfo] = useRecoilState(userState)
 
   const getRecom = async () => {
     try {
@@ -31,8 +34,6 @@ export default function Recom({ navigation }) {
       let { status } = await Location.requestForegroundPermissionsAsync()
 
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        // console.log(errorMsg)
         return
       }
 
@@ -78,27 +79,6 @@ export default function Recom({ navigation }) {
           category: 1,
           spotId: 6,
         },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 2,
-          spotId: 5,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 2,
-          spotId: 4,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 3,
-        },
       ]
 
       // await axios.get
@@ -112,6 +92,14 @@ export default function Recom({ navigation }) {
   }
 
   useEffect(() => {
+    user
+      .fetchProfile()
+      .then((res) => {
+        const { nickname, badgeName, totalDistance, profile } = res
+        setUserInfo({ nickname, badgeName, totalDistance, profile })
+      })
+      .catch((err) => console.log(err))
+
     getRecom()
   }, [])
 
@@ -124,7 +112,7 @@ export default function Recom({ navigation }) {
       <View style={recom.header}>
         <Text style={recom.title}>여긴 어때요?</Text>
         <Text style={recom.text}>
-          user.name 님 현재 위치 기반{'\n'}가장 인기있는 목적지입니다
+          {userInfo.nickname} 님 현재 위치 기반{'\n'} 가장 인기있는 목적지입니다
         </Text>
       </View>
 

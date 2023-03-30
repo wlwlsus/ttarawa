@@ -1,19 +1,21 @@
 import axios from 'axios'
-// accessToken은 recoil store에서 가져오기
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const apiRequest = axios.create({
   baseURL: 'http://j8a605.p.ssafy.io/api/v1/', // 서버 주소
   withCredentials: true,
 })
 
+const getToken = async () => {
+  const token = await AsyncStorage.getItem('token')
+  return token
+}
+
 // request 인터셉터
 apiRequest.interceptors.request.use(
   // config : axios  객체를 이용해 요청을 보냈을 때의 모든 설정값
-  (config) => {
-    // 토큰 발급 받으면 다음 코드 써야함
-    // const accessToken = state.token.accessToken
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
+  async (config: any) => {
+    const accessToken = await getToken()
 
     // accessToken이 없을 경우 헤더 없이 요청 (우리 프젝에서는 불필요)
     // if (!accessToken) return config
@@ -22,8 +24,6 @@ apiRequest.interceptors.request.use(
       ...config,
       headers: { Authorization: `Bearer ${accessToken}` },
     }
-
-    // return config
   },
   (error) => {
     return Promise.reject(error)
@@ -33,7 +33,6 @@ apiRequest.interceptors.request.use(
 // response 인터셉터
 apiRequest.interceptors.response.use(
   (response) => {
-    // 응답 데이터 가공
     return response
   },
   // accesstoken 재발급 로직

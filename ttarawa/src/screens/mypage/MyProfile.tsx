@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
 import { color } from '@styles/GlobalStyles'
-import { profile } from '@styles/myPage'
+import { myPage } from '@styles/myPage'
 import { useRecoilValue } from 'recoil'
 import { userState } from '~/store/atoms'
 
@@ -8,29 +8,31 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 
 export default function MyProfile({ navigation }) {
-  const { img, userName, rank, riding } = useRecoilValue(userState)
+  // Todo : badgeName, profile 연결해야함
+  const { nickname, badgeName, totalDistance, profile } =
+    useRecoilValue(userState)
 
   return (
-    <SafeAreaView style={profile.container}>
-      <View style={[profile.imgContainer, profile.shadow]}>
+    <SafeAreaView style={myPage.container}>
+      <View style={[myPage.imgContainer, myPage.shadow]}>
         <Image
-          style={profile.userImg}
+          style={myPage.userImg}
           source={require('@assets/ttarawa/profile.png')}
         />
       </View>
 
-      <View style={[profile.userContainer, profile.shadow]}>
-        <Text style={profile.rank}>주니어라이더까지 7km</Text>
-        <View style={profile.nameContainer}>
+      <View style={[myPage.userContainer, myPage.shadow]}>
+        <Text style={myPage.rank}>주니어라이더까지 7km</Text>
+        <View style={myPage.nameContainer}>
           <Image source={require('@assets/rank/junior.png')} />
-          <Text style={profile.userName}>{userName} 님</Text>
+          <Text style={myPage.userName}>{nickname} 님</Text>
         </View>
-        <Text style={profile.riding}>
-          누적 <Text style={profile.ridingData}>{riding}</Text> km
+        <Text style={myPage.riding}>
+          누적 <Text style={myPage.ridingData}>{totalDistance}</Text> km
         </Text>
       </View>
 
-      <View style={profile.buttons}>
+      <View style={myPage.buttons}>
         <IconButton
           text="주행기록"
           type="large"
@@ -71,7 +73,7 @@ export default function MyProfile({ navigation }) {
           icon1={
             <Image
               source={require('@assets/ttarawa/logo.png')}
-              style={profile.logo}
+              style={myPage.logo}
             />
           }
           icon2={

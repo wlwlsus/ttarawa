@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -24,11 +24,8 @@ export default function SocialLogin({ navigation, route }) {
         javaScriptEnabled={true}
         onShouldStartLoadWithRequest={(event) => {
           const token = event.url.split('?token=')[1]
-          if (token && token !== undefined) {
-            // 토큰 저장하기
-            AsyncStorage.setItem('token', token, () => {
-              console.log('토큰 저장 완료')
-            })
+          if (token) {
+            AsyncStorage.setItem('token', token)
             navigation.navigate('Recom')
             return false
           }
