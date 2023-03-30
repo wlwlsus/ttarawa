@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Map from '@screens/main/Map'
 import SearchPath from '@screens/main/SearchPath'
-import Nav from '@screens/main/Nav'
+import NNav from '@screens/main/NNav'
 import Road from '@screens/main/Road'
 
 const MainStack = createStackNavigator()
@@ -11,12 +11,12 @@ const MainStack = createStackNavigator()
 export default function MainStackScreen() {
   return (
     <MainStack.Navigator
-      initialRouteName="Map"
+      initialRouteName="NNav"
       screenOptions={{ headerShown: false }}
     >
       <MainStack.Screen name="Map" component={Map} />
       <MainStack.Screen name="SearchPath" component={SearchPath} />
-      <MainStack.Screen name="Nav" component={Nav} />
+      <MainStack.Screen name="NNav" component={NNav} />
       <MainStack.Screen name="Road" component={Road} />
     </MainStack.Navigator>
   )

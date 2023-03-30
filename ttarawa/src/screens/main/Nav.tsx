@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Switch } from 'react-native'
+import { Text, View, Switch, TouchableOpacity } from 'react-native'
 import { styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import { SafeAreaView } from 'react-native'
@@ -20,7 +20,7 @@ export default function Nav({ navigation }) {
   const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState)
     // 위치정보 저장 on 이라면...
-    if (!isEnabled) {
+    if (isEnabled == true) {
       await Location.requestForegroundPermissionsAsync()
       const newWatchId = await Location.watchPositionAsync(
         {
@@ -67,6 +67,14 @@ export default function Nav({ navigation }) {
         </Text>
 
         <Text onPress={() => navigation.navigate('Road')}>gogogogog제발</Text>
+
+        <TouchableOpacity onPress={() => toggleSwitch()}>
+          <Text>Capture WebView</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => toggleSwitch()}>
+          <Text>Capture WebView</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
