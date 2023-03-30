@@ -1,9 +1,5 @@
-import { useState } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
-// import FastImage from 'react-native-fast-image'
-import FastImage from 'expo-fast-image'
 import { color } from '@styles/GlobalStyles'
-// import getImageSize from '@utils/getSize'
 import Label from '@components/common/Label'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
@@ -150,7 +146,7 @@ export default function FeedCard({
                     color="black"
                   />
                 }
-                // press
+                press={pressMenu}
               />
             )}
           </View>

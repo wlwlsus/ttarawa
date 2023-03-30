@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Switch } from 'react-native'
+import { Text, View, Switch, TouchableOpacity } from 'react-native'
 import { styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import { SafeAreaView } from 'react-native'
 import * as Location from 'expo-location'
+import { useRecoilState } from 'recoil'
+import { locationListState } from '~/store/atoms'
 
-type LocationObject = Location.LocationObject
+export default function Nav({ navigation }) {
+  type LocationObject = Location.LocationObject
 
-export default function Map() {
   const [isEnabled, setIsEnabled] = useState(false)
-  const [locationData, setLocationData] = useState<
-    { latitude: number; longitude: number }[]
-  >([])
+  const [locationData, setLocationData] = useRecoilState(locationListState)
+
   const [watchId, setWatchId] = useState<number | null>(null)
 
+  // 토글로 위치정보 저장 on/off -> 버튼으로 바꿀 예정
   const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState)
-    if (!isEnabled) {
+    // 위치정보 저장 on 이라면...
+    if (isEnabled == true) {
       await Location.requestForegroundPermissionsAsync()
       const newWatchId = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 5000,
-          distanceInterval: 10,
+          timeInterval: 5,
+          distanceInterval: 3,
         },
         (location) => {
           const { latitude, longitude } = location.coords
-          setLocationData((prevData) => [...prevData, { latitude, longitude }])
+          setLocationData((prevData) => [...prevData, latitude, longitude])
         },
       )
       setWatchId(newWatchId)
+
+      // off라면...
     } else {
       if (watchId) {
         Location.clearWatch(watchId)
@@ -39,7 +44,7 @@ export default function Map() {
   }
 
   useEffect(() => {
-    console.log(locationData)
+    console.log(locationData, '>>locationData 갱신<<')
   }, [locationData])
   // 리코일로 locationData를 빼야함
   return (
@@ -59,6 +64,16 @@ export default function Map() {
             ? '위치 정보 저장을 켰습니다.'
             : '위치 정보 저장을 껐습니다.'}
         </Text>
+
+        <Text onPress={() => navigation.navigate('Road')}>gogogogog제발</Text>
+
+        <TouchableOpacity onPress={() => toggleSwitch()}>
+          <Text>Capture WebView</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => toggleSwitch()}>
+          <Text>Capture WebView</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

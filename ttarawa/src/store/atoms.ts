@@ -38,7 +38,7 @@ export const markerListState = atom({
 
 export const markerState = atom({
   key: 'markerState',
-  default: 0
+  default: 0,
 })
 
 // 길안내 좌표
@@ -49,4 +49,15 @@ export const pathInfo = atom({
     geometry: {},
     properties: {},
   },
+})
+
+// SNS 모달
+export const snsModal = atom({
+  key: 'snsModalState',
+  default: false,
+})
+
+export const locationListState = atom({
+  key: 'locationListState',
+  default: [],
 })

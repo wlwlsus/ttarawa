@@ -90,14 +90,15 @@ const styles = StyleSheet.create({
     backgroundColor: color.secondary,
     borderColor: color.primary,
     borderRadius: 17,
-    padding: 7,
-    borderWidth: 1.5,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderWidth: 1,
     gap: 5,
   },
 
   secondaryText: {
     color: color.primary,
-    fontSize: 17,
+    fontSize: 14,
   },
 
   square: {

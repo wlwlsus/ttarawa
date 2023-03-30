@@ -1,25 +1,34 @@
-import { StyleSheet, View, Text, Pressable, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TextInput } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 
-export default function Input(props: {
+interface Props {
   label?: string
   placeholder?: string
   value?: string
   setValue: (params: string) => any
   dir?: string
   disabled?: boolean
-}) {
-  const direction = props.dir === 'right' ? styles.right : null
+}
+
+export default function Input({
+  label,
+  placeholder,
+  value,
+  setValue,
+  dir,
+  disabled,
+}: Props) {
+  const direction = dir === 'right' ? styles.right : null
 
   return (
     <View style={[styles.container, direction]}>
-      <Text style={styles.label}>{props.label}</Text>
+      <Text style={styles.label}>{label}</Text>
       <TextInput
         style={styles.input}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChangeText={(payload: string) => props.setValue(payload)}
-        editable={!props.disabled}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={(payload: string) => setValue(payload)}
+        editable={!disabled}
       />
     </View>
   )

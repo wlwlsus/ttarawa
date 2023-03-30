@@ -9,11 +9,8 @@ export default function Login({ navigation }) {
   const google = require('@assets/ttarawa/google.png')
 
   // login 기능 넣기
-  const toLogin = (socialType: any) => {
-    // console.log(socialType)
-    // navigation.navigate('SocialLogin')
-    // console.log('login 성공 & 페이지 이동합니다...')
-    navigation.navigate('Recom')
+  const toLogin = (socialType: string) => {
+    navigation.navigate('SocialLogin', { data: socialType })
   }
 
   return (
