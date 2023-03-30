@@ -2,7 +2,7 @@ import axios from 'axios'
 // accessToken은 recoil store에서 가져오기
 
 const apiRequest = axios.create({
-  baseURL: 'http://j8a605.p.ssafy.io:8080/api/v1', // 서버 주소
+  baseURL: 'http://j8a605.p.ssafy.io/api/v1/', // 서버 주소
   withCredentials: true,
 })
 
@@ -12,16 +12,18 @@ apiRequest.interceptors.request.use(
   (config) => {
     // 토큰 발급 받으면 다음 코드 써야함
     // const accessToken = state.token.accessToken
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
 
     // accessToken이 없을 경우 헤더 없이 요청 (우리 프젝에서는 불필요)
     // if (!accessToken) return config
 
-    // return {
-    //   ...config,
-    //   headers: { Authorization: `Bearer ${accessToken}` },
-    // }
+    return {
+      ...config,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
 
-    return config // 임시
+    // return config
   },
   (error) => {
     return Promise.reject(error)

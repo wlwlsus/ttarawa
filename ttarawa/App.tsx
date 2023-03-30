@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Platform } from 'react-native'
+import { RecoilRoot } from 'recoil'
 
 import Index from '@navigations/Index'
 import Tabs from '@navigations/Tabs'
@@ -32,16 +33,18 @@ const Stack = createStackNavigator()
 
 export default function App() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator
-        initialRouteName="Index"
-        // initialRouteName="Tabs"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Index" component={Index} />
-        <Stack.Screen name="Tabs" component={Tabs} />
-        <Stack.Screen name="Intro" component={Intro} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator
+          initialRouteName="Index"
+          // initialRouteName="Tabs"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Index" component={Index} />
+          <Stack.Screen name="Tabs" component={Tabs} />
+          <Stack.Screen name="Intro" component={Intro} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RecoilRoot>
   )
 }

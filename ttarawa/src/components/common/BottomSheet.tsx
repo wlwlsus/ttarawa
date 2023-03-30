@@ -7,8 +7,6 @@ import {
   Dimensions,
   PanResponder,
 } from 'react-native'
-import IconButton from '@components/common/IconButton'
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 
 import { bottomSheet } from '@styles/GlobalStyles'
 
@@ -86,40 +84,7 @@ export default function BottomSheet(props) {
           }}
           {...panResponders.panHandlers}
         >
-          <View style={bottomSheet.buttons}>
-            <IconButton
-              text="최신순"
-              icon1={
-                <MaterialCommunityIcons
-                  name="clock-outline"
-                  size={24}
-                  color="black"
-                />
-              }
-              dir="left"
-              press={() => console.log('최신')}
-            />
-            <View style={bottomSheet.lineStyle} />
-            <IconButton
-              text="좋아요순"
-              icon1={<Ionicons name="heart-sharp" size={24} color="black" />}
-              dir="left"
-              press={() => console.log('좋아요')}
-            />
-            <View style={bottomSheet.lineStyle} />
-            <IconButton
-              text="추천받기"
-              icon1={
-                <MaterialCommunityIcons
-                  name="lightbulb-on-outline"
-                  size={24}
-                  color="black"
-                />
-              }
-              dir="left"
-              press={() => console.log('추천')}
-            />
-          </View>
+          {props.children}
         </Animated.View>
       </Pressable>
     </Modal>

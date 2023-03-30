@@ -1,10 +1,16 @@
 import { View, Text } from 'react-native'
 import { WebView } from 'react-native-webview'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function SocialLogin({ navigation }) {
-  const kakaoClientId = 'd7d7a42861b64d89868bc0f51679f971'
-  const kakaoURL = 'http://localhost:3000/oauth/redirect'
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoURL}`
+export default function SocialLogin({ navigation, route }) {
+  const { data } = route.params
+  console.log(data)
+  // const URL = `http://localhost:8080/oauth2/authorization/{kakao}?redirect_uri=http://localhost:3000/oauth/redirect`
+  const serverIP = 'j8a605.p.ssafy.io'
+  const socialType = data
+  const redirectUrl = 'exp://192.168.0.101:19000/oauth/redirect'
+
+  const requestUrl = `http://${serverIP}/oauth2/authorization/${socialType}?redirect_uri=${redirectUrl}`
 
   return (
     <View style={{ flex: 1 }}>
@@ -13,13 +19,21 @@ export default function SocialLogin({ navigation }) {
         scalesPageToFit={false}
         style={{ marginTop: 30 }}
         source={{
-          uri: KAKAO_AUTH_URL,
-          //client_id에는 본인 앱 등록후 발급받은 REST API KEY
-          //redirect_url도 본인 uri
+          uri: requestUrl,
         }}
         javaScriptEnabled={true}
-
-        // onMessage ... :: webview에서 온 데이터를 event handler로 감지하여 parseAuthCood로 전달
+        onShouldStartLoadWithRequest={(event) => {
+          const token = event.url.split('?token=')[1]
+          if (token && token !== undefined) {
+            // 토큰 저장하기
+            AsyncStorage.setItem('token', token, () => {
+              console.log('토큰 저장 완료')
+            })
+            navigation.navigate('Recom')
+            return false
+          }
+          return true
+        }}
       />
     </View>
   )

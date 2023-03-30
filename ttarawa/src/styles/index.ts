@@ -42,7 +42,6 @@ export const login = StyleSheet.create({
     color: color.white,
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: 'bold',
     padding: 10,
   },
   headLogo: {
@@ -53,16 +52,13 @@ export const login = StyleSheet.create({
     marginBottom: 40,
   },
   loginBox: {
-    flex: 0.4,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 70,
+    justifyContent: 'space-evenly',
   },
   loginLogo: {
-    alignSelf: 'center',
     resizeMode: 'contain',
-    height: 70,
-    width: 70,
+    height: 80,
+    width: 80,
   },
 })
 
@@ -71,17 +67,19 @@ export const recom = StyleSheet.create({
     flex: 1,
     backgroundColor: color.primary,
     paddingHorizontal: 10,
+    position: 'relative',
   },
   header: {
     alignItems: 'center',
-    flex: 0.2,
-    marginVertical: 30,
+    marginTop: 100,
+    marginBottom: 50,
   },
   title: {
     color: color.white,
-    fontSize: 35,
-    fontWeight: 'bold',
+    fontSize: 27,
+    fontWeight: '500',
     paddingLeft: 10,
+    marginBottom: 15,
   },
   text: {
     fontSize: 15,
@@ -94,14 +92,11 @@ export const recom = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5,
   },
-  scrollView: {
-    flex: 0.7,
-  },
   scrollcontent: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexWrap: 'wrap',
-    marginBottom: 20,
+    marginTop: 10,
   },
 })
 

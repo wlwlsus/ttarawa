@@ -10,6 +10,19 @@ const fetchPost = async (sort: string, page: number): Promise<object> => {
     .catch((err) => Promise.reject(err.data))
 }
 
+const fetchPostRecom = async (
+  size: number,
+  lat: number,
+  lng: number,
+): Promise<object> => {
+  return await apiRequest
+    .get(`history/post/recommend?size=${size}&lat=${lat}&lng=${lng}`)
+    .then((res) => {
+      return Promise.resolve(res.data.result)
+    })
+    .catch((err) => Promise.reject(err.data))
+}
+
 const fetchDetail = async (historyId: number): Promise<object> => {
   return await apiRequest
     .get(`history/post/detail/${historyId}`)
@@ -73,6 +86,7 @@ const deleteLike = async (historyId: number): Promise<object> => {
 
 const sns = {
   fetchPost,
+  fetchPostRecom,
   fetchDetail,
   savePost,
   saveLike,

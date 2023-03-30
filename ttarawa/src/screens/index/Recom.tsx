@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import IconButton from '@components/common/IconButton'
-import RecomCard from '@components/card/RecomCard'
+import RecomCard from '@components/index/RecomCard'
 import * as Location from 'expo-location'
 import { useState, useEffect } from 'react'
 
@@ -57,6 +57,48 @@ export default function Recom({ navigation }) {
           category: 1,
           spotId: 9,
         },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 1,
+          spotId: 8,
+        },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 1,
+          spotId: 7,
+        },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 1,
+          spotId: 6,
+        },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 2,
+          spotId: 5,
+        },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 2,
+          spotId: 4,
+        },
+        {
+          name: '혜진드기',
+          distance: 9,
+          visit: 30,
+          category: 1,
+          spotId: 3,
+        },
       ]
 
       // await axios.get
@@ -64,18 +106,16 @@ export default function Recom({ navigation }) {
       // )
 
       setRecoms(recomList)
-      // console.log(latitude, longitude)
     } catch (error) {
       console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
     }
   }
-  // useEffect
+
   useEffect(() => {
     getRecom()
   }, [])
 
   const goMap = () => {
-    console.log('목적지 집적 설정하러가쟝')
     navigation.navigate('Tabs', { screen: 'Main' })
   }
 
@@ -84,45 +124,38 @@ export default function Recom({ navigation }) {
       <View style={recom.header}>
         <Text style={recom.title}>여긴 어때요?</Text>
         <Text style={recom.text}>
-          {/* userName 들고오기 */}
           user.name 님 현재 위치 기반{'\n'}가장 인기있는 목적지입니다
         </Text>
       </View>
 
-      {/* 지도 페이지로 넘어가도록 기능 추가해야함  */}
-
       <IconButton
         type="transparent"
         text="목적지 직접 설정"
-        icon2={<AntDesign name="doubleright" size={15} color={color.white} />}
+        icon2={<AntDesign name="doubleright" size={17} color={color.white} />}
         press={goMap}
         dir="left"
         style={{
-          container: { alignSelf: 'flex-end' },
-          txt: { color: color.white },
+          container: { alignSelf: 'flex-end', gap: 3, marginRight: 10 },
+          txt: { color: color.white, fontWeight: 'normal' },
         }}
       />
 
       <ScrollView
-        style={recom.scrollView}
         pagingEnabled={true}
         showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior={'never'}
+        contentContainerStyle={recom.scrollcontent}
       >
-        <View style={recom.scrollcontent}>
-          {recoms.map((recom) => {
-            return (
-              <RecomCard
-                // spotId={recom.spotId}
-                key={recom.spotId}
-                name={recom.name}
-                distance={recom.distance}
-                visit={recom.visit}
-                category={recom.category}
-              />
-            )
-          })}
-        </View>
+        {recoms.map((recom) => {
+          return (
+            <RecomCard
+              key={recom.spotId}
+              name={recom.name}
+              distance={recom.distance}
+              visit={recom.visit}
+              category={recom.category}
+            />
+          )
+        })}
       </ScrollView>
     </SafeAreaView>
   )

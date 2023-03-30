@@ -2,16 +2,12 @@ import apiRequest from '@utils/apiRequest'
 
 // GET Request
 const fetchRecom = async (
-  category: number,
-  page: number,
-  size: number,
   lat: number,
   lng: number,
+  size: number,
 ): Promise<object> => {
   return await apiRequest
-    .get(
-      `/spot?category=${category}&page=${page}&size=${size}&lat=${lat}&lng=${lng}`,
-    )
+    .get(`/spot?lat=${lat}&lng=${lng}&size=${size}`)
     .then((res) => {
       return Promise.resolve(res.data.result)
     })
