@@ -59,11 +59,12 @@ export default function Recom({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={recom.container} forceInset={{ bottom: 'never' }}>
+    <SafeAreaView style={recom.container}>
       <View style={recom.header}>
         <Text style={recom.title}>여긴 어때요?</Text>
         <Text style={recom.text}>
-          {userInfo.nickname} 님 현재 위치 기반{'\n'} 가장 인기있는 목적지입니다
+          <Text style={recom.user}>{userInfo.nickname}</Text> 님 현재 위치 기반
+          {'\n'} 가장 인기있는 목적지입니다
         </Text>
       </View>
 
@@ -74,12 +75,19 @@ export default function Recom({ navigation }) {
         press={goMap}
         dir="left"
         style={{
-          container: { alignSelf: 'flex-end', gap: 3, marginRight: 10 },
+          container: {
+            alignSelf: 'flex-end',
+            gap: 3,
+            position: 'absolute',
+            top: 260,
+            right: 25,
+          },
           txt: { color: color.white, fontWeight: 'normal' },
         }}
       />
 
       <ScrollView
+        style={recom.scrollView}
         pagingEnabled={true}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={recom.scrollcontent}
