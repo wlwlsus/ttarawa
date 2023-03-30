@@ -6,7 +6,6 @@ import { SafeAreaView } from 'react-native'
 import * as Location from 'expo-location'
 import { useRecoilState } from 'recoil'
 import { locationListState } from '~/store/atoms'
-import { longPressHandlerName } from 'react-native-gesture-handler/lib/typescript/handlers/LongPressGestureHandler'
 
 export default function Nav({ navigation }) {
   type LocationObject = Location.LocationObject
