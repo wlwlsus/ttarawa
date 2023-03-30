@@ -77,7 +77,7 @@ public interface HistoryService {
         .startAddress(historyReqDto.getStartAddress())
         .endAddress(historyReqDto.getEndAddress())
         .image(url)
-        .users(currentUser)
+        .usersId(currentUser.getUsersId())
         .build();
   }
 
