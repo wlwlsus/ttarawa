@@ -7,7 +7,7 @@ import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import InitPath from '@utils/map/InitPath'
 
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
 import { departState, destinState, pathInfo } from '@store/atoms'
 
 export default function SearchPath() {
@@ -52,7 +52,8 @@ export default function SearchPath() {
           })
           .then(function (data) {
             setResultData(data.features)
-            // console.log('check')
+            console.log('check')
+            // console.log(resultData)
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
@@ -60,7 +61,7 @@ export default function SearchPath() {
       }
     }
     fetchRoute()
-  }, [])
+  }, [depart, destin])
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
