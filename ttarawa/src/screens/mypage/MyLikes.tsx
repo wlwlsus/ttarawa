@@ -7,11 +7,16 @@ import {
   Pressable,
 } from 'react-native'
 import { useEffect, useState } from 'react'
+import { useSetRecoilState, useResetRecoilState } from 'recoil'
 import { color } from '@styles/GlobalStyles'
 import IconButton from '@components/common/IconButton'
 import { MaterialIcons } from '@expo/vector-icons'
+import { departState, destinState, pathInfo } from '@store/atoms'
 
-export default function MyLikes() {
+export default function MyLikes({ navigation }) {
+  const setDepart = useSetRecoilState(departState)
+  const setDestin = useSetRecoilState(destinState)
+
   interface SnsData {
     historyId: number
     nickname: string
@@ -93,17 +98,16 @@ export default function MyLikes() {
   }, [])
 
   // 도로명 주소로 위도, 경도 출력
-  const fetchRoute = async (addr: string, setAddr: any) => {
+  const fetchRoute = async (name: string, setAddr: any) => {
     const headers = {
       'Content-Type': 'application/json',
       appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
       // appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
     }
     // const fullAddr = '서울특별시 강남구 강남대로 438 스타플렉스'
-    const fullAddr = addr
 
     const response = await fetch(
-      `https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?version=1&format=json&callback=result&coordType=WGS84GEO&fullAddr=${fullAddr}`,
+      `https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?version=1&format=json&callback=result&coordType=WGS84GEO&fullAddr=${name}`,
       {
         method: 'GET',
         headers: headers,
@@ -113,28 +117,25 @@ export default function MyLikes() {
         return response.json()
       })
       .then(function (data) {
-        const lat = data.coordinateInfo.coordinate[0].newLat
-        const lng = data.coordinateInfo.coordinate[0].newLon
-        setAddr({ lat, lng })
-        return { lat, lng }
-        // console.log(data.coordinateInfo.coordinate[0].newLat)
-        // console.log(data.coordinateInfo.coordinate[0].newLon)
+        // string으로 들어오기 때문에, number로 형변환
+        const lat = Number(data.coordinateInfo.coordinate[0].newLat)
+        const lng = Number(data.coordinateInfo.coordinate[0].newLon)
+        setAddr({ name, lat, lng })
+        // console.log(name, lat, lng)
       })
       .catch(function (error) {
         console.log('Fetch Error :-S', error)
       })
   }
-  const [depart, setDepart] = useState({})
-  const [destin, setDestin] = useState({})
 
   const goTrip = async (startAddress: string, endAddress: string) => {
-    await Promise.all([
-      fetchRoute(startAddress, setDepart),
-      fetchRoute(endAddress, setDestin),
-    ]).then((value) => {
-      console.log(value)
-      console.log(depart)
-    })
+    // useResetRecoilState(departState)
+    // useResetRecoilState(destinState)
+
+    await fetchRoute(startAddress, setDepart)
+    await fetchRoute(endAddress, setDestin)
+
+    await navigation.navigate('Main', { screen: 'SearchPath' })
   }
 
   const detail = (historyId: number) => {
