@@ -37,7 +37,6 @@ public class CookieUtil {
 
   public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
     Cookie[] cookies = request.getCookies();
-    System.out.println("deletecookie");
 
 
     if (cookies != null && cookies.length > 0) {
@@ -70,5 +69,15 @@ public class CookieUtil {
         )
     );
   }
+
+
+//  public static <T> T deserializeRefreshToken(Cookie cookie, Class<T> cls) {
+//    String encodedValue = cookie.getValue().replace(".", "-"); // "." 문자를 "-" 문자로 치환하여 Base64 디코딩할 수 있는 문자열로 변환
+//    byte[] decodedBytes = Base64.getUrlDecoder().decode(encodedValue); // Base64 디코딩
+//    return cls.cast(SerializationUtils.deserialize(decodedBytes));
+//  }
+//
+
+
 
 }
