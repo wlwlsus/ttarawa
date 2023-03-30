@@ -7,10 +7,11 @@ import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
 import { color, styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
-import { decode } from 'base-64'
 
 import { useRecoilValue } from 'recoil'
 import { locationListState } from '~/store/atoms'
+import axios from 'axios'
+import { GLView } from 'expo-gl'
 
 export default function Road() {
   // recoil에 저장된 위치리스트 가져오기
@@ -54,7 +55,7 @@ export default function Road() {
 		DrawLine.vectorLayer = null; // 벡터 레이어
 		DrawLine.markerLayer = null; // 마커 레이어
 		DrawLine.arrPoint = null; // 포인트 배열 (resource)
-        const locationData = ${JSON.stringify(locationData)}
+    const locationData = ${JSON.stringify(locationData)}
 		
 		DrawLine.totDistance = 0; // 매칭된 거리 (단위: m)
 		DrawLine.totPointCount = 0; // 매칭된 좌표의 개수 (단위: count)
@@ -377,7 +378,7 @@ export default function Road() {
 		*/
 		DrawLine.initData = function() {
 
-			DrawLine.arrPoint = locationData3
+			DrawLine.arrPoint = locationData
 		}
 		
 	</script>
@@ -385,64 +386,86 @@ export default function Road() {
 </html>
 `
 
+  const SERVER_URL = 'http://j8a605.p.ssafy.io/api/v1/history/post'
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false)
+  const token =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
 
   const captureWebview = async () => {
+    console.log('캡쳐 로직 start')
     if (isWebViewLoaded) {
-      const uri = await viewShotRef.current.capture()
+      console.log('캡쳐 로직 start')
 
-      const formData = new FormData()
+      try {
+        const result = await viewShotRef.current.capture()
 
-      const imagePath = uri
+        const imgData = {
+          uri: result,
+          type: 'image/jpeg',
+          name: 'image.jpg',
+        }
+        const formData = new FormData()
+        // formData.append('image', {
+        //   uri: result,
+        //   type: 'image/jpeg',
+        //   name: 'image.jpg',
+        // })
 
-      let imageBlob = null
-      const fileInfo = await FileSystem.getInfoAsync(imagePath)
-      if (fileInfo.exists) {
-        const base64Image = await FileSystem.readAsStringAsync(imagePath, {
-          encoding: 'base64',
-        })
+        // const json = JSON.stringify(imgData)
+        // const blob = new Blob([json], {
+        //   type: 'application/json',
+        //   lastModified: Date.now(),
+        // })
+        // formData.append('image', blob)
 
-        const byteArray = Uint8Array.from(decode(base64Image), (c) =>
-          c.charCodeAt(0),
+        // Create a File object from the Blob
+				
+        const file = new File(
+          [new Blob([JSON.stringify(imgData)])],
+          'image.jpg',
+          { type: 'application/json' },
         )
-        const array = Array.from(byteArray)
-        imageBlob = new Blob([array], { type: 'image/jpeg' })
-        // const byteCharacters = atob(base64Image)
-        // const byteNumbers = new Array(byteCharacters.length)
-        // for (let i = 0; i < byteCharacters.length; i++) {
-        //   byteNumbers[i] = byteCharacters.charCodeAt(i)
-        // }
-        // const byteArray = new Uint8Array(byteNumbers)
-        // const array = Array.from(byteArray) // Uint8Array -> Array 변환
-        // imageBlob = new Blob([array], { type: 'image/jpeg' })
-      }
 
-      const response = await fetch(
-        'http://3.39.209.108:8080/api/v1/spot/test',
-        {
-          method: 'POST',
+        // Append the File object to FormData
+        formData.append('image', file)
+
+        const historyReqDto = {
+          personal: 0,
+          time: 11,
+          distance: 101,
+          content: 'strisdfsdfng',
+          startAddress: 'strinazsdfsdfsdfsdfg',
+          endAddress: 'strinfsdfsdfg',
+        }
+
+        formData.append('historyReqDto', JSON.stringify(historyReqDto))
+
+        console.log('12!!')
+
+        console.log(formData)
+
+        const response = await axios.post(SERVER_URL, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
-          body: formData,
-        },
-      )
+        })
+        console.log(response)
 
-      if (response.ok) {
-        console.log('Image uploaded successfully')
-        console.log(formData)
-      } else {
-        console.error('Failed to upload image')
+        if (response.status === 200) {
+          console.log('Image uploaded successfully')
+        } else {
+          console.error('Failed to upload image')
+        }
+      } catch (error) {
+        console.error('Failed to capture or upload image', error)
       }
-      console.log(uri)
-    } else {
-      console.log('WebView is not loaded yet')
     }
   }
 
-  const handleWebViewLoad = ({ navigation }) => {
+  const handleWebViewLoad = ({}) => {
     setIsWebViewLoaded(true)
   }
   return (

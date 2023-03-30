@@ -6,6 +6,7 @@ import { RecoilRoot } from 'recoil'
 import Index from '@navigations/Index'
 import Tabs from '@navigations/Tabs'
 import Intro from '@navigations/Intro'
+import MainStackScreen from '@navigations/Main'
 
 import * as Notifications from 'expo-notifications'
 
@@ -43,6 +44,7 @@ export default function App() {
           <Stack.Screen name="Index" component={Index} />
           <Stack.Screen name="Tabs" component={Tabs} />
           <Stack.Screen name="Intro" component={Intro} />
+          <Stack.Screen name="MainStack" component={MainStackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>

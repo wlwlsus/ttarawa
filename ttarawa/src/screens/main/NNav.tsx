@@ -1,51 +1,78 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Switch, TouchableOpacity } from 'react-native'
+import { Text, View, Button, TouchableOpacity } from 'react-native'
 
 import * as Location from 'expo-location'
-import { useRecoilState } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
 import { locationListState } from '~/store/atoms'
 
-export default function NNav() {
+// export const locationListState = atom<number[][]>({
+//   key: 'locationListState',
+//   default: [],
+// })
+
+export default function NNav(navigation: any) {
   const [locationList, setLocationList] = useRecoilState(locationListState)
   const [errorMsg, setErrorMsg] = useState(null)
-  const [isWatching, setIsWatching] = useState(false)
+  // const [watcher, setWatcher] =
+  //   useState<Promise<Location.LocationSubscription> | null>(null)
+  const [watcher, setWatcher] =
+    useState<Promise<Location.LocationSubscription> | null>(null)
+  const [isTracking, setIsTracking] = useState(false)
 
-  const watchId = () => {
-    Location.watchPositionAsync(
+  const startLocationTracking = async () => {
+    // const { status } = await Location.requestForegroundPermissionsAsync();
+    // if (status !== 'granted') {
+    //   console.log('Permission denied');
+    //   return;
+    // }
+    const watcher = Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.High,
-        timeInterval: 1000, // 10초마다 업데이트
+        timeInterval: 1000,
         distanceInterval: 0,
       },
       (location) => {
         const { latitude, longitude } = location.coords
-        setLocationList((prevData) => [...prevData, latitude, longitude])
-        console.log('getLOCATION')
+        setLocationList((prevData) => [...prevData, longitude, latitude])
+        console.log('getLOCATION', latitude, longitude)
       },
     )
+    setIsTracking(true)
+    setWatcher(watcher)
+    return watcher
   }
 
   const stopLocationTracking = () => {
-    setIsWatching(false)
-    Location.stopLocationUpdatesAsync(watchId)
-    setLocationList([])
-    console.log('stop it')
+    if (!watcher) return
+
+    watcher.then((locationSubscription: Location.LocationSubscription) => {
+      locationSubscription.remove()
+      setIsTracking(false)
+      setWatcher(null)
+      // setLocationList([])
+      console.log('stop it')
+    })
   }
 
-  useEffect(() => {
-    if (!isWatching) return
-    watchId()
+  const tetst = () => {
+    console.log('네비')
+    console.log(navigation)
+    console.log(navigation.navigation.navigate)
 
-    return () => {
-      stopLocationTracking()
-    }
-  }, [isWatching])
-
+    navigation.navigation.navigate('Road')
+  }
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {errorMsg && <Text>{errorMsg}</Text>}
-      <Text onPress={() => setIsWatching(true)}>"Start Location Tracking"</Text>
-      <Text onPress={stopLocationTracking}>"Stop Location Tracking" </Text>
+      <Text>{JSON.stringify(locationList)}</Text>
+      <Button
+        title={
+          isTracking ? 'Stop Location Tracking' : 'Start Location Tracking'
+        }
+        onPress={isTracking ? stopLocationTracking : startLocationTracking}
+        disabled={watcher !== null && !isTracking}
+      />
+
+      <Button title={'가즈아'} onPress={tetst} />
     </View>
   )
 }
