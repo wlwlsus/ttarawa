@@ -15,8 +15,8 @@ import { locationListState } from '~/store/atoms'
 export default function Road() {
   // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
-  const [depart, setDepart] = useState('')
-  const [destin, setDestin] = useState('')
+  //   const [depart, setDepart] = useState('')
+  //   const [destin, setDestin] = useState('')
   const [pressed, setPressed] = useState<Number>()
 
   const isPressed = {
