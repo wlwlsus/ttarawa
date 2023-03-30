@@ -102,6 +102,7 @@ public class SpotController {
   @PostMapping("/test")
   public ResponseEntity<?> handleImageUpload(@RequestParam("image") MultipartFile file) {
     try {
+      log.info("업로드 API");
       String uploadDir = "src/main/resources/static/uploads/";
       File dir = new File(uploadDir);
       if (!dir.exists()) {
@@ -125,6 +126,8 @@ public class SpotController {
   public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
     Resource file =resourceLoader.getResource("classpath:/static/uploads/" + filename);
 
+    log.info("파일 명 : {}", filename);
+    log.info("파일 객체 : ", file);
     if (!file.exists()) {
       return ResponseEntity.notFound().build();
     }
@@ -136,5 +139,10 @@ public class SpotController {
         .headers(headers)
         .contentType(MediaType.parseMediaType("image/jpeg"))
         .body(file);
+  }
+
+  @GetMapping("/ping")
+  public ResponseEntity<?> ping() throws IOException {
+    return Response.makeResponse(HttpStatus.OK, "pong!");
   }
 }
