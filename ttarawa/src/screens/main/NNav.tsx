@@ -4,7 +4,7 @@ import { Text, View, Button, TouchableOpacity } from 'react-native'
 import * as Location from 'expo-location'
 import { atom, useRecoilState } from 'recoil'
 import { locationListState } from '~/store/atoms'
-
+import axios from 'axios'
 // export const locationListState = atom<number[][]>({
 //   key: 'locationListState',
 //   default: [],
@@ -61,6 +61,18 @@ export default function NNav(navigation: any) {
 
     navigation.navigation.navigate('Road')
   }
+
+  const aa = () => {
+    axios
+      .get('http://3.39.209.108:8080/api/v1/spot/ping')
+      .then((response) => {
+        console.log(response.data.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>{JSON.stringify(locationList)}</Text>
@@ -72,7 +84,8 @@ export default function NNav(navigation: any) {
         disabled={watcher !== null && !isTracking}
       />
 
-      <Button title={'가즈아'} onPress={tetst} />
+      <Button title={'로드페이지'} onPress={tetst} />
+      <Button title={'통신페이지'} onPress={aa} />
     </View>
   )
 }

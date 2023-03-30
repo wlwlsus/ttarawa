@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, Button, SafeAreaView, Image } from 'react-native'
 import { useState, useRef, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import ViewShot from 'react-native-view-shot'
@@ -12,6 +12,9 @@ import { useRecoilValue } from 'recoil'
 import { locationListState } from '~/store/atoms'
 import axios from 'axios'
 import { GLView } from 'expo-gl'
+
+import * as ImagePicker from 'expo-image-picker'
+import * as React from 'react'
 
 export default function Road() {
   // recoil에 저장된 위치리스트 가져오기
@@ -386,109 +389,264 @@ export default function Road() {
 </html>
 `
 
-  const SERVER_URL = 'http://j8a605.p.ssafy.io/api/v1/history/post'
+  const SERVER_URL = 'http://3.39.209.108:8080/api/v1/spot/test'
+  const [imageUri, setImageUri] = React.useState<string | null>(null)
+
+  const handlePress = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync()
+    if (status !== 'granted') {
+      // alert('Camera permission not granted')
+      console.log('Camera permission not granted')
+      return
+    }
+
+    const image = await ImagePicker.launchCameraAsync()
+    if (image.canceled) {
+      return
+    }
+
+    setImageUri(image.uri)
+  }
+
+  const handleUpload = async () => {
+    if (!imageUri) {
+      return
+    }
+
+    // Save the image file locally
+    const localUri = `${FileSystem.documentDirectory}image.jpg`
+    await FileSystem.moveAsync({ from: imageUri, to: localUri })
+
+    console.log('경로')
+    console.log(localUri)
+
+    // Upload the image file to the server
+    const formData = new FormData()
+    formData.append('image', {
+      uri: localUri,
+      name: 'image.jpg',
+      type: 'image/jpeg',
+    })
+
+    const response = await axios.post(SERVER_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    console.log('휴111')
+    console.log(response)
+
+    // Use the image URL returned by the server to display the image
+    const imageUrl = response.data.imageUrl
+    setImageUri(imageUrl)
+  }
+
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false)
   const token =
     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
 
-  const captureWebview = async () => {
-    console.log('캡쳐 로직 start')
-    if (isWebViewLoaded) {
-      console.log('캡쳐 로직 start')
+  // const captureWebview = async () => {
+  //   console.log('캡쳐 로직 start 111')
+  //   const formData = new FormData()
+  //   if (isWebViewLoaded) {
+  //     // try {
+  //     //   const fileUri = await viewShotRef.current.capture()
+  //     //   const base64 = await FileSystem.readAsStringAsync(fileUri, {
+  //     //     encoding: FileSystem.EncodingType.Base64,
+  //     //   })
+  //     //   formData.append('image', base64)
+  //     //   const config = {
+  //     //     headers: {
+  //     //       'Content-Type': 'multipart/form-data',
+  //     //     },
+  //     //   }
+  //     //   const response = await axios.post(SERVER_URL, formData, config)
+  //     //   console.log(response.data)
+  //     //   // uploadImage(result)
+  //     //   // const imgData = {
+  //     //   //   uri: result,
+  //     //   //   type: 'image/jpeg',
+  //     //   //   name: 'image.jpg',
+  //     //   // }
+  //     //   // const formData = new FormData()
+  //     //   // // formData.append('image', {
+  //     //   // //   uri: result,
+  //     //   // //   type: 'image/jpeg',
+  //     //   // //   name: 'image.jpg',
+  //     //   // // })
+  //     //   // // const json = JSON.stringify(imgData)
+  //     //   // // const blob = new Blob([json], {
+  //     //   // //   type: 'application/json',
+  //     //   // //   lastModified: Date.now(),
+  //     //   // // })
+  //     //   // formData.append('image', imgData)
+  //     //   // // Append the File object to FormData
+  //     //   // // formData.append('image', imgData)
+  //     //   // // const historyReqDto = {
+  //     //   // //   personal: 0,
+  //     //   // //   time: 11,
+  //     //   // //   distance: 101,
+  //     //   // //   content: 'strisdfsdfng',
+  //     //   // //   startAddress: 'strinazsdfsdfsdfsdfg',
+  //     //   // //   endAddress: 'strinfsdfsdfg',
+  //     //   // // }
+  //     //   // // formData.append('historyReqDto', JSON.stringify(historyReqDto))
+  //     //   // console.log('1!!')
+  //     //   // console.log(formData)
+  //     //   // const response = await axios.post(SERVER_URL, formData, {
+  //     //   //   headers: {
+  //     //   //     'Content-Type': 'multipart/form-data',
+  //     //   //     // Authorization: `Bearer ${token}`,
+  //     //   //   },
+  //     //   // })
+  //     //   // // console.log(response)
+  //     //   // if (response.status === 200) {
+  //     //   //   console.log('Image uploaded successfully')
+  //     //   // } else {
+  //     //   //   console.error('Failed to upload image')
+  //     //   // }
+  //     // } catch (error) {
+  //     //   console.error('Failed to capture or upload image', error)
+  //     // }
+  //   }
+  // }
+  // const handleCapture = async () => {
+  //   // 이미지 파일 로컬에 저장
+  //   console.log('222')
 
-      try {
-        const result = await viewShotRef.current.capture()
+  //   const filename = 'myimage.jpg'
+  //   const fileUri = await viewShotRef.current.capture()
+  //   const fileUriParts = fileUri.split('.')
+  //   const extension = fileUriParts[fileUriParts.length - 1]
+  //   const localUri = `${FileSystem.documentDirectory}${filename}`
+  //   await FileSystem.copyAsync({
+  //     from: fileUri,
+  //     to: localUri,
+  //   })
+  //   const imageFile = {
+  //     uri: localUri,
+  //     name: filename,
+  //     type: `image/${extension}`,
+  //   }
 
-        const imgData = {
-          uri: result,
-          type: 'image/jpeg',
-          name: 'image.jpg',
-        }
-        const formData = new FormData()
-        // formData.append('image', {
-        //   uri: result,
-        //   type: 'image/jpeg',
-        //   name: 'image.jpg',
-        // })
+  //   console.log('데이라')
+  //   console.log(imageFile)
 
-        // const json = JSON.stringify(imgData)
-        // const blob = new Blob([json], {
-        //   type: 'application/json',
-        //   lastModified: Date.now(),
-        // })
-        // formData.append('image', blob)
+  //   // 이미지 파일 서버에 전송
+  //   const formData = new FormData()
+  //   formData.append('image', imageFile)
 
-        // Create a File object from the Blob
-				
-        const file = new File(
-          [new Blob([JSON.stringify(imgData)])],
-          'image.jpg',
-          { type: 'application/json' },
-        )
+  //   const response = await fetch(SERVER_URL, {
+  //     method: 'POST',
+  //     body: formData,
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //   }).then((res) => {
+  //     console.log('어디보자..')
+  //     // console.log(res)
 
-        // Append the File object to FormData
-        formData.append('image', file)
+  //     res.json()
+  //   })
 
-        const historyReqDto = {
-          personal: 0,
-          time: 11,
-          distance: 101,
-          content: 'strisdfsdfng',
-          startAddress: 'strinazsdfsdfsdfsdfg',
-          endAddress: 'strinfsdfsdfg',
-        }
+  //   // 서버에서 응답값으로 이미지 파일 URL을 받아옴
+  //   // const { imageUrl } = await response.json()
 
-        formData.append('historyReqDto', JSON.stringify(historyReqDto))
+  //   // console.log(imageUrl)
+  // }
 
-        console.log('12!!')
+  // // async function uploadImage(imageUri: string) {
+  // //   console.log(1)
 
-        console.log(formData)
+  // //   // Create FormData object
+  // //   const formData = new FormData()
 
-        const response = await axios.post(SERVER_URL, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        console.log(response)
+  // //   // Read the image file
+  // //   const fileUri = imageUri.replace('file://', '')
+  // //   const { uri, name, type } = await FileSystem.getInfoAsync(fileUri, {
+  // //     size: true,
+  // //   })
+  // //   console.log(2)
+  // //   console.log(uri)
 
-        if (response.status === 200) {
-          console.log('Image uploaded successfully')
-        } else {
-          console.error('Failed to upload image')
-        }
-      } catch (error) {
-        console.error('Failed to capture or upload image', error)
-      }
-    }
-  }
+  // //   const response2 = await fetch(uri)
+  // //   const blob = await response2.blob()
+  // //   console.log(3)
+  // //   // Append the Blob to the FormData object
+  // //   formData.append('image', blob, name)
+  // //   console.log(4)
+  // //   // Upload the FormData object to the server
+
+  // //   console.log(formData)
+
+  // //   const response = await fetch(SERVER_URL, {
+  // //     method: 'POST',
+  // //     body: formData,
+  // //     headers: {
+  // //       'Content-Type': 'multipart/form-data',
+  // //       // Authorization: `Bearer ${token}`,
+  // //     },
+  // //   })
+  // //   console.log(5)
+  // //   console.log('Response:', response.data)
+  // //   console.log(6)
+  // // }
 
   const handleWebViewLoad = ({}) => {
     setIsWebViewLoaded(true)
   }
+
+  // const [capturedImageUri, setCapturedImageUri] = useState(null)
+
+  // // const handleCapture = async () => {
+  // //   console.log(101)
+  // //   const uri = await viewShotRef.current.capture()
+  // //   console.log('저장 값 : ' + uri)
+
+  // //   setCapturedImageUri(uri)
+  // // }
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      <ViewShot
-        ref={viewShotRef}
-        options={{ format: 'jpg', quality: 0.9 }}
-        style={{ width: 500, height: 500 }}
-      >
-        <WebView
-          ref={webviewRef}
-          style={{ flex: 1 }}
-          source={{ html }}
-          originWhitelist={['*']}
-          onLoad={handleWebViewLoad}
-          injectedJavaScript={`
+      {
+        <ViewShot
+          ref={viewShotRef}
+          options={{ format: 'jpg', quality: 0.9 }}
+          style={{ width: 500, height: 500 }}
+        >
+          <WebView
+            ref={webviewRef}
+            style={{ flex: 1 }}
+            source={{ html }}
+            originWhitelist={['*']}
+            onLoad={handleWebViewLoad}
+            injectedJavaScript={`
               document.body.style.backgroundColor = 'white';
           `}
-        />
-      </ViewShot>
-      <TouchableOpacity onPress={captureWebview}>
-        <Text>Capture WebView</Text>
-      </TouchableOpacity>
+          />
+        </ViewShot>
+        // <TouchableOpacity onPress={captureWebview}>
+        //   <Text>Capture WebView</Text>
+        // </TouchableOpacity>
+      }
+      {/* <View>
+        {capturedImageUri && (
+          <Image
+            source={{ uri: capturedImageUri }}
+            style={{ width: 200, height: 200 }}
+          />
+        )}
+        <Button title="Capture" onPress={handleCapture} />
+      </View> */}
+
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {imageUri && (
+          <Image source={{ uri: imageUri }} style={{ width: 20, height: 20 }} />
+        )}
+        <Button title="Take Photo" onPress={handlePress} />
+        <Button title="Upload" onPress={handleUpload} />
+      </View>
     </SafeAreaView>
   )
 }
