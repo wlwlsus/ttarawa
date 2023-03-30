@@ -26,7 +26,7 @@ export default function SnsCard() {
   const datas: SnsData[] = [
     {
       historyId: 1,
-      image: '@assets/riding.png',
+      image: '@assets/ttarawa/riding.png',
       personal: 1,
       favoritesCount: 11,
       isMyFavorite: 1,
@@ -39,7 +39,7 @@ export default function SnsCard() {
     },
     {
       historyId: 2,
-      image: '@assets/riding.png',
+      image: '@assets/ttarawa/riding.png',
       personal: 0,
       favoritesCount: 12,
       isMyFavorite: 0, // true: 1, false: 0
@@ -112,7 +112,7 @@ export default function SnsCard() {
           return (
             <FeedCard
               historyId={item.historyId}
-              imagePath={require('@assets/riding.png')}
+              imagePath={require('@assets/ttarawa/riding.png')}
               isLock={item.personal}
               pressLock={pressLock}
               likes={item.favoritesCount}
