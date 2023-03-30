@@ -5,11 +5,13 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import IconButton from '@components/common/IconButton'
 import RecomCard from '@components/index/RecomCard'
-import * as Location from 'expo-location'
+import { departState } from '@store/atoms'
+import { useRecoilState } from 'recoil'
 import { useState, useEffect } from 'react'
 import { userState } from '@store/atoms'
-import { useRecoilState } from 'recoil'
 import user from '@services/user'
+import intro from '@services/intro'
+import getLocation from '@utils/getLocation'
 
 interface result {
   name: string
@@ -17,7 +19,7 @@ interface result {
   visit: number
   category: number
   subCategory?: string
-  spotId?: number
+  tourId?: number
   adress?: string
   lat?: number
   lng?: number
@@ -25,70 +27,19 @@ interface result {
 
 export default function Recom({ navigation }) {
   // 밖으로 뺄 axios 함수
+  const [depart, setDepart] = useRecoilState(departState)
   const [recoms, setRecoms] = useState<result[]>([])
   const [userInfo, setUserInfo] = useRecoilState(userState)
 
   const getRecom = async () => {
-    try {
-      // 권한 얻기
-      let { status } = await Location.requestForegroundPermissionsAsync()
-
-      if (status !== 'granted') {
-        return
-      }
-
-      // 현재 위치 정보 얻기
-      const locationData = await Location.getCurrentPositionAsync()
-      const latitude = locationData['coords']['latitude'] // 위도
-      const longitude = locationData['coords']['longitude'] // 경도
-
-      // 장소 추천 받기
-      const recomList: result[] = [
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 0,
-          spotId: 10,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 9,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 8,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 7,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 6,
-        },
-      ]
-
-      // await axios.get
-      //   `api주소`
-      // )
-
-      setRecoms(recomList)
-    } catch (error) {
-      console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
-    }
+    const { lat, lng } = await getLocation()
+    setDepart({ ...depart, lat, lng })
+    intro
+      .fetchRecom(lat, lng, 10)
+      .then((res) => {
+        setRecoms(res)
+      })
+      .catch((err) => console.log(err))
   }
 
   useEffect(() => {
@@ -136,7 +87,7 @@ export default function Recom({ navigation }) {
         {recoms.map((recom) => {
           return (
             <RecomCard
-              key={recom.spotId}
+              key={recom.tourId}
               name={recom.name}
               distance={recom.distance}
               visit={recom.visit}
