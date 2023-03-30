@@ -15,7 +15,7 @@ import getLocation from '@utils/getLocation'
 
 interface result {
   name: string
-  distance: number
+  distances: number
   visit: number
   category: number
   subCategory?: string
@@ -32,8 +32,11 @@ export default function Recom({ navigation }) {
   const [userInfo, setUserInfo] = useRecoilState(userState)
 
   const getRecom = async () => {
-    const { lat, lng } = await getLocation()
-    setDepart({ ...depart, lat, lng })
+    // 현재 위치
+    const { lat, lng, name } = await getLocation()
+    setDepart({ ...depart, lat, lng, name })
+
+    // 추천 목적지 가져오기
     intro
       .fetchRecom(lat, lng, 10)
       .then((res) => {
@@ -43,6 +46,7 @@ export default function Recom({ navigation }) {
   }
 
   useEffect(() => {
+    // 유저정보
     user
       .fetchProfile()
       .then((res) => {
@@ -97,7 +101,7 @@ export default function Recom({ navigation }) {
             <RecomCard
               key={recom.tourId}
               name={recom.name}
-              distance={recom.distance}
+              distance={recom.distances}
               visit={recom.visit}
               category={recom.category}
             />

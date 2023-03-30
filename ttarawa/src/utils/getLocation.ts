@@ -1,5 +1,6 @@
 import * as Location from 'expo-location'
 
+// 현재 위치의 위도, 경도, 위치 이름을 반환하는 함수
 export default async function getLocation() {
   try {
     let { status } = await Location.requestForegroundPermissionsAsync()
@@ -14,7 +15,12 @@ export default async function getLocation() {
       coords: { latitude, longitude },
     } = await Location.getCurrentPositionAsync({ accuracy: 5 })
 
-    return { lat: latitude, lng: longitude }
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false },
+    )
+
+    return { lat: latitude, lng: longitude, name: location[0].street }
   } catch (error) {
     return null
   }
