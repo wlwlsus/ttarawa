@@ -12,6 +12,8 @@ import { color } from '@styles/GlobalStyles'
 import IconButton from '@components/common/IconButton'
 import { MaterialIcons } from '@expo/vector-icons'
 import { departState, destinState, pathInfo } from '@store/atoms'
+import { geocoding } from '@utils/geocoding'
+import { convertToKm, convertToTime } from '@utils/caculator'
 
 export default function MyLikes({ navigation }) {
   const setDepart = useSetRecoilState(departState)
@@ -68,8 +70,8 @@ export default function MyLikes({ navigation }) {
       nickname: '열정라이더따옹이',
       image: '@assets/riding.png',
 
-      time: 1800,
-      distance: 3500,
+      time: 18000,
+      distance: 35000,
 
       startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
       endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
@@ -82,8 +84,8 @@ export default function MyLikes({ navigation }) {
       nickname: '열정라이더따옹이',
       image: '@assets/riding.png',
 
-      time: 1800,
-      distance: 3500,
+      time: 7800,
+      distance: 35400,
 
       startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
       endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
@@ -97,43 +99,9 @@ export default function MyLikes({ navigation }) {
     setDataLst(datas)
   }, [])
 
-  // 도로명 주소로 위도, 경도 출력
-  const fetchRoute = async (name: string, setAddr: any) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
-      // appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
-    }
-    // const fullAddr = '서울특별시 강남구 강남대로 438 스타플렉스'
-
-    const response = await fetch(
-      `https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?version=1&format=json&callback=result&coordType=WGS84GEO&fullAddr=${name}`,
-      {
-        method: 'GET',
-        headers: headers,
-      },
-    )
-      .then(function (response) {
-        return response.json()
-      })
-      .then(function (data) {
-        // string으로 들어오기 때문에, number로 형변환
-        const lat = Number(data.coordinateInfo.coordinate[0].newLat)
-        const lng = Number(data.coordinateInfo.coordinate[0].newLon)
-        setAddr({ name, lat, lng })
-        // console.log(name, lat, lng)
-      })
-      .catch(function (error) {
-        console.log('Fetch Error :-S', error)
-      })
-  }
-
   const goTrip = async (startAddress: string, endAddress: string) => {
-    // useResetRecoilState(departState)
-    // useResetRecoilState(destinState)
-
-    await fetchRoute(startAddress, setDepart)
-    await fetchRoute(endAddress, setDestin)
+    await geocoding(startAddress, setDepart)
+    await geocoding(endAddress, setDestin)
 
     await navigation.navigate('Main', { screen: 'SearchPath' })
   }
@@ -149,6 +117,8 @@ export default function MyLikes({ navigation }) {
         data={dataLst}
         renderItem={({ item }) => {
           const imagePath = require('@assets/riding.png')
+          const distance = convertToKm(item.distance)
+          const time = convertToTime(item.time)
 
           return (
             <Pressable
@@ -169,16 +139,14 @@ export default function MyLikes({ navigation }) {
                 <View style={styles.textDir}>
                   <Text style={styles.textSize}>주행 기록: </Text>
                   <Text style={[styles.blueText, styles.textSize]}>
-                    {item.distance}
+                    {distance}
                   </Text>
                 </View>
 
                 {/* 주행 시간 */}
                 <View style={styles.textDir}>
                   <Text style={styles.textSize}>주행 시간: </Text>
-                  <Text style={[styles.blueText, styles.textSize]}>
-                    {item.time}
-                  </Text>
+                  <Text style={[styles.blueText, styles.textSize]}>{time}</Text>
                 </View>
 
                 {/* 여행시작 버튼 생성 */}
