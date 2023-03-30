@@ -9,8 +9,8 @@ interface Props {
   // User Info
   userName?: string
   userImg?: (params: any) => any
-  // rank: string
-  rank?: (params: any) => any
+  rank?: string
+  // rank?: (params: any) => any
 
   // 경로 이미지
   imagePath: (params: any) => any // require()  >>  image url 함수
@@ -76,7 +76,11 @@ export default function FeedCard({
             <Image source={userImg} style={styles.userImg} />
           </View>
           <Text style={styles.userName}>{userName}</Text>
-          <Image source={rank} />
+          <Image
+            source={{ uri: rank }}
+            onLoad={() => console.log('Image loaded!')}
+          />
+          {/* <Image source={rank} /> */}
         </View>
       ) : null}
 
