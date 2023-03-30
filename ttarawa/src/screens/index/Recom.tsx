@@ -5,113 +5,56 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { recom } from '@styles/index'
 import IconButton from '@components/common/IconButton'
 import RecomCard from '@components/index/RecomCard'
-import * as Location from 'expo-location'
+import { departState } from '@store/atoms'
+import { useRecoilState } from 'recoil'
 import { useState, useEffect } from 'react'
+import { userState } from '@store/atoms'
+import user from '@services/user'
+import intro from '@services/intro'
+import getLocation from '@utils/getLocation'
+
+interface result {
+  name: string
+  distances: number
+  visit: number
+  category: number
+  subCategory?: string
+  tourId?: number
+  adress?: string
+  lat?: number
+  lng?: number
+}
 
 export default function Recom({ navigation }) {
-  interface result {
-    name: string
-    distance: number
-    visit: number
-    category: number
-    subCategory?: string
-    spotId?: number
-    adress?: string
-    lat?: number
-    lng?: number
-  }
-
   // 밖으로 뺄 axios 함수
+  const [depart, setDepart] = useRecoilState(departState)
   const [recoms, setRecoms] = useState<result[]>([])
-  const [errorMsg, setErrorMsg] = useState('')
+  const [userInfo, setUserInfo] = useRecoilState(userState)
 
   const getRecom = async () => {
-    try {
-      // 권한 얻기
-      let { status } = await Location.requestForegroundPermissionsAsync()
+    // 현재 위치
+    const { lat, lng, name } = await getLocation()
+    setDepart({ ...depart, lat, lng, name })
 
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        // console.log(errorMsg)
-        return
-      }
-
-      // 현재 위치 정보 얻기
-      const locationData = await Location.getCurrentPositionAsync()
-      const latitude = locationData['coords']['latitude'] // 위도
-      const longitude = locationData['coords']['longitude'] // 경도
-
-      // 장소 추천 받기
-      const recomList: result[] = [
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 0,
-          spotId: 10,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 9,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 8,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 7,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 6,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 2,
-          spotId: 5,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 2,
-          spotId: 4,
-        },
-        {
-          name: '혜진드기',
-          distance: 9,
-          visit: 30,
-          category: 1,
-          spotId: 3,
-        },
-      ]
-
-      // await axios.get
-      //   `api주소`
-      // )
-
-      setRecoms(recomList)
-    } catch (error) {
-      console.log('위치를 찾을 수가 없습니다.', '앱을 껏다 켜볼까요?')
-    }
+    // 추천 목적지 가져오기
+    intro
+      .fetchRecom(lat, lng, 10)
+      .then((res) => {
+        setRecoms(res)
+      })
+      .catch((err) => console.log(err))
   }
 
   useEffect(() => {
+    // 유저정보
+    user
+      .fetchProfile()
+      .then((res) => {
+        const { nickname, badgeName, totalDistance, profile } = res
+        setUserInfo({ nickname, badgeName, totalDistance, profile })
+      })
+      .catch((err) => console.log(err))
+
     getRecom()
   }, [])
 
@@ -120,11 +63,12 @@ export default function Recom({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={recom.container} forceInset={{ bottom: 'never' }}>
+    <SafeAreaView style={recom.container}>
       <View style={recom.header}>
         <Text style={recom.title}>여긴 어때요?</Text>
         <Text style={recom.text}>
-          user.name 님 현재 위치 기반{'\n'}가장 인기있는 목적지입니다
+          <Text style={recom.user}>{userInfo.nickname}</Text> 님 현재 위치 기반
+          {'\n'} 가장 인기있는 목적지입니다
         </Text>
       </View>
 
@@ -135,12 +79,19 @@ export default function Recom({ navigation }) {
         press={goMap}
         dir="left"
         style={{
-          container: { alignSelf: 'flex-end', gap: 3, marginRight: 10 },
+          container: {
+            alignSelf: 'flex-end',
+            gap: 3,
+            position: 'absolute',
+            top: 260,
+            right: 25,
+          },
           txt: { color: color.white, fontWeight: 'normal' },
         }}
       />
 
       <ScrollView
+        style={recom.scrollView}
         pagingEnabled={true}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={recom.scrollcontent}
@@ -148,9 +99,9 @@ export default function Recom({ navigation }) {
         {recoms.map((recom) => {
           return (
             <RecomCard
-              key={recom.spotId}
+              key={recom.tourId}
               name={recom.name}
-              distance={recom.distance}
+              distance={recom.distances}
               visit={recom.visit}
               category={recom.category}
             />

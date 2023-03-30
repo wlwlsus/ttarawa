@@ -1,12 +1,11 @@
 import { SafeAreaView, View, ScrollView, Dimensions } from 'react-native'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
 import InitTmap from '@utils/map/InitTmap'
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
-import * as Location from 'expo-location'
 import MapCard from '@components/main/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
@@ -15,8 +14,8 @@ import {
   destinState,
   markerListState,
   markerState,
-} from '~/store/atoms'
-import main from '@services/main'
+} from '@store/atoms'
+import getLocation from '@utils/getLocation'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
@@ -26,32 +25,14 @@ export default function Map({ navigation }) {
   const marker = useRecoilValue(markerState)
   const setDestin = useSetRecoilState(destinState)
 
-  // Todo: 현재위치로 바꾸기
-  const latitude = 37.4979
-  const longitude = 127.0276
-
-  // 현재 위치 가져오기
+  // 현재 위치 설정
   const getCurrent = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync()
-
-    if (status !== 'granted') return console.log('위치허용해줘')
-
-    const location = await Location.reverseGeocodeAsync(
-      { latitude, longitude },
-      { useGoogleMaps: false },
-    )
-
-    // 도착지 설정
-    setDepart({
-      lat: latitude,
-      lng: longitude,
-      name: location[0].name,
-    })
+    const { lat, lng, name } = await getLocation()
+    setDepart({ ...depart, lat, lng, name })
   }
 
-  // 해당 마커로 카드 스크롤
+  // 선택한 마커로 카드 스크롤
   const scrollViewRef = useRef()
-
   const handleScroll = (index: number) => {
     scrollViewRef.current?.scrollTo({
       x: SCREEN_WIDTH * index,
@@ -73,16 +54,6 @@ export default function Map({ navigation }) {
     const { name, lat, lng } = markerList[index]
     setDestin({ ...depart, name, lat, lng })
   }
-
-  useEffect(() => {
-    getCurrent()
-    main
-      .fetchDestin(3, 0, 10, latitude, longitude)
-      .then((res) => {
-        setMarkerList(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
@@ -115,6 +86,7 @@ export default function Map({ navigation }) {
                       title={marker.name}
                       distance={marker.distance}
                       address={marker.address}
+                      spotNum={marker.spotNum}
                     />
                   }
                   icon={

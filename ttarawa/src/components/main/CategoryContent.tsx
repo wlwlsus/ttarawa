@@ -5,17 +5,26 @@ interface Props {
   title: string
   distance: number
   address: string
+  spotNum: string
 }
 
-export default function CategoryContent({ title, distance, address }: Props) {
+export default function CategoryContent({
+  title,
+  distance,
+  address,
+  spotNum,
+}: Props) {
   return (
     <View style={styles.content}>
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.distance}>{distance}km</Text>
+        {distance && <Text style={styles.distance}>{distance}km</Text>}
       </View>
-      <View style={styles.address}>
-        <Text>{address}</Text>
+      <View>
+        {address && <Text>{address}</Text>}
+        {spotNum && (
+          <Text style={styles.spotNum}> 따릉이 대여소 번호 : {spotNum}</Text>
+        )}
       </View>
     </View>
   )
@@ -39,5 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: color.primary,
   },
-  address: {},
+  spotNum: {
+    fontSize: 16,
+  },
 })

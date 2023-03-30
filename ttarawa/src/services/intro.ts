@@ -11,7 +11,7 @@ const fetchRecom = async (
     .then((res) => {
       return Promise.resolve(res.data.result)
     })
-    .catch((err) => Promise.reject(err.data))
+    .catch((err) => Promise.reject(err))
 }
 
 const intro = { fetchRecom }

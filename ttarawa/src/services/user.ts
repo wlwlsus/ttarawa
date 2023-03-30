@@ -3,11 +3,11 @@ import apiRequest from '@utils/apiRequest'
 // GET Request
 const fetchProfile = async (): Promise<object> => {
   return await apiRequest
-    .get(`user`)
+    .get('user')
     .then((res) => {
       return Promise.resolve(res.data.result)
     })
-    .catch((err) => Promise.reject(err.data))
+    .catch((err) => Promise.reject(err))
 }
 
 const fetchRide = async (page: number): Promise<object> => {

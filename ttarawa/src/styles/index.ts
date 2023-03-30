@@ -71,12 +71,14 @@ export const recom = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 110,
     marginBottom: 50,
+    position: 'absolute',
+    left: '30%',
   },
   title: {
     color: color.white,
-    fontSize: 27,
+    fontSize: 30,
     fontWeight: '500',
     paddingLeft: 10,
     marginBottom: 15,
@@ -85,6 +87,12 @@ export const recom = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     color: color.white,
+    lineHeight: 25,
+  },
+  user: {
+    color: color.secondary,
+    fontSize: 20,
+    fontWeight: '500',
   },
   buttonText: {
     color: color.white,
@@ -92,11 +100,14 @@ export const recom = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5,
   },
+  scrollView: {
+    marginTop: 300,
+    paddingTop: 5,
+  },
   scrollcontent: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
-    marginTop: 10,
   },
 })
 
