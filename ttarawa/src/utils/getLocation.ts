@@ -15,6 +15,7 @@ export default async function getLocation() {
       coords: { latitude, longitude },
     } = await Location.getCurrentPositionAsync({ accuracy: 5 })
 
+    // 현재 장소 이름
     const location = await Location.reverseGeocodeAsync(
       { latitude, longitude },
       { useGoogleMaps: false },

@@ -6,7 +6,6 @@ import {
   markerListState,
   markerState,
 } from '~/store/atoms'
-import { useEffect } from 'react'
 
 export default function InitTmap() {
   const depart = useRecoilValue(departState)

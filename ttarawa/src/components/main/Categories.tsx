@@ -3,37 +3,49 @@ import { useState, useEffect } from 'react'
 import Button from '@components/common/Button'
 
 import { map } from '@styles/main'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { markerListState } from '~/store/atoms'
 
 import { color } from '@styles/GlobalStyles'
-import main from '~/services/main'
+import main from '@services/main'
+import { departState } from '@store/atoms'
+
+import getRentalSpot from '@utils/getRentalSpot'
 
 export default function Categories() {
-  const [pressed, setPressed] = useState<Number>(3)
+  const [pressed, setPressed] = useState<number>(0)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
+  const depart = useRecoilValue(departState)
 
+  // 눌린 버튼 스타일
   const isPressed = {
     container: { backgroundColor: color.secondary },
     txt: { color: color.primary },
   }
 
-  // 선택한 카테고리 정보 지도에 표시
-  const showInfo = (categoryId: Number) => {
-    setPressed(categoryId)
+  // 따릉이
+  const showRental = async () => {
+    const spotList = await getRentalSpot(depart.lat, depart.lng)
+    setMarkerList(spotList)
   }
 
-  // Todo: 현재 위치 가져와야 함
-  const latitude = 37.4979
-  const longitude = 127.0276
-
-  useEffect(() => {
+  // 음식점, 카페, 관광지, 화장실
+  const showInfo = () => {
+    setMarkerList([]) // markerList 초기화 (spotId 때문)
     main
-      .fetchDestin(Number(pressed), 0, 10, latitude, longitude)
+      .fetchDestin(Number(pressed), 0, 10, depart.lat, depart.lng)
       .then((res) => {
         setMarkerList(res)
       })
       .catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    if (pressed === 0) {
+      showRental()
+    } else {
+      showInfo()
+    }
   }, [pressed])
 
   return (
@@ -42,31 +54,31 @@ export default function Categories() {
         text="대여소"
         style={pressed === 0 ? isPressed : undefined}
         type="tab"
-        press={() => showInfo(0)}
+        press={() => setPressed(0)}
       />
       <Button
         text="음식점"
         style={pressed === 1 ? isPressed : undefined}
         type="tab"
-        press={() => showInfo(1)}
+        press={() => setPressed(1)}
       />
       <Button
         text="카페"
         style={pressed === 2 ? isPressed : undefined}
         type="tab"
-        press={() => showInfo(2)}
+        press={() => setPressed(2)}
       />
       <Button
         text="관광지"
         style={pressed === 3 ? isPressed : undefined}
         type="tab"
-        press={() => showInfo(3)}
+        press={() => setPressed(3)}
       />
       <Button
         text="화장실"
         style={pressed === 4 ? isPressed : undefined}
         type="tab"
-        press={() => showInfo(4)}
+        press={() => setPressed(4)}
       />
     </View>
   )

@@ -15,7 +15,6 @@ import {
   markerListState,
   markerState,
 } from '@store/atoms'
-import main from '@services/main'
 import getLocation from '@utils/getLocation'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -56,15 +55,6 @@ export default function Map({ navigation }) {
     setDestin({ ...depart, name, lat, lng })
   }
 
-  useEffect(() => {
-    main
-      .fetchDestin(3, 0, 10, depart.lat, depart.lng)
-      .then((res) => {
-        setMarkerList(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       <MapHeader navigation={navigation} />
@@ -96,6 +86,7 @@ export default function Map({ navigation }) {
                       title={marker.name}
                       distance={marker.distance}
                       address={marker.address}
+                      spotNum={marker.spotNum}
                     />
                   }
                   icon={
