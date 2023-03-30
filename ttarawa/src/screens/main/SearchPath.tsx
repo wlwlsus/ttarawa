@@ -1,16 +1,19 @@
 import { SafeAreaView, Text, View } from 'react-native'
-import { useState, useEffect, useLayoutEffect } from 'react'
-import { WebView } from 'react-native-webview'
+import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
+import { MaterialIcons } from '@expo/vector-icons'
+import IconButton from '@components/common/IconButton'
 import InitPath from '@utils/map/InitPath'
 
-import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathInfo } from '@store/atoms'
 
-export default function SearchPath() {
+import { convertToKm, convertToTime } from '@utils/caculator'
+
+export default function SearchPath({ navigation }) {
   const depart: { name: string; lat: number; lng: number } =
     useRecoilValue(departState)
 
@@ -18,6 +21,9 @@ export default function SearchPath() {
     useRecoilValue(destinState)
 
   const [resultData, setResultData] = useRecoilState(pathInfo)
+
+  const [distance, setDistance] = useState('')
+  const [time, setTime] = useState('')
 
   useEffect(() => {
     const fetchRoute = async () => {
@@ -51,9 +57,13 @@ export default function SearchPath() {
             return response.json()
           })
           .then(function (data) {
+            const distance = convertToKm(
+              data.features[0].properties.totalDistance,
+            )
+            const time = convertToTime(data.features[0].properties.totalTime)
+            setDistance(distance)
+            setTime(time)
             setResultData(data.features)
-            console.log('check')
-            // console.log(resultData)
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
@@ -68,8 +78,63 @@ export default function SearchPath() {
       {resultData && (
         <View style={map.container}>
           <MapHeader noneButton={true} />
+
+          {/* webview */}
           <InitPath />
-          {/* <MapCard /> */}
+
+          {/* 추천경로 & 주행시작 */}
+          <View
+            style={{
+              zIndex: 999,
+              height: 90,
+            }}
+          >
+            <MapCard
+              children={
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginHorizontal: 10,
+                    marginVertical: 8,
+                    gap: 10,
+                  }}
+                >
+                  <IconButton
+                    icon1={
+                      <MaterialIcons
+                        name="arrow-back-ios"
+                        size={24}
+                        color="black"
+                      />
+                    }
+                    press={() => {
+                      navigation.pop()
+                    }}
+                  />
+
+                  {/* Contents */}
+                  <View>
+                    <Text>추천경로</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text>{time}</Text>
+                      <Text>{distance}</Text>
+                    </View>
+                  </View>
+                </View>
+              }
+              icon={
+                <MaterialIcons
+                  name="directions-bike"
+                  size={30}
+                  color={color.white}
+                />
+              }
+              btnText="주행시작"
+              press={() => {
+                navigation.navigate('NaviPath')
+              }}
+            />
+          </View>
         </View>
       )}
     </SafeAreaView>

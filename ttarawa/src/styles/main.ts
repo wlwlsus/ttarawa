@@ -43,6 +43,8 @@ export const map = StyleSheet.create({
     padding: 10,
     flex: 1,
   },
+
+  // Webview style
   mapContainer: {
     flex: 1,
     zIndex: 0,
