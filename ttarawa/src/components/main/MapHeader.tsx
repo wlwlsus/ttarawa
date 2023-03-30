@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { map } from '@styles/main'
 
 import { color } from '@styles/GlobalStyles'
-import { departState, destinState } from '~/store/atoms'
+import { departState, destinState } from '@store/atoms'
 
 import Categories from '@components/main/Categories'
 import SearchPath from '~/screens/main/SearchPath'

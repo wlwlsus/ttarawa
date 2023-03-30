@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
     backgroundColor: color.primary,
     borderColor: color.primary,
     borderRadius: 17,
-    padding: 10,
+    padding: 7,
     borderWidth: 1,
     gap: 5,
   },
 
   primaryText: {
     color: color.white,
-    fontSize: 20,
+    fontSize: 16,
   },
 
   secondary: {

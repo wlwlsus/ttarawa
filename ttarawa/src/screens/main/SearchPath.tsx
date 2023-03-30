@@ -7,11 +7,10 @@ import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import InitPath from '@utils/map/InitPath'
 
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
 import { departState, destinState, pathInfo } from '@store/atoms'
 
 export default function SearchPath() {
-  // Recoil 적용
   const depart: { name: string; lat: number; lng: number } =
     useRecoilValue(departState)
 
@@ -19,8 +18,6 @@ export default function SearchPath() {
     useRecoilValue(destinState)
 
   const [resultData, setResultData] = useRecoilState(pathInfo)
-
-  // -------------------------------------------------------
 
   useEffect(() => {
     const fetchRoute = async () => {
@@ -55,7 +52,8 @@ export default function SearchPath() {
           })
           .then(function (data) {
             setResultData(data.features)
-            // console.log('check')
+            console.log('check')
+            // console.log(resultData)
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
@@ -63,7 +61,7 @@ export default function SearchPath() {
       }
     }
     fetchRoute()
-  }, [])
+  }, [depart, destin])
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
