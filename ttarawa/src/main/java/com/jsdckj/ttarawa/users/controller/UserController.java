@@ -10,6 +10,7 @@ import com.jsdckj.ttarawa.util.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,24 +36,24 @@ public class UserController {
 
   @Operation(summary = "토큰 재발급 API")
   @PostMapping("/token")
-  public ResponseEntity<?> reissue(@RequestBody UserReqDto.Reissue reissue, Errors errors) {
+  public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response, @RequestBody UserReqDto.Reissue reissue, Errors errors) {
 
     if (errors.hasErrors()) {
       return Response.badRequest("토큰 재발급 실패");
     }
 
-    return userService.reissue(reissue);
+    return userService.reissue(reissue, request, response);
 
   }
 
   @Operation(summary = "로그아웃 API")
   @PostMapping("/logout")
-  public ResponseEntity<?> logout(@RequestBody UserReqDto.Logout logout, Errors errors) {
+  public ResponseEntity<?> logoutH(HttpServletRequest request, HttpServletResponse response, @RequestBody UserReqDto.Logout logout, Errors errors) {
     if (errors.hasErrors()) {
       return Response.badRequest("로그아웃 실패");
     }
 
-    return userService.logout(logout);
+    return userService.logout(request, response, logout);
   }
 
   @Operation(summary = "회원 정보 API")
