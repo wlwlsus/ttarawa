@@ -8,6 +8,19 @@ export const myPage = StyleSheet.create({
     marginVertical: 5,
   },
 
+  logout: {
+    position: 'absolute',
+    backgroundColor: color.primary,
+    right: 30,
+    top: 50,
+    padding: 7,
+    borderRadius: 10,
+  },
+
+  logoutText: {
+    color: color.white,
+  },
+
   imgContainer: {
     alignSelf: 'center',
     width: 190,

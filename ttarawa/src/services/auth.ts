@@ -1,14 +1,12 @@
 import apiRequest from '@utils/apiRequest'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-// aixos interceptor request에 refreshtoken 담아서 보내야함!!!
+// refreshToken은 쿠키에 담겨서 보내짐
 
 // POST Request
-const getToken = async (
-  accessToken: string,
-  refreshToken: string,
-): Promise<object> => {
+const getToken = async (accessToken: string): Promise<object> => {
   return await apiRequest
-    .post(`user/token`, { accessToken, refreshToken })
+    .post(`user/token`, { accessToken })
     .then((res) => {
       // store에 refresh token & access token 저장
       return Promise.resolve(res.data.result)
@@ -16,19 +14,16 @@ const getToken = async (
     .catch((err) => Promise.reject(err.data))
 }
 
-const logout = async (
-  accessToken: string,
-  refreshToken: string,
-): Promise<object> => {
+const logout = async (accessToken: string): Promise<object> => {
   return await apiRequest
     .post(`user/logout`, {
       accessToken,
-      refreshToken,
     })
-    .then((res) => {
+    .then(async (res) => {
+      await AsyncStorage.removeItem('token')
       return Promise.resolve(res.data.message)
     })
-    .catch((err) => Promise.reject(err.data))
+    .catch((err) => Promise.reject(err))
 }
 
 const auth = { getToken, logout }

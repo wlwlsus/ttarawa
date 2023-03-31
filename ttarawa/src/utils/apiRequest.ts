@@ -6,7 +6,7 @@ const apiRequest = axios.create({
   withCredentials: true,
 })
 
-const getToken = async () => {
+export const getToken = async () => {
   const token = await AsyncStorage.getItem('token')
   return token
 }
@@ -16,7 +16,6 @@ apiRequest.interceptors.request.use(
   // config : axios  객체를 이용해 요청을 보냈을 때의 모든 설정값
   async (config: any) => {
     const accessToken = await getToken()
-
     // accessToken이 없을 경우 헤더 없이 요청 (우리 프젝에서는 불필요)
     // if (!accessToken) return config
 

@@ -110,7 +110,6 @@ export default function SnsContent() {
         renderItem={({ item }) => {
           const distance = convertToKm(item.distance)
           const time = convertToTime(item.time)
-
           return (
             <FeedCard
               historyId={item.historyId}
