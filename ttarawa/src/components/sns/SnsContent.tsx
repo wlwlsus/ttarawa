@@ -51,21 +51,27 @@ export default function SnsContent() {
 
   const pressLike = (key: number) => {
     // const check = dataLst.find((data) => data.historyId === key)
+    snsaxios
+      .saveLike(key)
+      .then(() => {
+        const updateData: SnsData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              isMyFavorite: !data.isMyFavorite,
+              favoritesCount: data.isMyFavorite
+                ? data.favoritesCount - 1
+                : data.favoritesCount + 1,
+            }
+          }
+          return data
+        })
 
-    const updateData: SnsData[] = dataLst.map((data) => {
-      if (data.historyId === key) {
-        return {
-          ...data,
-          isMyFavorite: !data.isMyFavorite,
-          favoritesCount: data.isMyFavorite
-            ? data.favoritesCount - 1
-            : data.favoritesCount + 1,
-        }
-      }
-      return data
-    })
-
-    setDataLst(updateData)
+        setDataLst(updateData)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   // console.log(dataLst)
@@ -84,8 +90,8 @@ export default function SnsContent() {
               userImg={item.profile}
               userName={item.nickname}
               rank={item.badgeImg}
-              imagePath={require('@assets/ttarawa/riding.png')}
-              // imagePath={item.image}
+              // imagePath={require('@assets/ttarawa/riding.png')}
+              imagePath={item.image}
               likes={item.favoritesCount}
               isLike={item.isMyFavorite}
               distence={distance}
