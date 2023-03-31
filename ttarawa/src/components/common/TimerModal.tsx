@@ -3,7 +3,6 @@ import { Modal, Text, TouchableOpacity, View } from 'react-native'
 
 const TimerModal = ({ modalVisible, handleSetTime }) => {
   const handlePress = (time: number) => {
-    console.log(time)
     handleSetTime(time)
   }
 
