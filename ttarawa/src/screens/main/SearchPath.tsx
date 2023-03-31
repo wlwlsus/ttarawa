@@ -63,7 +63,15 @@ export default function SearchPath({ navigation }) {
             const time = convertToTime(data.features[0].properties.totalTime)
             setDistance(distance)
             setTime(time)
-            setResultData(data.features)
+
+            return data.features
+
+            // setResultData(data.features)
+            // console.log('check')
+          })
+          .then(function (data) {
+            setResultData(data)
+            console.log('check')
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)

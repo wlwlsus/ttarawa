@@ -10,12 +10,13 @@ interface Props {
   historyId: number
   // User Info
   userName?: string
-  userImg?: (params: any) => any
-  // rank: string
-  rank?: (params: any) => any
+  userImg?: string
+  rank?: string
+  // rank?: (params: any) => any
 
   // 경로 이미지
-  imagePath: (params: any) => any // require()  >>  image url 함수
+  imagePath: string
+  // imagePath: (params: any) => any
 
   // 공개 여부
   isLock?: number | boolean
@@ -75,16 +76,17 @@ export default function FeedCard({
       {userName ? (
         <View style={styles.userInfo}>
           <View style={styles.imgContainer}>
-            <Image source={userImg} style={styles.userImg} />
+            <Image source={{ uri: userImg }} style={styles.userImg} />
           </View>
           <Text style={styles.userName}>{userName}</Text>
-          <Image source={rank} />
+          <Image source={{ uri: rank }} style={{ width: 30, height: 20 }} />
         </View>
       ) : null}
 
       {/* 경로 이미지 */}
       <View>
-        <Image source={imagePath} style={styles.cardImg} />
+        <Image source={{ uri: imagePath }} style={styles.cardImg} />
+        {/* <Image source={imagePath} style={styles.cardImg} /> */}
         {userName ? null : (
           <View style={styles.lock}>
             <IconButton
@@ -204,6 +206,9 @@ const styles = StyleSheet.create({
 
   cardImg: {
     width: '100%',
+    height: 120,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   lock: {

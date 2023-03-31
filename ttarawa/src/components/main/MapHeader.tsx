@@ -21,7 +21,7 @@ interface Props {
 export default function MapHeader({ noneButton, navigation }: Props) {
   const [depart, setDepart] = useRecoilState(departState)
   const [destin, setDestin] = useRecoilState(destinState)
-  console.log(depart.name)
+
   return (
     <View style={map.headerContainer}>
       <View style={map.header}>

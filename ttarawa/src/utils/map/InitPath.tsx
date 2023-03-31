@@ -1,56 +1,57 @@
 import { WebView } from 'react-native-webview'
+import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import { map } from '@styles/main'
 import { departState, destinState, pathInfo } from '@store/atoms'
 
+
+interface FeatureProperties {
+  totalDistance?: number
+  totalTime?: number
+  index: number
+  pointIndex?: number
+  name?: string
+  description: string
+  direction?: string
+  nearPoiName?: string
+  nearPoiX?: string
+  nearPoiY?: string
+  intersectionName?: string
+  facilityType: string
+  facilityName?: string
+  turnType?: number
+  pointType?: string
+  lineIndex?: number
+  distance?: number
+  time?: number
+  roadType?: number
+  categoryRoadType?: number
+}
+
+interface Feature {
+  type: string
+  geometry: {
+    type: string
+    coordinates: number[] | [number[]]
+  }
+  properties: FeatureProperties
+}
+
+
 export default function InitPath() {
   // store에서 출발, 도작지 불러오기
-
-  // Recoil 적용
   const departData: { name: string; lat: number; lng: number } =
     useRecoilValue(departState)
 
   const destinData: { name: string; lat: number; lng: number } =
     useRecoilValue(destinState)
-
+    
+  const resultData: Feature[] = useRecoilValue(pathInfo)
+    
   const middlePoint: { lat: number; lng: number } = {
     lat: (departData.lat + destinData.lat) / 2,
     lng: (departData.lng + destinData.lng) / 2,
   }
-
-  interface FeatureProperties {
-    totalDistance?: number
-    totalTime?: number
-    index: number
-    pointIndex?: number
-    name?: string
-    description: string
-    direction?: string
-    nearPoiName?: string
-    nearPoiX?: string
-    nearPoiY?: string
-    intersectionName?: string
-    facilityType: string
-    facilityName?: string
-    turnType?: number
-    pointType?: string
-    lineIndex?: number
-    distance?: number
-    time?: number
-    roadType?: number
-    categoryRoadType?: number
-  }
-
-  interface Feature {
-    type: string
-    geometry: {
-      type: string
-      coordinates: number[] | [number[]]
-    }
-    properties: FeatureProperties
-  }
-
-  const resultData: Feature[] = useRecoilValue(pathInfo)
 
   const pathHtml: string = `<!DOCTYPE html>
     <html>

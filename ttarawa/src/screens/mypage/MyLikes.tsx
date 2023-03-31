@@ -116,7 +116,7 @@ export default function MyLikes({ navigation }) {
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
-          const imagePath = require('@assets/riding.png')
+          const imagePath = require('@assets/ttarawa/riding.png')
           const distance = convertToKm(item.distance)
           const time = convertToTime(item.time)
 

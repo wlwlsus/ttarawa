@@ -10,6 +10,7 @@ const fetchProfile = async (): Promise<object> => {
     .catch((err) => Promise.reject(err))
 }
 
+// 주행기록 조회
 const fetchRide = async (page: number): Promise<object> => {
   return await apiRequest
     .get(`history/post?page=${page}`)
@@ -19,6 +20,7 @@ const fetchRide = async (page: number): Promise<object> => {
     .catch((err) => Promise.reject(err.data))
 }
 
+// 좋아요 목록 조회
 const fetchLikes = async (page: number): Promise<object> => {
   return await apiRequest
     .get(`history/favorite?page=${page}`)
