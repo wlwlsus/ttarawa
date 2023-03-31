@@ -46,7 +46,7 @@ public class HistoryController {
       "distance: 미터 단위 \n\n" +
       "swagger에서 test 불가능 image 파일 하나 body 하나 보내야함")
   @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<?> insertHistory(HttpServletRequest request, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart HistoryReqDto historyReqDto) throws IOException {
+  public ResponseEntity<?> insertHistory(HttpServletRequest request, @Parameter(description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))@RequestPart MultipartFile image, @RequestPart("history") HistoryReqDto historyReqDto) throws IOException {
     Long userId = jwtUtil.getUserId(request.getHeader(TOKEN_HEADER));
 
     historyService.insertHistory(userId, image, historyReqDto);
