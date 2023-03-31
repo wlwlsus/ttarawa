@@ -383,7 +383,7 @@ export default function Road() {
 </html>
 `
 
-  const SERVER_URL = 'http://3.39.209.108:8080/api/v1/spot/test'
+  const SERVER_URL = 'http://j8a605.p.ssafy.io/api/v1/history/post'
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false)
@@ -442,14 +442,14 @@ export default function Road() {
     return (degrees * Math.PI) / 180
   }
 
-  // 두 지점 사이의 거리를 계산하는 함수
+  // 두 지점 사이의 거리를 계산하는 함수 (단위: meter)
   function distance(
     lat1: number,
     lon1: number,
     lat2: number,
     lon2: number,
   ): number {
-    const R = 6371 // 지구 반지름 (단위: km)
+    const R = 6371000 // 지구 반지름 (단위: meter)
     const dLat = toRadians(lat2 - lat1)
     const dLon = toRadians(lon2 - lon1)
     const lat1Rad = toRadians(lat1)
@@ -462,7 +462,7 @@ export default function Road() {
         Math.cos(lat2Rad)
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     const d = R * c
-    return d
+    return Math.round(d) // double -> long으로 변환
   }
 
   function getTotalDistance() {
@@ -480,9 +480,9 @@ export default function Road() {
     }
 
     // 총 거리 출력
-    console.log(`총 주행 길이: ${totalDistance.toFixed(2)}km`)
+    console.log(`총 길이: ${totalDistance}m`)
 
-    return parseFloat(totalDistance.toFixed(2))
+    return totalDistance
   }
 
   return (
