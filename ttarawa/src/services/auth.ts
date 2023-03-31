@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 // POST Request
 const getToken = async (accessToken: string): Promise<object> => {
   return await apiRequest
-    .post(`user/token`, { accessToken, refreshToken })
+    .post(`user/token`, { accessToken })
     .then((res) => {
       // store에 refresh token & access token 저장
       return Promise.resolve(res.data.result)

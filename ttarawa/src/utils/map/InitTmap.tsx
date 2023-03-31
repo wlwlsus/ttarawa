@@ -30,14 +30,14 @@ export default function InitTmap() {
 
   const mapHtml: string = `<!DOCTYPE html>
   <html>
-    <head>
+  <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>simpleMap</title>
+  <title>simpleMap</title>
       <script src="https://apis.openapi.sk.com/tmap/vectorjs?version=1&appKey=Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c"></script>
-      <script type="text/javascript">
+  <script type="text/javascript">
       let map
-  
-      const {lat, lng} =  ${JSON.stringify(center)}
+
+  const {lat, lng} =  ${JSON.stringify(center)}
 
       function initTmap() {
         map = new Tmapv3.Map('map_div', {
@@ -49,46 +49,47 @@ export default function InitTmap() {
         
         // 마커 등록 함수
         addMarkers()
-      }
+    }
+    
+    const markerData = ${JSON.stringify(markerData)}
 
-      const markerData = ${JSON.stringify(markerData)}
-      
       // 마커 저장 배열
       let markers = []
-
-      function addMarkers() {
-        for (let i = 0; i < markerData.length; i++) {
+    
+    function addMarkers() {
+          for (let i = 0; i < markerData.length; i++) {
           let marker = new Tmapv3.Marker({
             position: new Tmapv3.LatLng(
               markerData[i].lat,
               markerData[i].lng,
             ),
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_b_o.png", 
             map: map,
-            
+
           })
           marker.id =  String(markerData[i].spotId) // 마커 id를 마커 객체에 저장
           
           // 마커에 클릭 이벤트
           marker.on("Click", function(evt) {
             window.ReactNativeWebView.postMessage(JSON.stringify(i));
-          });
+              });
           markers.push(marker)
-        }
+          }
       }
 
       // 모든 마커 제거
-      function removeMarkers() {
+    function removeMarkers() {
         for (let i = 0; i < markers.length; i++) {
           markers[i].setMap(null)
-        }
-        markers = []
       }
-      </script>
-    </head>
+        markers = []
+    }
+  </script>
+  </head>
     <body onload="initTmap()">
-      <div id="map_div"></div>
-    </body>
-  </html>
+    <div id="map_div"></div>
+  </body>
+  </html>      
   `
   return (
     <WebView
