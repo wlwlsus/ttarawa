@@ -71,7 +71,7 @@ export default function Map({ navigation }) {
           }
           press={getCurrent}
         />
-        {markerList.length ? (
+        {markerList?.length ? (
           <ScrollView
             ref={scrollViewRef}
             horizontal={true}

@@ -1,13 +1,13 @@
 import { SafeAreaView, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
-import { map } from '@styles/main'
+import { path } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import { MaterialIcons } from '@expo/vector-icons'
-import IconButton from '@components/common/IconButton'
-import InitPath from '@utils/map/InitPath'
 
+import InitPath from '@utils/map/InitPath'
+import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathInfo } from '@store/atoms'
 
@@ -73,70 +73,37 @@ export default function SearchPath({ navigation }) {
     fetchRoute()
   }, [depart, destin])
 
+  if (!resultData) return <></>
   return (
-    <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      {resultData && (
-        <View style={map.container}>
-          <MapHeader noneButton={true} />
+    <SafeAreaView style={[styles.androidSafeArea, path.container]}>
+      <MapHeader noneButton={true} navigation={navigation} />
 
-          {/* webview */}
-          <InitPath />
+      {/* webview */}
+      <InitPath />
 
-          {/* 추천경로 & 주행시작 */}
-          <View
-            style={{
-              zIndex: 999,
-              height: 90,
-            }}
-          >
-            <MapCard
-              children={
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginHorizontal: 10,
-                    marginVertical: 8,
-                    gap: 10,
-                  }}
-                >
-                  <IconButton
-                    icon1={
-                      <MaterialIcons
-                        name="arrow-back-ios"
-                        size={24}
-                        color="black"
-                      />
-                    }
-                    press={() => {
-                      navigation.pop()
-                    }}
-                  />
-
-                  {/* Contents */}
-                  <View>
-                    <Text>추천경로</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text>{time}</Text>
-                      <Text>{distance}</Text>
-                    </View>
-                  </View>
-                </View>
-              }
-              icon={
-                <MaterialIcons
-                  name="directions-bike"
-                  size={30}
-                  color={color.white}
-                />
-              }
-              btnText="주행시작"
-              press={() => {
-                navigation.navigate('NaviPath')
-              }}
+      {/* 추천경로 & 주행시작 */}
+      <View style={path.pathCard}>
+        <MapCard
+          children={
+            <PathContent
+              navigation={navigation}
+              time={time}
+              distance={distance}
             />
-          </View>
-        </View>
-      )}
+          }
+          icon={
+            <MaterialIcons
+              name="directions-bike"
+              size={30}
+              color={color.white}
+            />
+          }
+          btnText="주행시작"
+          press={() => {
+            navigation.navigate('NaviPath')
+          }}
+        />
+      </View>
     </SafeAreaView>
   )
 }
