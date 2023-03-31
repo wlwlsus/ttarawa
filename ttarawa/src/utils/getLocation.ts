@@ -20,7 +20,6 @@ export default async function getLocation() {
       { latitude, longitude },
       { useGoogleMaps: false },
     )
-
     return { lat: latitude, lng: longitude, name: location[0].street }
   } catch (error) {
     return null

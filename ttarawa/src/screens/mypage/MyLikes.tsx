@@ -112,7 +112,7 @@ export default function MyLikes({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={{ backgroundColor: color.white, flex: 1 }}>
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
@@ -185,6 +185,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 5,
     flexDirection: 'row',
+    shadowColor: color.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+
+    gap: 10,
   },
   img: {
     width: 180,
@@ -195,7 +205,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
+    gap: 10,
+    paddingVertical: 10,
   },
   textDir: {
     flexDirection: 'row',

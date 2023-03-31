@@ -126,7 +126,6 @@ export default function SnsContent() {
     setDataLst(updateData)
   }
 
-  // console.log(dataLst)
   return (
     <View style={sns.container}>
       <FlatList
