@@ -85,7 +85,11 @@ export default function FeedCard({
 
       {/* 경로 이미지 */}
       <View>
-        <Image source={{ uri: imagePath }} style={styles.cardImg} />
+        <Image
+          resizeMode="contain"
+          source={{ uri: imagePath }}
+          style={styles.cardImg}
+        />
         {/* <Image source={imagePath} style={styles.cardImg} /> */}
         {userName ? null : (
           <View style={styles.lock}>
@@ -174,7 +178,6 @@ export default function FeedCard({
 const styles = StyleSheet.create({
   cardContainer: {
     height: SCREEN_HEIGHT * 0.85,
-    flex: 1,
   },
 
   userInfo: {
@@ -197,6 +200,7 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 40,
     height: 40,
+    borderRadius: 40,
   },
 
   userName: {
@@ -205,9 +209,8 @@ const styles = StyleSheet.create({
   },
 
   cardImg: {
-    width: '100%',
-    height: 120,
-    borderTopLeftRadius: 10,
+    height: 200,
+    LeftRadius: 10,
     borderTopRightRadius: 10,
   },
 
@@ -219,7 +222,6 @@ const styles = StyleSheet.create({
 
   cardContent: {
     paddingHorizontal: 20,
-    flex: 1,
   },
 
   likeContainer: {

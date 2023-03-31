@@ -2,14 +2,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import MyProfile from '@screens/mypage/MyProfile'
 import MyLikes from '@screens/mypage/MyLikes'
 import MyHistory from '@screens/mypage/MyHistory'
-import Intro from '@navigations/Intro'
 
 const MyPageStack = createStackNavigator()
 
 // MyPage Nested Navigation
 export default function MyPageStackScreen({ route }) {
-  const { setIsVisible } = route.params
-
   return (
     <MyPageStack.Navigator initialRouteName="MyProfile">
       <MyPageStack.Screen
@@ -40,12 +37,6 @@ export default function MyPageStackScreen({ route }) {
             fontSize: 20,
           },
         }}
-      />
-      <MyPageStack.Screen
-        name="Intro"
-        component={Intro}
-        options={{ headerShown: false }}
-        initialParams={{ setIsVisible }}
       />
     </MyPageStack.Navigator>
   )

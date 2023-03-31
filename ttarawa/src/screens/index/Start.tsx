@@ -1,6 +1,5 @@
 import { View, Text, Image, SafeAreaView } from 'react-native'
 import { start } from '@styles/index'
-
 import Button from '@components/common/Button'
 
 export default function Welcome({ navigation }) {
