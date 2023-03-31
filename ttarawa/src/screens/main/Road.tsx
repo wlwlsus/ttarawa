@@ -383,7 +383,8 @@ export default function Road() {
 </html>
 `
 
-  const SERVER_URL = 'http://j8a605.p.ssafy.io/api/v1/history/post'
+  const SERVER_URL = 'http://3.39.209.108/api/v1/spot/test'
+  // const SERVER_URL = 'http://j8a605.p.ssafy.io/api/v1/history/post'
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false)
@@ -475,7 +476,8 @@ export default function Road() {
       const lon1 = locationData[i]
       const lat2 = locationData[i + 3]
       const lon2 = locationData[i + 2]
-      const d = distance(lat1, lon1, lat2, lon2) // Haversine 공식을 사용하여 거리 계산
+      let d = distance(lat1, lon1, lat2, lon2) // Haversine 공식을 사용하여 거리 계산
+      if (d < 2) d = 0 // 움직인 거리 1m 이하면 정지 상태(?)
       totalDistance += d // 총 거리 누적
     }
 
