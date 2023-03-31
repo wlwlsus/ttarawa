@@ -74,7 +74,6 @@ export default function SnsContent() {
       })
   }
 
-  // console.log(dataLst)
   return (
     <View style={sns.container}>
       <FlatList

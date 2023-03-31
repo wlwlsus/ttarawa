@@ -111,6 +111,7 @@ export default function SnsCard() {
         keyExtractor={(item) => item.historyId.toString()}
         // 스크롤 감추기
         showsVerticalScrollIndicator={false}
+        pagingEnabled={true}
       />
       <BottomSheet
         modalVisible={modalVisible}

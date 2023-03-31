@@ -53,6 +53,7 @@ export default async function getRentalSpot(lat: number, lng: number) {
       }
       spotList.push(spot)
     })
+
     return spotList
   } catch (error) {
     console.error(error)

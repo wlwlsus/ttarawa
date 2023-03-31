@@ -22,7 +22,6 @@ export const sns = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: color.white,
