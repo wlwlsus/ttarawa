@@ -25,16 +25,6 @@ const fetchPostRecom = async (
     .catch((err) => Promise.reject(err.data))
 }
 
-// 게시물 1개 조회
-const fetchDetail = async (historyId: number): Promise<object> => {
-  return await apiRequest
-    .get(`history/post/detail/${historyId}`)
-    .then((res) => {
-      return Promise.resolve(res.data.result)
-    })
-    .catch((err) => Promise.reject(err.data))
-}
-
 // POST Request
 // 게시물 저장
 const savePost = async (image: FormData, content: object): Promise<object> => {
@@ -95,7 +85,6 @@ const deleteLike = async (historyId: number): Promise<object> => {
 const sns = {
   fetchPost,
   fetchPostRecom,
-  fetchDetail,
   savePost,
   saveLike,
   updatePost,

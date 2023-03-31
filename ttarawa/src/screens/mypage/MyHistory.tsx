@@ -24,6 +24,7 @@ interface SnsData {
 export default function SnsCard() {
   const [dataLst, setDataLst] = useState<SnsData[]>([])
   const [modalVisible, setModalVisible] = useState(false)
+  const { saveLike, deleteLike, updatePost } = snsaxios
 
   useEffect(() => {
     // axios
@@ -41,9 +42,16 @@ export default function SnsCard() {
   }, [])
 
   const pressLike = (key: number) => {
-    // const check = dataLst.find((data) => data.historyId === key)
-    snsaxios
-      .saveLike(key)
+    const check = dataLst.find((data) => data.historyId === key)
+
+    // 좋아요를 하려면, saveLike,
+    // 좋아요를 제거하려면, deleteLike, 함수를 axios로 연결
+    const axios: (params: any) => any = !check?.isMyFavorite
+      ? saveLike(key)
+      : deleteLike(key)
+
+    // 위의 axios 함수 불러옴.
+    axios
       .then(() => {
         const updateData: SnsData[] = dataLst.map((data) => {
           if (data.historyId === key) {
@@ -67,16 +75,24 @@ export default function SnsCard() {
 
   // 공개 비공개
   const pressLock = (key: number) => {
-    const updateData: SnsData[] = dataLst.map((data) => {
-      if (data.historyId === key) {
-        return {
-          ...data,
-          personal: !data.personal,
-        }
-      }
-      return data
-    })
-    setDataLst(updateData)
+    const check = dataLst.find((data) => data.historyId === key)
+
+    const personalNum = check?.personal ? 0 : 1
+
+    updatePost(key, personalNum, check.content)
+      .then((res) => {
+        const updateData: SnsData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              personal: !data.personal,
+            }
+          }
+          return data
+        })
+        setDataLst(updateData)
+      })
+      .catch((err) => console.log(err))
   }
 
   // 하단 네브바 생성

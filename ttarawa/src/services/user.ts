@@ -24,8 +24,18 @@ const fetchRide = async (page: number): Promise<object> => {
 const fetchLikes = async (page: number): Promise<object> => {
   return await apiRequest
     .get(`history/favorite?page=${page}`)
-    .then(() => {
-      return Promise
+    .then((res) => {
+      return Promise.resolve(res.data.result)
+    })
+    .catch((err) => Promise.reject(err.data))
+}
+
+// 게시물 1개 조회
+const fetchDetail = async (historyId: number): Promise<object> => {
+  return await apiRequest
+    .get(`history/post/detail/${historyId}`)
+    .then((res) => {
+      return Promise.resolve(res.data.result)
     })
     .catch((err) => Promise.reject(err.data))
 }
@@ -63,6 +73,7 @@ const user = {
   fetchProfile,
   fetchRide,
   fetchLikes,
+  fetchDetail,
   updateNickname,
   updateProfile,
   deleteProfile,
