@@ -12,11 +12,11 @@ import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
 const Tab = createBottomTabNavigator()
 
 export default function Tabs({ navigation }) {
-  const [isVisible, setIsVisible] = useState({ height: 70 })
+  // const [isVisible, setIsVisible] = useState({ height: 70 })
 
-  useEffect(() => {
-    navigation.setOptions({ tabBarStyle: isVisible })
-  }, [isVisible])
+  // useEffect(() => {
+  //   navigation.setOptions({ tabBarStyle: isVisible })
+  // }, [isVisible])
 
   return (
     <Tab.Navigator
@@ -64,7 +64,7 @@ export default function Tabs({ navigation }) {
         name="Mypage"
         component={MyPageStackScreen}
         options={{
-          tabBarStyle: isVisible,
+          // tabBarStyle: isVisible,
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Zocial name="persona" size={focused ? 33 : 38} color={color} />
@@ -72,7 +72,7 @@ export default function Tabs({ navigation }) {
           tabBarLabel: ({ focused }) =>
             focused ? <Text style={styles.navTab}>마이페이지</Text> : null,
         }}
-        initialParams={{ setIsVisible }}
+        // initialParams={{ setIsVisible }}
       />
     </Tab.Navigator>
   )
