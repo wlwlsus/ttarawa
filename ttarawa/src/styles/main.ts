@@ -50,3 +50,18 @@ export const map = StyleSheet.create({
     zIndex: 0,
   },
 })
+
+export const path = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  pathCard: {
+    position: 'absolute',
+    zIndex: 999,
+    left: 0,
+    bottom: 0,
+    width: '100%',
+    padding: 10,
+  },
+})

@@ -1,15 +1,15 @@
 import { SafeAreaView, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
-import { map } from '@styles/main'
+import { path } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import { MaterialIcons } from '@expo/vector-icons'
-import IconButton from '@components/common/IconButton'
-import InitPath from '@utils/map/InitPath'
 
+import InitPath from '@utils/map/InitPath'
+import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { departState, destinState, pathInfo } from '@store/atoms'
+import { departState, destinState, pathState } from '@store/atoms'
 
 import { convertToKm, convertToTime } from '@utils/caculator'
 
@@ -20,7 +20,7 @@ export default function SearchPath({ navigation }) {
   const destin: { name: string; lat: number; lng: number } =
     useRecoilValue(destinState)
 
-  const [resultData, setResultData] = useRecoilState(pathInfo)
+  const [resultData, setResultData] = useRecoilState(pathState)
 
   const [distance, setDistance] = useState('')
   const [time, setTime] = useState('')
@@ -63,7 +63,15 @@ export default function SearchPath({ navigation }) {
             const time = convertToTime(data.features[0].properties.totalTime)
             setDistance(distance)
             setTime(time)
-            setResultData(data.features)
+
+            return data.features
+
+            // setResultData(data.features)
+            // console.log('check')
+          })
+          .then(function (data) {
+            setResultData(data)
+            console.log('check')
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
@@ -73,70 +81,37 @@ export default function SearchPath({ navigation }) {
     fetchRoute()
   }, [depart, destin])
 
+  if (!resultData) return <></>
   return (
-    <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      {resultData && (
-        <View style={map.container}>
-          <MapHeader noneButton={true} />
+    <SafeAreaView style={[styles.androidSafeArea, path.container]}>
+      <MapHeader noneButton={true} navigation={navigation} />
 
-          {/* webview */}
-          <InitPath />
+      {/* webview */}
+      <InitPath />
 
-          {/* 추천경로 & 주행시작 */}
-          <View
-            style={{
-              zIndex: 999,
-              height: 90,
-            }}
-          >
-            <MapCard
-              children={
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginHorizontal: 10,
-                    marginVertical: 8,
-                    gap: 10,
-                  }}
-                >
-                  <IconButton
-                    icon1={
-                      <MaterialIcons
-                        name="arrow-back-ios"
-                        size={24}
-                        color="black"
-                      />
-                    }
-                    press={() => {
-                      navigation.pop()
-                    }}
-                  />
-
-                  {/* Contents */}
-                  <View>
-                    <Text>추천경로</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text>{time}</Text>
-                      <Text>{distance}</Text>
-                    </View>
-                  </View>
-                </View>
-              }
-              icon={
-                <MaterialIcons
-                  name="directions-bike"
-                  size={30}
-                  color={color.white}
-                />
-              }
-              btnText="주행시작"
-              press={() => {
-                navigation.navigate('NaviPath')
-              }}
+      {/* 추천경로 & 주행시작 */}
+      <View style={path.pathCard}>
+        <MapCard
+          children={
+            <PathContent
+              navigation={navigation}
+              time={time}
+              distance={distance}
             />
-          </View>
-        </View>
-      )}
+          }
+          icon={
+            <MaterialIcons
+              name="directions-bike"
+              size={30}
+              color={color.white}
+            />
+          }
+          btnText="주행시작"
+          press={() => {
+            navigation.navigate('NaviPath')
+          }}
+        />
+      </View>
     </SafeAreaView>
   )
 }

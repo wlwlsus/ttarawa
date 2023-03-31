@@ -1,19 +1,22 @@
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import Label from '@components/common/Label'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 
+const SCREEN_HEIGHT = Dimensions.get('window').height
+
 interface Props {
   historyId: number
   // User Info
   userName?: string
-  userImg?: (params: any) => any
-  // rank: string
-  rank?: (params: any) => any
+  userImg?: string
+  rank?: string
+  // rank?: (params: any) => any
 
   // 경로 이미지
-  imagePath: (params: any) => any // require()  >>  image url 함수
+  imagePath: string
+  // imagePath: (params: any) => any
 
   // 공개 여부
   isLock?: number | boolean
@@ -73,16 +76,21 @@ export default function FeedCard({
       {userName ? (
         <View style={styles.userInfo}>
           <View style={styles.imgContainer}>
-            <Image source={userImg} style={styles.userImg} />
+            <Image source={{ uri: userImg }} style={styles.userImg} />
           </View>
           <Text style={styles.userName}>{userName}</Text>
-          <Image source={rank} />
+          <Image source={{ uri: rank }} style={{ width: 30, height: 20 }} />
         </View>
       ) : null}
 
       {/* 경로 이미지 */}
       <View>
-        <Image source={imagePath} style={styles.cardImg} />
+        <Image
+          resizeMode="contain"
+          source={{ uri: imagePath }}
+          style={styles.cardImg}
+        />
+        {/* <Image source={imagePath} style={styles.cardImg} /> */}
         {userName ? null : (
           <View style={styles.lock}>
             <IconButton
@@ -169,9 +177,7 @@ export default function FeedCard({
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flex: 1,
-    marginHorizontal: 10,
-    // marginVertical: 10,
+    height: SCREEN_HEIGHT * 0.85,
   },
 
   userInfo: {
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 7,
     marginHorizontal: 10,
-    marginVertical: 5,
+    marginVertical: 10,
   },
 
   imgContainer: {
@@ -194,6 +200,7 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 40,
     height: 40,
+    borderRadius: 40,
   },
 
   userName: {
@@ -202,8 +209,8 @@ const styles = StyleSheet.create({
   },
 
   cardImg: {
-    width: '100%',
-    borderTopLeftRadius: 10,
+    height: 200,
+    LeftRadius: 10,
     borderTopRightRadius: 10,
   },
 
@@ -214,27 +221,14 @@ const styles = StyleSheet.create({
   },
 
   cardContent: {
-    backgroundColor: color.white,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
     paddingHorizontal: 20,
-    flex: 0.55,
-
-    shadowColor: color.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
   },
 
   likeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginVertical: 10,
   },
 
   like: {
@@ -245,7 +239,6 @@ const styles = StyleSheet.create({
   likeNum: {
     fontSize: 18,
     fontWeight: 'bold',
-    paddingVertical: 10,
   },
 
   contentText: {
@@ -256,11 +249,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     gap: 10,
+    marginBottom: 10,
   },
 
   cardText: {
-    marginVertical: 10,
-    fontSize: 15,
-    flex: 1,
+    fontSize: 16,
   },
 })

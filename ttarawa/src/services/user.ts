@@ -10,6 +10,7 @@ const fetchProfile = async (): Promise<object> => {
     .catch((err) => Promise.reject(err))
 }
 
+// 주행기록 조회
 const fetchRide = async (page: number): Promise<object> => {
   return await apiRequest
     .get(`history/post?page=${page}`)
@@ -19,11 +20,22 @@ const fetchRide = async (page: number): Promise<object> => {
     .catch((err) => Promise.reject(err.data))
 }
 
+// 좋아요 목록 조회
 const fetchLikes = async (page: number): Promise<object> => {
   return await apiRequest
     .get(`history/favorite?page=${page}`)
-    .then(() => {
-      return Promise
+    .then((res) => {
+      return Promise.resolve(res.data.result)
+    })
+    .catch((err) => Promise.reject(err.data))
+}
+
+// 게시물 1개 조회
+const fetchDetail = async (historyId: number): Promise<object> => {
+  return await apiRequest
+    .get(`history/post/detail/${historyId}`)
+    .then((res) => {
+      return Promise.resolve(res.data.result)
     })
     .catch((err) => Promise.reject(err.data))
 }
@@ -61,6 +73,7 @@ const user = {
   fetchProfile,
   fetchRide,
   fetchLikes,
+  fetchDetail,
   updateNickname,
   updateProfile,
   deleteProfile,

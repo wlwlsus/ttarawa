@@ -42,13 +42,19 @@ export const markerState = atom({
 })
 
 // 길안내 좌표
-export const pathInfo = atom({
-  key: 'pathInfo',
+export const pathState = atom({
+  key: 'pathState',
   default: {
     type: '',
     geometry: {},
     properties: {},
   },
+})
+
+// tracking Info
+export const locationListState = atom({
+  key: 'locationListState',
+  default: [],
 })
 
 // SNS 모달
@@ -57,7 +63,8 @@ export const snsModal = atom({
   default: false,
 })
 
-export const locationListState = atom({
-  key: 'locationListState',
-  default: [],
+// SNS 내용
+export const snsParamsState = atom({
+  key: 'snsParamsState',
+  default: 'createdDate,desc',
 })

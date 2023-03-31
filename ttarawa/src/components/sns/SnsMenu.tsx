@@ -3,24 +3,24 @@ import { bottomSheet } from '@styles/GlobalStyles'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import sns from '@services/sns'
-import { departState } from '@store/atoms'
-import { useRecoilValue } from 'recoil'
+import { departState, snsParamsState, snsModal } from '@store/atoms'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 export default function SnsMenu() {
   const { fetchPost, fetchPostRecom } = sns
+  const setModalVisible = useSetRecoilState(snsModal)
   const current = useRecoilValue(departState)
+  const setParams = useSetRecoilState(snsParamsState)
 
   // 최신순, 좋아요 게시물
   const getPost = (sort) => {
-    fetchPost(sort, 10)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
+    setParams(sort)
   }
 
   // 추천 게시물
   const getPostRecom = () => {
     const { lat, lng } = current
-    fetchPostRecom(10, lat, lng)
+    setParams({ lat, lng })
   }
 
   return (

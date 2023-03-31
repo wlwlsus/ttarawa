@@ -9,94 +9,44 @@ import {
 import { useEffect, useState } from 'react'
 import { useSetRecoilState, useResetRecoilState } from 'recoil'
 import { color } from '@styles/GlobalStyles'
+import { mylikes } from '@styles/myPage'
 import IconButton from '@components/common/IconButton'
 import { MaterialIcons } from '@expo/vector-icons'
-import { departState, destinState, pathInfo } from '@store/atoms'
+import { departState, destinState } from '@store/atoms'
 import { geocoding } from '@utils/geocoding'
 import { convertToKm, convertToTime } from '@utils/caculator'
+import user from '@services/user'
+
+interface SnsData {
+  historyId: number
+  nickname: string
+  image: string
+  distance: number // (주행 거리 - 미터 단위)),
+  time: number // (주행 시간 - 초 단위)),
+
+  startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
+
+  endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
+
+  isMyHistory: number // (1: 내가 쓴 게시물, 0 : 내가 쓴 게시물 아님)
+}
 
 export default function MyLikes({ navigation }) {
   const setDepart = useSetRecoilState(departState)
   const setDestin = useSetRecoilState(destinState)
-
-  interface SnsData {
-    historyId: number
-    nickname: string
-    image: string
-    distance: number // (주행 거리 - 미터 단위)),
-    time: number // (주행 시간 - 초 단위)),
-
-    startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
-
-    endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
-
-    isMyHistory: number // (1: 내가 쓴 게시물, 0 : 내가 쓴 게시물 아님)
-  }
+  const { fetchLikes, fetchDetail } = user
 
   const [dataLst, setDataLst] = useState<SnsData[]>([])
 
-  const datas: SnsData[] = [
-    {
-      historyId: 1,
-
-      nickname: '열정라이더따옹이',
-      image: '@assets/riding.png',
-
-      time: 1800,
-      distance: 3500,
-
-      startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
-      endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
-
-      isMyHistory: 1,
-    },
-    {
-      historyId: 2,
-
-      nickname: '열정라이더따옹이',
-      image: '@assets/riding.png',
-
-      time: 1800,
-      distance: 3500,
-
-      startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
-      endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
-
-      isMyHistory: 0,
-    },
-    {
-      historyId: 3,
-
-      nickname: '열정라이더따옹이',
-      image: '@assets/riding.png',
-
-      time: 18000,
-      distance: 35000,
-
-      startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
-      endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
-
-      isMyHistory: 0,
-    },
-    {
-      historyId: 4,
-
-      nickname: '열정라이더따옹이',
-      image: '@assets/riding.png',
-
-      time: 7800,
-      distance: 35400,
-
-      startAddress: '서울특별시 강남구 역삼동 테헤란로 212',
-      endAddress: '서울특별시 강남구 강남대로 438 스타플렉스',
-
-      isMyHistory: 0,
-    },
-  ]
+  let page: number = 0
 
   useEffect(() => {
     // axios
-    setDataLst(datas)
+    fetchLikes(page)
+      .then((res) => {
+        setDataLst(res)
+      })
+      .catch((err) => console.log(err))
   }, [])
 
   const goTrip = async (startAddress: string, endAddress: string) => {
@@ -109,44 +59,48 @@ export default function MyLikes({ navigation }) {
   const detail = (historyId: number) => {
     // axios
     // bottomSheet 활용
+    fetchDetail(historyId).then((res) => console.log(res))
   }
 
   return (
-    <View>
+    <View style={{ backgroundColor: color.white, flex: 1 }}>
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
-          const imagePath = require('@assets/riding.png')
           const distance = convertToKm(item.distance)
           const time = convertToTime(item.time)
 
           return (
             <Pressable
-              style={styles.cardContainer}
-              // onPress={() => {detail(item.historyId)}}
+              style={mylikes.cardContainer}
+              onPress={() => {
+                detail(item.historyId)
+              }}
             >
               {/* 주행기록 이미지 */}
-              <Image source={imagePath} style={styles.img} />
+              <Image source={{ uri: item.image }} style={mylikes.img} />
 
-              <View style={styles.contentContainer}>
+              <View style={mylikes.contentContainer}>
                 {/* 닉네임 */}
-                <View style={styles.textDir}>
-                  <Text style={styles.userName}>{item.nickname} </Text>
-                  <Text style={styles.textSize}>님의 코스</Text>
+                <View style={mylikes.textDir}>
+                  <Text style={mylikes.userName}>{item.nickname} </Text>
+                  <Text style={mylikes.textSize}>님의 코스</Text>
                 </View>
 
                 {/* 주행 기록 */}
-                <View style={styles.textDir}>
-                  <Text style={styles.textSize}>주행 기록: </Text>
-                  <Text style={[styles.blueText, styles.textSize]}>
+                <View style={mylikes.textDir}>
+                  <Text style={mylikes.textSize}>주행 기록: </Text>
+                  <Text style={[mylikes.blueText, mylikes.textSize]}>
                     {distance}
                   </Text>
                 </View>
 
                 {/* 주행 시간 */}
-                <View style={styles.textDir}>
-                  <Text style={styles.textSize}>주행 시간: </Text>
-                  <Text style={[styles.blueText, styles.textSize]}>{time}</Text>
+                <View style={mylikes.textDir}>
+                  <Text style={mylikes.textSize}>주행 시간: </Text>
+                  <Text style={[mylikes.blueText, mylikes.textSize]}>
+                    {time}
+                  </Text>
                 </View>
 
                 {/* 여행시작 버튼 생성 */}
@@ -176,40 +130,3 @@ export default function MyLikes({ navigation }) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginHorizontal: 10,
-    marginVertical: 5,
-    flexDirection: 'row',
-  },
-  img: {
-    width: 180,
-    height: '100%',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  contentContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-  },
-  textDir: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userName: {
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  textSize: {
-    fontSize: 15,
-  },
-  blueText: {
-    fontWeight: 'bold',
-    color: color.primary,
-  },
-})

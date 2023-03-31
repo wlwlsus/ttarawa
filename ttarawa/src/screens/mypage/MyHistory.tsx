@@ -6,6 +6,8 @@ import { sns } from '@styles/sns'
 import BottomSheet from '@components/common/BottomSheet'
 import HistoryMenu from '@components/mypage/HistoryMenu'
 
+import user from '@services/user'
+import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
 
 interface SnsData {
@@ -22,78 +24,75 @@ interface SnsData {
 export default function SnsCard() {
   const [dataLst, setDataLst] = useState<SnsData[]>([])
   const [modalVisible, setModalVisible] = useState(false)
-
-  const datas: SnsData[] = [
-    {
-      historyId: 1,
-      image: '@assets/riding.png',
-      personal: 1,
-      favoritesCount: 11,
-      isMyFavorite: 1,
-
-      time: 1800,
-      distance: 3500,
-
-      content:
-        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    },
-    {
-      historyId: 2,
-      image: '@assets/riding.png',
-      personal: 0,
-      favoritesCount: 12,
-      isMyFavorite: 0, // true: 1, false: 0
-
-      time: 7800,
-      distance: 35400,
-
-      content:
-        '이번에 새로운 코스 달려봤는데 확실히 오랜만에 달리니까 너무 좋았습니다!! 이 코스 꼭 추천드립니다!',
-    },
-  ]
+  const { saveLike, deleteLike, updatePost } = snsaxios
 
   useEffect(() => {
     // axios
-    const newData: SnsData[] = datas.map((data) => {
-      return {
-        ...data,
-        isMyFavorite: data.isMyFavorite === 1 ? true : false,
-        personal: data.personal === 1 ? true : false,
-      }
+    user.fetchRide(0).then((res) => {
+      // console.log(res)
+      const newData: SnsData[] = res.map((data) => {
+        return {
+          ...data,
+          isMyFavorite: data.isMyFavorite === 1 ? true : false,
+          personal: data.personal === 1 ? true : false,
+        }
+      })
+      setDataLst(newData)
     })
-    setDataLst(newData)
   }, [])
 
   const pressLike = (key: number) => {
-    // const check = dataLst.find((data) => data.historyId === key)
+    const check = dataLst.find((data) => data.historyId === key)
 
-    const updateData: SnsData[] = dataLst.map((data) => {
-      if (data.historyId === key) {
-        return {
-          ...data,
-          isMyFavorite: !data.isMyFavorite,
-          favoritesCount: data.isMyFavorite
-            ? data.favoritesCount - 1
-            : data.favoritesCount + 1,
-        }
-      }
-      return data
-    })
-    setDataLst(updateData)
+    // 좋아요를 하려면, saveLike,
+    // 좋아요를 제거하려면, deleteLike, 함수를 axios로 연결
+    const axios: (params: any) => any = !check?.isMyFavorite
+      ? saveLike(key)
+      : deleteLike(key)
+
+    // 위의 axios 함수 불러옴.
+    axios
+      .then(() => {
+        const updateData: SnsData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              isMyFavorite: !data.isMyFavorite,
+              favoritesCount: data.isMyFavorite
+                ? data.favoritesCount - 1
+                : data.favoritesCount + 1,
+            }
+          }
+          return data
+        })
+
+        setDataLst(updateData)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   // 공개 비공개
   const pressLock = (key: number) => {
-    const updateData: SnsData[] = dataLst.map((data) => {
-      if (data.historyId === key) {
-        return {
-          ...data,
-          personal: !data.personal,
-        }
-      }
-      return data
-    })
-    setDataLst(updateData)
+    const check = dataLst.find((data) => data.historyId === key)
+
+    const personalNum = check?.personal ? 0 : 1
+
+    updatePost(key, personalNum, check.content)
+      .then((res) => {
+        const updateData: SnsData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              personal: !data.personal,
+            }
+          }
+          return data
+        })
+        setDataLst(updateData)
+      })
+      .catch((err) => console.log(err))
   }
 
   // 하단 네브바 생성
@@ -112,7 +111,7 @@ export default function SnsCard() {
           return (
             <FeedCard
               historyId={item.historyId}
-              imagePath={require('@assets/riding.png')}
+              imagePath={item.image}
               isLock={item.personal}
               pressLock={pressLock}
               likes={item.favoritesCount}
@@ -128,6 +127,7 @@ export default function SnsCard() {
         keyExtractor={(item) => item.historyId.toString()}
         // 스크롤 감추기
         showsVerticalScrollIndicator={false}
+        pagingEnabled={true}
       />
       <BottomSheet
         modalVisible={modalVisible}

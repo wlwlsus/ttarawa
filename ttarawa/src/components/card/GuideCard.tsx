@@ -10,11 +10,11 @@ interface Props {
 
 export default function GuideCard({ index, content }: Props) {
   const imgTable: any[] = [
-    require('@assets/riding.png'),
-    require('@assets/riding.png'),
-    require('@assets/riding.png'),
-    require('@assets/riding.png'),
-    require('@assets/profile.png'),
+    require('@assets/ttarawa/riding.png'),
+    require('@assets/ttarawa/riding.png'),
+    require('@assets/ttarawa/riding.png'),
+    require('@assets/ttarawa/riding.png'),
+    require('@assets/ttarawa/profile.png'),
   ]
 
   return (

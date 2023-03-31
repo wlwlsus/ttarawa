@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { color } from '@styles/GlobalStyles'
+const SCREEN_HEIGHT = Dimensions.get('window').height
 
 export const header = StyleSheet.create({
   container: {
@@ -18,11 +19,8 @@ export const header = StyleSheet.create({
 export const sns = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   container: {
-    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: color.white,

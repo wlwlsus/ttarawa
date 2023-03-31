@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image } from 'react-native'
+import { View, Text, SafeAreaView, Image, Pressable } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { myPage } from '@styles/myPage'
 import { useRecoilValue } from 'recoil'
@@ -6,21 +6,31 @@ import { userState } from '~/store/atoms'
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
+import auth from '@services/auth'
+import { getToken } from '@utils/apiRequest'
 
 export default function MyProfile({ navigation }) {
   // Todo : badgeName, profile 연결해야함
   const { nickname, badgeName, totalDistance, profile } =
     useRecoilValue(userState)
 
+  const logout = async () => {
+    const accessToken = await getToken()
+    auth.logout(accessToken)
+    navigation.navigate('Index', { screen: 'Start' })
+  }
+
   return (
     <SafeAreaView style={myPage.container}>
+      <Pressable hitSlop={10} style={myPage.logout} onPress={logout}>
+        <Text style={myPage.logoutText}>로그아웃</Text>
+      </Pressable>
       <View style={[myPage.imgContainer, myPage.shadow]}>
         <Image
           style={myPage.userImg}
           source={require('@assets/ttarawa/profile.png')}
         />
       </View>
-
       <View style={[myPage.userContainer, myPage.shadow]}>
         <Text style={myPage.rank}>주니어라이더까지 7km</Text>
         <View style={myPage.nameContainer}>
@@ -31,7 +41,6 @@ export default function MyProfile({ navigation }) {
           누적 <Text style={myPage.ridingData}>{totalDistance}</Text> km
         </Text>
       </View>
-
       <View style={myPage.buttons}>
         <IconButton
           text="주행기록"
@@ -83,7 +92,7 @@ export default function MyProfile({ navigation }) {
               color={color.black}
             />
           }
-          press={() => navigation.navigate('Intro')}
+          press={() => navigation.navigate('Index', { screen: 'Intro' })}
         />
       </View>
     </SafeAreaView>
