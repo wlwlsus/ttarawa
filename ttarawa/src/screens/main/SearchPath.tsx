@@ -9,7 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import InitPath from '@utils/map/InitPath'
 import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { departState, destinState, pathInfo } from '@store/atoms'
+import { departState, destinState, pathState } from '@store/atoms'
 
 import { convertToKm, convertToTime } from '@utils/caculator'
 
@@ -20,7 +20,7 @@ export default function SearchPath({ navigation }) {
   const destin: { name: string; lat: number; lng: number } =
     useRecoilValue(destinState)
 
-  const [resultData, setResultData] = useRecoilState(pathInfo)
+  const [resultData, setResultData] = useRecoilState(pathState)
 
   const [distance, setDistance] = useState('')
   const [time, setTime] = useState('')

@@ -2,8 +2,7 @@ import { WebView } from 'react-native-webview'
 import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import { map } from '@styles/main'
-import { departState, destinState, pathInfo } from '@store/atoms'
-
+import { departState, destinState, pathState } from '@store/atoms'
 
 interface FeatureProperties {
   totalDistance?: number
@@ -37,7 +36,6 @@ interface Feature {
   properties: FeatureProperties
 }
 
-
 export default function InitPath() {
   // store에서 출발, 도작지 불러오기
   const departData: { name: string; lat: number; lng: number } =
@@ -45,9 +43,9 @@ export default function InitPath() {
 
   const destinData: { name: string; lat: number; lng: number } =
     useRecoilValue(destinState)
-    
-  const resultData: Feature[] = useRecoilValue(pathInfo)
-    
+
+  const resultData: Feature[] = useRecoilValue(pathState)
+
   const middlePoint: { lat: number; lng: number } = {
     lat: (departData.lat + destinData.lat) / 2,
     lng: (departData.lng + destinData.lng) / 2,

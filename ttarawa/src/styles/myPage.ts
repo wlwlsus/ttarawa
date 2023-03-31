@@ -99,4 +99,50 @@ export const myPage = StyleSheet.create({
   },
 })
 
-export const mylikes = StyleSheet.create({})
+export const mylikes = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    flexDirection: 'row',
+    shadowColor: color.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+
+    gap: 10,
+  },
+  img: {
+    width: 180,
+    height: '100%',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    paddingVertical: 10,
+  },
+  textDir: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  userName: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  textSize: {
+    fontSize: 15,
+  },
+  blueText: {
+    fontWeight: 'bold',
+    color: color.primary,
+  },
+})
