@@ -1,21 +1,15 @@
-import { View, Text, Button, SafeAreaView, Image } from 'react-native'
-import { useState, useRef, useEffect } from 'react'
+import { View, Button, SafeAreaView } from 'react-native'
+import { useState, useRef } from 'react'
 import { WebView } from 'react-native-webview'
-import ViewShot from 'react-native-view-shot'
-// import base64 from 'react-native-image-base64'
-import * as FileSystem from 'expo-file-system'
-import { Platform } from 'react-native'
+import ViewShot, { captureRef } from 'react-native-view-shot'
+
 import { color, styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 
 import { useRecoilValue } from 'recoil'
 import { locationListState } from '~/store/atoms'
 import axios from 'axios'
-import { GLView } from 'expo-gl'
-
-import * as ImagePicker from 'expo-image-picker'
-import * as React from 'react'
-
+import { v4 as uuidv4 } from 'uuid'
 export default function Road() {
   // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
@@ -390,223 +384,107 @@ export default function Road() {
 `
 
   const SERVER_URL = 'http://3.39.209.108:8080/api/v1/spot/test'
-  const [imageUri, setImageUri] = React.useState<string | null>(null)
-
-  const handlePress = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync()
-    if (status !== 'granted') {
-      // alert('Camera permission not granted')
-      console.log('Camera permission not granted')
-      return
-    }
-
-    const image = await ImagePicker.launchCameraAsync()
-    if (image.canceled) {
-      return
-    }
-
-    setImageUri(image.uri)
-  }
-
-  const handleUpload = async () => {
-    if (!imageUri) {
-      return
-    }
-
-    // Save the image file locally
-    const localUri = `${FileSystem.documentDirectory}image.jpg`
-    await FileSystem.moveAsync({ from: imageUri, to: localUri })
-
-    console.log('경로')
-    console.log(localUri)
-
-    // Upload the image file to the server
-    const formData = new FormData()
-    formData.append('image', {
-      uri: localUri,
-      name: 'image.jpg',
-      type: 'image/jpeg',
-    })
-
-    const response = await axios.post(SERVER_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    console.log('휴111')
-    console.log(response)
-
-    // Use the image URL returned by the server to display the image
-    const imageUrl = response.data.imageUrl
-    setImageUri(imageUrl)
-  }
-
   const webviewRef = useRef(null)
   const viewShotRef = useRef(null)
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false)
   const token =
     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
-
-  // const captureWebview = async () => {
-  //   console.log('캡쳐 로직 start 111')
-  //   const formData = new FormData()
-  //   if (isWebViewLoaded) {
-  //     // try {
-  //     //   const fileUri = await viewShotRef.current.capture()
-  //     //   const base64 = await FileSystem.readAsStringAsync(fileUri, {
-  //     //     encoding: FileSystem.EncodingType.Base64,
-  //     //   })
-  //     //   formData.append('image', base64)
-  //     //   const config = {
-  //     //     headers: {
-  //     //       'Content-Type': 'multipart/form-data',
-  //     //     },
-  //     //   }
-  //     //   const response = await axios.post(SERVER_URL, formData, config)
-  //     //   console.log(response.data)
-  //     //   // uploadImage(result)
-  //     //   // const imgData = {
-  //     //   //   uri: result,
-  //     //   //   type: 'image/jpeg',
-  //     //   //   name: 'image.jpg',
-  //     //   // }
-  //     //   // const formData = new FormData()
-  //     //   // // formData.append('image', {
-  //     //   // //   uri: result,
-  //     //   // //   type: 'image/jpeg',
-  //     //   // //   name: 'image.jpg',
-  //     //   // // })
-  //     //   // // const json = JSON.stringify(imgData)
-  //     //   // // const blob = new Blob([json], {
-  //     //   // //   type: 'application/json',
-  //     //   // //   lastModified: Date.now(),
-  //     //   // // })
-  //     //   // formData.append('image', imgData)
-  //     //   // // Append the File object to FormData
-  //     //   // // formData.append('image', imgData)
-  //     //   // // const historyReqDto = {
-  //     //   // //   personal: 0,
-  //     //   // //   time: 11,
-  //     //   // //   distance: 101,
-  //     //   // //   content: 'strisdfsdfng',
-  //     //   // //   startAddress: 'strinazsdfsdfsdfsdfg',
-  //     //   // //   endAddress: 'strinfsdfsdfg',
-  //     //   // // }
-  //     //   // // formData.append('historyReqDto', JSON.stringify(historyReqDto))
-  //     //   // console.log('1!!')
-  //     //   // console.log(formData)
-  //     //   // const response = await axios.post(SERVER_URL, formData, {
-  //     //   //   headers: {
-  //     //   //     'Content-Type': 'multipart/form-data',
-  //     //   //     // Authorization: `Bearer ${token}`,
-  //     //   //   },
-  //     //   // })
-  //     //   // // console.log(response)
-  //     //   // if (response.status === 200) {
-  //     //   //   console.log('Image uploaded successfully')
-  //     //   // } else {
-  //     //   //   console.error('Failed to upload image')
-  //     //   // }
-  //     // } catch (error) {
-  //     //   console.error('Failed to capture or upload image', error)
-  //     // }
-  //   }
-  // }
-  // const handleCapture = async () => {
-  //   // 이미지 파일 로컬에 저장
-  //   console.log('222')
-
-  //   const filename = 'myimage.jpg'
-  //   const fileUri = await viewShotRef.current.capture()
-  //   const fileUriParts = fileUri.split('.')
-  //   const extension = fileUriParts[fileUriParts.length - 1]
-  //   const localUri = `${FileSystem.documentDirectory}${filename}`
-  //   await FileSystem.copyAsync({
-  //     from: fileUri,
-  //     to: localUri,
-  //   })
-  //   const imageFile = {
-  //     uri: localUri,
-  //     name: filename,
-  //     type: `image/${extension}`,
-  //   }
-
-  //   console.log('데이라')
-  //   console.log(imageFile)
-
-  //   // 이미지 파일 서버에 전송
-  //   const formData = new FormData()
-  //   formData.append('image', imageFile)
-
-  //   const response = await fetch(SERVER_URL, {
-  //     method: 'POST',
-  //     body: formData,
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //     },
-  //   }).then((res) => {
-  //     console.log('어디보자..')
-  //     // console.log(res)
-
-  //     res.json()
-  //   })
-
-  //   // 서버에서 응답값으로 이미지 파일 URL을 받아옴
-  //   // const { imageUrl } = await response.json()
-
-  //   // console.log(imageUrl)
-  // }
-
-  // // async function uploadImage(imageUri: string) {
-  // //   console.log(1)
-
-  // //   // Create FormData object
-  // //   const formData = new FormData()
-
-  // //   // Read the image file
-  // //   const fileUri = imageUri.replace('file://', '')
-  // //   const { uri, name, type } = await FileSystem.getInfoAsync(fileUri, {
-  // //     size: true,
-  // //   })
-  // //   console.log(2)
-  // //   console.log(uri)
-
-  // //   const response2 = await fetch(uri)
-  // //   const blob = await response2.blob()
-  // //   console.log(3)
-  // //   // Append the Blob to the FormData object
-  // //   formData.append('image', blob, name)
-  // //   console.log(4)
-  // //   // Upload the FormData object to the server
-
-  // //   console.log(formData)
-
-  // //   const response = await fetch(SERVER_URL, {
-  // //     method: 'POST',
-  // //     body: formData,
-  // //     headers: {
-  // //       'Content-Type': 'multipart/form-data',
-  // //       // Authorization: `Bearer ${token}`,
-  // //     },
-  // //   })
-  // //   console.log(5)
-  // //   console.log('Response:', response.data)
-  // //   console.log(6)
-  // // }
-
   const handleWebViewLoad = ({}) => {
     setIsWebViewLoaded(true)
   }
+  const uploadHistoryData = async () => {
+    if (isWebViewLoaded) {
+      try {
+        const imageUri = await captureRef(viewShotRef, {
+          format: 'jpg',
+          quality: 0.8,
+        })
 
-  // const [capturedImageUri, setCapturedImageUri] = useState(null)
+        // 파일명 중복 안되게 uuid 로 저장
+        const uuid = uuidv4()
+        const filename = `${uuid}.jpg`
+        const imageData = {
+          uri: imageUri,
+          type: 'image/jpeg',
+          name: filename,
+        }
+        const formData = new FormData()
 
-  // // const handleCapture = async () => {
-  // //   console.log(101)
-  // //   const uri = await viewShotRef.current.capture()
-  // //   console.log('저장 값 : ' + uri)
+        formData.append('personal', 0)
+        formData.append('time', 0)
+        formData.append('distance', getTotalDistance())
+        formData.append('content', 'aa')
+        formData.append('startAddress', 'bb')
+        formData.append('endAddress', 'cc')
+        formData.append('image', imageData)
 
-  // //   setCapturedImageUri(uri)
-  // // }
+        console.log(formData)
+
+        const response = await axios.post(SERVER_URL, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+
+        if (response.status === 200) {
+          console.log('Image uploaded successfully')
+        } else {
+          console.error('Failed to upload image')
+        }
+      } catch (error) {
+        console.error('Failed to capture or upload image', error)
+      }
+    }
+  }
+
+  // 도 단위의 각도를 라디안 단위로 변환하는 함수
+  function toRadians(degrees: number): number {
+    return (degrees * Math.PI) / 180
+  }
+
+  // 두 지점 사이의 거리를 계산하는 함수
+  function distance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const R = 6371 // 지구 반지름 (단위: km)
+    const dLat = toRadians(lat2 - lat1)
+    const dLon = toRadians(lon2 - lon1)
+    const lat1Rad = toRadians(lat1)
+    const lat2Rad = toRadians(lat2)
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) *
+        Math.sin(dLon / 2) *
+        Math.cos(lat1Rad) *
+        Math.cos(lat2Rad)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    const d = R * c
+    return d
+  }
+
+  function getTotalDistance() {
+    // 총 거리 계산을 위한 변수
+    let totalDistance: number = 0
+
+    // 좌표 리스트에서 한 쌍씩 좌표를 선택하여 거리를 계산하고, 총 거리를 계산하는 반복문
+    for (let i = 0; i < locationData.length - 3; i += 2) {
+      const lat1 = locationData[i + 1]
+      const lon1 = locationData[i]
+      const lat2 = locationData[i + 3]
+      const lon2 = locationData[i + 2]
+      const d = distance(lat1, lon1, lat2, lon2) // Haversine 공식을 사용하여 거리 계산
+      totalDistance += d // 총 거리 누적
+    }
+
+    // 총 거리 출력
+    console.log(`총 주행 길이: ${totalDistance.toFixed(2)}km`)
+
+    return parseFloat(totalDistance.toFixed(2))
+  }
+
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {
@@ -626,26 +504,14 @@ export default function Road() {
           `}
           />
         </ViewShot>
-        // <TouchableOpacity onPress={captureWebview}>
-        //   <Text>Capture WebView</Text>
-        // </TouchableOpacity>
       }
-      {/* <View>
-        {capturedImageUri && (
-          <Image
-            source={{ uri: capturedImageUri }}
-            style={{ width: 200, height: 200 }}
-          />
-        )}
-        <Button title="Capture" onPress={handleCapture} />
-      </View> */}
 
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {imageUri && (
-          <Image source={{ uri: imageUri }} style={{ width: 20, height: 20 }} />
-        )}
-        <Button title="Take Photo" onPress={handlePress} />
-        <Button title="Upload" onPress={handleUpload} />
+        <Button
+          title="캡쳐 후 주행 기록 서버에 저장"
+          onPress={uploadHistoryData}
+        />
+        <Button title="주행 거리 확인" onPress={getTotalDistance} />
       </View>
     </SafeAreaView>
   )

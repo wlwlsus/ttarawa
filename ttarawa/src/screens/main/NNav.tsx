@@ -84,8 +84,7 @@ export default function NNav(navigation: any) {
         disabled={watcher !== null && !isTracking}
       />
 
-      <Button title={'로드페이지'} onPress={tetst} />
-      <Button title={'통신페이지'} onPress={aa} />
+      <Button title={'로드 페이지 이동'} onPress={tetst} />
     </View>
   )
 }
