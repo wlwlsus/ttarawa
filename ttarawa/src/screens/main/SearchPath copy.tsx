@@ -1,43 +1,27 @@
 import { SafeAreaView, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
-import { path, map } from '@styles/main'
+import { path } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import { MaterialIcons } from '@expo/vector-icons'
 
-// import InitPath from '@utils/map/InitPath'
+import InitPath from '@utils/map/InitPath'
 import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathState } from '@store/atoms'
 
-import MapView, { Marker, Polyline } from 'react-native-maps'
-import proj4 from 'proj4'  // 위도경도 변환 라이브러리
-
 import { convertToKm, convertToTime } from '@utils/caculator'
 
 export default function SearchPath({ navigation }) {
-  // 출발지 정보 가져오기
-  const departData: { name: string; lat: number; lng: number } =
+  const depart: { name: string; lat: number; lng: number } =
     useRecoilValue(departState)
 
-  // 도착지 정보 가져오기
-  const destinData: { name: string; lat: number; lng: number } =
+  const destin: { name: string; lat: number; lng: number } =
     useRecoilValue(destinState)
 
-  // 경로들 리코일에 저장??
   const [resultData, setResultData] = useRecoilState(pathState)
 
-  // 출발지, 도착지 저장?
-  const depart = {latitude: departData.lat, longitude: departData.lng}
-  const destin = {latitude: Number(destinData.lat), longitude: Number(destinData.lng)}
-
-  const middlePoint: { latitude: number; longitude: number } = {
-    latitude: (departData.lat + Number(destinData.lat)) / 2,
-    longitude: (departData.lng + Number(destinData.lng)) / 2,
-  }
-
-  // 총 거리, 시간 저장 변수
   const [distance, setDistance] = useState('')
   const [time, setTime] = useState('')
 
@@ -51,10 +35,10 @@ export default function SearchPath({ navigation }) {
         }
 
         const data = JSON.stringify({
-          startX: departData?.lng,
-          startY: departData?.lat,
-          endX: destinData?.lng,
-          endY: destinData?.lat,
+          startX: depart?.lng,
+          startY: depart?.lat,
+          endX: destin?.lng,
+          endY: destin?.lat,
           reqCoordType: 'WGS84GEO',
           resCoordType: 'EPSG3857',
           startName: '출발지',
@@ -83,33 +67,16 @@ export default function SearchPath({ navigation }) {
             return data.features
           })
           .then(function (data) {
-            const pathData: { latitude: number, longitude: number }[] = [depart]
-            
-            for (const feature of data) {
-              if (feature.geometry.type === "LineString") {
-                const coordinates = feature.geometry.coordinates;
-                for (const coordinate of coordinates) {
-                  const latLng = proj4('EPSG:3857', 'EPSG:4326', [coordinate[0], coordinate[1]]);
-                  pathData.push({ latitude: latLng[1], longitude: latLng[0] });
-                }
-              }
-            }
-            pathData.push(destin)
-
-            return pathData
-          })
-          .then(function (data) {
             setResultData(data)
-            // console.log(data)
+            // console.log('check')
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
           })
       }
     }
-
-    fetchRoute()   // 함수 실행
-  }, [departData, destinData])
+    fetchRoute()
+  }, [depart, destin])
 
   if (!resultData) return <></>
   return (
@@ -117,23 +84,7 @@ export default function SearchPath({ navigation }) {
       <MapHeader noneButton={true} navigation={navigation} />
 
       {/* webview */}
-      <MapView
-        style={map.container}
-        initialRegion={{
-          latitude: middlePoint.latitude,
-          longitude: middlePoint.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        <Marker coordinate={depart} title="Depart" pinColor="skyblue"/>
-        <Marker coordinate={destin} title="Destin" pinColor="skyblue"/>
-        <Polyline
-          coordinates={resultData}
-          strokeColor='#AA0000'
-          strokeWidth={5}
-        />
-      </MapView>
+      <InitPath />
 
       {/* 추천경로 & 주행시작 */}
       <View style={path.pathCard}>
@@ -154,8 +105,7 @@ export default function SearchPath({ navigation }) {
           }
           btnText="주행시작"
           press={() => {
-            // 출발지, 목적지, 중간지점 props로 넘겨줌
-            navigation.navigate('NaviPath', {depart, destin, middlePoint})
+            navigation.navigate('NaviPath')
           }}
         />
       </View>
