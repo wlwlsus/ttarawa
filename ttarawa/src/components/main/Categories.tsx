@@ -35,6 +35,7 @@ export default function Categories() {
     main
       .fetchDestin(Number(pressed), 0, 10, depart.lat, depart.lng)
       .then((res) => {
+        // console.log(res)
         setMarkerList(res)
       })
       .catch((err) => console.log(err))
