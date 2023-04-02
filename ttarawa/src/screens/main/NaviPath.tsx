@@ -14,7 +14,6 @@ export default function NaviPath({ route }) {
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      <Text>네이게이션 화면</Text>
       {resultData && <MapView
         style={map.container}
         initialRegion={{

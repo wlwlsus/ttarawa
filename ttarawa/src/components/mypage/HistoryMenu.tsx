@@ -3,14 +3,26 @@ import { bottomSheet } from '@styles/GlobalStyles'
 import IconButton from '@components/common/IconButton'
 import { Ionicons, AntDesign, Feather } from '@expo/vector-icons'
 
-export default function HistoryMenu() {
+interface Props {
+  historyId?: number
+  pressUpdate: (params: any) => any
+  pressDelete: (params: any) => any
+  pressShare: (params: any) => any
+}
+
+export default function HistoryMenu({
+  historyId,
+  pressUpdate,
+  pressDelete,
+  pressShare,
+}: Props) {
   return (
     <View style={bottomSheet.buttons}>
       <IconButton
         text="수정하기"
         icon1={<AntDesign name="edit" size={24} color="black" />}
         dir="left"
-        press={() => console.log('수정')}
+        press={() => pressUpdate(historyId)}
         style={{
           container: bottomSheet.button,
         }}
@@ -20,7 +32,7 @@ export default function HistoryMenu() {
         text="삭제하기"
         icon1={<Feather name="trash-2" size={24} color="black" />}
         dir="left"
-        press={() => console.log('삭제')}
+        press={() => pressDelete(historyId)}
         style={{
           container: bottomSheet.button,
         }}
@@ -32,7 +44,7 @@ export default function HistoryMenu() {
           <Ionicons name="ios-paper-plane-outline" size={24} color="black" />
         }
         dir="left"
-        press={() => console.log('공유')}
+        press={() => pressShare(historyId)}
         style={{
           container: bottomSheet.button,
         }}

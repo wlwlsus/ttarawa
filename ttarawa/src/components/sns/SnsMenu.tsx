@@ -2,13 +2,13 @@ import { View } from 'react-native'
 import { bottomSheet } from '@styles/GlobalStyles'
 import IconButton from '@components/common/IconButton'
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
-import sns from '@services/sns'
+// import sns from '@services/sns'
 import { departState, snsParamsState, snsModal } from '@store/atoms'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 export default function SnsMenu() {
-  const { fetchPost, fetchPostRecom } = sns
-  const setModalVisible = useSetRecoilState(snsModal)
+  // const { fetchPost, fetchPostRecom } = sns
+  // const setModalVisible = useSetRecoilState(snsModal)
   const current = useRecoilValue(departState)
   const setParams = useSetRecoilState(snsParamsState)
 

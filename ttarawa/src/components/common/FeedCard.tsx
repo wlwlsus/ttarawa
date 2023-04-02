@@ -154,7 +154,7 @@ export default function FeedCard({
                     color="black"
                   />
                 }
-                press={pressMenu}
+                press={() => pressMenu(historyId)}
               />
             )}
           </View>

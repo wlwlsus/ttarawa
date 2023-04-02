@@ -7,7 +7,7 @@ import {
   Pressable,
 } from 'react-native'
 import { useEffect, useState } from 'react'
-import { useSetRecoilState, useResetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { color } from '@styles/GlobalStyles'
 import { mylikes } from '@styles/myPage'
 import IconButton from '@components/common/IconButton'
@@ -16,6 +16,7 @@ import { departState, destinState } from '@store/atoms'
 import { geocoding } from '@utils/geocoding'
 import { convertToKm, convertToTime } from '@utils/caculator'
 import user from '@services/user'
+import DetailModal from '@components/mypage/DetailModal'
 
 interface SnsData {
   historyId: number
@@ -23,11 +24,8 @@ interface SnsData {
   image: string
   distance: number // (주행 거리 - 미터 단위)),
   time: number // (주행 시간 - 초 단위)),
-
   startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
-
   endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
-
   isMyHistory: number // (1: 내가 쓴 게시물, 0 : 내가 쓴 게시물 아님)
 }
 
@@ -37,6 +35,8 @@ export default function MyLikes({ navigation }) {
   const { fetchLikes, fetchDetail } = user
 
   const [dataLst, setDataLst] = useState<SnsData[]>([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [detailData, setDetailData] = useState({})
 
   let page: number = 0
 
@@ -59,11 +59,22 @@ export default function MyLikes({ navigation }) {
   const detail = (historyId: number) => {
     // axios
     // bottomSheet 활용
-    fetchDetail(historyId).then((res) => console.log(res))
+    fetchDetail(historyId).then((res) => {
+      setIsModalVisible(true)
+      setDetailData(res)
+    })
+    .catch((err) => console.log(err))
   }
 
   return (
     <View style={{ backgroundColor: color.white, flex: 1 }}>
+       {isModalVisible ? (
+        <DetailModal
+          visible={isModalVisible}
+          data={detailData}
+          onClose={() => setIsModalVisible(false)}
+        />
+      ) : null}
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {

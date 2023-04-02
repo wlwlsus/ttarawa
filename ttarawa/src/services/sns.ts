@@ -65,7 +65,7 @@ const updatePost = async (
 // 게시물 삭제
 const deletePost = async (historyId: number): Promise<object> => {
   return await apiRequest
-    .delete(`history/posty?history_id=${historyId}`)
+    .delete(`history/post?history_id=${historyId}`)
     .then((res) => {
       return Promise.resolve(res.data.message)
     })

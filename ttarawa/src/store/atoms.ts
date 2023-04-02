@@ -64,3 +64,9 @@ export const snsParamsState = atom({
   key: 'snsParamsState',
   default: 'createdDate,desc',
 })
+
+// History bottoms params
+export const historyParams = atom({
+  key: 'historyParams',
+  default: ''
+})

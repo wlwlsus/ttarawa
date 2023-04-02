@@ -10,7 +10,11 @@ import user from '@services/user'
 import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
 
-interface SnsData {
+import { useRecoilState } from 'recoil'
+import { historyParams } from '@store/atoms'
+
+
+interface FeedData {
   historyId: number
   image: string // 주행기록
   personal: number | boolean // 공개여부
@@ -21,16 +25,17 @@ interface SnsData {
   content: string // 내용
 }
 
-export default function SnsCard() {
-  const [dataLst, setDataLst] = useState<SnsData[]>([])
+export default function MyHistory() {
+  const [dataLst, setDataLst] = useState<FeedData[]>([])
   const [modalVisible, setModalVisible] = useState(false)
-  const { saveLike, deleteLike, updatePost } = snsaxios
+  const [selectedHistoryId, setSelectedHistoryId] = useState(null)
+  const { saveLike, deleteLike, updatePost, deletePost } = snsaxios
 
   useEffect(() => {
     // axios
     user.fetchRide(0).then((res) => {
       // console.log(res)
-      const newData: SnsData[] = res.map((data) => {
+      const newData: FeedData[] = res.map((data) => {
         return {
           ...data,
           isMyFavorite: data.isMyFavorite === 1 ? true : false,
@@ -39,6 +44,7 @@ export default function SnsCard() {
       })
       setDataLst(newData)
     })
+    setModalVisible(false)
   }, [])
 
   const pressLike = (key: number) => {
@@ -53,7 +59,7 @@ export default function SnsCard() {
     // 위의 axios 함수 불러옴.
     axios
       .then(() => {
-        const updateData: SnsData[] = dataLst.map((data) => {
+        const updateData: FeedData[] = dataLst.map((data) => {
           if (data.historyId === key) {
             return {
               ...data,
@@ -81,7 +87,7 @@ export default function SnsCard() {
 
     updatePost(key, personalNum, check.content)
       .then((res) => {
-        const updateData: SnsData[] = dataLst.map((data) => {
+        const updateData: FeedData[] = dataLst.map((data) => {
           if (data.historyId === key) {
             return {
               ...data,
@@ -95,8 +101,30 @@ export default function SnsCard() {
       .catch((err) => console.log(err))
   }
 
+  const pressUpdate = (key: number) => {
+    // console.log(key)
+    console.log('수정')
+    setModalVisible(false)
+  }
+
+  const pressDelete = (key: number) => {
+    deletePost(key)
+    .then(() => {
+      setDataLst(dataLst.filter(item => item.historyId !== key))
+      setModalVisible(false)
+    })
+    .catch((err) => console.log(err))
+  }
+
+  const pressShare = (key: number) => {
+    // console.log(key)
+    console.log('공유')
+    setModalVisible(false)
+  }
+
   // 하단 네브바 생성
-  const pressMenu = () => {
+  const pressMenu = (key: number) => {
+    setSelectedHistoryId(key)
     setModalVisible(true)
   }
 
@@ -132,7 +160,12 @@ export default function SnsCard() {
       <BottomSheet
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        children={<HistoryMenu />}
+        children={<HistoryMenu 
+          historyId={selectedHistoryId}
+          pressUpdate={pressUpdate}
+          pressDelete={pressDelete}
+          pressShare={pressShare}
+        />}
       />
     </View>
   )
