@@ -12,7 +12,7 @@ import { departState } from '@store/atoms'
 
 import getRentalSpot from '@utils/getRentalSpot'
 
-export default function Categories() {
+export default function Categories({ style }) {
   const [pressed, setPressed] = useState<number>(0)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const depart = useRecoilValue(departState)
@@ -50,7 +50,7 @@ export default function Categories() {
   }, [pressed])
 
   return (
-    <View style={map.buttons}>
+    <View style={style}>
       <Button
         text="대여소"
         style={pressed === 0 ? isPressed : undefined}

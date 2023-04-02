@@ -59,7 +59,7 @@ export default function MapHeader({ noneButton, navigation }: Props) {
           />
         )}
       </View>
-      {!noneButton && <Categories />}
+      {!noneButton && <Categories style={map.buttons} />}
     </View>
   )
 }
