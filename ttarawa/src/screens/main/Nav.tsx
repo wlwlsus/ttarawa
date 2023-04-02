@@ -27,7 +27,7 @@ export default function Nav(navigation: any) {
       (location) => {
         const { latitude, longitude } = location.coords
         setLocationList((prevData) => [...prevData, {longitude: longitude, latitude: latitude}])
-        console.log('getLOCATION', latitude, longitude)
+        console.log('getLOCATION')
       },
     )
     setIsTracking(true)

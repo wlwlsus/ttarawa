@@ -155,7 +155,7 @@ export default function SearchPath({ navigation }) {
           btnText="주행시작"
           press={() => {
             // 출발지, 목적지, 중간지점 props로 넘겨줌
-            navigation.navigate('NaviPath',
+            navigation.navigate('Nav',
              {depart, destin, middlePoint})
           }}
         />
