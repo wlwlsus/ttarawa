@@ -4,13 +4,16 @@ import { color, styles } from '@styles/GlobalStyles'
 import { useRecoilValue } from 'recoil'
 import { map } from '@styles/main'
 import { pathState } from '@store/atoms'
-import MapView, { Marker, Polyline } from 'react-native-maps'
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
+import getLocation from '@utils/getLocation'
 
 export default function NaviPath({ route }) {
   // props로 넘긴 데이터 받기
   const { depart, destin, middlePoint } = route.params
 
   const resultData = useRecoilValue(pathState)
+
+
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
@@ -23,6 +26,10 @@ export default function NaviPath({ route }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        showsUserLocation
+        followsUserLocation
+        provider={PROVIDER_GOOGLE}
+
       >
         <Marker coordinate={depart} title="Depart" pinColor="skyblue"/>
         <Marker coordinate={destin} title="Destin" pinColor="skyblue"/>
