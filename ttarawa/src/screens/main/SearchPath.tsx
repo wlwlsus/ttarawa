@@ -46,8 +46,8 @@ export default function SearchPath({ navigation }) {
       if (depart && destin) {
         const headers = {
           'Content-Type': 'application/json',
-          appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
-          // appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
+          // appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
+          appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
         }
 
         const data = JSON.stringify({
@@ -155,7 +155,8 @@ export default function SearchPath({ navigation }) {
           btnText="주행시작"
           press={() => {
             // 출발지, 목적지, 중간지점 props로 넘겨줌
-            navigation.navigate('NaviPath', {depart, destin, middlePoint})
+            navigation.navigate('Nav')
+            //  {depart, destin, middlePoint})
           }}
         />
       </View>
