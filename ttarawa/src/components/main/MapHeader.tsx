@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import { NavigationProp } from '@react-navigation/native'
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import Input from '@components/common/Input'
 import IconButton from '@components/common/IconButton'
 

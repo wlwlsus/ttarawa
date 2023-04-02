@@ -5,14 +5,14 @@ interface Props {
   title: string
   distance: number
   address: string
-  spotNum: string
+  subCategory: string
 }
 
 export default function CategoryContent({
   title,
   distance,
   address,
-  spotNum,
+  subCategory,
 }: Props) {
   return (
     <View style={styles.content}>
@@ -22,9 +22,7 @@ export default function CategoryContent({
       </View>
       <View>
         {address && <Text>{address}</Text>}
-        {spotNum && (
-          <Text style={styles.spotNum}> 따릉이 대여소 번호 : {spotNum}</Text>
-        )}
+        {subCategory && <Text style={styles.subCategory}>{subCategory}</Text>}
       </View>
     </View>
   )
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: color.primary,
   },
-  spotNum: {
+  subCategory: {
     fontSize: 16,
   },
 })

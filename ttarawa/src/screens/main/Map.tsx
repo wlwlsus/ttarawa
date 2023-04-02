@@ -1,28 +1,24 @@
 import { SafeAreaView, View, ScrollView, Dimensions } from 'react-native'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
 import MapHeader from '@components/main/MapHeader'
-import InitTmap from '@utils/map/InitTmap'
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import MapCard from '@components/main/MapCard'
 import CategoryContent from '@components/main/CategoryContent'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
-import {
-  departState,
-  destinState,
-  markerListState,
-  markerState,
-} from '@store/atoms'
+import { departState, destinState, markerListState } from '@store/atoms'
 import getLocation from '@utils/getLocation'
+import MapGoogle from './MapGoogle'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Map({ navigation }) {
   const [depart, setDepart] = useRecoilState(departState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
-  const marker = useRecoilValue(markerState)
+  // const marker = useRecoilValue(markerState)
+  const [marker, setMarker] = useState(0)
   const setDestin = useSetRecoilState(destinState)
 
   // 현재 위치 설정
@@ -58,7 +54,9 @@ export default function Map({ navigation }) {
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       <MapHeader navigation={navigation} />
-      <InitTmap />
+
+      <MapGoogle setMarker={setMarker} />
+
       <View style={map.content}>
         <IconButton
           icon1={
@@ -86,7 +84,7 @@ export default function Map({ navigation }) {
                       title={marker.name}
                       distance={marker.distance}
                       address={marker.address}
-                      spotNum={marker.spotNum}
+                      subCategory={marker.subCategory}
                     />
                   }
                   icon={

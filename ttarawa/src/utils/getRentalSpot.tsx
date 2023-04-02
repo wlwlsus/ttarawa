@@ -47,9 +47,10 @@ export default async function getRentalSpot(lat: number, lng: number) {
     nearestStations.forEach(async (nearestStation) => {
       const spot = {
         name: nearestStation.station.stationName.split('.')[1].trim(),
-        lat: nearestStation.station.stationLatitude,
-        lng: nearestStation.station.stationLongitude,
-        spotNum: nearestStation.station.stationName.split('.')[0],
+        lat: Number(nearestStation.station.stationLatitude),
+        lng: Number(nearestStation.station.stationLongitude),
+        spotId: Number(nearestStation.station.stationName.split('.')[0]),
+        subCategory: `대여소 번호 ${nearestStation.station.stationId}`,
       }
       spotList.push(spot)
     })
