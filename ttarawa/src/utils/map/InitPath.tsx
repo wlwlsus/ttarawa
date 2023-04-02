@@ -47,8 +47,8 @@ export default function InitPath() {
   const resultData: Feature[] = useRecoilValue(pathState)
 
   const middlePoint: { lat: number; lng: number } = {
-    lat: (departData.lat + destinData.lat) / 2,
-    lng: (departData.lng + destinData.lng) / 2,
+    lat: (departData.lat + Number(destinData.lat)) / 2,
+    lng: (departData.lng + Number(destinData.lng)) / 2,
   }
 
   const pathHtml: string = `<!DOCTYPE html>
@@ -147,7 +147,7 @@ export default function InitPath() {
                   //도착지 마커
                   markerImg =
                     'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png'
-                  pType = 'Eㄱ'
+                  pType = 'E'
                   size = new Tmapv2.Size(0, 0)
                 } else {
                   //각 포인트 마커

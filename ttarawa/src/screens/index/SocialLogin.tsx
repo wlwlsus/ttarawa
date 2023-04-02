@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function SocialLogin({ navigation, route }) {
   const { data } = route.params
-  console.log(data)
+  // console.log(data)
   // const URL = `http://localhost:8080/oauth2/authorization/{kakao}?redirect_uri=http://localhost:3000/oauth/redirect`
   const serverIP = 'j8a605.p.ssafy.io'
   const socialType = data

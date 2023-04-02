@@ -44,11 +44,7 @@ export const markerState = atom({
 // 길안내 좌표
 export const pathState = atom({
   key: 'pathState',
-  default: {
-    type: '',
-    geometry: {},
-    properties: {},
-  },
+  default: [],
 })
 
 // tracking Info

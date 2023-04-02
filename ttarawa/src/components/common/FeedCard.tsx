@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
   cardImg: {
     height: 200,
-    LeftRadius: 10,
+    borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
 
