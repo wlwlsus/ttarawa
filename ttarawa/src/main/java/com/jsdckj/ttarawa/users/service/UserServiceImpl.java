@@ -133,6 +133,7 @@ public class UserServiceImpl implements UserService {
                 .profile(user.getProfile())
                 .badgeName(usersInfo.getBadge().getName())
                 .totalDistance(usersInfo.getTotalDistance())
+                .badgeImg(usersInfo.getBadge().getImage())
                 .build();
 
         return userInfoResDto;
