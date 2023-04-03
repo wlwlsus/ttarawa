@@ -1,5 +1,3 @@
-**/__pycache__/
-**/.idea/
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask
 
@@ -261,5 +259,5 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/python,flask
->>>>>>> 0da53b1873182bb11273720c6c2ff5c5214120bc
+**/__pycache__/
+**/.idea/
