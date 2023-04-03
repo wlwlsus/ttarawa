@@ -15,62 +15,67 @@ import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathState } from '@store/atoms'
 
 export default function Road() {
-  // recoil에 저장된 위치리스트 가져오기 
+  // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
   // 지도 중앙값
   const middlePoint: { latitude: number; longitude: number } = {
-    latitude: (locationData[0].latitude + Number(locationData[locationData.length - 1].latitude)) / 2,
-    longitude: (locationData[0].longitude + Number(locationData[locationData.length - 1].longitude)) / 2,
+    latitude:
+      (locationData[0].latitude +
+        Number(locationData[locationData.length - 1].latitude)) /
+      2,
+    longitude:
+      (locationData[0].longitude +
+        Number(locationData[locationData.length - 1].longitude)) /
+      2,
   }
 
   const viewShotRef = useRef(null)
-  
-  const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
 
-  const uploadHistoryData = async () => {
-      try {
-        const imageUri = await captureRef(viewShotRef, {
-          format: 'jpg',
-          quality: 0.8,
-        })
+  // const token =
+  //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
 
-        // 파일명 중복 안되게 uuid 로 저장
-        const uuid = uuidv4()
-        const filename = `${uuid}.jpg`
-        const imageData = {
-          uri: imageUri,
-          type: 'image/jpeg',
-          name: filename,
-        }
-        const formData = new FormData()
+  // const uploadHistoryData = async () => {
+  //     try {
+  //       const imageUri = await captureRef(viewShotRef, {
+  //         format: 'jpg',
+  //         quality: 0.8,
+  //       })
 
-        formData.append('personal', 0)
-        formData.append('time', 0)
-        formData.append('distance', getTotalDistance())
-        formData.append('content', 'aa')
-        formData.append('startAddress', 'bb')
-        formData.append('endAddress', 'cc')
-        formData.append('image', imageData)
+  //       // 파일명 중복 안되게 uuid 로 저장
+  //       const uuid = uuidv4()
+  //       const filename = `${uuid}.jpg`
+  //       const imageData = {
+  //         uri: imageUri,
+  //         type: 'image/jpeg',
+  //         name: filename,
+  //       }
+  //       const formData = new FormData()
 
-        console.log(formData)
+  //       formData.append('personal', 0)
+  //       formData.append('time', 0)
+  //       formData.append('distance', getTotalDistance())
+  //       formData.append('content', 'aa')
+  //       formData.append('startAddress', 'bb')
+  //       formData.append('endAddress', 'cc')
+  //       formData.append('image', imageData)
 
-        const response = await axios.post(SERVER_URL, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+  //       console.log(formData)
 
-        if (response.status === 200) {
-          console.log('Image uploaded successfully')
-        } else {
-          console.error('Failed to upload image')
-        }
-      } catch (error) {
-        console.error('Failed to capture or upload image', error)
-      }
-    }
-  
+  //       const response = await axios.post(SERVER_URL, formData, {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data',
+  //         },
+  //       })
+
+  //       if (response.status === 200) {
+  //         console.log('Image uploaded successfully')
+  //       } else {
+  //         console.error('Failed to upload image')
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to capture or upload image', error)
+  //     }
+  //   }
 
   // 도 단위의 각도를 라디안 단위로 변환하는 함수
   function toRadians(degrees: number): number {
@@ -124,39 +129,36 @@ export default function Road() {
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {
-        <ViewShot
-          ref={viewShotRef}
-          options={{ format: 'jpg', quality: 0.9 }}
-          style={{ width: 500, height: 500 }}
+        // <ViewShot
+        //   ref={viewShotRef}
+        //   options={{ format: 'jpg', quality: 0.9 }}
+        //   style={{ width: 500, height: 500 }}
+        // >
+        <MapView
+          style={map.container}
+          initialRegion={{
+            latitude: middlePoint.latitude,
+            longitude: middlePoint.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
         >
-               <MapView
-        style={map.container}
-        initialRegion={{
-          latitude: middlePoint.latitude,
-          longitude: middlePoint.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-
-        <Polyline
-          coordinates={locationData}
-          strokeColor='#AA0000'
-          strokeWidth={5}
-        />
-      </MapView>
-
-
-        </ViewShot>
+          <Polyline
+            coordinates={locationData}
+            strokeColor="#AA0000"
+            strokeWidth={5}
+          />
+        </MapView>
+        // {/* </ViewShot> */}
       }
 
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button
           title="캡쳐 후 주행 기록 서버에 저장"
           onPress={uploadHistoryData}
         />
         <Button title="주행 거리 확인" onPress={getTotalDistance} />
-      </View>
+      </View> */}
     </SafeAreaView>
   )
 }

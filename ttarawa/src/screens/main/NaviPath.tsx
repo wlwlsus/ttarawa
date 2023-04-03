@@ -3,21 +3,76 @@ import { useState, useRef, useEffect } from 'react'
 import { color, styles } from '@styles/GlobalStyles'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { navi } from '@styles/main'
-import { pathState, markerListState } from '@store/atoms'
+import { pathState, markerListState, locationListState } from '@store/atoms'
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
-
+import * as Location from 'expo-location'
+import EndModal from '@components/main/EndModal'
 import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
 import TimerModal from '@components/main/TimerModal'
 import Categories from '@components/main/Categories'
 
-export default function NaviPath({ route }) {
+export default function NaviPath({ route, navigation }) {
+  // endmodal
+  const [endmodalVisible, setEndModalVisible] = useState(false)
+  const handleEndModalVisible = () => {
+    setEndModalVisible(!endmodalVisible)
+    console.log('End')
+  }
+  const cancleModal = () => {
+    setEndModalVisible(false)
+  }
+  const goProfile = () => {
+    navigation.navigate('Mypage', { screen: 'MyHistory' })
+    setEndModalVisible(false)
+  }
   // props로 넘긴 데이터 받기
   const { depart, destin, middlePoint } = route.params
 
   const resultData = useRecoilValue(pathState)
 
   const [markerList, setMarkerList] = useRecoilState(markerListState)
+
+  // 지나간 경로 표시 위한 위치저장
+  const [locationList, setLocationList] = useRecoilState(locationListState)
+  const [watcher, setWatcher] =
+    useState<Promise<Location.LocationSubscription> | null>(null)
+
+  // 위치 저장
+  const startLocationTracking = async () => {
+    const watcher = Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        timeInterval: 1000,
+        distanceInterval: 0,
+      },
+      (location) => {
+        const { latitude, longitude } = location.coords
+        setLocationList((prevData) => [
+          ...prevData,
+          { longitude: longitude, latitude: latitude },
+        ])
+        console.log('getLOCATION')
+      },
+    )
+    setWatcher(watcher)
+    console.log(locationList)
+    return watcher
+  }
+  // // 시작 시 실행
+  useEffect(() => {
+    startLocationTracking()
+  }, [])
+  // 저장 종료
+  const stopLocationTracking = () => {
+    if (!watcher) return
+
+    watcher.then((locationSubscription: Location.LocationSubscription) => {
+      locationSubscription.remove()
+      setWatcher(null)
+      console.log('stop it')
+    })
+  }
 
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
@@ -85,7 +140,23 @@ export default function NaviPath({ route }) {
           />
         </MapView>
       )}
-      <NaviBottom time={ttime} />
+      <NaviBottom
+        time={ttime}
+        stop={stopLocationTracking}
+        handleOn={handleEndModalVisible}
+      />
+      <EndModal
+        time={ttime}
+        modalVisible={endmodalVisible}
+        cancleModal={cancleModal}
+        navigate={goProfile}
+      />
+      {/* stop={stopLocationTracking} /> */}
+      {/* <EndModal
+        modalVisible={modalVisible}
+        handleSetTime={handleSetTime}
+        cancleTime={cancleTime}
+      /> */}
     </SafeAreaView>
   )
 }
