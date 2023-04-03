@@ -1,4 +1,12 @@
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import Label from '@components/common/Label'
 import IconButton from '@components/common/IconButton'
@@ -37,6 +45,11 @@ interface Props {
 
   // 내용
   content: string
+  isEditMode?: boolean
+  contentText: string
+  setContentText?: (params: string) => any
+  editContent?: (params: any) => any
+  closeEdit?: (params: any) => any
 }
 
 export default function FeedCard({
@@ -60,10 +73,12 @@ export default function FeedCard({
   time,
 
   content,
+  contentText,
+  isEditMode,
+  setContentText,
+  editContent,
+  closeEdit,
 }: Props) {
-  // 내용 띄어쓰기를 위한
-  const contentText = content?.replace(/(!!|\?|\.)/g, '$&\n')
-
   const distanceText = `주행 거리 : ${distence}`
   const timeText = `주행 시간 : ${time}`
 
@@ -160,9 +175,57 @@ export default function FeedCard({
         </View>
 
         {/* 내용 */}
-        <Text ellipsizeMode="tail" numberOfLines={5} style={styles.cardText}>
-          {contentText}
-        </Text>
+        {!isEditMode ? (
+          <Text ellipsizeMode="tail" numberOfLines={5} style={styles.cardText}>
+            {content}
+          </Text>
+        ) : (
+          <>
+            <TextInput
+              // placeholder={content}
+              style={{
+                borderWidth: 1,
+                borderColor: color.gray,
+                borderRadius: 10,
+                width: '100%',
+                fontSize: 16,
+              }}
+              numberOfLines={10}
+              value={contentText}
+              onChangeText={(payload: string) => setContentText(payload)}
+            />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity
+                onPress={closeEdit}
+                style={{
+                  backgroundColor: color.lightGray,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                }}
+              >
+                <Text style={{ fontSize: 15, color: color.black }}>취소</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={editContent}
+                style={{
+                  backgroundColor: color.primary,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                }}
+              >
+                <Text style={{ fontSize: 15, color: color.white }}>저장</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </View>
   )

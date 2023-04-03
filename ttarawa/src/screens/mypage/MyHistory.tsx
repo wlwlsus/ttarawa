@@ -1,4 +1,4 @@
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 import FeedCard from '@components/common/FeedCard'
 
@@ -29,11 +29,14 @@ export default function MyHistory() {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedHistoryId, setSelectedHistoryId] = useState(null)
   const { saveLike, deleteLike, updatePost, deletePost } = snsaxios
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [contentText, setContentText] = useState('')
 
   useEffect(() => {
     // axios
     user.fetchRide(0).then((res) => {
       // console.log(res)
+      if (!res) return
       const newData: FeedData[] = res.map((data) => {
         return {
           ...data,
@@ -100,12 +103,45 @@ export default function MyHistory() {
       .catch((err) => console.log(err))
   }
 
+  // 수정하기 클릭
   const pressUpdate = (key: number) => {
-    // console.log(key)
-    console.log('수정')
+    const check = dataLst.find((data) => data.historyId === key)
     setModalVisible(false)
+    setIsEditMode(true) // 수정모드 on
+    setContentText(check.content) // contentText 저장
   }
 
+  // 내용 수정하기
+  const editContent = (key: number) => {
+    const check = dataLst.find((data) => data.historyId === key)
+
+    const personalNum = check?.personal ? 1 : 0
+
+    updatePost(key, personalNum, contentText)
+      .then(() => {
+        Keyboard.dismiss()
+        setIsEditMode(false)
+
+        const updateData: FeedData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              content: contentText,
+            }
+          }
+          return data
+        })
+        setDataLst(updateData)
+      })
+      .catch((err) => console.log(err))
+  }
+
+  // 수정하기 취소
+  const closeEdit = () => {
+    setIsEditMode(false)
+  }
+
+  // 삭제하기
   const pressDelete = (key: number) => {
     deletePost(key)
       .then(() => {
@@ -116,7 +152,6 @@ export default function MyHistory() {
   }
 
   const pressShare = (key: number) => {
-    // console.log(key)
     console.log('공유')
     setModalVisible(false)
   }
@@ -129,32 +164,39 @@ export default function MyHistory() {
 
   return (
     <View style={sns.container}>
-      <FlatList
-        data={dataLst}
-        renderItem={({ item }) => {
-          const distance = convertToKm(item.distance)
-          const time = convertToTime(item.time)
+      {dataLst && (
+        <FlatList
+          data={dataLst}
+          renderItem={({ item }) => {
+            const distance = convertToKm(item.distance)
+            const time = convertToTime(item.time)
 
-          return (
-            <FeedCard
-              imagePath={item.image}
-              isLock={item.personal}
-              pressLock={() => pressLock(item.historyId)}
-              likes={item.favoritesCount}
-              isLike={item.isMyFavorite}
-              pressLike={() => pressLike(item.historyId)}
-              distence={distance}
-              time={time}
-              content={item.content}
-              pressMenu={() => pressMenu(item.historyId)}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.historyId.toString()}
-        // 스크롤 감추기
-        showsVerticalScrollIndicator={false}
-        pagingEnabled={true}
-      />
+            return (
+              <FeedCard
+                imagePath={item.image}
+                isLock={item.personal}
+                pressLock={() => pressLock(item.historyId)}
+                likes={item.favoritesCount}
+                isLike={item.isMyFavorite}
+                pressLike={() => pressLike(item.historyId)}
+                distence={distance}
+                time={time}
+                content={item.content}
+                pressMenu={() => pressMenu(item.historyId)}
+                isEditMode={isEditMode}
+                contentText={contentText}
+                setContentText={setContentText}
+                closeEdit={closeEdit}
+                editContent={() => editContent(item.historyId)}
+              />
+            )
+          }}
+          keyExtractor={(item) => item.historyId.toString()}
+          // 스크롤 감추기
+          showsVerticalScrollIndicator={false}
+          pagingEnabled={true}
+        />
+      )}
       <BottomSheet
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

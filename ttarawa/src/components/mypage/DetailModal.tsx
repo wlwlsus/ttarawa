@@ -35,8 +35,7 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
 
   const distance = convertToKm(data.distance)
   const time = convertToTime(data.time)
-  // const isLike = data.isMyFavorite === 1 ? true : false
-
+  
   return (
     <Modal 
       animationType="slide" 
