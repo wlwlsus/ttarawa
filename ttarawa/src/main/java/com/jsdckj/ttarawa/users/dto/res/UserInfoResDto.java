@@ -16,6 +16,7 @@ public class UserInfoResDto {
     private String badgeName;
     private Long totalDistance;
     private String profile;
+    private String badgeImg;
 
 
 }
