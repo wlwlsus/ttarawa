@@ -10,8 +10,8 @@ import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathState } from '@store/atoms'
 
-import MapView, { Marker, Polyline } from 'react-native-maps'
-import proj4 from 'proj4'  // 위도경도 변환 라이브러리
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
+import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'
 
@@ -29,8 +29,11 @@ export default function SearchPath({ navigation }) {
   const [resultData, setResultData] = useRecoilState(pathState)
 
   // 출발지, 도착지 저장?
-  const depart = {latitude: departData.lat, longitude: departData.lng}
-  const destin = {latitude: Number(destinData.lat), longitude: Number(destinData.lng)}
+  const depart = { latitude: departData.lat, longitude: departData.lng }
+  const destin = {
+    latitude: Number(destinData.lat),
+    longitude: Number(destinData.lng),
+  }
 
   const middlePoint: { latitude: number; longitude: number } = {
     latitude: (departData.lat + Number(destinData.lat)) / 2,
@@ -46,8 +49,8 @@ export default function SearchPath({ navigation }) {
       if (depart && destin) {
         const headers = {
           'Content-Type': 'application/json',
-          appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
-          // appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
+          // appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
+          appKey: 'Bzm8PTx5KS6SDM756LcMP1UkoduymX3h5Qkkpg1c',
         }
 
         const data = JSON.stringify({
@@ -83,14 +86,17 @@ export default function SearchPath({ navigation }) {
             return data.features
           })
           .then(function (data) {
-            const pathData: { latitude: number, longitude: number }[] = [depart]
-            
+            const pathData: { latitude: number; longitude: number }[] = [depart]
+
             for (const feature of data) {
-              if (feature.geometry.type === "LineString") {
-                const coordinates = feature.geometry.coordinates;
+              if (feature.geometry.type === 'LineString') {
+                const coordinates = feature.geometry.coordinates
                 for (const coordinate of coordinates) {
-                  const latLng = proj4('EPSG:3857', 'EPSG:4326', [coordinate[0], coordinate[1]]);
-                  pathData.push({ latitude: latLng[1], longitude: latLng[0] });
+                  const latLng = proj4('EPSG:3857', 'EPSG:4326', [
+                    coordinate[0],
+                    coordinate[1],
+                  ])
+                  pathData.push({ latitude: latLng[1], longitude: latLng[0] })
                 }
               }
             }
@@ -108,7 +114,7 @@ export default function SearchPath({ navigation }) {
       }
     }
 
-    fetchRoute()   // 함수 실행
+    fetchRoute() // 함수 실행
   }, [departData, destinData])
 
   if (!resultData) return <></>
@@ -125,12 +131,13 @@ export default function SearchPath({ navigation }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        provider={PROVIDER_GOOGLE} // iphone 설정
       >
-        <Marker coordinate={depart} title="Depart" pinColor="skyblue"/>
-        <Marker coordinate={destin} title="Destin" pinColor="skyblue"/>
+        <Marker coordinate={depart} title="출발" pinColor={color.red} />
+        <Marker coordinate={destin} title="도착" pinColor={color.red} />
         <Polyline
           coordinates={resultData}
-          strokeColor='#AA0000'
+          strokeColor="#AA0000"
           strokeWidth={5}
         />
       </MapView>
@@ -155,7 +162,7 @@ export default function SearchPath({ navigation }) {
           btnText="주행시작"
           press={() => {
             // 출발지, 목적지, 중간지점 props로 넘겨줌
-            navigation.navigate('NaviPath', {depart, destin, middlePoint})
+            navigation.navigate('NaviPath', { depart, destin, middlePoint })
           }}
         />
       </View>

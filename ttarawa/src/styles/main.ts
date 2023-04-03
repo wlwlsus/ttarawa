@@ -65,3 +65,65 @@ export const path = StyleSheet.create({
     padding: 10,
   },
 })
+
+export const navi = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  map: {
+    flex: 1,
+  },
+  timer: {
+    width: 140,
+    padding: 10,
+    backgroundColor: color.white,
+    position: 'absolute',
+    zIndex: 999,
+    left: 10,
+    top: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+
+    shadowColor: color.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  time: {
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+  bottomBar: {
+    backgroundColor: color.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  infoTitle: {
+    fontSize: 15,
+  },
+  info: {
+    alignItems: 'center',
+    gap: 5,
+    flex: 1,
+  },
+  infoContent: {
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
+  categories: {
+    zIndex: 999,
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    gap: 10,
+  },
+})

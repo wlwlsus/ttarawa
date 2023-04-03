@@ -81,7 +81,7 @@ export default function FeedCard({
       ) : null}
 
       {/* 경로 이미지 */}
-      <View>
+      <View style={styles.cardImgContainer}>
         <Image
           resizeMode="contain"
           source={{ uri: imagePath }}
@@ -201,10 +201,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  cardImgContainer: {},
   cardImg: {
     height: 200,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
   },
 
   lock: {

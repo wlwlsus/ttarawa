@@ -1,80 +1,83 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Switch, TouchableOpacity } from 'react-native'
-import { styles } from '@styles/GlobalStyles'
-import { map } from '@styles/main'
-import { SafeAreaView } from 'react-native'
+import { Text, View, Button, TouchableOpacity } from 'react-native'
+
 import * as Location from 'expo-location'
-import { useRecoilState } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
 import { locationListState } from '~/store/atoms'
+import axios from 'axios'
+// export const locationListState = atom<number[][]>({
+//   key: 'locationListState',
+//   default: [],
+// })
 
-export default function Nav({ navigation }) {
-  type LocationObject = Location.LocationObject
+export default function Nav(navigation: any) {
+  const [locationList, setLocationList] = useRecoilState(locationListState)
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [watcher, setWatcher] =
+    useState<Promise<Location.LocationSubscription> | null>(null)
+  const [isTracking, setIsTracking] = useState(false)
 
-  const [isEnabled, setIsEnabled] = useState(false)
-  const [locationData, setLocationData] = useRecoilState(locationListState)
-
-  const [watchId, setWatchId] = useState<number | null>(null)
-
-  // 토글로 위치정보 저장 on/off -> 버튼으로 바꿀 예정
-  const toggleSwitch = async () => {
-    setIsEnabled((previousState) => !previousState)
-    // 위치정보 저장 on 이라면...
-    if (isEnabled == true) {
-      await Location.requestForegroundPermissionsAsync()
-      const newWatchId = await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          timeInterval: 5,
-          distanceInterval: 3,
-        },
-        (location) => {
-          const { latitude, longitude } = location.coords
-          setLocationData((prevData) => [...prevData, latitude, longitude])
-        },
-      )
-      setWatchId(newWatchId)
-
-      // off라면...
-    } else {
-      if (watchId) {
-        Location.clearWatch(watchId)
-        setWatchId(null)
-      }
-    }
+  const startLocationTracking = async () => {
+    const watcher = Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        timeInterval: 1000,
+        distanceInterval: 0,
+      },
+      (location) => {
+        const { latitude, longitude } = location.coords
+        setLocationList((prevData) => [...prevData, {longitude: longitude, latitude: latitude}])
+        console.log('getLOCATION')
+      },
+    )
+    setIsTracking(true)
+    setWatcher(watcher)
+    return watcher
   }
 
-  useEffect(() => {
-    console.log(locationData, '>>locationData 갱신<<')
-  }, [locationData])
-  // 리코일로 locationData를 빼야함
+  const stopLocationTracking = () => {
+    if (!watcher) return
+
+    watcher.then((locationSubscription: Location.LocationSubscription) => {
+      locationSubscription.remove()
+      setIsTracking(false)
+      setWatcher(null)
+      // setLocationList([])
+      console.log('stop it')
+    })
+  }
+
+  const tetst = () => {
+    console.log('네비')
+    console.log(navigation)
+    console.log(navigation.navigation.navigate)
+
+    navigation.navigation.navigate('Road')
+  }
+
+  // const aa = () => {
+  //   axios
+  //     .get('http://3.39.209.108:8080/api/v1/spot/ping')
+  //     .then((response) => {
+  //       console.log(response.data.message)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }
+
   return (
-    <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      {/* 주행 시작 & 종료 버튼으로 대체 */}
-      <View>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>{JSON.stringify(locationList)}</Text>
+      <Button
+        title={
+          isTracking ? 'Stop Location Tracking' : 'Start Location Tracking'
+        }
+        onPress={isTracking ? stopLocationTracking : startLocationTracking}
+        disabled={watcher !== null && !isTracking}
+      />
 
-        <Text>
-          {isEnabled
-            ? '위치 정보 저장을 켰습니다.'
-            : '위치 정보 저장을 껐습니다.'}
-        </Text>
-
-        <Text onPress={() => navigation.navigate('Road')}>gogogogog제발</Text>
-
-        <TouchableOpacity onPress={() => toggleSwitch()}>
-          <Text>Capture WebView</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => toggleSwitch()}>
-          <Text>Capture WebView</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      <Button title={'로드 페이지 이동'} onPress={tetst} />
+    </View>
   )
 }
