@@ -1,13 +1,12 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { color } from '@styles/GlobalStyles'
-const SCREEN_HEIGHT = Dimensions.get('window').height
 
 export const header = StyleSheet.create({
   container: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: 120,
+    paddingLeft: 135,
     alignItems: 'center',
   },
   logo: {

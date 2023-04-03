@@ -10,15 +10,25 @@ export const myPage = StyleSheet.create({
 
   logout: {
     position: 'absolute',
-    backgroundColor: color.primary,
+    backgroundColor: color.secondary,
     right: 30,
     top: 50,
     padding: 7,
     borderRadius: 10,
+
+    shadowColor: color.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
 
   logoutText: {
-    color: color.white,
+    color: color.primary,
+    fontWeight: 'bold',
   },
 
   imgContainer: {

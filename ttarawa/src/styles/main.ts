@@ -75,12 +75,13 @@ export const navi = StyleSheet.create({
     flex: 1,
   },
   timer: {
-    width: 120,
-    paddingVertical: 10,
+    width: 140,
+    padding: 10,
     backgroundColor: color.white,
     position: 'absolute',
     zIndex: 999,
     left: 10,
+    top: 10,
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -96,11 +97,8 @@ export const navi = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
   },
-  title: {
-    fontSize: 13,
-  },
   time: {
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: 'bold',
   },
   bottomBar: {
@@ -108,6 +106,9 @@ export const navi = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  infoTitle: {
+    fontSize: 15,
   },
   info: {
     alignItems: 'center',
@@ -122,6 +123,7 @@ export const navi = StyleSheet.create({
     zIndex: 999,
     position: 'absolute',
     right: 10,
+    top: 10,
     gap: 10,
   },
 })
