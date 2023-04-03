@@ -112,7 +112,6 @@ export default function SnsContent() {
           const time = convertToTime(item.time)
           return (
             <FeedCard
-              historyId={item.historyId}
               userImg={item.profile}
               userName={item.nickname}
               rank={item.badgeImg}
@@ -122,7 +121,7 @@ export default function SnsContent() {
               distence={distance}
               time={time}
               content={item.content}
-              pressLike={pressLike}
+              pressLike={() => pressLike(item.historyId)}
             />
           )
         }}

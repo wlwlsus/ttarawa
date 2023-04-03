@@ -13,7 +13,6 @@ import { convertToKm, convertToTime } from '@utils/caculator'
 import { useRecoilState } from 'recoil'
 import { historyParams } from '@store/atoms'
 
-
 interface FeedData {
   historyId: number
   image: string // 주행기록
@@ -109,11 +108,11 @@ export default function MyHistory() {
 
   const pressDelete = (key: number) => {
     deletePost(key)
-    .then(() => {
-      setDataLst(dataLst.filter(item => item.historyId !== key))
-      setModalVisible(false)
-    })
-    .catch((err) => console.log(err))
+      .then(() => {
+        setDataLst(dataLst.filter((item) => item.historyId !== key))
+        setModalVisible(false)
+      })
+      .catch((err) => console.log(err))
   }
 
   const pressShare = (key: number) => {
@@ -138,17 +137,16 @@ export default function MyHistory() {
 
           return (
             <FeedCard
-              historyId={item.historyId}
               imagePath={item.image}
               isLock={item.personal}
-              pressLock={pressLock}
+              pressLock={() => pressLock(item.historyId)}
               likes={item.favoritesCount}
               isLike={item.isMyFavorite}
-              pressLike={pressLike}
+              pressLike={() => pressLike(item.historyId)}
               distence={distance}
               time={time}
               content={item.content}
-              pressMenu={pressMenu}
+              pressMenu={() => pressMenu(item.historyId)}
             />
           )
         }}
@@ -160,12 +158,13 @@ export default function MyHistory() {
       <BottomSheet
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        children={<HistoryMenu 
-          historyId={selectedHistoryId}
-          pressUpdate={pressUpdate}
-          pressDelete={pressDelete}
-          pressShare={pressShare}
-        />}
+        children={
+          <HistoryMenu
+            pressUpdate={() => pressUpdate(selectedHistoryId)}
+            pressDelete={() => pressDelete(selectedHistoryId)}
+            pressShare={() => pressShare(selectedHistoryId)}
+          />
+        }
       />
     </View>
   )

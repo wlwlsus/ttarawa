@@ -7,7 +7,6 @@ import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 
 interface Props {
-  historyId: number
   // User Info
   userName?: string
   userImg?: string
@@ -20,7 +19,7 @@ interface Props {
 
   // 공개 여부
   isLock?: number | boolean
-  pressLock: (params: any) => any | undefined // 공개, 비공개 전환 함수
+  pressLock?: (params: any) => any // 공개, 비공개 전환 함수
 
   // 좋아요
   likes: number // 좋아요 수
@@ -41,8 +40,6 @@ interface Props {
 }
 
 export default function FeedCard({
-  historyId,
-
   userName,
   userImg,
   rank,
@@ -101,9 +98,7 @@ export default function FeedCard({
                   <Fontisto name="unlocked" size={24} color="black" />
                 )
               }
-              press={() => {
-                pressLock(historyId)
-              }}
+              press={pressLock}
             />
           </View>
         )}
@@ -121,9 +116,7 @@ export default function FeedCard({
                   color={isLike ? 'crimson' : 'black'} // 좋아요 누르면, 색 변환
                 />
               }
-              press={() => {
-                pressLike(historyId)
-              }} // 누르면, true <-> false 함수
+              press={pressLike} // 누르면, true <-> false 함수
             />
             <Text style={styles.likeNum}>{likes}명</Text>
             <Text style={styles.contentText}>
@@ -154,7 +147,7 @@ export default function FeedCard({
                     color="black"
                   />
                 }
-                press={() => pressMenu(historyId)}
+                press={pressMenu}
               />
             )}
           </View>
