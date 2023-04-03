@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
-    padding: 10,
+    padding: 5,
     gap: 10,
   },
   route: {
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 20,
     alignItems: 'center',
-    paddingRight: 40,
   },
   time: {
     fontSize: 22,
