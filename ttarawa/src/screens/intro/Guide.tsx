@@ -49,7 +49,6 @@ export default function Guide({ navigation }) {
   useEffect(() => {
     const getAccessToken = async () => {
       const token = await getToken()
-      console.log(token)
       setToken(token)
     }
     getAccessToken()

@@ -50,8 +50,7 @@ export default function Recom({ navigation }) {
     user
       .fetchProfile()
       .then((res) => {
-        const { nickname, badgeName, totalDistance, profile } = res
-        setUserInfo({ nickname, badgeName, totalDistance, profile })
+        setUserInfo(res)
       })
       .catch((err) => console.log(err))
 

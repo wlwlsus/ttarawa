@@ -13,7 +13,6 @@ export default function Login({ navigation }) {
   useEffect(() => {
     const getAccessToken = async () => {
       const token = await getToken()
-      console.log(token)
       setToken(token)
     }
     getAccessToken()

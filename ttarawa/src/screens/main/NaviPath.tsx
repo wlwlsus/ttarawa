@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, Pressable } from 'react-native'
 import { useState, useRef, useEffect } from 'react'
 import { color, styles } from '@styles/GlobalStyles'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
@@ -8,6 +8,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 
 import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
+import TimerModal from '@components/main/TimerModal'
 import Categories from '@components/main/Categories'
 import Button from '@components/common/Button'
 
@@ -19,11 +20,34 @@ export default function NaviPath({ route }) {
 
   const [markerList, setMarkerList] = useRecoilState(markerListState)
 
+  // 따릉 타이머
+  const [modalVisible, setModalVisible] = useState(false)
+  const [time, setTime] = useState(0)
+  const [ttime, setTTime] = useState(0)
+  const handleModalVisible = () => {
+    setModalVisible(!modalVisible)
+  }
+
+  const handleSetTime = (newTime) => {
+    setTime(newTime)
+    setModalVisible(false)
+  }
+
+  const cancleTime = () => {
+    setModalVisible(false)
+  }
+
   return (
     <SafeAreaView style={[styles.androidSafeArea, navi.container]}>
-      <NaviTimer />
+      <NaviTimer time={time} onpress={handleModalVisible} />
 
       <Categories style={navi.categories} route={route} />
+
+      <TimerModal
+        modalVisible={modalVisible}
+        handleSetTime={handleSetTime}
+        cancleTime={cancleTime}
+      />
 
       {resultData && (
         <MapView
@@ -63,7 +87,7 @@ export default function NaviPath({ route }) {
           />
         </MapView>
       )}
-      <NaviBottom />
+      <NaviBottom time={ttime} />
     </SafeAreaView>
   )
 }

@@ -48,8 +48,9 @@ export const myPage = StyleSheet.create({
   },
 
   userImg: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    height: '100%',
+    borderRadius: 100,
   },
 
   userContainer: {
@@ -62,6 +63,13 @@ export const myPage = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'space-around',
+  },
+
+  addPhoto: {
+    position: 'absolute',
+    zIndex: 999,
+    bottom: 10,
+    right: 15,
   },
 
   rank: {
