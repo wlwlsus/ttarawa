@@ -9,6 +9,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
 import Categories from '@components/main/Categories'
+import Button from '@components/common/Button'
 
 export default function NaviPath({ route }) {
   // props로 넘긴 데이터 받기
@@ -21,7 +22,9 @@ export default function NaviPath({ route }) {
   return (
     <SafeAreaView style={[styles.androidSafeArea, navi.container]}>
       <NaviTimer />
-      <Categories style={navi.categories} />
+
+      <Categories style={navi.categories} route={route} />
+
       {resultData && (
         <MapView
           style={navi.container}
