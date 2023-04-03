@@ -1,0 +1,13 @@
+cloud:
+  aws:
+    s3:
+      bucket:
+        ttarawa-bucket
+    credentials:
+      access-key: AKIA3ISE2FEXDNMGD44Q
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      false
