@@ -9,7 +9,6 @@ import * as ImagePicker from 'expo-image-picker'
 import user from '@services/user'
 import axios from 'axios'
 import { getToken } from '~/utils/apiRequest'
-import * as ImageManipulator from 'expo-image-manipulator'
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useRecoilState(userState)
@@ -37,23 +36,26 @@ export default function UserProfile() {
     }
 
     // 이미지 업로드
-
-    const resizedImage = await ImageManipulator.manipulateAsync(
-      result.assets[0].uri,
-      [{ resize: { width: 300 } }],
-      { compress: 0.7, format: 'jpeg' },
-    )
-
     const img = result.assets[0]
     const formData = new FormData()
 
+    // formData.append('image', {
+    //   uri: img.uri,
+    //   type: img.type,
+    //   name: img.fileName,
+    // })
+
     formData.append('image', {
-      uri: resizedImage,
-      type: img.type,
-      name: img.fileName,
+      uri: img.uri,
+      name: `${img.fileName}.jpg`,
+      type: 'image/jpeg',
     })
 
     const token = await getToken()
+
+    console.log('??')
+
+    console.log(formData)
 
     const res = await axios.put(
       'http://j8a605.p.ssafy.io/api/v1/user/profile',
