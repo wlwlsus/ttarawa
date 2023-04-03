@@ -6,7 +6,6 @@ import MapHeader from '@components/main/MapHeader'
 import MapCard from '@components/main/MapCard'
 import { MaterialIcons } from '@expo/vector-icons'
 
-// import InitPath from '@utils/map/InitPath'
 import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathState } from '@store/atoms'
@@ -15,6 +14,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'
+
 
 export default function SearchPath({ navigation }) {
   // 출발지 정보 가져오기

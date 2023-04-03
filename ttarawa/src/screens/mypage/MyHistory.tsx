@@ -1,4 +1,4 @@
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 import FeedCard from '@components/common/FeedCard'
 
@@ -10,7 +10,10 @@ import user from '@services/user'
 import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
 
-interface SnsData {
+import { useRecoilState } from 'recoil'
+import { historyParams } from '@store/atoms'
+
+interface FeedData {
   historyId: number
   image: string // 주행기록
   personal: number | boolean // 공개여부
@@ -21,16 +24,20 @@ interface SnsData {
   content: string // 내용
 }
 
-export default function SnsCard() {
-  const [dataLst, setDataLst] = useState<SnsData[]>([])
+export default function MyHistory() {
+  const [dataLst, setDataLst] = useState<FeedData[]>([])
   const [modalVisible, setModalVisible] = useState(false)
-  const { saveLike, deleteLike, updatePost } = snsaxios
+  const [selectedHistoryId, setSelectedHistoryId] = useState(null)
+  const { saveLike, deleteLike, updatePost, deletePost } = snsaxios
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [contentText, setContentText] = useState('')
 
   useEffect(() => {
     // axios
     user.fetchRide(0).then((res) => {
       // console.log(res)
-      const newData: SnsData[] = res.map((data) => {
+      if (!res) return
+      const newData: FeedData[] = res.map((data) => {
         return {
           ...data,
           isMyFavorite: data.isMyFavorite === 1 ? true : false,
@@ -39,6 +46,7 @@ export default function SnsCard() {
       })
       setDataLst(newData)
     })
+    setModalVisible(false)
   }, [])
 
   const pressLike = (key: number) => {
@@ -53,7 +61,7 @@ export default function SnsCard() {
     // 위의 axios 함수 불러옴.
     axios
       .then(() => {
-        const updateData: SnsData[] = dataLst.map((data) => {
+        const updateData: FeedData[] = dataLst.map((data) => {
           if (data.historyId === key) {
             return {
               ...data,
@@ -81,7 +89,7 @@ export default function SnsCard() {
 
     updatePost(key, personalNum, check.content)
       .then((res) => {
-        const updateData: SnsData[] = dataLst.map((data) => {
+        const updateData: FeedData[] = dataLst.map((data) => {
           if (data.historyId === key) {
             return {
               ...data,
@@ -95,44 +103,110 @@ export default function SnsCard() {
       .catch((err) => console.log(err))
   }
 
+  // 수정하기 클릭
+  const pressUpdate = (key: number) => {
+    const check = dataLst.find((data) => data.historyId === key)
+    setModalVisible(false)
+    setIsEditMode(true) // 수정모드 on
+    setContentText(check.content) // contentText 저장
+  }
+
+  // 내용 수정하기
+  const editContent = (key: number) => {
+    const check = dataLst.find((data) => data.historyId === key)
+
+    const personalNum = check?.personal ? 1 : 0
+
+    updatePost(key, personalNum, contentText)
+      .then(() => {
+        Keyboard.dismiss()
+        setIsEditMode(false)
+
+        const updateData: FeedData[] = dataLst.map((data) => {
+          if (data.historyId === key) {
+            return {
+              ...data,
+              content: contentText,
+            }
+          }
+          return data
+        })
+        setDataLst(updateData)
+      })
+      .catch((err) => console.log(err))
+  }
+
+  // 수정하기 취소
+  const closeEdit = () => {
+    setIsEditMode(false)
+  }
+
+  // 삭제하기
+  const pressDelete = (key: number) => {
+    deletePost(key)
+      .then(() => {
+        setDataLst(dataLst.filter((item) => item.historyId !== key))
+        setModalVisible(false)
+      })
+      .catch((err) => console.log(err))
+  }
+
+  const pressShare = (key: number) => {
+    console.log('공유')
+    setModalVisible(false)
+  }
+
   // 하단 네브바 생성
-  const pressMenu = () => {
+  const pressMenu = (key: number) => {
+    setSelectedHistoryId(key)
     setModalVisible(true)
   }
 
   return (
     <View style={sns.container}>
-      <FlatList
-        data={dataLst}
-        renderItem={({ item }) => {
-          const distance = convertToKm(item.distance)
-          const time = convertToTime(item.time)
+      {dataLst && (
+        <FlatList
+          data={dataLst}
+          renderItem={({ item }) => {
+            const distance = convertToKm(item.distance)
+            const time = convertToTime(item.time)
 
-          return (
-            <FeedCard
-              historyId={item.historyId}
-              imagePath={item.image}
-              isLock={item.personal}
-              pressLock={pressLock}
-              likes={item.favoritesCount}
-              isLike={item.isMyFavorite}
-              pressLike={pressLike}
-              distence={distance}
-              time={time}
-              content={item.content}
-              pressMenu={pressMenu}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.historyId.toString()}
-        // 스크롤 감추기
-        showsVerticalScrollIndicator={false}
-        pagingEnabled={true}
-      />
+            return (
+              <FeedCard
+                imagePath={item.image}
+                isLock={item.personal}
+                pressLock={() => pressLock(item.historyId)}
+                likes={item.favoritesCount}
+                isLike={item.isMyFavorite}
+                pressLike={() => pressLike(item.historyId)}
+                distence={distance}
+                time={time}
+                content={item.content}
+                pressMenu={() => pressMenu(item.historyId)}
+                isEditMode={isEditMode}
+                contentText={contentText}
+                setContentText={setContentText}
+                closeEdit={closeEdit}
+                editContent={() => editContent(item.historyId)}
+              />
+            )
+          }}
+          keyExtractor={(item) => item.historyId.toString()}
+          // 스크롤 감추기
+          showsVerticalScrollIndicator={false}
+          pagingEnabled={true}
+        />
+      )}
       <BottomSheet
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        children={<HistoryMenu />}
+        children={
+          <HistoryMenu
+            pressUpdate={() => pressUpdate(selectedHistoryId)}
+            pressDelete={() => pressDelete(selectedHistoryId)}
+            pressShare={() => pressShare(selectedHistoryId)}
+          />
+        }
       />
     </View>
   )

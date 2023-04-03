@@ -1,4 +1,12 @@
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import Label from '@components/common/Label'
 import IconButton from '@components/common/IconButton'
@@ -7,7 +15,6 @@ import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 
 interface Props {
-  historyId: number
   // User Info
   userName?: string
   userImg?: string
@@ -20,7 +27,7 @@ interface Props {
 
   // 공개 여부
   isLock?: number | boolean
-  pressLock: (params: any) => any | undefined // 공개, 비공개 전환 함수
+  pressLock?: (params: any) => any // 공개, 비공개 전환 함수
 
   // 좋아요
   likes: number // 좋아요 수
@@ -38,11 +45,14 @@ interface Props {
 
   // 내용
   content: string
+  isEditMode?: boolean
+  contentText: string
+  setContentText?: (params: string) => any
+  editContent?: (params: any) => any
+  closeEdit?: (params: any) => any
 }
 
 export default function FeedCard({
-  historyId,
-
   userName,
   userImg,
   rank,
@@ -63,10 +73,12 @@ export default function FeedCard({
   time,
 
   content,
+  contentText,
+  isEditMode,
+  setContentText,
+  editContent,
+  closeEdit,
 }: Props) {
-  // 내용 띄어쓰기를 위한
-  const contentText = content?.replace(/(!!|\?|\.)/g, '$&\n')
-
   const distanceText = `주행 거리 : ${distence}`
   const timeText = `주행 시간 : ${time}`
 
@@ -101,9 +113,7 @@ export default function FeedCard({
                   <Fontisto name="unlocked" size={24} color="black" />
                 )
               }
-              press={() => {
-                pressLock(historyId)
-              }}
+              press={pressLock}
             />
           </View>
         )}
@@ -121,9 +131,7 @@ export default function FeedCard({
                   color={isLike ? 'crimson' : 'black'} // 좋아요 누르면, 색 변환
                 />
               }
-              press={() => {
-                pressLike(historyId)
-              }} // 누르면, true <-> false 함수
+              press={pressLike} // 누르면, true <-> false 함수
             />
             <Text style={styles.likeNum}>{likes}명</Text>
             <Text style={styles.contentText}>
@@ -167,9 +175,57 @@ export default function FeedCard({
         </View>
 
         {/* 내용 */}
-        <Text ellipsizeMode="tail" numberOfLines={5} style={styles.cardText}>
-          {contentText}
-        </Text>
+        {!isEditMode ? (
+          <Text ellipsizeMode="tail" numberOfLines={5} style={styles.cardText}>
+            {content}
+          </Text>
+        ) : (
+          <>
+            <TextInput
+              // placeholder={content}
+              style={{
+                borderWidth: 1,
+                borderColor: color.gray,
+                borderRadius: 10,
+                width: '100%',
+                fontSize: 16,
+              }}
+              numberOfLines={10}
+              value={contentText}
+              onChangeText={(payload: string) => setContentText(payload)}
+            />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity
+                onPress={closeEdit}
+                style={{
+                  backgroundColor: color.lightGray,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                }}
+              >
+                <Text style={{ fontSize: 15, color: color.black }}>취소</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={editContent}
+                style={{
+                  backgroundColor: color.primary,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                }}
+              >
+                <Text style={{ fontSize: 15, color: color.white }}>저장</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </View>
   )
