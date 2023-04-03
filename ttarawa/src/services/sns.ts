@@ -27,9 +27,13 @@ const fetchPostRecom = async (
 
 // POST Request
 // 게시물 저장
-const savePost = async (image: FormData, content: object): Promise<object> => {
+const savePost = async (content: FormData): Promise<object> => {
   return await apiRequest
-    .post(`history/post`, { image, historyReqDto: content })
+    .post(`history/post`, content, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     .then((res) => {
       return Promise.resolve(res.data.message)
     })
