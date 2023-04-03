@@ -32,6 +32,7 @@ export const login = StyleSheet.create({
   loginContainer: {
     flex: 1,
     backgroundColor: color.primary,
+    paddingHorizontal: 20,
   },
   headBox: {
     paddingVertical: 50,
@@ -43,6 +44,7 @@ export const login = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     padding: 10,
+    lineHeight: 40,
   },
   headLogo: {
     alignSelf: 'center',
@@ -127,9 +129,10 @@ export const guide = StyleSheet.create({
     paddingTop: 240,
   },
   socialLogin: {
-    backgroundColor: color.white,
     position: 'absolute',
-    bottom: 100,
+    bottom: 80,
+    alignSelf: 'center',
+    width: '100%',
   },
   back: {
     backgroundColor: color.white,

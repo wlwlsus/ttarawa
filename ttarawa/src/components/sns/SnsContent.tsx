@@ -38,7 +38,7 @@ export default function SnsContent() {
   const getData = (params: string, page: number) => {
     fetchPost(params, page)
       .then((res) => {
-        const newData: SnsData[] = res.map((data) => {
+        const newData: SnsData[] = res?.map((data) => {
           return {
             ...data,
             isMyFavorite: data.isMyFavorite === 1 ? true : false,

@@ -38,7 +38,7 @@ export default function NaviPath({ route }) {
           <Marker coordinate={depart} title="출발" pinColor={color.red} />
           <Marker coordinate={destin} title="도착" pinColor={color.red} />
 
-          {markerList.map((marker) => (
+          {markerList?.map((marker) => (
             <Marker
               key={marker.spotId}
               coordinate={{

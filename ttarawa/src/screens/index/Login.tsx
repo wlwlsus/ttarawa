@@ -1,48 +1,47 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
 import { login } from '@styles/index'
-import IconButton from '@components/common/IconButton'
+import LoginIcon from '@components/index/LoginIcon'
+import { getToken } from '@utils/apiRequest'
+import { useEffect, useState } from 'react'
+import Button from '@components/common/Button'
+import { color } from '@styles/GlobalStyles'
 
 export default function Login({ navigation }) {
   const imgSrc = require('@assets/ttarawa/profile.png')
-  const kakao = require('@assets/ttarawa/kakao.png')
-  const naver = require('@assets/ttarawa/naver.png')
-  const google = require('@assets/ttarawa/google.png')
+  const [token, setToken] = useState(null)
 
-  // login 기능 넣기
-  const toLogin = (socialType: string) => {
-    navigation.navigate('SocialLogin', { data: socialType })
-  }
+  useEffect(() => {
+    const getAccessToken = async () => {
+      const token = await getToken()
+      console.log(token)
+      setToken(token)
+    }
+    getAccessToken()
+  }, [])
 
   return (
     <SafeAreaView style={login.loginContainer}>
       <View style={login.headBox}>
         <Image style={login.headLogo} source={imgSrc} />
-        <Text style={login.headText}>따릉이와 함께하는 떠나는 따릉이 여행</Text>
-        <Text style={login.headText}>지금 시작하세요</Text>
+        <Text style={login.headText}>
+          따릉이와 함께하는 떠나는 따릉이 여행 {'\n'} 지금 시작하세요
+        </Text>
       </View>
-      <View style={login.loginBox}>
-        <IconButton
-          icon1={<Image style={login.loginLogo} source={kakao} />}
-          nonShadow={true}
-          press={() => {
-            toLogin('kakao')
+
+      {/* 토큰이 있으면 시작하기, 없으면 로그인 버튼 */}
+      {token ? (
+        <Button
+          type="large"
+          text="여행하기"
+          press={() => navigation.navigate('Recom')}
+          style={{
+            container: { backgroundColor: color.secondary },
+            txt: { color: color.primary },
           }}
         />
-        <IconButton
-          icon1={<Image style={login.loginLogo} source={naver} />}
-          nonShadow={true}
-          press={() => {
-            toLogin('naver')
-          }}
-        />
-        <IconButton
-          icon1={<Image style={login.loginLogo} source={google} />}
-          nonShadow={true}
-          press={() => {
-            toLogin('google')
-          }}
-        />
-      </View>
+      ) : (
+        <LoginIcon navigation={navigation} />
+      )}
     </SafeAreaView>
   )
 }

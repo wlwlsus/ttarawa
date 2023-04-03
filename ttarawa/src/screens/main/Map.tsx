@@ -76,7 +76,7 @@ export default function Map({ navigation }) {
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
           >
-            {markerList.map((marker, index) => (
+            {markerList?.map((marker, index) => (
               <View key={index} style={map.cardContainer}>
                 <MapCard
                   children={
