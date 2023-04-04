@@ -1,36 +1,49 @@
-import { View, SafeAreaView, ScrollView, Dimensions, Text } from 'react-native'
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  FlatList,
+} from 'react-native'
 import GuideCard from '~/components/card/GuideCard'
 import { color } from '@styles/GlobalStyles'
 import { Octicons } from '@expo/vector-icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { guide } from '@styles/index'
+import LoginIcon from '@components/index/LoginIcon'
+import { getToken } from '@utils/apiRequest'
+import Button from '@components/common/Button'
 
 const cardContent: { id: number; content: string }[] = [
-  { id: 0, content: '목적지를 입력해 여행 경로를 추천 받아요' },
+  { id: 0, content: '나에게 꼭 맞는 여행 경로를 추천 받아요' },
   {
     id: 1,
-    content:
-      '힘들면 잠시 멈춰 근처 쉴 곳을 확인하세요 \n 반납 장소, 카페, 음식점, 관광지 ...',
+    content: '추천 경로와 예상 시간을 확인해보세요',
   },
   {
     id: 2,
+    content: '힘들면 잠시 멈춰 근처 쉴 곳을 확인하세요',
+  },
+  {
+    id: 3,
     content:
       '다른 사람들과 경로를 공유하고 \n 다른 사람들의 경로를 직접 달려보세요',
   },
   {
-    id: 3,
-    content: '주행 거리에 따라 뱃지를 수집해보세요 \n 뱃지에 대한 멘트 써주셈',
+    id: 4,
+    content: '주행 거리에 따라 나만의 뱃지를 수집해보세요',
   },
   {
-    id: 4,
+    id: 5,
     content: '따옹이와 함께하는 따릉이 여행 \n 지금 시작하세요',
   },
 ]
 
 const PAGE_HEIGHT = Dimensions.get('window').height // 페이지 높이
 
-export default function Guide() {
+export default function Guide({ navigation }) {
   const [index, setIndex] = useState(0)
+  const [token, setToken] = useState(null)
 
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y
@@ -42,6 +55,14 @@ export default function Guide() {
     return idx === index ? 'dot-fill' : 'dot'
   }
 
+  useEffect(() => {
+    const getAccessToken = async () => {
+      const token = await getToken()
+      setToken(token)
+    }
+    getAccessToken()
+  }, [])
+
   return (
     <SafeAreaView style={guide.container}>
       <View style={guide.index}>
@@ -51,26 +72,36 @@ export default function Guide() {
         <Octicons name={dotIndex(3)} size={24} color={color.secondary} />
         <Octicons name={dotIndex(4)} size={24} color={color.secondary} />
       </View>
-      <ScrollView
+
+      <FlatList
         onScroll={handleScroll}
-        showsVerticalScrollIndicator={false}
-        pagingEnabled
-        style={guide.scroll}
-      >
-        {cardContent.map((item) => (
-          <GuideCard key={item.id} index={item.id} content={item.content} />
-        ))}
-      </ScrollView>
-      {index === 4 ? (
+        data={cardContent}
+        renderItem={({ item }) => {
+          return (
+            <GuideCard key={item.id} index={item.id} content={item.content} />
+          )
+        }}
+        // showsVerticalScrollIndicator={false}
+        pagingEnabled={true}
+        // contentContainerStyle={guide.scroll}
+      />
+      {index === 5 ? (
         <View style={guide.socialLogin}>
-          <Text>
-            토큰이 있으면 소셜로그인 버튼 띄우지 말고 소셜이 없으면 띄우기
-          </Text>
+          {token ? (
+            <Button
+              type="large"
+              text="시작하기"
+              press={() => navigation.navigate('Recom')}
+              style={{
+                container: { backgroundColor: color.secondary },
+                txt: { color: color.primary },
+              }}
+            />
+          ) : (
+            <LoginIcon navigation={navigation} />
+          )}
         </View>
       ) : null}
-      {/* { 토큰이 있으면 ? <View style={guide.back}>
-          <Text>돌아가기</Text>
-        </View>:null} */}
     </SafeAreaView>
   )
 }

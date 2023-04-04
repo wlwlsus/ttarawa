@@ -194,7 +194,6 @@ export default function MyHistory() {
           keyExtractor={(item) => item.historyId.toString()}
           // 스크롤 감추기
           showsVerticalScrollIndicator={false}
-          pagingEnabled={true}
         />
       )}
       <BottomSheet

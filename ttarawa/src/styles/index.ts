@@ -32,6 +32,7 @@ export const login = StyleSheet.create({
   loginContainer: {
     flex: 1,
     backgroundColor: color.primary,
+    paddingHorizontal: 20,
   },
   headBox: {
     paddingVertical: 50,
@@ -43,6 +44,7 @@ export const login = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     padding: 10,
+    lineHeight: 40,
   },
   headLogo: {
     alignSelf: 'center',
@@ -115,7 +117,7 @@ export const guide = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.primary,
-    paddingHorizontal: 40,
+    // paddingHorizontal: 40,
     position: 'relative',
   },
   index: {
@@ -124,12 +126,14 @@ export const guide = StyleSheet.create({
     left: 30,
   },
   scroll: {
-    paddingTop: 240,
+    marginTop: 20,
   },
   socialLogin: {
-    backgroundColor: color.white,
     position: 'absolute',
-    bottom: 100,
+    bottom: 80,
+    alignSelf: 'center',
+    width: '100%',
+    paddingHorizontal: 40,
   },
   back: {
     backgroundColor: color.white,

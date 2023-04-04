@@ -2,7 +2,6 @@ import { View, Text } from 'react-native'
 import { useState, useEffect } from 'react'
 import Button from '@components/common/Button'
 
-import { map } from '@styles/main'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { markerListState } from '~/store/atoms'
 
@@ -12,10 +11,12 @@ import { departState } from '@store/atoms'
 
 import getRentalSpot from '@utils/getRentalSpot'
 
-export default function Categories({ style }) {
+export default function Categories({ style, route }) {
   const [pressed, setPressed] = useState<number>(0)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const depart = useRecoilValue(departState)
+
+  const hideMark = route?.name // NaviPath가 아니면 숨기기
 
   // 눌린 버튼 스타일
   const isPressed = {
@@ -81,6 +82,15 @@ export default function Categories({ style }) {
         type="tab"
         press={() => setPressed(4)}
       />
+      {hideMark && (
+        <Button
+          text="숨기기"
+          type="tab"
+          press={() => {
+            setMarkerList([]), setPressed(5)
+          }}
+        />
+      )}
     </View>
   )
 }

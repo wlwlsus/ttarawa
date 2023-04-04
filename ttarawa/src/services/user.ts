@@ -50,13 +50,14 @@ const updateNickname = async (nickname: string): Promise<object> => {
     .catch((err) => Promise.reject(err.data))
 }
 
-const updateProfile = async (image: FormData): Promise<object> => {
+const updateProfile = async (formData: FormData): Promise<object> => {
+  const headers = { 'content-type': 'multipart/form-data' }
   return await apiRequest
-    .put(`user/profile`, { image })
+    .put(`user/profile`, formData, { headers })
     .then((res) => {
-      return Promise.resolve(res.data.message)
+      return Promise.resolve(res.data)
     })
-    .catch((err) => Promise.reject(err.data))
+    .catch((err) => Promise.reject(err))
 }
 
 // DELETE Request

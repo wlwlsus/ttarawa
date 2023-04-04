@@ -1,5 +1,5 @@
-import { Modal, Pressable, Text, View } from 'react-native'
-import React, { useRef } from 'react'
+import { Modal, Pressable, Text, View, Image } from 'react-native'
+import { useRef } from 'react'
 import { color } from '@styles/GlobalStyles'
 import ViewShot, { captureRef } from 'react-native-view-shot'
 import Road from '@screens/main/Road'
@@ -73,7 +73,6 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     return totalDistance
   }
   // 캡쳐
-
   const uploadHistoryData = async () => {
     const imageUri = await captureRef(viewShotRef, {
       format: 'jpg',
@@ -131,30 +130,29 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
       statusBarTranslucent
     >
       <Pressable style={styles.modalContainer}>
-        <View
-          style={{
-            height: '70%',
-            width: '90%',
-            backgroundColor: color.white,
-            borderRadius: 10,
-          }}
-        >
+        <View style={[styles.contentContainer, styles.shadow]}>
+          <Image
+            resizeMode="contain"
+            style={styles.logo}
+            source={require('@assets/ttarawa/logo.png')}
+          />
+          <Text style={styles.title}>여행을 마치시겠습니까?</Text>
+          <Text style={styles.subTitle}>
+            현재까지 주행한 경로가 저장됩니다.
+          </Text>
           <ViewShot
             ref={viewShotRef}
             options={{ format: 'jpg', quality: 0.9 }}
-            style={{ width: 500, height: 500 }}
+            style={styles.viewShot}
           >
             <Road />
           </ViewShot>
-          <Text style={styles.modalButton} onPress={() => uploadHistoryData()}>
-            저장
-          </Text>
+        </View>
 
-          <Text style={styles.modalButton} onPress={() => cancleModal()}>
+        <View style={[styles.buttonContainer, styles.shadow]}>
+          <Text style={styles.cancel} onPress={() => cancleModal()}>
             취소
           </Text>
-
-          <Text style={styles.modalButton} onPress={() => cancleModal()}></Text>
         </View>
       </Pressable>
     </Modal>
@@ -168,10 +166,69 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalButton: {
-    backgroundColor: 'lightblue',
-    padding: 10,
+  logo: {
+    alignSelf: 'flex-end',
     margin: 10,
+    width: 100,
+    height: 50,
+  },
+  contentContainer: {
+    height: '60%',
+    width: '90%',
+    backgroundColor: color.white,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  buttonContainer: {
+    height: '8%',
+    width: '90%',
+    backgroundColor: color.white,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  subTitle: {
+    fontSize: 17,
+    textAlign: 'center',
+  },
+  viewShot: {
+    width: '100%',
+    height: '80%',
+  },
+  cancel: {
+    flex: 1,
+    fontSize: 30,
+    textAlign: 'center',
+    backgroundColor: color.secondary,
+    color: color.gray,
+    borderBottomLeftRadius: 10,
+    lineHeight: 60,
+  },
+  confirm: {
+    flex: 1,
+    backgroundColor: color.primary,
+    fontSize: 30,
+    textAlign: 'center',
+    color: color.white,
+    borderBottomRightRadius: 10,
+    lineHeight: 60,
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 }
 
