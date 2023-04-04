@@ -53,13 +53,12 @@ export default function NaviPath({ route, navigation }) {
           ...prevData,
           { longitude: longitude, latitude: latitude },
         ])
-        console.log('getLOCATION')
       },
     )
     setWatcher(watcher)
     return watcher
   }
-  // // 시작 시 실행
+  // 시작 시 실행
   useEffect(() => {
     startLocationTracking()
   }, [])
@@ -77,7 +76,7 @@ export default function NaviPath({ route, navigation }) {
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
   const [time, setTime] = useState(0)
-  const [ttime, setTTime] = useState(0)
+  const [ttime, setTTime] = useState(0) // total time
   const handleModalVisible = () => {
     setModalVisible(!modalVisible)
   }
