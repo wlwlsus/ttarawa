@@ -119,9 +119,11 @@ export const myPage = StyleSheet.create({
 
 export const mylikes = StyleSheet.create({
   cardContainer: {
+    justifyContent: 'space-between',
+    paddingRight: 35,
     flex: 1,
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 5,
     marginHorizontal: 10,
     marginVertical: 5,
     flexDirection: 'row',
@@ -139,12 +141,11 @@ export const mylikes = StyleSheet.create({
   img: {
     width: 180,
     height: '100%',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   contentContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
     gap: 10,
     paddingVertical: 10,
   },
