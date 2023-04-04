@@ -26,7 +26,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.jsdckj.ttarawa.history.DistanceUtils.manhattanDistance;
-import static com.jsdckj.ttarawa.history.DistanceUtils.toCoordinate;
 
 @Service
 @Transactional
@@ -130,14 +129,9 @@ public class HistoryServiceImpl implements HistoryService {
 		Map<Long, Double> distances = new HashMap<>();
 		for (History history : sortedHistory) {
 			Long historyId = history.getHistoryId();
-			String startAddress = history.getStartAddress();
-			Map<String, String> addressToCoordinate = toCoordinate(startAddress);
 
-			if (addressToCoordinate == null) {
-				continue;
-			}
 
-			double dist = DistanceUtils.getDistance(lat, lng, Double.parseDouble(addressToCoordinate.get("y")), Double.parseDouble(addressToCoordinate.get("x")));
+			double dist = DistanceUtils.getDistance(lat, lng, history.getStartLat(),history.getStartLng());
 
 			distances.put(historyId, dist);
 

@@ -50,8 +50,10 @@ public interface HistoryService {
 				.distance(history.getDistance())
 				.image(history.getImage())
 				.content(history.getContent())
-				.startAddress(history.getStartAddress())
-				.endAddress(history.getEndAddress())
+				.startLat(history.getStartLat())
+				.startLng(history.getStartLng())
+				.endLat(history.getEndLat())
+				.endLng(history.getEndLng())
 				.isMyHistory(userId == history.getUsers().getUsersId() ? 1 : 0)
 				.build();
 
@@ -80,8 +82,10 @@ public interface HistoryService {
 				.time(historyInfoDto.getTime())
 				.distance(historyInfoDto.getDistance())
 				.content(historyInfoDto.getContent())
-				.startAddress(historyInfoDto.getStartAddress())
-				.endAddress(historyInfoDto.getEndAddress())
+				.startLat(historyInfoDto.getStartLat())
+				.startLng(historyInfoDto.getStartLng())
+				.endLat(historyInfoDto.getEndLat())
+				.endLng(historyInfoDto.getEndLng())
 				.image(url)
 				.usersId(currentUser.getUsersId())
 				.build();
