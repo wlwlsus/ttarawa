@@ -14,7 +14,7 @@ def create_recommendation():
         lng = float(data.get("lng"))
         min_distance = int(data.get("min_distance", 0))
         max_distance = int(data.get("max_distance", 1))
-        num_destinations = int(data.get("num_destinations", 14))
+        num_destinations = int(data.get("num_destinations", 10))
         user_info = int(data.get("user_info", 0))
 
         # Query Parameter

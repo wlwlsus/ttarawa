@@ -95,104 +95,25 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
                           columns=['tour_id', 'address', 'category', 'lat', 'lng', 'mid_category', 'name', 'rating',
                                    'reviews', 'search', 'sub_category'])
 
-        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']), axis=1)
+        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']),
+                             axis=1)
         df['distances'] = distances
         nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
                 df['reviews'] >= 5)]
-
-        # 같은 sub_category를 최대 2개까지 선택
-        sub_category_counts = nearby_destinations['sub_category'].value_counts()
-        selected_destinations = pd.DataFrame(columns=nearby_destinations.columns)
-        for sub_category in sub_category_counts.index:
-            sub_category_destinations = nearby_destinations[nearby_destinations['sub_category'] == sub_category][:2]
-            selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
-
-        # sub_category가 제외된 추천 목적지 리스트에서 검색 거리순으로 정렬하여 반환
-        if len(selected_destinations) < num_destinations:
-            # 목적지 개수가 부족하면 min_distance와 max_distance 범위를 늘려가면서 추가로 추출
-            while len(selected_destinations) < num_destinations:
-                max_distance += 0.5
-                nearby_destinations = df[
-                    (distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
-                            df['reviews'] >= 5)]
-                sub_category_counts = nearby_destinations['sub_category'].value_counts()
-                for sub_category in sub_category_counts.index:
-                    sub_category_destinations = nearby_destinations[
-                                                    nearby_destinations['sub_category'] == sub_category][:2]
-                    selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
-                    if len(selected_destinations) >= num_destinations:
-                        break
-                # if max_distance > 10:  # max_distance가 10km 이상이면 중지
-                #     break
-
-        nearby_destinations = selected_destinations.iloc[:num_destinations].sort_values(by='search', ascending=False)
+        shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:4]
+        other_destinations = nearby_destinations[nearby_destinations['mid_category'] != '쇼핑']
+        nearby_destinations = pd.concat([shopping_destinations, other_destinations])
+        nearby_destinations = nearby_destinations.sort_values(by='search', ascending=False).iloc[:num_destinations]
         return nearby_destinations
-    except Exception as e:
-        print(f'Flask Server Error : {e}')
-        abort(500, str(e))
-
-
-def get_destinations(lat, lng, min_distance=0, max_distance=1, num_destinations=10):
-    try:
-        tours = Tour.query.with_entities(
-            Tour.tour_id, Tour.address, Tour.category, Tour.lat, Tour.lng,
-            Tour.mid_category, Tour.name, Tour.rating, Tour.reviews,
-            Tour.search, Tour.sub_category
-        ).all()
-
-        df = pd.DataFrame(tours,
-                          columns=['tour_id', 'address', 'category', 'lat', 'lng', 'mid_category', 'name', 'rating',
-                                   'reviews', 'search', 'sub_category'])
-
-        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']), axis=1)
-        df['distances'] = distances
-        nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
-                df['reviews'] >= 5)]
-
-        # 같은 sub_category를 최대 2개까지 선택
-        sub_category_counts = nearby_destinations['sub_category'].value_counts()
-        selected_destinations = pd.DataFrame(columns=nearby_destinations.columns)
-        for sub_category in sub_category_counts.index:
-            sub_category_destinations = nearby_destinations[nearby_destinations['sub_category'] == sub_category][:2]
-            selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
-
-        # 중복 제거
-        selected_destinations = selected_destinations.drop_duplicates(subset=['tour_id'])
-
-        # sub_category가 제외된 추천 목적지 리스트에서 검색 거리순으로 정렬하여 반환
-        if len(selected_destinations) < num_destinations:
-            # 목적지 개수가 부족하면 min_distance와 max_distance 범위를 늘려가면서 추가로 추출
-            while len(selected_destinations) < num_destinations:
-                max_distance += 0.5
-                nearby_destinations = df[
-                    (distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
-                            df['reviews'] >= 5)]
-                sub_category_counts = nearby_destinations['sub_category'].value_counts()
-                for sub_category in sub_category_counts.index:
-                    sub_category_destinations = nearby_destinations[
-                                                    nearby_destinations['sub_category'] == sub_category][:2]
-                    selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
-                    # 중복 제거
-                    selected_destinations = selected_destinations.drop_duplicates(subset=['tour_id'])
-                    if len(selected_destinations) >= num_destinations:
-                        break
-                if max_distance > 10:  # max_distance가 10km 이상이면 중지
-                    break
-
-        nearby_destinations = selected_destinations.iloc[:num_destinations].sort_values(by='search', ascending=False)
-        return nearby_destinations.to_dict('records')
     except Exception as e:
         print(f'Flask Server Error : {e}')
         abort(500, str(e))
 
 
 def get_recommendations(lat, lng, min_distance=0, max_distance=1, num_destinations=10, user_info=None):
-    if 0 < user_info <= 1:  # 처음 주행하는 사람을 위한 것
-        # nearby_destinations = get_nearby_destinations(lat, lng, min_distance, max_distance, num_destinations)
-        nearby_destinations = get_destinations(lat, lng, min_distance, max_distance, num_destinations)
+    if 0 <= user_info <= 1:
+        nearby_destinations = get_nearby_destinations(lat, lng, min_distance, max_distance, num_destinations)
         return nearby_destinations
-    else:  # 사용자 주행 거리 기반 추천
-        _min = user_info - 0.5
-        _max = user_info + 0.5
-        similar_destinations = get_destinations(lat, lng, _min, _max, num_destinations)
+    else:
+        similar_destinations = get_user_similar_destinations(user_info, lat, lng, num_destinations)
         return similar_destinations
