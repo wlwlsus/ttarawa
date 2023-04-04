@@ -15,8 +15,12 @@ public class HistoryReqDto {
 		private Long time;
 		private Long distance;
 		private String content;
-		private String startAddress;
-		private String endAddress;
+		private double startLat; //lat 위도 lng 경도
+		private double startLng;
+		private double endLat;
+		private double endLng;
 		private MultipartFile image;
+
+
 	}
 }

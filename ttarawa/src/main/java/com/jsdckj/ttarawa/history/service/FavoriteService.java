@@ -29,8 +29,10 @@ public interface FavoriteService {
         .image(history.getImage())
         .distance(history.getDistance())
         .time(history.getTime())
-        .startAddress(history.getStartAddress())
-        .endAddress(history.getEndAddress())
+        .startLat(history.getStartLat())
+        .startLng(history.getStartLng())
+        .endLat(history.getEndLat())
+        .endLng(history.getEndLng())
         .isMyHistory(favorites.getUsers().getUsersId()==history.getUsers().getUsersId() ? 1:0)
         .build();
   }

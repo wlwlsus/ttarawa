@@ -17,9 +17,12 @@ public class FavoriteResDto {
   private String image;
   private Long distance;
   private Long time;
-  private String startAddress;
-  private String endAddress;
+  private double startLat; //lat 위도 lng 경도
+  private double startLng;
+  private double endLat;
+  private double endLng;
   private int isMyHistory;
+
 
 
 
