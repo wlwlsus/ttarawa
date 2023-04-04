@@ -13,10 +13,6 @@ const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
     cancleTime()
   }
 
-  const selectedStyle = {
-    color: color.primary,
-  }
-
   return (
     <Modal
       visible={modalVisible}
