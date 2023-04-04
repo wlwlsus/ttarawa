@@ -62,7 +62,7 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     let prevCoords = locationData[0]
     for (let i = 1; i < locationData.length; i++) {
       const currentCoords = locationData[i]
-      const d = calculateDistance(prevCoords, currentCoords)
+      let d = calculateDistance(prevCoords, currentCoords)
 
       if (d <= 1) {
         d = 0
@@ -152,6 +152,9 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
         <View style={[styles.buttonContainer, styles.shadow]}>
           <Text style={styles.cancel} onPress={() => cancleModal()}>
             취소
+          </Text>
+          <Text style={styles.confirm} onPress={() => uploadHistoryData()}>
+            확인
           </Text>
         </View>
       </Pressable>
