@@ -30,8 +30,10 @@ const EndModal = ({ ttime, modalVisible, cancleModal, navigate }) => {
     formData.append('distance', 1)
     // formData.append('distance', getTotalDistance())
     formData.append('content', '')
-    formData.append('startAddress', 'bb')
-    formData.append('endAddress', 'cc')
+    formData.append('startLat', 123123.11)
+    formData.append('startLng', 1232121.11)
+    formData.append('endLat', 1441.123)
+    formData.append('endLng', 1232.11)
     formData.append('image', imageData)
 
     const token = await AsyncStorage.getItem('token')

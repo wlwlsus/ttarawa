@@ -1,5 +1,5 @@
 import { Modal, Pressable, Text, Image, View } from 'react-native'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { color } from '@styles/GlobalStyles'
 import { FontAwesome } from '@expo/vector-icons'
 const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
@@ -20,7 +20,7 @@ const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
       transparent
       statusBarTranslucent
     >
-      <Pressable style={styles.modalContainer}>
+      <View style={styles.modalContainer}>
         <View style={[styles.contentContainer, styles.shadow]}>
           <Image
             resizeMode="contain"
@@ -68,7 +68,7 @@ const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
             확인
           </Text>
         </View>
-      </Pressable>
+      </View>
     </Modal>
   )
 }
