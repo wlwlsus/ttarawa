@@ -1,18 +1,10 @@
 import { View, Button, SafeAreaView } from 'react-native'
 import { useState, useRef } from 'react'
-import { WebView } from 'react-native-webview'
-import ViewShot, { captureRef } from 'react-native-view-shot'
-import MapView, { Marker, Polyline } from 'react-native-maps'
-
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import { color, styles } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
-
 import { locationListState } from '~/store/atoms'
-import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
-import PathContent from '@components/main/PathContent'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { departState, destinState, pathState } from '@store/atoms'
 
 export default function Road() {
   // recoil에 저장된 위치리스트 가져오기
@@ -30,52 +22,6 @@ export default function Road() {
   }
 
   const viewShotRef = useRef(null)
-
-  // const token =
-  //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLrkZDshozsm5AiLCJ1c2VySWQiOjQxLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjgwNDk2MDE3fQ.kdD7R1ZINNCMVxoUTab85CZGeIEbpnf5m4RMB3fbXd8'
-
-  // const uploadHistoryData = async () => {
-  //     try {
-  //       const imageUri = await captureRef(viewShotRef, {
-  //         format: 'jpg',
-  //         quality: 0.8,
-  //       })
-
-  //       // 파일명 중복 안되게 uuid 로 저장
-  //       const uuid = uuidv4()
-  //       const filename = `${uuid}.jpg`
-  //       const imageData = {
-  //         uri: imageUri,
-  //         type: 'image/jpeg',
-  //         name: filename,
-  //       }
-  //       const formData = new FormData()
-
-  //       formData.append('personal', 0)
-  //       formData.append('time', 0)
-  //       formData.append('distance', getTotalDistance())
-  //       formData.append('content', 'aa')
-  //       formData.append('startAddress', 'bb')
-  //       formData.append('endAddress', 'cc')
-  //       formData.append('image', imageData)
-
-  //       console.log(formData)
-
-  //       const response = await axios.post(SERVER_URL, formData, {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         },
-  //       })
-
-  //       if (response.status === 200) {
-  //         console.log('Image uploaded successfully')
-  //       } else {
-  //         console.error('Failed to upload image')
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to capture or upload image', error)
-  //     }
-  //   }
 
   // 도 단위의 각도를 라디안 단위로 변환하는 함수
   function toRadians(degrees: number): number {
@@ -104,11 +50,9 @@ export default function Road() {
     const d = R * c
     return Math.round(d) // double -> long으로 변환
   }
-
   function getTotalDistance() {
     // 총 거리 계산을 위한 변수
     let totalDistance: number = 0
-
     // 좌표 리스트에서 한 쌍씩 좌표를 선택하여 거리를 계산하고, 총 거리를 계산하는 반복문
     for (let i = 0; i < locationData.length - 3; i += 2) {
       const lat1 = locationData[i + 1]
@@ -119,7 +63,6 @@ export default function Road() {
       if (d < 2) d = 0 // 움직인 거리 1m 이하면 정지 상태(?)
       totalDistance += d // 총 거리 누적
     }
-
     // 총 거리 출력
     console.log(`총 길이: ${totalDistance}m`)
 
@@ -129,13 +72,9 @@ export default function Road() {
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       {
-        // <ViewShot
-        //   ref={viewShotRef}
-        //   options={{ format: 'jpg', quality: 0.9 }}
-        //   style={{ width: 500, height: 500 }}
-        // >
         <MapView
           style={map.container}
+          provider={PROVIDER_GOOGLE}
           initialRegion={{
             latitude: middlePoint.latitude,
             longitude: middlePoint.longitude,
@@ -149,16 +88,7 @@ export default function Road() {
             strokeWidth={5}
           />
         </MapView>
-        // {/* </ViewShot> */}
       }
-
-      {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="캡쳐 후 주행 기록 서버에 저장"
-          onPress={uploadHistoryData}
-        />
-        <Button title="주행 거리 확인" onPress={getTotalDistance} />
-      </View> */}
     </SafeAreaView>
   )
 }

@@ -1,13 +1,13 @@
-import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import { Modal, Pressable, Text, View } from 'react-native'
+import React, { useRef } from 'react'
 import { color } from '@styles/GlobalStyles'
 import ViewShot, { captureRef } from 'react-native-view-shot'
 import Road from '@screens/main/Road'
 import axios from 'axios'
-import sns from '@services/sns'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { v4 as uuidv4 } from 'uuid'
 
-const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
+const EndModal = ({ ttime, modalVisible, cancleModal, navigate }) => {
   // 캡쳐
 
   const uploadHistoryData = async () => {
@@ -27,7 +27,7 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     const formData = new FormData()
 
     formData.append('personal', 1)
-    formData.append('time', time)
+    formData.append('time', ttime)
     formData.append('distance', 1)
     // formData.append('distance', getTotalDistance())
     formData.append('content', '')
@@ -35,16 +35,25 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     formData.append('endAddress', 'cc')
     formData.append('image', imageData)
 
-    sns
-      .savePost(formData)
-      .then((res) => {
-        console.log(res)
-        navigate()
-      })
-      .catch((err) => {
-        console.log(err)
-        console.log(formData)
-      })
+    const token = await AsyncStorage.getItem('token')
+
+    try {
+      const response = await axios.post(
+        'http://j8a605.p.ssafy.io/api/v1/history/post',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      console.log('Response:', response.data)
+      console.log(formData)
+      navigate()
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   const viewShotRef = useRef(null)
@@ -79,10 +88,6 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
           <Text style={styles.modalButton} onPress={() => cancleModal()}>
             취소
           </Text>
-          {/* 
-          <Text style={styles.modalButton} onPress={() => handlePress(time)}>
-            확인
-          </Text> */}
         </View>
       </Pressable>
     </Modal>

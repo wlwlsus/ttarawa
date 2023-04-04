@@ -56,7 +56,6 @@ export default function NaviPath({ route, navigation }) {
       },
     )
     setWatcher(watcher)
-    console.log(locationList)
     return watcher
   }
   // // 시작 시 실행
@@ -146,17 +145,11 @@ export default function NaviPath({ route, navigation }) {
         handleOn={handleEndModalVisible}
       />
       <EndModal
-        time={ttime}
+        ttime={ttime}
         modalVisible={endmodalVisible}
         cancleModal={cancleModal}
         navigate={goProfile}
       />
-      {/* stop={stopLocationTracking} /> */}
-      {/* <EndModal
-        modalVisible={modalVisible}
-        handleSetTime={handleSetTime}
-        cancleTime={cancleTime}
-      /> */}
     </SafeAreaView>
   )
 }
