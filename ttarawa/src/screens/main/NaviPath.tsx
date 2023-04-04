@@ -72,11 +72,14 @@ export default function NaviPath({ route, navigation }) {
       console.log('stop it')
     })
   }
+  // 주행시간 타이머
+  const [ttime, setTTime] = useState(0)
+  const [currentTime, setCurrentTime] = useState(ttime)
 
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
   const [time, setTime] = useState(0)
-  const [ttime, setTTime] = useState(0) // total time
+
   const handleModalVisible = () => {
     setModalVisible(!modalVisible)
   }
@@ -142,11 +145,13 @@ export default function NaviPath({ route, navigation }) {
       )}
       <NaviBottom
         time={ttime}
+        currentTime={currentTime}
+        setCurrentTime={setCurrentTime}
         stop={stopLocationTracking}
         handleOn={handleEndModalVisible}
       />
       <EndModal
-        ttime={ttime}
+        time={currentTime}
         modalVisible={endmodalVisible}
         cancleModal={cancleModal}
         navigate={goProfile}
