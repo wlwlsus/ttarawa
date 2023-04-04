@@ -100,7 +100,7 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
         df['distances'] = distances
         nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
                 df['reviews'] >= 5)]
-        shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:4]
+        shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:1]
         other_destinations = nearby_destinations[nearby_destinations['mid_category'] != '쇼핑']
         nearby_destinations = pd.concat([shopping_destinations, other_destinations])
         nearby_destinations = nearby_destinations.sort_values(by='search', ascending=False).iloc[:num_destinations]
