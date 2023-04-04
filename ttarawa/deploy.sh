@@ -73,7 +73,7 @@ if [ -z ${RUNNING_GREEN} ]
       sleep 10
 
       docker-compose -p app-blue -f docker-compose.blue.yml up -d
-	  
+
     else
       # 8086포트로 어플리케이션 구동
       echo "BLUE:8085 실행 중"

@@ -21,9 +21,12 @@ public class History extends BaseTimeEntity {
   @Column(name = "history_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long historyId;
 
-  @OneToOne
-  @JoinColumn(name = "users_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "users_id", insertable = false, updatable = false)
   private Users users;
+
+  @Column(name="users_id")
+  private Long usersId;
 
   @Column(name = "favorites_count", nullable = false)
   private int favoritesCount;
@@ -43,11 +46,17 @@ public class History extends BaseTimeEntity {
   @Column(name = "content", nullable = true)
   private String content;
 
-  @Column(name = "start_address", nullable = false)
-  private String startAddress;
+  @Column(name="start_lat", nullable = false)
+  private Double startLat;
 
-  @Column(name = "end_address", nullable = false)
-  private String endAddress;
+  @Column(name="start_lng", nullable = false)
+  private Double startLng;
+
+  @Column(name="end_lat", nullable = false)
+  private Double endLat;
+
+  @Column(name="end_lng", nullable = false)
+  private Double endLng;
 
   public void updateHistory(int personal, String content){
     this.personal = personal;

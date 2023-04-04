@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
@@ -18,5 +21,11 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
 	Page<History> findAllByUsers(Users user, Pageable pageable);
 
-	void deleteByHistoryId(Long historyId);
+  List<History> findAllByUsersId(Long userId);
+  @Query("SELECT e FROM History e WHERE e.usersId <> :value")
+  List<History> findAllByUsersIdNotEqual(@Param("value") Long usersId);
+
+//  List<History> findAllByUsersNotE
+
+  void deleteByHistoryId(Long historyId);
 }

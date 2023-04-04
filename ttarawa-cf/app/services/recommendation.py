@@ -33,10 +33,6 @@ def get_user_similar_destinations(user_info, lat, lng, num_destinations=10):
         df = pd.DataFrame(tours,
                           columns=['tour_id', 'address', 'category', 'lat', 'lng', 'mid_category', 'name', 'rating',
                                    'reviews', 'search', 'sub_category'])
-        # 거리 계산
-        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']), axis=1)
-        df['distances'] = distances
-        similar_destinations_indices = distances[distances.between(user_info - 0.5, user_info + 0.5)].index.tolist()
 
         # # 유사도 계산
         # vectors = df.loc[similar_destinations_indices, ['rating', 'reviews', 'search']].values
@@ -44,10 +40,44 @@ def get_user_similar_destinations(user_info, lat, lng, num_destinations=10):
         # similar_destinations_indices = [x for _, x in
         #                                 sorted(zip(similarities[0], similar_destinations_indices), reverse=True)]
 
+        # 거리 계산
+        distances = df.apply(lambda row: haversine(lat, lng, row['lat'], row['lng']), axis=1)
+        df['distances'] = distances
+
+        # 추천 가능한 목적지의 인덱스 리스트 초기화
+        similar_destinations_indices = []
+
+        # 추천 가능한 목적지를 검색 거리순으로 정렬
+        df_sorted_by_search = df.sort_values(by='search', ascending=False)
+
+        # num_destinations 개수만큼 추천 가능한 목적지 선택
+        for i in range(len(df_sorted_by_search)):
+            # 추천 가능한 목적지 개수가 num_destinations 이상이면 반복문 종료
+            if len(similar_destinations_indices) >= num_destinations:
+                break
+
+            # 거리, 검색 거리 모두 범위 내에 있는 목적지의 인덱스를 추천 가능한 목적지 인덱스 리스트에 추가
+            if user_info - 0.5 <= distances[i] <= user_info + 0.5 and df_sorted_by_search.index[
+                i] not in similar_destinations_indices:
+                similar_destinations_indices.append(df_sorted_by_search.index[i])
+
+        # 추천 목적지 개수가 num_destinations 이하인 경우, 범위를 늘려가며 추가 추천
+        while len(similar_destinations_indices) < num_destinations:
+            # 범위 확장
+            user_info += 0.5
+
+            # 거리, 검색 거리 모두 범위 내에 있는 목적지의 인덱스를 추천 가능한 목적지 인덱스 리스트에 추가
+            for i in range(len(df)):
+                if len(similar_destinations_indices) >= num_destinations:
+                    break
+                if distances[i] <= user_info and df_sorted_by_search.index[i] not in similar_destinations_indices:
+                    similar_destinations_indices.append(df_sorted_by_search.index[i])
+
         # 추천 목적지 반환
         similar_destinations = df.loc[similar_destinations_indices][:num_destinations]
-        similar_destinations = similar_destinations.sort_values(by=['rating', 'reviews'], ascending=[False, False])
+        similar_destinations = similar_destinations.sort_values(by=['search'], ascending=[False])
         return similar_destinations
+
     except Exception as e:
         print(f'Flask Server Error : {e}')
         abort(500, str(e))
@@ -70,7 +100,7 @@ def get_nearby_destinations(lat, lng, min_distance=0, max_distance=1, num_destin
         df['distances'] = distances
         nearby_destinations = df[(distances >= min_distance) & (distances <= max_distance) & (df['rating'] >= 3.0) & (
                 df['reviews'] >= 5)]
-        shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:4]
+        shopping_destinations = nearby_destinations[nearby_destinations['mid_category'] == '쇼핑'][:1]
         other_destinations = nearby_destinations[nearby_destinations['mid_category'] != '쇼핑']
         nearby_destinations = pd.concat([shopping_destinations, other_destinations])
         nearby_destinations = nearby_destinations.sort_values(by='search', ascending=False).iloc[:num_destinations]

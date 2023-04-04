@@ -18,6 +18,8 @@ public class MyHistoryResDto {
   private Long distance;
   private String image;
   private String content;
+  private int isMyFavorite;
+
 
 
 }
