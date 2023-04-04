@@ -156,6 +156,9 @@ def get_destinations(lat, lng, min_distance=0, max_distance=1, num_destinations=
             sub_category_destinations = nearby_destinations[nearby_destinations['sub_category'] == sub_category][:2]
             selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
 
+        # 중복 제거
+        selected_destinations = selected_destinations.drop_duplicates(subset=['tour_id'])
+
         # sub_category가 제외된 추천 목적지 리스트에서 검색 거리순으로 정렬하여 반환
         if len(selected_destinations) < num_destinations:
             # 목적지 개수가 부족하면 min_distance와 max_distance 범위를 늘려가면서 추가로 추출
@@ -169,13 +172,15 @@ def get_destinations(lat, lng, min_distance=0, max_distance=1, num_destinations=
                     sub_category_destinations = nearby_destinations[
                                                     nearby_destinations['sub_category'] == sub_category][:2]
                     selected_destinations = pd.concat([selected_destinations, sub_category_destinations])
+                    # 중복 제거
+                    selected_destinations = selected_destinations.drop_duplicates(subset=['tour_id'])
                     if len(selected_destinations) >= num_destinations:
                         break
-                # if max_distance > 10:  # max_distance가 10km 이상이면 중지
-                #     break
+                if max_distance > 10:  # max_distance가 10km 이상이면 중지
+                    break
 
         nearby_destinations = selected_destinations.iloc[:num_destinations].sort_values(by='search', ascending=False)
-        return nearby_destinations
+        return nearby_destinations.to_dict('records')
     except Exception as e:
         print(f'Flask Server Error : {e}')
         abort(500, str(e))
