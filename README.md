@@ -1,7 +1,11 @@
-
 ![따라와_로고.png](README/logo.png)
 
 ## 프로젝트 소개
+
+### Document
+
+- [Porting manual](exec/porting_manual.pdf)
+- [시연 시나리오](exec/시연_시나리오.pdf)
 
 
 ### “가볍게 떠나는 따릉이 여행”
@@ -96,13 +100,15 @@
 
 ## 아키텍처
 
-이미지 들어가야함
+![아키텍처](README/아키텍처.png)
 
 ## ERD
 
 ![ERD](README/erd.png)
 
 ## 핵심 기술
+
+- 데이터 약 25000개
 
 목적지 추천 알고리즘 설명 쓰기
 
