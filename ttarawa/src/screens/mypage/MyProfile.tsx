@@ -2,14 +2,14 @@ import { View, Text, SafeAreaView, Image, Pressable } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { myPage } from '@styles/myPage'
 import { useRecoilValue } from 'recoil'
-import { userState } from '~/store/atoms'
+import { userState } from '@store/atoms'
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import auth from '@services/auth'
 import { getToken } from '@utils/apiRequest'
 
-import UserProfile from '~/components/mypage/UserProfile'
+import UserProfile from '@components/mypage/UserProfile'
 
 export default function MyProfile({ navigation }) {
   // Todo : badgeName, profile 연결해야함
@@ -36,7 +36,7 @@ export default function MyProfile({ navigation }) {
           <Text style={myPage.userName}>{nickname} 님</Text>
         </View>
         <Text style={myPage.riding}>
-          누적 <Text style={myPage.ridingData}>{totalDistance}</Text> km
+          누적 <Text style={myPage.ridingData}>{totalDistance * 0.001}</Text> km
         </Text>
       </View>
       <View style={myPage.buttons}>
