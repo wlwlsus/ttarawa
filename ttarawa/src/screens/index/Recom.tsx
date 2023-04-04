@@ -21,8 +21,8 @@ interface result {
   subCategory?: string
   tourId?: number
   adress?: string
-  lat?: number
-  lng?: number
+  lat: number
+  lng: number
 }
 
 export default function Recom({ navigation }) {
@@ -100,9 +100,12 @@ export default function Recom({ navigation }) {
             <RecomCard
               key={recom.tourId}
               name={recom.name}
+              lat={recom.lat}
+              lng={recom.lng}
               distance={recom.distances}
               visit={recom.visit}
               category={recom.category}
+              navigation={navigation}
             />
           )
         })}
