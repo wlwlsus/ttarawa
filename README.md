@@ -21,13 +21,14 @@
 
 ## 참여 인원 및 역할 분배
 
-| 고수연 | Back-End | 팀장 ERD설계 CI/CD(자동, 무중단 배포) 로그적재 |
-| --- | --- | --- |
-| 성원준 | Back-End | API 설계 API 구현(여행지 추천) 프론트 어시 |
-| 두소원 | Back-End | 데이터 수집 API 구현(회원, 주행 기록) UCC |
-| 조혜진 | Front-End |  |
-| 최성빈 | Front-End |  |
-| 정예지 | Front-End |  |
+<table>
+<tr><td>고수연</td><td>Back-end</td><td><mark>팀장</mark>&nbsp; <mark>ERD설계</mark>&nbsp;<mark>CI/CD(자동, 무중단 배포)</mark>&nbsp;<mark>로그적재</mark></td></tr>
+<tr><td>성원준</td><td>Back-end</td><td><mark>API 설계</mark>&nbsp; <mark>API 구현(여행지 추천)</mark>&nbsp;<mark>프론트 어시</mark></td></tr>
+<tr><td>두소원</td><td>Back-end</td><td><mark>데이터 수집</mark>&nbsp; <mark>API 구현(회원, 주행 기록)</mark>&nbsp;<mark>UCC</mark></td></tr>
+<tr><td>조혜진</td><td>Front-end</td><td></td></tr>
+<tr><td>최성빈</td><td>Front-end</td><td></td></tr>
+<tr><td>정예지</td><td>Front-end</td><td></td></tr>
+</table>
 
 ## 개발 배경
 
