@@ -20,7 +20,7 @@ export default function MapGoogle({ setMarker }) {
       }}
       provider={PROVIDER_GOOGLE} // iphone 설정
     >
-      {markerList.map((marker, index) => (
+      {markerList?.map((marker, index) => (
         <Marker
           key={marker.spotId}
           coordinate={{

@@ -2,8 +2,11 @@ import { View, SafeAreaView, ScrollView, Dimensions, Text } from 'react-native'
 import GuideCard from '~/components/card/GuideCard'
 import { color } from '@styles/GlobalStyles'
 import { Octicons } from '@expo/vector-icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { guide } from '@styles/index'
+import LoginIcon from '@components/index/LoginIcon'
+import { getToken } from '@utils/apiRequest'
+import Button from '@components/common/Button'
 
 const cardContent: { id: number; content: string }[] = [
   { id: 0, content: '목적지를 입력해 여행 경로를 추천 받아요' },
@@ -29,8 +32,9 @@ const cardContent: { id: number; content: string }[] = [
 
 const PAGE_HEIGHT = Dimensions.get('window').height // 페이지 높이
 
-export default function Guide() {
+export default function Guide({ navigation }) {
   const [index, setIndex] = useState(0)
+  const [token, setToken] = useState(null)
 
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y
@@ -41,6 +45,14 @@ export default function Guide() {
   const dotIndex = (idx: number) => {
     return idx === index ? 'dot-fill' : 'dot'
   }
+
+  useEffect(() => {
+    const getAccessToken = async () => {
+      const token = await getToken()
+      setToken(token)
+    }
+    getAccessToken()
+  }, [])
 
   return (
     <SafeAreaView style={guide.container}>
@@ -57,20 +69,27 @@ export default function Guide() {
         pagingEnabled
         style={guide.scroll}
       >
-        {cardContent.map((item) => (
+        {cardContent?.map((item) => (
           <GuideCard key={item.id} index={item.id} content={item.content} />
         ))}
       </ScrollView>
       {index === 4 ? (
         <View style={guide.socialLogin}>
-          <Text>
-            토큰이 있으면 소셜로그인 버튼 띄우지 말고 소셜이 없으면 띄우기
-          </Text>
+          {token ? (
+            <Button
+              type="large"
+              text="시작하기"
+              press={() => navigation.navigate('Recom')}
+              style={{
+                container: { backgroundColor: color.secondary },
+                txt: { color: color.primary },
+              }}
+            />
+          ) : (
+            <LoginIcon navigation={navigation} />
+          )}
         </View>
       ) : null}
-      {/* { 토큰이 있으면 ? <View style={guide.back}>
-          <Text>돌아가기</Text>
-        </View>:null} */}
     </SafeAreaView>
   )
 }

@@ -11,6 +11,7 @@ import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
 import TimerModal from '@components/main/TimerModal'
 import Categories from '@components/main/Categories'
+import Button from '@components/common/Button'
 
 export default function NaviPath({ route, navigation }) {
   // endmodal
@@ -95,13 +96,14 @@ export default function NaviPath({ route, navigation }) {
     <SafeAreaView style={[styles.androidSafeArea, navi.container]}>
       <NaviTimer time={time} onpress={handleModalVisible} />
 
+      <Categories style={navi.categories} route={route} />
+
       <TimerModal
         modalVisible={modalVisible}
         handleSetTime={handleSetTime}
         cancleTime={cancleTime}
       />
 
-      <Categories style={navi.categories} />
       {resultData && (
         <MapView
           style={navi.container}
@@ -118,7 +120,7 @@ export default function NaviPath({ route, navigation }) {
           <Marker coordinate={depart} title="출발" pinColor={color.red} />
           <Marker coordinate={destin} title="도착" pinColor={color.red} />
 
-          {markerList.map((marker) => (
+          {markerList?.map((marker) => (
             <Marker
               key={marker.spotId}
               coordinate={{
