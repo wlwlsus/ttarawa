@@ -58,7 +58,7 @@ export default function NaviBottom({ time, stop, handleOn }) {
 
       <View style={navi.info}>
         <Text style={navi.infoTitle}>남은거리</Text>
-        <Text style={navi.infoContent}>N km</Text>
+        <Text style={navi.infoContent}>0.5 km</Text>
       </View>
     </View>
   )

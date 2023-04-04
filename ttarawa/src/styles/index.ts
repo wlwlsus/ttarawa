@@ -117,7 +117,7 @@ export const guide = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.primary,
-    paddingHorizontal: 40,
+    // paddingHorizontal: 40,
     position: 'relative',
   },
   index: {
@@ -126,13 +126,14 @@ export const guide = StyleSheet.create({
     left: 30,
   },
   scroll: {
-    paddingTop: 240,
+    marginTop: 20,
   },
   socialLogin: {
     position: 'absolute',
     bottom: 80,
     alignSelf: 'center',
     width: '100%',
+    paddingHorizontal: 40,
   },
   back: {
     backgroundColor: color.white,
