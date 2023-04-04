@@ -1,5 +1,7 @@
-// 도로명 주소로 위도, 경도 출력
-export const geocoding = async (name: string, setAddr: any) => {
+import * as Location from 'expo-location'
+
+// 위도, 경도로 도로명 주소 출력
+export const geocoding = async (lat: number, lng: number, setAddr: any) => {
   const headers = {
     'Content-Type': 'application/json',
     appKey: 'R0lrpUGdtX3BeC8w14Ep5aKnOI9vGzwF91MiDzaA',
@@ -7,7 +9,9 @@ export const geocoding = async (name: string, setAddr: any) => {
   }
 
   const response = await fetch(
-    `https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?version=1&format=json&callback=result&coordType=WGS84GEO&fullAddr=${name}`,
+    // EPSG3857  - Google Mercator
+    // WGS84GEO  - 경위도
+    `https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&format=json&callback=result&coordType=WGS84GEO&addressType=A10&lon=${lng}&lat=${lat}`,
     {
       method: 'GET',
       headers: headers,
@@ -17,11 +21,11 @@ export const geocoding = async (name: string, setAddr: any) => {
       return response.json()
     })
     .then(function (data) {
-      // string으로 들어오기 때문에, number로 형변환
-      const lat = Number(data.coordinateInfo.coordinate[0].newLat)
-      const lng = Number(data.coordinateInfo.coordinate[0].newLon)
+      // 행정동, 법정동, 도로명 세가지로 생김
+      const addrs: string[] = data.addressInfo.fullAddress.split(',')
+      const name = addrs[addrs.length - 1] // 도로명 가져옴
+
       setAddr({ name, lat, lng })
-      // console.log(name, lat, lng)
     })
     .catch(function (error) {
       console.log('Fetch Error :-S', error)

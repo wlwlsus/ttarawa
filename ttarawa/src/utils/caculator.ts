@@ -14,7 +14,7 @@ export const convertToTime = (seconds: number): string => {
     // 1분 넘어가면,
   } else if (seconds >= 60) {
     minutes = Math.floor(seconds / 60)
-    seconds %= 60
+    seconds = Math.floor(seconds % 60)
     return seconds ? `${minutes}분 ${seconds}초` : `${minutes}분`
 
     // 1분도 되지 않는다면,

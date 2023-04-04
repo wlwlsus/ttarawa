@@ -1,20 +1,43 @@
 import { StyleSheet, View, Text } from 'react-native'
+import { NavigationProp } from '@react-navigation/native'
 import { color } from '@styles/GlobalStyles'
 import { FontAwesome5, Feather, MaterialIcons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import { ReactNode } from 'react'
+import { destinState } from '@store/atoms'
+import { useSetRecoilState } from 'recoil'
 
 interface Props {
   name: string
+  lat: number
+  lng: number
   distance: number
   visit: number
   category: number
+  navigation: NavigationProp<any>
 }
 
-export default function RecomCard({ name, distance, visit, category }: Props) {
+export default function RecomCard({
+  name,
+  lat,
+  lng,
+  distance,
+  visit,
+  category,
+  navigation,
+}: Props) {
+  const setDestin = useSetRecoilState(destinState)
   // 여행시작으로 가는 함수 만들어야함 (지도 만들고 난 뒤)
-  const goMap = () => {
-    console.log(name)
+  const goMap = async () => {
+    setDestin({ name, lat, lng })
+
+    // Tabs 안에 있는 Main의 SearchPath로 이동
+    await navigation.navigate('Tabs', {
+      screen: 'Main',
+      params: {
+        screen: 'SearchPath',
+      },
+    })
   }
 
   const categoryTable: ReactNode[] = [

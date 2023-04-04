@@ -24,8 +24,12 @@ interface SnsData {
   image: string
   distance: number // (주행 거리 - 미터 단위)),
   time: number // (주행 시간 - 초 단위)),
-  startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
-  endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
+  startLat: number
+  startLng: number
+  endLat: number
+  endLng: number
+  // startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
+  // endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
   isMyHistory: number // (1: 내가 쓴 게시물, 0 : 내가 쓴 게시물 아님)
 }
 
@@ -49,9 +53,14 @@ export default function MyLikes({ navigation }) {
       .catch((err) => console.log(err))
   }, [])
 
-  const goTrip = async (startAddress: string, endAddress: string) => {
-    await geocoding(startAddress, setDepart)
-    await geocoding(endAddress, setDestin)
+  const goTrip = async (
+    startLat: number,
+    startLng: number,
+    endLat: number,
+    endLng: number,
+  ) => {
+    await geocoding(startLat, startLng, setDepart)
+    await geocoding(endLat, endLng, setDestin)
 
     await navigation.navigate('Main', { screen: 'SearchPath' })
   }
@@ -59,16 +68,17 @@ export default function MyLikes({ navigation }) {
   const detail = (historyId: number) => {
     // axios
     // bottomSheet 활용
-    fetchDetail(historyId).then((res) => {
-      setIsModalVisible(true)
-      setDetailData(res)
-    })
-    .catch((err) => console.log(err))
+    fetchDetail(historyId)
+      .then((res) => {
+        setIsModalVisible(true)
+        setDetailData(res)
+      })
+      .catch((err) => console.log(err))
   }
 
   return (
     <View style={{ backgroundColor: color.white, flex: 1 }}>
-       {isModalVisible ? (
+      {isModalVisible ? (
         <DetailModal
           visible={isModalVisible}
           data={detailData}
@@ -120,7 +130,12 @@ export default function MyLikes({ navigation }) {
                   dir="left"
                   text="여행 시작"
                   press={() => {
-                    goTrip(item.startAddress, item.endAddress)
+                    goTrip(
+                      item.startLat,
+                      item.startLng,
+                      item.endLat,
+                      item.endLng,
+                    )
                   }}
                   icon1={
                     <MaterialIcons
