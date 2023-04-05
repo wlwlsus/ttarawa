@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { path, map } from '@styles/main'
@@ -109,7 +109,6 @@ export default function SearchPath({ navigation }) {
           })
           .then(function (data) {
             setResultData(data)
-            // console.log(data)
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)
@@ -166,7 +165,10 @@ export default function SearchPath({ navigation }) {
           btnText="주행시작"
           press={() => {
             // 출발지, 목적지, 중간지점 props로 넘겨줌
-            navigation.navigate('NaviPath', { depart, destin, middlePoint })
+            navigation.navigate('NaviPath', {
+              route: { depart, destin, middlePoint },
+              distance: { distance },
+            })
           }}
         />
       </View>
