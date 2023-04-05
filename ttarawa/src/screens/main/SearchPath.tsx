@@ -169,8 +169,8 @@ export default function SearchPath({ navigation }) {
             navigation.navigate('NaviPath', {
               route: { depart, destin, middlePoint },
               distance: { distance },
-              noti.weatherNoti()
             })
+            noti.weatherNoti()
           }}
         />
       </View>
