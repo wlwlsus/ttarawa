@@ -11,7 +11,6 @@ import { color } from '@styles/GlobalStyles'
 import { departState, destinState } from '@store/atoms'
 
 import Categories from '@components/main/Categories'
-import SearchPath from '~/screens/main/SearchPath'
 
 interface Props {
   navigation: NavigationProp<any>
@@ -51,7 +50,7 @@ export default function MapHeader({ noneButton, navigation, route }: Props) {
                 color={color.white}
               />
             }
-            press={() => navigation.navigate(SearchPath)}
+            press={() => navigation.navigate('SearchPath')}
             style={
               depart.name && destin.name
                 ? { container: { backgroundColor: color.primary } }
