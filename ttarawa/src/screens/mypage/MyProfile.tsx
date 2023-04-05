@@ -21,6 +21,12 @@ export default function MyProfile({ navigation }) {
     navigation.navigate('Index', { screen: 'Start' })
   }
 
+  const distance = () => {
+    const tmp = totalDistance * 0.001
+    if (!Math.floor(tmp)) return 0
+    return tmp.toFixed(2)
+  }
+
   return (
     <SafeAreaView style={myPage.container}>
       <Pressable hitSlop={10} style={myPage.logout} onPress={logout}>
@@ -30,13 +36,13 @@ export default function MyProfile({ navigation }) {
       <UserProfile />
 
       <View style={[myPage.userContainer, myPage.shadow]}>
-        <Text style={myPage.rank}>주니어라이더까지 7km</Text>
+        <Text style={myPage.rank}>{badgeName}</Text>
         <View style={myPage.nameContainer}>
           <Image source={require('@assets/rank/junior.png')} />
           <Text style={myPage.userName}>{nickname} 님</Text>
         </View>
         <Text style={myPage.riding}>
-          누적 <Text style={myPage.ridingData}>{totalDistance * 0.001}</Text> km
+          누적 <Text style={myPage.ridingData}>{distance()}</Text> km
         </Text>
       </View>
       <View style={myPage.buttons}>

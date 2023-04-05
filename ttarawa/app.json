@@ -8,7 +8,7 @@
     "icon": "./assets/ttarawa/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/ttarawa/logo.png",
+      "image": "./assets/ttarawa/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
