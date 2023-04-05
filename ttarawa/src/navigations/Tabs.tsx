@@ -68,6 +68,11 @@ export default function Tabs({ navigation }) {
       <Tab.Screen
         name="Mypage"
         component={MyPageStackScreen}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault(), navigation.navigate('MyProfile')
+          },
+        }}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
