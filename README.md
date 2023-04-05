@@ -178,7 +178,7 @@ gif로 보여줄 화면 정하고 만들어야 함
 
 - 현재까지 달린 거리를 기준으로 뱃지 부여
 
-![mypage](README/gifs/mypage.jpg)
+<img src="README/gifs/mypage.jpg" style="width: 300px"/>
 
 내 주행기록
 
