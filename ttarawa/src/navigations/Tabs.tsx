@@ -6,6 +6,8 @@ import MyPageStackScreen from '@navigations/Mypage'
 import Sns from '@screens/sns/Sns'
 import SnsHeader from '@components/sns/SnsHeader'
 
+import MyProfile from '~/screens/mypage/MyProfile'
+
 import { color, styles } from '@styles/GlobalStyles'
 import { MaterialCommunityIcons, Zocial } from '@expo/vector-icons'
 
@@ -49,7 +51,7 @@ export default function Tabs({ navigation }) {
         component={MainStackScreen}
         listeners={{
           tabPress: (e) => {
-            e.preventDefault(), navigation.navigate('Map')
+            e.preventDefault(), navigation.navigate('Main', { screen: 'Map' })
           },
         }}
         options={{
@@ -70,7 +72,8 @@ export default function Tabs({ navigation }) {
         component={MyPageStackScreen}
         listeners={{
           tabPress: (e) => {
-            e.preventDefault(), navigation.navigate('MyProfile')
+            e.preventDefault(),
+              navigation.navigate('Mypage', { screen: 'MyProfile' })
           },
         }}
         options={{
