@@ -20,6 +20,7 @@ export default async function getLocation() {
       { latitude, longitude },
       { useGoogleMaps: false },
     )
+    // 경도, 위도, 현재 장소이름 반환
     return { lat: latitude, lng: longitude, name: location[0].street }
   } catch (error) {
     return null

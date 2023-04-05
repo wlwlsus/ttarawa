@@ -1,6 +1,7 @@
 import * as Notifications from 'expo-notifications'
-
+import getLocation from '@utils/getLocation'
 // 반납 알림
+// min : 남은 대여 시간
 const returnNoti = (min: number) => {
   Notifications.scheduleNotificationAsync({
     content: {
@@ -48,11 +49,10 @@ const getWeather = async (
 }
 
 const weatherNoti = async () => {
+  const { lat, lng } = await getLocation()
+  console.log('>>>>>>weatherNoti')
   // store에서 경도 위도 가져오기
-  const condition: keyof typeof WEATHER = await getWeather(
-    37.501334548430816,
-    127.03964423197847,
-  )
+  const condition: keyof typeof WEATHER = await getWeather(lat, lng)
 
   // 날씨에 따른 메세지
   let title: string = `오늘 날씨는 [${WEATHER[condition]}] 입니다.`
