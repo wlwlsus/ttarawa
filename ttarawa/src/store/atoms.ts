@@ -45,7 +45,7 @@ export const pathState = atom({
 // tracking Info
 export const locationListState = atom({
   key: 'locationListState',
-  default: [],
+  default: [] as { latitude: number; longitude: number }[],
 })
 
 // SNS 모달
@@ -64,4 +64,9 @@ export const snsParamsState = atom({
 export const historyParams = atom({
   key: 'historyParams',
   default: '',
+})
+
+export const remainingDistanceState = atom({
+  key: 'remainingDistanceState',
+  default: 0,
 })
