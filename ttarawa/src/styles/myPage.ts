@@ -165,3 +165,19 @@ export const mylikes = StyleSheet.create({
     color: color.primary,
   },
 })
+
+export const detailModal = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+    backgroundColor: color.modalBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  card: {
+    height: '75%',
+    width: '90%',
+    backgroundColor: color.white,
+    borderRadius: 10,
+  },
+})

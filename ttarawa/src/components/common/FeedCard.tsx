@@ -182,46 +182,26 @@ export default function FeedCard({
         ) : (
           <>
             <TextInput
-              // placeholder={content}
-              style={{
-                borderWidth: 1,
-                borderColor: color.gray,
-                borderRadius: 10,
-                width: '100%',
-                fontSize: 16,
-              }}
-              numberOfLines={10}
+              style={styles.cardTextInput}
+              multiline={true}
+              // numberOfLines={10}
               value={contentText}
               onChangeText={(payload: string) => setContentText(payload)}
             />
 
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <View style={styles.buttonDirection}>
               <TouchableOpacity
                 onPress={closeEdit}
-                style={{
-                  backgroundColor: color.lightGray,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                }}
+                style={[styles.buttonStyle, styles.resetButton]}
               >
-                <Text style={{ fontSize: 15, color: color.black }}>취소</Text>
+                <Text style={styles.resetButton}>취소</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={editContent}
-                style={{
-                  backgroundColor: color.primary,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                }}
+                style={[styles.buttonStyle, styles.saveButton]}
               >
-                <Text style={{ fontSize: 15, color: color.white }}>저장</Text>
+                <Text style={styles.saveButton}>저장</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -309,5 +289,36 @@ const styles = StyleSheet.create({
 
   cardText: {
     fontSize: 16,
+  },
+
+  cardTextInput: {
+    borderWidth: 1,
+    borderColor: color.gray,
+    borderRadius: 10,
+    width: '100%',
+    fontSize: 16,
+    minHeight: 100,
+  },
+
+  buttonDirection: { flexDirection: 'row', justifyContent: 'flex-end' },
+
+  buttonStyle: {
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+
+  resetButton: {
+    backgroundColor: color.lightGray,
+    fontSize: 15,
+    color: color.black,
+  },
+
+  saveButton: {
+    backgroundColor: color.primary,
+    fontSize: 15,
+    color: color.white,
   },
 })
