@@ -14,6 +14,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'
+import noti from '@utils/notification'
 
 export default function SearchPath({ navigation }) {
   // 출발지 정보 가져오기
@@ -163,6 +164,7 @@ export default function SearchPath({ navigation }) {
             navigation.navigate('NaviPath', {
               route: { depart, destin, middlePoint },
               distance: { distance },
+              noti.weatherNoti()
             })
           }}
         />
