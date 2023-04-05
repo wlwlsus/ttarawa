@@ -12,7 +12,6 @@ import { useRecoilValue, useRecoilState } from 'recoil'
 const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
   // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
-  // console.log(locationData)
 
   // 도 단위의 각도를 라디안 단위로 변환하는 함수
   function toRadians(degrees: number): number {

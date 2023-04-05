@@ -106,7 +106,6 @@ export default function SearchPath({ navigation }) {
           })
           .then(function (data) {
             setResultData(data)
-            // console.log(data)
           })
           .catch(function (error) {
             console.log('Fetch Error :-S', error)

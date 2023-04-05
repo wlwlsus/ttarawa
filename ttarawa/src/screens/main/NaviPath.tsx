@@ -146,9 +146,6 @@ export default function NaviPath(props: {
             location.coords,
             resultData,
           )
-          console.log('남은 거리: ')
-          console.log(remainingDistance)
-
           setRemainingDistance(remainingDistance)
         }
 
