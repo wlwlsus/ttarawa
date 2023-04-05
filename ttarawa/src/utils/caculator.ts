@@ -27,7 +27,7 @@ export const convertToTime = (seconds: number): string => {
 // 미터 단위를 1000 이상이면, Km단위(소수점 2자리까지)로 변경
 export const convertToKm = (meters: number) => {
   let distance: string
-  if (meters >= 1000) {
+  if (meters >= 10) {
     distance = `${(meters / 1000).toFixed(2)} km`
   } else {
     distance = `${meters} m`

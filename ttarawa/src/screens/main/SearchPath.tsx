@@ -12,7 +12,7 @@ import { departState, destinState, pathState } from '@store/atoms'
 
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import destinIcon from '@assets/Icon/destin2.png'
-import departIcon from '@assets/Icon/bike.png'
+// import departIcon from '@assets/Icon/bike.png'
 import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'

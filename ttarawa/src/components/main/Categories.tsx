@@ -2,18 +2,17 @@ import { View, Text } from 'react-native'
 import { useState, useEffect } from 'react'
 import Button from '@components/common/Button'
 
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { markerListState } from '~/store/atoms'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { markerListState, departState, markerCategoryState } from '@store/atoms'
 
 import { color } from '@styles/GlobalStyles'
 import main from '@services/main'
-import { departState } from '@store/atoms'
 
 import getRentalSpot from '@utils/getRentalSpot'
 
 export default function Categories({ style, route }) {
-  const [pressed, setPressed] = useState<number>(0) // 카테고리 넘버
-  const [markerList, setMarkerList] = useRecoilState(markerListState)
+  const [pressed, setPressed] = useRecoilState(markerCategoryState) // 카테고리 넘버
+  const setMarkerList = useSetRecoilState(markerListState)
   const depart = useRecoilValue(departState)
 
   const hideMark = route.name // NaviPath가 아니면 숨기기
