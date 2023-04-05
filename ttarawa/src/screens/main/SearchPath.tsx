@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { styles, color } from '@styles/GlobalStyles'
 import { path, map } from '@styles/main'
@@ -14,7 +14,6 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'
-import NaviBottom from '~/components/main/NaviBottom'
 
 export default function SearchPath({ navigation }) {
   // 출발지 정보 가져오기

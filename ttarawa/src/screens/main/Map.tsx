@@ -17,13 +17,20 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 export default function Map({ navigation }) {
   const [depart, setDepart] = useRecoilState(departState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
-  // const marker = useRecoilValue(markerState)
   const [marker, setMarker] = useState(0)
   const setDestin = useSetRecoilState(destinState)
+
+  const [region, setRegion] = useState({
+    latitude: depart.lat,
+    longitude: depart.lng,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
+  })
 
   // 현재 위치 설정
   const getCurrent = async () => {
     const { lat, lng, name } = await getLocation()
+    setRegion({ ...region, latitude: lat, longitude: lng })
     setDepart({ ...depart, lat, lng, name })
   }
 
@@ -55,7 +62,7 @@ export default function Map({ navigation }) {
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
       <MapHeader navigation={navigation} />
 
-      <MapGoogle setMarker={setMarker} />
+      <MapGoogle setMarker={setMarker} region={region} />
 
       <View style={map.content}>
         <IconButton

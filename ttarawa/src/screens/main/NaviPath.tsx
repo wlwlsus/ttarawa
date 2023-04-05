@@ -1,7 +1,7 @@
-import { View, Text, SafeAreaView, Pressable } from 'react-native'
-import { useState, useRef, useEffect } from 'react'
+import { SafeAreaView } from 'react-native'
+import { useState, useEffect } from 'react'
 import { color, styles } from '@styles/GlobalStyles'
-import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { navi } from '@styles/main'
 import {
   pathState,
@@ -15,9 +15,8 @@ import EndModal from '@components/main/EndModal'
 import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
 import TimerModal from '@components/main/TimerModal'
+import ReturnModal from '@components/main/ReturnModal'
 import Categories from '@components/main/Categories'
-import Button from '@components/common/Button'
-import getLocation from '~/utils/getLocation'
 
 export default function NaviPath(props: {
   route: any
@@ -50,6 +49,14 @@ export default function NaviPath(props: {
   }
   // props로 넘긴 데이터 받기
   const { depart, destin, middlePoint } = route
+
+  // 지도 중심을 설정을 위한 현재 위치 설정
+  const [region, setRegion] = useState({
+    latitude: depart.lat,
+    longitude: depart.lng,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
+  })
 
   const resultData = useRecoilValue(pathState)
 
@@ -153,6 +160,7 @@ export default function NaviPath(props: {
           ...prevData,
           { longitude: longitude, latitude: latitude },
         ])
+        setRegion({ ...region, latitude: latitude, longitude: longitude })
       },
     )
     setWatcher(watcher)
@@ -178,19 +186,28 @@ export default function NaviPath(props: {
 
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
+  const [returnModalVisible, setReturnModalVisible] = useState(false)
   const [time, setTime] = useState(0)
 
   const handleModalVisible = () => {
-    setModalVisible(!modalVisible)
+    if (time == 0) {
+      setModalVisible(!modalVisible)
+    } else {
+      setReturnModalVisible(!modalVisible)
+    }
   }
 
   const handleSetTime = (newTime: any) => {
     setTime(newTime)
     setModalVisible(false)
+    setReturnModalVisible(false)
   }
 
   const cancleTime = () => {
     setModalVisible(false)
+  }
+  const returnBike = () => {
+    setReturnModalVisible(false)
   }
 
   return (
@@ -204,16 +221,16 @@ export default function NaviPath(props: {
         handleSetTime={handleSetTime}
         cancleTime={cancleTime}
       />
+      <ReturnModal
+        modalVisible={returnModalVisible}
+        handleSetTime={handleSetTime}
+        cancleTime={returnBike}
+      />
 
       {resultData && (
         <MapView
           style={navi.container}
-          initialRegion={{
-            latitude: middlePoint.latitude,
-            longitude: middlePoint.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }}
+          region={region}
           showsUserLocation
           followsUserLocation
           provider={PROVIDER_GOOGLE}

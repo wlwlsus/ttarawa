@@ -6,10 +6,18 @@ import Road from '@screens/main/Road'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { v4 as uuidv4 } from 'uuid'
-import { locationListState } from '~/store/atoms'
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { locationListState, departState, destinState } from '@store/atoms'
+import { useRecoilValue } from 'recoil'
 
 const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
+  // recoil에 저장된 출발지, 목적지 가져오기
+  const depart: {
+    name: undefined
+    lat: undefined
+    lng: undefined
+  } = useRecoilValue(departState)
+  const destin = useRecoilValue(destinState)
+
   // recoil에 저장된 위치리스트 가져오기
   const locationData = useRecoilValue(locationListState)
 
@@ -62,11 +70,13 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     for (let i = 1; i < locationData.length; i++) {
       const currentCoords = locationData[i]
       let d = calculateDistance(prevCoords, currentCoords)
+      console.log('d', d)
 
       if (d <= 1) {
         d = 0
       }
       totalDistance += d
+      console.log('total', totalDistance)
       prevCoords = currentCoords
     }
     return totalDistance
@@ -92,10 +102,10 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     formData.append('time', time)
     formData.append('distance', calculateTotalDistance(locationData))
     formData.append('content', '')
-    formData.append('startLat', 1231221)
-    formData.append('startLng', 11214)
-    formData.append('endLat', 123)
-    formData.append('endLng', 222)
+    formData.append('startLat', depart.lat)
+    formData.append('startLng', depart.lng)
+    formData.append('endLat', destin.lat)
+    formData.append('endLng', destin.lng)
     formData.append('image', imageData)
 
     const token = await AsyncStorage.getItem('token')
@@ -115,7 +125,6 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
       navigate()
     } catch (error) {
       console.error('Error:', error)
-      console.log(formData)
     }
   }
 
@@ -202,6 +211,7 @@ const styles = {
   viewShot: {
     width: '100%',
     height: '80%',
+    backgroundColor: color.white,
   },
   cancel: {
     flex: 1,

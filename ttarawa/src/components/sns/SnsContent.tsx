@@ -1,5 +1,5 @@
 import { View, FlatList } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import FeedCard from '@components/common/FeedCard'
 import { color } from '@styles/GlobalStyles'
 import { sns } from '@styles/sns'
@@ -7,6 +7,9 @@ import { convertToKm, convertToTime } from '@utils/caculator'
 import snsaxios from '@services/sns'
 import { snsParamsState, snsModal } from '@store/atoms'
 import { useRecoilState, useSetRecoilState } from 'recoil'
+
+import { captureRef } from 'react-native-view-shot'
+import * as Sharing from 'expo-sharing'
 
 interface SnsData {
   userId?: number
@@ -103,8 +106,22 @@ export default function SnsContent() {
       })
   }
 
+  // 캡쳐한 화면 공유
+  const myRef = useRef(null)
+  const sharePost = async () => {
+    try {
+      const result = await captureRef(myRef, {
+        format: 'png',
+        quality: 0.9,
+      })
+      await Sharing.shareAsync(result)
+    } catch (error) {
+      console.error('Error while taking screenshot and sharing: ', error)
+    }
+  }
+
   return (
-    <View style={sns.container}>
+    <View style={sns.container} ref={myRef}>
       <FlatList
         data={dataLst}
         renderItem={({ item }) => {
@@ -122,6 +139,7 @@ export default function SnsContent() {
               time={time}
               content={item.content}
               pressLike={() => pressLike(item.historyId)}
+              pressShare={sharePost}
             />
           )
         }}

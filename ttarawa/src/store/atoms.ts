@@ -22,7 +22,7 @@ export const departState = atom<object>({
 })
 
 // 도착
-export const destinState = atom({
+export const destinState = atom<object>({
   key: 'destinState',
   default: {
     name: undefined,
@@ -35,11 +35,6 @@ export const markerListState = atom({
   key: 'markerListStaste',
   default: [],
 })
-
-// export const markerState = atom({
-//   key: 'markerState',
-//   default: 0,
-// })
 
 // 길안내 좌표
 export const pathState = atom({

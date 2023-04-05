@@ -1,10 +1,10 @@
-import { View, Text, SafeAreaView, Pressable } from 'react-native'
+import { View, Text } from 'react-native'
 import { navi } from '@styles/main'
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from '@components/common/IconButton'
 import { color } from '@styles/GlobalStyles'
-import React, { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import { remainingDistanceState } from '~/store/atoms'
 
 export default function NaviBottom(props: {
