@@ -14,7 +14,7 @@ import MapGoogle from './MapGoogle'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-export default function Map({ navigation }) {
+export default function Map({ navigation, route }) {
   const [depart, setDepart] = useRecoilState(departState)
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const [marker, setMarker] = useState(0)
@@ -60,7 +60,7 @@ export default function Map({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, map.container]}>
-      <MapHeader navigation={navigation} />
+      <MapHeader navigation={navigation} route={route} />
 
       <MapGoogle setMarker={setMarker} region={region} />
 
