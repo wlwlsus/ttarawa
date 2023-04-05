@@ -1,9 +1,14 @@
 import { View, Text, SafeAreaView, Pressable } from 'react-native'
 import { useState, useRef, useEffect } from 'react'
 import { color, styles } from '@styles/GlobalStyles'
-import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { navi } from '@styles/main'
-import { pathState, markerListState, locationListState } from '@store/atoms'
+import {
+  pathState,
+  markerListState,
+  locationListState,
+  departState,
+} from '@store/atoms'
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import * as Location from 'expo-location'
 import EndModal from '@components/main/EndModal'
@@ -12,9 +17,11 @@ import NaviTimer from '@components/main/NaviTimer'
 import TimerModal from '@components/main/TimerModal'
 import ReturnModal from '@components/main/ReturnModal'
 import Categories from '@components/main/Categories'
-import Button from '@components/common/Button'
 
 export default function NaviPath({ route, navigation }) {
+  // 지도 위치 표시를 위한 현재 위치 받기
+  const [userLocation, setUserLocation] = useState(null)
+
   // endmodal
   const [endmodalVisible, setEndModalVisible] = useState(false)
   const handleEndModalVisible = () => {
@@ -30,6 +37,14 @@ export default function NaviPath({ route, navigation }) {
   }
   // props로 넘긴 데이터 받기
   const { depart, destin, middlePoint } = route.params
+
+  // 지도 중심을 설정을 위한 현재 위치 설정
+  const [region, setRegion] = useState({
+    latitude: depart.lat,
+    longitude: depart.lng,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
+  })
 
   const resultData = useRecoilValue(pathState)
 
@@ -54,6 +69,7 @@ export default function NaviPath({ route, navigation }) {
           ...prevData,
           { longitude: longitude, latitude: latitude },
         ])
+        setRegion({ ...region, latitude: latitude, longitude: longitude })
       },
     )
     setWatcher(watcher)
@@ -123,12 +139,7 @@ export default function NaviPath({ route, navigation }) {
       {resultData && (
         <MapView
           style={navi.container}
-          initialRegion={{
-            latitude: middlePoint.latitude,
-            longitude: middlePoint.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }}
+          region={region}
           showsUserLocation
           followsUserLocation
           provider={PROVIDER_GOOGLE}
