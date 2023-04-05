@@ -47,6 +47,11 @@ export default function Tabs({ navigation }) {
       <Tab.Screen
         name="Main"
         component={MainStackScreen}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault(), navigation.navigate('Map')
+          },
+        }}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -64,7 +69,6 @@ export default function Tabs({ navigation }) {
         name="Mypage"
         component={MyPageStackScreen}
         options={{
-          // tabBarStyle: isVisible,
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Zocial name="persona" size={focused ? 33 : 38} color={color} />
@@ -72,7 +76,6 @@ export default function Tabs({ navigation }) {
           tabBarLabel: ({ focused }) =>
             focused ? <Text style={styles.navTab}>마이페이지</Text> : null,
         }}
-        // initialParams={{ setIsVisible }}
       />
     </Tab.Navigator>
   )

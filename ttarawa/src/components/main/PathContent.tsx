@@ -16,7 +16,7 @@ export default function PathContent({ navigation, time, distance }) {
             />
           }
           press={() => {
-            navigation.pop()
+            navigation.navigate('Map')
           }}
         />
 
