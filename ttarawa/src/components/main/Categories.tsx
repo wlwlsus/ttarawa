@@ -16,8 +16,9 @@ export default function Categories({ style, route }) {
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const depart = useRecoilValue(departState)
 
-  const hideMark = route?.name // NaviPath가 아니면 숨기기
+  const hideMark = route.name // NaviPath가 아니면 숨기기
 
+  console.log(hideMark)
   // 눌린 버튼 스타일
   const isPressed = {
     container: { backgroundColor: color.secondary },
@@ -82,7 +83,7 @@ export default function Categories({ style, route }) {
         type="tab"
         press={() => setPressed(4)}
       />
-      {hideMark && (
+      {!hideMark && (
         <Button
           text="숨기기"
           type="tab"

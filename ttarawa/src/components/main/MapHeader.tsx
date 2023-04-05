@@ -16,9 +16,10 @@ import SearchPath from '~/screens/main/SearchPath'
 interface Props {
   navigation: NavigationProp<any>
   noneButton?: boolean
+  route?: any
 }
 
-export default function MapHeader({ noneButton, navigation }: Props) {
+export default function MapHeader({ noneButton, navigation, route }: Props) {
   const [depart, setDepart] = useRecoilState(departState)
   const [destin, setDestin] = useRecoilState(destinState)
 
@@ -59,7 +60,7 @@ export default function MapHeader({ noneButton, navigation }: Props) {
           />
         )}
       </View>
-      {!noneButton && <Categories style={map.buttons} />}
+      {!noneButton && <Categories style={map.buttons} route={route} />}
     </View>
   )
 }
