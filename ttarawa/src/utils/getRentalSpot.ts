@@ -50,7 +50,7 @@ export default async function getRentalSpot(lat: number, lng: number) {
         lat: Number(nearestStation.station.stationLatitude),
         lng: Number(nearestStation.station.stationLongitude),
         spotId: Number(nearestStation.station.stationName.split('.')[0]),
-        subCategory: `대여소 번호 ${nearestStation.station.stationId}`,
+        subCategory: `잔여 따릉이 ${nearestStation.station.parkingBikeTotCnt} 대`,
       }
       spotList.push(spot)
     })
