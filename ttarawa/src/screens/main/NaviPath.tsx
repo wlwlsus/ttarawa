@@ -40,6 +40,24 @@ export default function NaviPath(props: {
   const category = useRecoilValue(markerCategoryState)
   const icons = [bikeIcon, restaurantIcon, cafeIcon, cultureIcon, toiletIcon]
 
+  // 대여소가 아니라면, 카테고리별 표시
+  // 대여소라면, 개수별로 Icon 변경
+  const getIcon = (checkMarker) => {
+    if (category !== 0) {
+      return icons[category]
+    } 
+
+    const visit = checkMarker.visit || 0
+
+    if (visit >= 10) {
+      return bikeIcon
+    } else if (visit >= 4) {
+      return bikeIcon2
+    } else {
+      return bikeIcon3
+    }
+  }
+
   function convertDistanceToKm(distanceString: string) {
     const distanceMeter = parseInt(distanceString.split(' ')[0], 10)
     // const distanceKm = distanceMeter / 1000
@@ -267,7 +285,7 @@ export default function NaviPath(props: {
               description={
                 marker.sub_category ? marker.sub_category : marker.subCategory
               }
-              icon={icons[category]}
+              icon={getIcon(marker)}
             />
           ))}
 

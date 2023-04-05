@@ -45,13 +45,13 @@ export default async function getRentalSpot(lat: number, lng: number) {
 
     // 장소 이름, 위도, 경도, 주소 가공
     nearestStations.forEach(async (nearestStation) => {
-      console.log(nearestStation)
       const spot = {
         name: nearestStation.station.stationName.split('.')[1].trim(),
         lat: Number(nearestStation.station.stationLatitude),
         lng: Number(nearestStation.station.stationLongitude),
         spotId: Number(nearestStation.station.stationName.split('.')[0]),
         subCategory: `잔여 따릉이 ${nearestStation.station.parkingBikeTotCnt} 대`,
+        visit: Number(nearestStation.station.parkingBikeTotCnt) // 잔여따릉이 수
       }
       spotList.push(spot)
     })
