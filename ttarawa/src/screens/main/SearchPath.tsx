@@ -11,10 +11,11 @@ import { useRecoilValue, useRecoilState } from 'recoil'
 import { departState, destinState, pathState } from '@store/atoms'
 
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
+import destinIcon from '@assets/Icon/destin2.png'
+import departIcon from '@assets/Icon/bike.png'
 import proj4 from 'proj4' // 위도경도 변환 라이브러리
 
 import { convertToKm, convertToTime } from '@utils/caculator'
-
 
 export default function SearchPath({ navigation }) {
   // 출발지 정보 가져오기
@@ -128,13 +129,14 @@ export default function SearchPath({ navigation }) {
         initialRegion={{
           latitude: middlePoint.latitude,
           longitude: middlePoint.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          // 출발지, 도착지 모두 지도상에 꽉차서 보이게 수정
+          latitudeDelta: Math.abs(depart.latitude - destin.latitude) * 1.5,
+          longitudeDelta: Math.abs(depart.longitude - destin.longitude) * 1.5,
         }}
         provider={PROVIDER_GOOGLE} // iphone 설정
       >
         <Marker coordinate={depart} title="출발" pinColor={color.red} />
-        <Marker coordinate={destin} title="도착" pinColor={color.red} />
+        <Marker coordinate={destin} title="도착" icon={destinIcon} />
         <Polyline
           coordinates={resultData}
           strokeColor="#AA0000"
