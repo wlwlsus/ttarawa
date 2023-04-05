@@ -12,7 +12,7 @@ import { departState } from '@store/atoms'
 import getRentalSpot from '@utils/getRentalSpot'
 
 export default function Categories({ style, route }) {
-  const [pressed, setPressed] = useState<number>(0)
+  const [pressed, setPressed] = useState<number>(0) // 카테고리 넘버
   const [markerList, setMarkerList] = useRecoilState(markerListState)
   const depart = useRecoilValue(departState)
 

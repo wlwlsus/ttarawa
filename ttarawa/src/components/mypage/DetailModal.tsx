@@ -3,7 +3,8 @@ import { View, Modal, Pressable } from 'react-native'
 import FeedCard from '@components/common/FeedCard'
 import { convertToKm, convertToTime } from '@utils/caculator'
 import { color } from '@styles/GlobalStyles'
-
+import { detailModal } from '@styles/myPage'
+// import snsaxios from '@services/sns'
 import { captureRef } from 'react-native-view-shot'
 import * as Sharing from 'expo-sharing'
 
@@ -30,6 +31,7 @@ interface ModalProps {
 
 export default function DetailModal({ visible, onClose, data }: ModalProps) {
   const [modalVisible, setModalVisible] = useState(visible)
+  // const { saveLike, deleteLike } = snsaxios
 
   useEffect(() => {
     setModalVisible(visible)
@@ -60,34 +62,21 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
       statusBarTranslucent
     >
       <Pressable
-        style={{
-          flex: 1,
-          backgroundColor: color.modalBg,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+        style={detailModal.cardContainer}
         onPress={() => {
           setModalVisible(false)
           onClose()
         }}
       >
-        <View
-          ref={myRef}
-          style={{
-            height: '70%',
-            width: '90%',
-            backgroundColor: color.white,
-            borderRadius: 10,
-          }}
-        >
+        <View ref={myRef} style={detailModal.card}>
           <FeedCard
-            historyId={data.historyId}
             userImg={data.profile}
             userName={data.nickname}
             rank={data.badgeImg}
             imagePath={data.image}
             likes={data.favoritesCount}
-            isLike={true}
+            isLike={data.isMyFavorite == 1 ? true : false}
+            pressLike={() => pressLike(data.historyId, data.isMyFavorite)}
             distence={distance}
             time={time}
             content={data.content}
