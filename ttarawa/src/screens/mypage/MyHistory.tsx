@@ -1,5 +1,5 @@
 import { View, FlatList, Keyboard } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import FeedCard from '@components/common/FeedCard'
 
 import { sns } from '@styles/sns'
@@ -12,6 +12,9 @@ import { convertToKm, convertToTime } from '@utils/caculator'
 
 import { useRecoilState } from 'recoil'
 import { historyParams } from '@store/atoms'
+
+import { captureRef } from 'react-native-view-shot'
+import * as Sharing from 'expo-sharing'
 
 interface FeedData {
   historyId: number
@@ -151,9 +154,19 @@ export default function MyHistory() {
       .catch((err) => console.log(err))
   }
 
-  const pressShare = (key: number) => {
-    console.log('공유')
+  // 캡쳐한 화면 공유
+  const myRef = useRef(null)
+  const pressShare = async () => {
     setModalVisible(false)
+    try {
+      const result = await captureRef(myRef, {
+        format: 'png',
+        quality: 0.9,
+      })
+      await Sharing.shareAsync(result)
+    } catch (error) {
+      console.error('Error while taking screenshot and sharing: ', error)
+    }
   }
 
   // 하단 네브바 생성
@@ -163,7 +176,7 @@ export default function MyHistory() {
   }
 
   return (
-    <View style={sns.container}>
+    <View style={sns.container} ref={myRef}>
       {dataLst && (
         <FlatList
           data={dataLst}
@@ -203,7 +216,7 @@ export default function MyHistory() {
           <HistoryMenu
             pressUpdate={() => pressUpdate(selectedHistoryId)}
             pressDelete={() => pressDelete(selectedHistoryId)}
-            pressShare={() => pressShare(selectedHistoryId)}
+            pressShare={pressShare}
           />
         }
       />
