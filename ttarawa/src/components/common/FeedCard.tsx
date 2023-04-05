@@ -151,7 +151,7 @@ export default function FeedCard({
                     color="black"
                   />
                 }
-                // press
+                press={pressShare}
               />
             ) : (
               <IconButton
