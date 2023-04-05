@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { View, Modal, Pressable } from 'react-native'
 import FeedCard from '@components/common/FeedCard'
 import { convertToKm, convertToTime } from '@utils/caculator'
 import { color } from '@styles/GlobalStyles'
 
+import { captureRef } from 'react-native-view-shot'
+import * as Sharing from 'expo-sharing'
 
 interface ModalProps {
   visible: boolean
@@ -35,10 +37,24 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
 
   const distance = convertToKm(data.distance)
   const time = convertToTime(data.time)
-  
+
+  // 캡쳐한 화면 공유
+  const myRef = useRef(null)
+  const sharePost = async () => {
+    try {
+      const result = await captureRef(myRef, {
+        format: 'png',
+        quality: 0.9,
+      })
+      await Sharing.shareAsync(result)
+    } catch (error) {
+      console.error('Error while taking screenshot and sharing: ', error)
+    }
+  }
+
   return (
-    <Modal 
-      animationType="slide" 
+    <Modal
+      animationType="slide"
       visible={modalVisible}
       transparent
       statusBarTranslucent
@@ -55,12 +71,15 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
           onClose()
         }}
       >
-        <View style={{
-          height: '70%',
-          width: '90%',
-          backgroundColor: color.white,
-          borderRadius: 10,
-        }}>
+        <View
+          ref={myRef}
+          style={{
+            height: '70%',
+            width: '90%',
+            backgroundColor: color.white,
+            borderRadius: 10,
+          }}
+        >
           <FeedCard
             historyId={data.historyId}
             userImg={data.profile}
@@ -72,6 +91,7 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
             distence={distance}
             time={time}
             content={data.content}
+            pressShare={sharePost}
           />
         </View>
       </Pressable>

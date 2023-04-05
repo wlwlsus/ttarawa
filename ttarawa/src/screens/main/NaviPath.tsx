@@ -10,6 +10,7 @@ import EndModal from '@components/main/EndModal'
 import NaviBottom from '@components/main/NaviBottom'
 import NaviTimer from '@components/main/NaviTimer'
 import TimerModal from '@components/main/TimerModal'
+import ReturnModal from '@components/main/ReturnModal'
 import Categories from '@components/main/Categories'
 import Button from '@components/common/Button'
 
@@ -78,19 +79,28 @@ export default function NaviPath({ route, navigation }) {
 
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
+  const [returnModalVisible, setReturnModalVisible] = useState(false)
   const [time, setTime] = useState(0)
 
   const handleModalVisible = () => {
-    setModalVisible(!modalVisible)
+    if (time == 0) {
+      setModalVisible(!modalVisible)
+    } else {
+      setReturnModalVisible(!modalVisible)
+    }
   }
 
   const handleSetTime = (newTime) => {
     setTime(newTime)
     setModalVisible(false)
+    setReturnModalVisible(false)
   }
 
   const cancleTime = () => {
     setModalVisible(false)
+  }
+  const returnBike = () => {
+    setReturnModalVisible(false)
   }
 
   return (
@@ -103,6 +113,11 @@ export default function NaviPath({ route, navigation }) {
         modalVisible={modalVisible}
         handleSetTime={handleSetTime}
         cancleTime={cancleTime}
+      />
+      <ReturnModal
+        modalVisible={returnModalVisible}
+        handleSetTime={handleSetTime}
+        cancleTime={returnBike}
       />
 
       {resultData && (
