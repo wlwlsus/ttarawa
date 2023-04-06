@@ -24,7 +24,8 @@ export default function ReturnModal({
             style={styles.logo}
             source={require('@assets/ttarawa/logo.png')}
           />
-          <Text style={styles.title}>반납하시겠습니까?</Text>
+          <Text style={styles.title}>따릉이를 반납하셨나요?</Text>
+          <Text style={styles.subTitle}>타이머를 초기화합니다.</Text>
         </View>
 
         <View style={[styles.buttonContainer, styles.shadow]}>
@@ -57,7 +58,7 @@ const styles = {
     height: 50,
   },
   contentContainer: {
-    height: '30%',
+    height: '20%',
     width: '90%',
     backgroundColor: color.white,
     borderTopLeftRadius: 10,
@@ -77,7 +78,11 @@ const styles = {
     fontWeight: '500',
     textAlign: 'center',
   },
-
+  subTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    lineHeight: 50,
+  },
   cancel: {
     flex: 1,
     fontSize: 30,
