@@ -13,7 +13,8 @@ import UserProfile from '@components/mypage/UserProfile'
 
 export default function MyProfile({ navigation }) {
   // Todo : badgeName, profile 연결해야함
-  const { nickname, badgeName, totalDistance } = useRecoilValue(userState)
+  const { nickname, badgeName, totalDistance, badgeImg } =
+    useRecoilValue(userState)
 
   const logout = async () => {
     const accessToken = await getToken()
@@ -38,7 +39,7 @@ export default function MyProfile({ navigation }) {
       <View style={[myPage.userContainer, myPage.shadow]}>
         <Text style={myPage.rank}>{badgeName}</Text>
         <View style={myPage.nameContainer}>
-          <Image source={require('@assets/rank/junior.png')} />
+          <Image style={myPage.img} source={{ uri: badgeImg }} />
           <Text style={myPage.userName}>{nickname} 님</Text>
         </View>
         <Text style={myPage.riding}>

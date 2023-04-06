@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 import { color } from '@styles/GlobalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -30,6 +30,7 @@ export default function Recom({ navigation }) {
   const [depart, setDepart] = useRecoilState(departState)
   const [recoms, setRecoms] = useState<result[]>([])
   const [userInfo, setUserInfo] = useRecoilState(userState)
+  const [loading, setLoading] = useState(true)
 
   const getRecom = async () => {
     // 현재 위치
@@ -55,10 +56,19 @@ export default function Recom({ navigation }) {
       .catch((err) => console.log(err))
 
     getRecom()
+    // 로딩
+    setTimeout(() => setLoading(false), 2000)
   }, [])
 
   const goMap = () => {
     navigation.navigate('Tabs', { screen: 'Main' })
+  }
+
+  if (loading) {
+    // 로딩 중이면 gif 이미지 표시
+    return (
+      <Image source={require('@assets/guide/splash.gif')} style={{ flex: 1 }} />
+    )
   }
 
   return (

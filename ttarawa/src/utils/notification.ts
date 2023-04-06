@@ -5,7 +5,7 @@ import getLocation from '@utils/getLocation'
 const returnNoti = (min: number) => {
   Notifications.scheduleNotificationAsync({
     content: {
-      title: `따릉이 반납 시간까지 ${min}분 남았습니다.`,
+      title: `반납 시간까지 ${min}분 남았습니다.`,
       body: '근처 대여소를 확인해주세요.',
     },
     trigger: {
