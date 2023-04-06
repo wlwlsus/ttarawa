@@ -76,7 +76,7 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
             imagePath={data.image}
             likes={data.favoritesCount}
             isLike={data.isMyFavorite == 1 ? true : false}
-            pressLike={() => pressLike(data.historyId, data.isMyFavorite)}
+            // pressLike={() => pressLike(data.historyId, data.isMyFavorite)}
             distence={distance}
             time={time}
             content={data.content}

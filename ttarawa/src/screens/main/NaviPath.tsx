@@ -8,6 +8,7 @@ import {
   markerListState,
   locationListState,
   remainingDistanceState,
+  markerCategoryState,
 } from '@store/atoms'
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import * as Location from 'expo-location'
@@ -18,11 +19,45 @@ import TimerModal from '@components/main/TimerModal'
 import ReturnModal from '@components/main/ReturnModal'
 import Categories from '@components/main/Categories'
 
+
+// 마커 커스터마이징 아이콘들
+import bikeIcon from '@assets/Icon/bike.png'    // 대여소
+import bikeIcon2 from '@assets/Icon/bike2.png'
+import bikeIcon3 from '@assets/Icon/bike3.png'
+import cafeIcon from '@assets/Icon/cafe.png'    // 카페
+import restaurantIcon from '@assets/Icon/restaurant.png'  // 음식점
+import cultureIcon from '@assets/Icon/star.png'    // 관광지(문화시설)
+import toiletIcon from '@assets/Icon/toilets.png'   // 화장실
+import destinIcon from '@assets/Icon/destin2.png'  // 목적지
+
+
 export default function NaviPath(props: {
   route: any
   navigation: any
   distance: any
 }) {
+  // 카테고리 가져오기
+  const category = useRecoilValue(markerCategoryState)
+  const icons = [bikeIcon, restaurantIcon, cafeIcon, cultureIcon, toiletIcon]
+
+  // 대여소가 아니라면, 카테고리별 표시
+  // 대여소라면, 개수별로 Icon 변경
+  const getIcon = (checkMarker) => {
+    if (category !== 0) {
+      return icons[category]
+    } 
+
+    const visit = checkMarker.visit || 0
+
+    if (visit >= 10) {
+      return bikeIcon
+    } else if (visit >= 4) {
+      return bikeIcon2
+    } else {
+      return bikeIcon3
+    }
+  }
+
   function convertDistanceToKm(distanceString: string) {
     const distanceMeter = parseInt(distanceString.split(' ')[0], 10)
     // const distanceKm = distanceMeter / 1000
@@ -236,7 +271,7 @@ export default function NaviPath(props: {
           provider={PROVIDER_GOOGLE}
         >
           <Marker coordinate={depart} title="출발" pinColor={color.red} />
-          <Marker coordinate={destin} title="도착" pinColor={color.red} />
+          <Marker coordinate={destin} title="도착" icon={destinIcon} />
 
           {markerList?.map((marker: any) => (
             <Marker
@@ -250,6 +285,7 @@ export default function NaviPath(props: {
               description={
                 marker.sub_category ? marker.sub_category : marker.subCategory
               }
+              icon={getIcon(marker)}
             />
           ))}
 

@@ -2,23 +2,44 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { Image } from 'react-native'
 import { styles, color } from '@styles/GlobalStyles'
 import { map } from '@styles/main'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { departState, destinState, markerListState } from '@store/atoms'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
+import { destinState, markerListState, markerCategoryState } from '@store/atoms'
 
 // 마커 커스터마이징 아이콘들
-import bikeIcon from '@assets/Icon/bike.png'
+import bikeIcon from '@assets/Icon/bike.png'    // 대여소
 import bikeIcon2 from '@assets/Icon/bike2.png'
 import bikeIcon3 from '@assets/Icon/bike3.png'
-import cafeIcon from '@assets/Icon/cafe.png'
-import restaurantIcon from '@assets/Icon/restaurant.png'
-import adventureIcon from '@assets/Icon/star.png'
-import toiletIcon from '@assets/Icon/toilets.png'
+import cafeIcon from '@assets/Icon/cafe.png'    // 카페
+import restaurantIcon from '@assets/Icon/restaurant.png'  // 음식점
+import cultureIcon from '@assets/Icon/star.png'    // 관광지(문화시설)
+import toiletIcon from '@assets/Icon/toilets.png'   // 화장실
 import mapStyle from '@utils/customMapStyle.json' // 마커 지우는 옵션 json파일 가져오기
 
 export default function MapGoogle({ setMarker, region }) {
-  const [depart, setDepart] = useRecoilState(departState)
-  const [markerList, setMarkerList] = useRecoilState(markerListState)
+  // const [depart, setDepart] = useRecoilState(departState)
+  const markerList = useRecoilValue(markerListState)
   const setDestin = useSetRecoilState(destinState)
+  const category = useRecoilValue(markerCategoryState)
+
+  const icons = [bikeIcon, restaurantIcon, cafeIcon, cultureIcon, toiletIcon]
+
+  // 대여소가 아니라면, 카테고리별 표시
+  // 대여소라면, 개수별로 Icon 변경
+  const getIcon = (checkMarker) => {
+    if (category !== 0) {
+      return icons[category]
+    } 
+
+    const visit = checkMarker.visit || 0
+
+    if (visit >= 10) {
+      return bikeIcon
+    } else if (visit >= 4) {
+      return bikeIcon2
+    } else {
+      return bikeIcon3
+    }
+  }
 
   const handleMarkerPress = (index: number, marker: object) => {
     setMarker(index)
@@ -42,14 +63,12 @@ export default function MapGoogle({ setMarker, region }) {
             latitude: marker.lat,
             longitude: marker.lng,
           }}
-          // pinColor={color.primary}
           title={marker.name}
           description={
             marker.sub_category ? marker.sub_category : marker.subCategory
           }
           onPress={() => handleMarkerPress(index, marker)}
-          icon={bikeIcon}
-          style={{ width: 20, height: 20 }}
+          icon={getIcon(marker)}
         />
       ))}
     </MapView>

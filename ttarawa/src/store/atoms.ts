@@ -36,6 +36,11 @@ export const markerListState = atom({
   default: [],
 })
 
+export const markerCategoryState = atom({
+  key: 'markerCategoryState',
+  default: 0
+})
+
 // 길안내 좌표
 export const pathState = atom({
   key: 'pathState',
