@@ -82,7 +82,7 @@ export default function SearchPath({ navigation }) {
               data.features[0].properties.totalDistance,
             )
             const time = convertToTime(
-              data.features[0].properties.totalTime / 3,
+              Math.floor(data.features[0].properties.totalTime / 3),
             )
             setDistance(distance)
             setTime(time)

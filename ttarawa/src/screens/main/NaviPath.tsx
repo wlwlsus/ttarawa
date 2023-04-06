@@ -21,8 +21,9 @@ import Categories from '@components/main/Categories'
 
 // 마커 커스터마이징 아이콘들
 import bikeIcon from '@assets/Icon/bike.png' // 대여소
-import bikeIcon2 from '@assets/Icon/bike2.png'
-import bikeIcon3 from '@assets/Icon/bike3.png'
+import yellowbikeIcon from '@assets/Icon/yellowbike.png'
+import redbikeIcon from '@assets/Icon/redbike.png'
+import blackbikeIcon from '@assets/Icon/blackbike.png'
 import cafeIcon from '@assets/Icon/cafe.png' // 카페
 import restaurantIcon from '@assets/Icon/restaurant.png' // 음식점
 import cultureIcon from '@assets/Icon/star.png' // 관광지(문화시설)
@@ -38,21 +39,24 @@ export default function NaviPath(props: {
   const category = useRecoilValue(markerCategoryState)
   const icons = [bikeIcon, restaurantIcon, cafeIcon, cultureIcon, toiletIcon]
 
-  // 대여소가 아니라면, 카테고리별 표시
-  // 대여소라면, 개수별로 Icon 변경
+  // 카테고리별 Marker 커스터마이징
   const getIcon = (checkMarker) => {
+    // 대여소가 아니라면, 카테고리별 표시
     if (category !== 0) {
       return icons[category]
     }
 
+    // 데여소라면, 개수별로, Icon 변경
     const visit = checkMarker.visit || 0
 
     if (visit >= 10) {
       return bikeIcon
     } else if (visit >= 4) {
-      return bikeIcon2
+      return yellowbikeIcon
+    } else if (visit >= 1) {
+      return redbikeIcon
     } else {
-      return bikeIcon3
+      return blackbikeIcon
     }
   }
 
@@ -197,10 +201,12 @@ export default function NaviPath(props: {
     setWatcher(watcher)
     return watcher
   }
+
   // 시작 시 실행
   useEffect(() => {
     startLocationTracking()
   }, [])
+
   // 저장 종료
   const stopLocationTracking = () => {
     if (!watcher) return
