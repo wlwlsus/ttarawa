@@ -82,8 +82,6 @@ export default function NaviPath(props: {
     navigation.navigate('Mypage', { screen: 'MyHistory' })
     setEndModalVisible(false)
   }
-  // props로 넘긴 데이터 받기
-  // const { depart, destin, middlePoint } = route
 
   // 지도 중심을 설정을 위한 현재 위치 설정
   const [region, setRegion] = useState({
