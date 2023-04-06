@@ -1,15 +1,18 @@
 import { Modal, Text, Image, View } from 'react-native'
 import { color } from '@styles/GlobalStyles'
-const ReturnModal = ({ modalVisible, handleSetTime, cancleTime }) => {
-  const handlePress = (time: number) => {
-    handleSetTime(time)
-  }
-  const cancleTimer = () => {
-    cancleTime()
+
+export default function ReturnModal({
+  returnModalVisible,
+  setReturnModalVisible,
+  setRentalTime,
+}) {
+  const handleConfirm = () => {
+    setReturnModalVisible(false)
+    setRentalTime(0)
   }
   return (
     <Modal
-      visible={modalVisible}
+      visible={returnModalVisible}
       animationType="slide"
       transparent
       statusBarTranslucent
@@ -25,10 +28,13 @@ const ReturnModal = ({ modalVisible, handleSetTime, cancleTime }) => {
         </View>
 
         <View style={[styles.buttonContainer, styles.shadow]}>
-          <Text style={styles.cancel} onPress={() => cancleTimer()}>
+          <Text
+            style={styles.cancel}
+            onPress={() => setReturnModalVisible(false)}
+          >
             취소
           </Text>
-          <Text style={styles.confirm} onPress={() => handlePress(0)}>
+          <Text style={styles.confirm} onPress={handleConfirm}>
             확인
           </Text>
         </View>
@@ -102,5 +108,3 @@ const styles = {
     elevation: 5,
   },
 }
-
-export default ReturnModal

@@ -19,17 +19,15 @@ import TimerModal from '@components/main/TimerModal'
 import ReturnModal from '@components/main/ReturnModal'
 import Categories from '@components/main/Categories'
 
-
 // 마커 커스터마이징 아이콘들
-import bikeIcon from '@assets/Icon/bike.png'    // 대여소
+import bikeIcon from '@assets/Icon/bike.png' // 대여소
 import bikeIcon2 from '@assets/Icon/bike2.png'
 import bikeIcon3 from '@assets/Icon/bike3.png'
-import cafeIcon from '@assets/Icon/cafe.png'    // 카페
-import restaurantIcon from '@assets/Icon/restaurant.png'  // 음식점
-import cultureIcon from '@assets/Icon/star.png'    // 관광지(문화시설)
-import toiletIcon from '@assets/Icon/toilets.png'   // 화장실
-import destinIcon from '@assets/Icon/destin2.png'  // 목적지
-
+import cafeIcon from '@assets/Icon/cafe.png' // 카페
+import restaurantIcon from '@assets/Icon/restaurant.png' // 음식점
+import cultureIcon from '@assets/Icon/star.png' // 관광지(문화시설)
+import toiletIcon from '@assets/Icon/toilets.png' // 화장실
+import destinIcon from '@assets/Icon/destin2.png' // 목적지
 
 export default function NaviPath(props: {
   route: any
@@ -45,7 +43,7 @@ export default function NaviPath(props: {
   const getIcon = (checkMarker) => {
     if (category !== 0) {
       return icons[category]
-    } 
+    }
 
     const visit = checkMarker.visit || 0
 
@@ -71,13 +69,11 @@ export default function NaviPath(props: {
 
   // endmodal
   const [endmodalVisible, setEndModalVisible] = useState(false)
-  const handleEndModalVisible = () => {
-    setEndModalVisible(!endmodalVisible)
-    console.log('End')
-  }
+
   const cancleModal = () => {
     setEndModalVisible(false)
   }
+
   const goProfile = () => {
     navigation.navigate('Mypage', { screen: 'MyHistory' })
     setEndModalVisible(false)
@@ -212,56 +208,35 @@ export default function NaviPath(props: {
     watcher.then((locationSubscription: Location.LocationSubscription) => {
       locationSubscription.remove()
       setWatcher(null)
-      console.log('stop it')
     })
   }
-  // 주행시간 타이머
-  const [ttime, setTTime] = useState(0)
-  const [currentTime, setCurrentTime] = useState(ttime)
 
   // 따릉 타이머
   const [modalVisible, setModalVisible] = useState(false)
   const [returnModalVisible, setReturnModalVisible] = useState(false)
-  const [time, setTime] = useState(0)
-
-  const handleModalVisible = () => {
-    if (time == 0) {
-      setModalVisible(!modalVisible)
-    } else {
-      setReturnModalVisible(!modalVisible)
-    }
-  }
-
-  const handleSetTime = (newTime: any) => {
-    setTime(newTime)
-    setModalVisible(false)
-    setReturnModalVisible(false)
-  }
-
-  const cancleTime = () => {
-    setModalVisible(false)
-  }
-  const returnBike = () => {
-    setReturnModalVisible(false)
-  }
+  const [rentalTime, setRentalTime] = useState(0) // 대여 시간
+  const [ridingTime, setRidingTime] = useState(0) // 주행시간
 
   return (
     <SafeAreaView style={[styles.androidSafeArea, navi.container]}>
-      <NaviTimer time={time} onpress={handleModalVisible} />
-
+      <NaviTimer
+        rentalTime={rentalTime}
+        setModalVisible={setModalVisible}
+        setReturnModalVisible={setReturnModalVisible}
+      />
       <Categories style={navi.categories} route={route} />
 
       <TimerModal
         modalVisible={modalVisible}
-        handleSetTime={handleSetTime}
-        cancleTime={cancleTime}
-      />
-      <ReturnModal
-        modalVisible={returnModalVisible}
-        handleSetTime={handleSetTime}
-        cancleTime={returnBike}
+        setModalVisible={setModalVisible}
+        setRentalTime={setRentalTime}
       />
 
+      <ReturnModal
+        returnModalVisible={returnModalVisible}
+        setReturnModalVisible={setReturnModalVisible}
+        setRentalTime={setRentalTime}
+      />
       {resultData && (
         <MapView
           style={navi.container}
@@ -296,16 +271,16 @@ export default function NaviPath(props: {
           />
         </MapView>
       )}
+
       <NaviBottom
-        time={ttime}
-        currentTime={currentTime}
-        setCurrentTime={setCurrentTime}
-        stop={stopLocationTracking}
-        handleOn={handleEndModalVisible}
+        setRidingTime={setRidingTime}
+        stopLocationTracking={stopLocationTracking}
+        setEndModalVisible={setEndModalVisible}
         distance={distance}
       />
+
       <EndModal
-        time={currentTime}
+        ridingTime={ridingTime}
         modalVisible={endmodalVisible}
         cancleModal={cancleModal}
         navigate={goProfile}

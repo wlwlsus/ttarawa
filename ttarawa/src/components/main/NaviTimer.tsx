@@ -3,48 +3,63 @@ import { useEffect, useState } from 'react'
 import { navi } from '@styles/main'
 import noti from '@utils/notification'
 
-export default function NaviTimer({ time, onpress }) {
-  const [currentTime, setCurrentTime] = useState(time)
+export default function NaviTimer({
+  rentalTime,
+  setModalVisible,
+  setReturnModalVisible,
+}) {
+  const [time, setTime] = useState(rentalTime)
 
-  // fireAlarm 값에 따라 알람 실행
-  useEffect(() => {
-    let interval
-    if (currentTime > 0) {
-      interval = setInterval(() => {
-        setCurrentTime(currentTime - 1)
-      }, 1000)
+  // 잔여 시간에 따라 클릭시 보여줄 modal 결정
+  const handlePress = () => {
+    if (time) {
+      setReturnModalVisible(true)
+      setModalVisible(false)
+    } else {
+      setReturnModalVisible(false)
+      setModalVisible(true)
     }
-    return () => clearInterval(interval)
-  }, [currentTime])
+  }
 
+  // rentalTime 변경이 감지가 안돼서 일단 dependency에 넣어놓음
+  // Todo: 리팩토링 필요
   useEffect(() => {
-    setCurrentTime(time)
+    if (!rentalTime) {
+      setTime(0)
+      return
+    }
+
+    setTime(rentalTime)
+    let countDown = setInterval(() => {
+      setTime((prevTime) => prevTime - 1) // 이전 값 재사용을 위한 콜백함수
+    }, 1000)
+
+    return () => {
+      clearInterval(countDown)
+    }
+  }, [rentalTime])
+
+  // 잔여시간 20분, 10분시 반납 알람
+  useEffect(() => {
+    if (time === 1200 || time === 600) {
+      const min = time % 60
+      noti.returnNoti(min)
+    }
   }, [time])
 
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600)
     const minutes = Math.floor((time % 3600) / 60)
     const seconds = time % 60
-
-    // 따릉이 잔여시간 20분, 10분 알람
-    if (hours === 0 && seconds === 59 && minutes === 59) {
-      console.log(hours, seconds, minutes)
-      noti.returnNoti(minutes)
-    }
-    if (hours === 0 && seconds === 59 && minutes === 58) {
-      console.log(hours, seconds, minutes)
-      noti.returnNoti(minutes)
-    }
-
     return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   }
 
   return (
-    <Pressable onPress={onpress} style={navi.timer}>
+    <Pressable onPress={handlePress} style={navi.timer}>
       <Text style={navi.infoTitle}>따릉이 남은 시간</Text>
-      <Text style={navi.time}>{formatTime(currentTime)}</Text>
+      <Text style={navi.time}>{formatTime(time)}</Text>
     </Pressable>
   )
 }
