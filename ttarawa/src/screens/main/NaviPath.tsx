@@ -83,12 +83,12 @@ export default function NaviPath(props: {
     setEndModalVisible(false)
   }
   // props로 넘긴 데이터 받기
-  const { depart, destin, middlePoint } = route
+  // const { depart, destin, middlePoint } = route
 
   // 지도 중심을 설정을 위한 현재 위치 설정
   const [region, setRegion] = useState({
-    latitude: depart.lat,
-    longitude: depart.lng,
+    latitude: route.depart.lat,
+    longitude: route.depart.lng,
     latitudeDelta: 0.02,
     longitudeDelta: 0.02,
   })
@@ -223,6 +223,7 @@ export default function NaviPath(props: {
   const [rentalTime, setRentalTime] = useState(0) // 대여 시간
   const [ridingTime, setRidingTime] = useState(0) // 주행시간
 
+  if (!region.latitude) return <></>
   return (
     <SafeAreaView style={[styles.androidSafeArea, navi.container]}>
       <NaviTimer
@@ -251,8 +252,8 @@ export default function NaviPath(props: {
           followsUserLocation
           provider={PROVIDER_GOOGLE}
         >
-          <Marker coordinate={depart} title="출발" pinColor={color.red} />
-          <Marker coordinate={destin} title="도착" icon={destinIcon} />
+          <Marker coordinate={route.depart} title="출발" pinColor={color.red} />
+          <Marker coordinate={route.destin} title="도착" icon={destinIcon} />
 
           {markerList?.map((marker: any) => (
             <Marker
