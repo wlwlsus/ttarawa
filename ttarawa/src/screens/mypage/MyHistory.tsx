@@ -10,9 +10,6 @@ import user from '@services/user'
 import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
 
-import { useRecoilState } from 'recoil'
-import { historyParams } from '@store/atoms'
-
 import { captureRef } from 'react-native-view-shot'
 import * as Sharing from 'expo-sharing'
 

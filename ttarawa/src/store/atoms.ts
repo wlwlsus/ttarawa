@@ -65,12 +65,6 @@ export const snsParamsState = atom({
   default: 'createdDate,desc',
 })
 
-// History bottoms params
-export const historyParams = atom({
-  key: 'historyParams',
-  default: '',
-})
-
 export const remainingDistanceState = atom({
   key: 'remainingDistanceState',
   default: 0,
