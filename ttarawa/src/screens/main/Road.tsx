@@ -78,8 +78,8 @@ export default function Road() {
           initialRegion={{
             latitude: middlePoint.latitude,
             longitude: middlePoint.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
           }}
         >
           <Polyline

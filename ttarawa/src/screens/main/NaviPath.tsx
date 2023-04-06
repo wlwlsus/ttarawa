@@ -89,8 +89,8 @@ export default function NaviPath(props: {
   const [region, setRegion] = useState({
     latitude: route.depart.lat,
     longitude: route.depart.lng,
-    latitudeDelta: 0.02,
-    longitudeDelta: 0.02,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
   })
 
   const resultData = useRecoilValue(pathState)
@@ -199,8 +199,8 @@ export default function NaviPath(props: {
           ...region,
           latitude: latitude,
           longitude: longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002,
         })
       },
     )
