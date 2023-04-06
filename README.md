@@ -23,7 +23,7 @@
 
 <table>
 <tr><td>고수연</td><td>Back-end</td><td><mark>팀장</mark>&nbsp; <mark>ERD설계</mark>&nbsp;<mark>CI/CD(자동, 무중단 배포)</mark>&nbsp;<mark>로그적재</mark></td></tr>
-<tr><td>성원준</td><td>Back-end</td><td><mark>API 설계</mark>&nbsp; <mark>API 구현(여행지 추천)</mark>&nbsp;<mark>프론트 어시</mark></td></tr>
+<tr><td>성원준</td><td>Back-end</td><td><mark>API 설계</mark>&nbsp; <mark>API 구현(여행지 추천 알고리즘)</mark>&nbsp;<mark>Flask 서버 배포</mark>&nbsp;<mark>프론트 어시</mark></td></tr>
 <tr><td>두소원</td><td>Back-end</td><td><mark>데이터 수집</mark>&nbsp; <mark>API 구현(회원, 주행 기록)</mark>&nbsp;<mark>UCC</mark></td></tr>
 <tr><td>최성빈</td><td>Front-end</td><td><mark>추천페이지</mark>&nbsp; <mark>네비게이션</mark>&nbsp; <mark>주행거리 기록</mark>&nbsp; <mark>소셜 로그인</mark>&nbsp; <mark>발표</mark>&nbsp;</td></tr>
 <tr><td>조혜진</td><td>Front-end</td><td><mark>SNS 페이지</mark>&nbsp; <mark>좋아요목록</mark>&nbsp; <mark>주행기록 목록</mark>&nbsp; <mark>핀 커스터마이징</mark>&nbsp; <mark>경로안내</mark>&nbsp;</td></tr>
