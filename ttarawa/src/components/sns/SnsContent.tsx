@@ -55,10 +55,10 @@ export default function SnsContent() {
   }
 
   useEffect(() => {
-    if (typeof params === 'string') {
-      getData(params, page)
+    if (typeof snsParams === 'string') {
+      getData(snsParams, page)
     } else {
-      const { lat, lng } = params
+      const { lat, lng } = snsParams
 
       fetchPostRecom(10, lat, lng)
         .then((res) => {
@@ -73,7 +73,7 @@ export default function SnsContent() {
         })
         .catch((err) => console.log(err))
     }
-  }, [params])
+  }, [snsParams])
 
   const pressLike = (key: number) => {
     const check = dataLst.find((data) => data.historyId === key)
