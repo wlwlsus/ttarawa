@@ -7,19 +7,17 @@
 - [Porting manual](exec/porting_manual.pdf)
 - [시연 시나리오](exec/시연_시나리오.pdf)
 
-
 ### “가볍게 떠나는 따릉이 여행”
 
 - 따릉이 기반 목적지 추천 서비스 입니다
 - 자신의 주행기록을 기반으로 목적지를 추천 받을 수 있습니다
 - 기존 따릉이 어플의 불편한 부분을 해소해줍니다
-    - 반납 시간이 다가오면 알람을 보냅니다
-    - 네비게이션을 이용하는 동시에 주변 대여소를 확인할 수 있습니다
+  - 반납 시간이 다가오면 알람을 보냅니다
+  - 네비게이션을 이용하는 동시에 주변 대여소를 확인할 수 있습니다
 
 ## 프로젝트 기간
 
 > 2023.02.27 ~ 2023.04.07
-> 
 
 ## 참여 인원 및 역할 분배
 
@@ -27,9 +25,9 @@
 <tr><td>고수연</td><td>Back-end</td><td><mark>팀장</mark>&nbsp; <mark>ERD설계</mark>&nbsp;<mark>CI/CD(자동, 무중단 배포)</mark>&nbsp;<mark>로그적재</mark></td></tr>
 <tr><td>성원준</td><td>Back-end</td><td><mark>API 설계</mark>&nbsp; <mark>API 구현(여행지 추천)</mark>&nbsp;<mark>프론트 어시</mark></td></tr>
 <tr><td>두소원</td><td>Back-end</td><td><mark>데이터 수집</mark>&nbsp; <mark>API 구현(회원, 주행 기록)</mark>&nbsp;<mark>UCC</mark></td></tr>
-<tr><td>조혜진</td><td>Front-end</td><td></td></tr>
-<tr><td>최성빈</td><td>Front-end</td><td></td></tr>
-<tr><td>정예지</td><td>Front-end</td><td></td></tr>
+<tr><td>최성빈</td><td>Front-end</td><td><mark>추천페이지</mark>&nbsp; <mark>네비게이션</mark>&nbsp; <mark>주행거리 기록</mark>&nbsp; <mark>소셜 로그인</mark>&nbsp; <mark>발표</mark>&nbsp;</td></tr>
+<tr><td>조혜진</td><td>Front-end</td><td><mark>SNS 페이지</mark>&nbsp; <mark>좋아요목록</mark>&nbsp; <mark>주행기록 목록</mark>&nbsp; <mark>핀 커스터마이징</mark>&nbsp; <mark>경로안내</mark>&nbsp;</td></tr>
+<tr><td>정예지</td><td>Front-end</td><td><mark>인트로 페이지</mark>&nbsp; <mark>따릉이 API</mark>&nbsp; <mark>CSS</mark>&nbsp; <mark>프로필</mark>&nbsp; <mark>Expo 알람</mark>&nbsp; <mark>지도 마커</mark>&nbsp; <mark>RN Navigation</mark>&nbsp; <mark>BottomSheet</mark>&nbsp;</td></tr>
 </table>
 
 ## 개발 배경
@@ -37,22 +35,21 @@
 ### 기존 따릉이 앱의 문제점
 
 1. 대여소 위치 파악만 가능
-    - 대여소 까지 길 안내를 받으려면 타 지도 서비스 앱을 다운받아야 함
+   - 대여소 까지 길 안내를 받으려면 타 지도 서비스 앱을 다운받아야 함
 2. 잔여 대여시간 단순 알람
-    - 반납 미이행시 과금 발생
+   - 반납 미이행시 과금 발생
 3. 이용하는 사람만 재이용
-    - 편리한 인프라가 갖춰져 있으나 새로 유입되는 유저는 적고 충성 유저가 많은 편
+   - 편리한 인프라가 갖춰져 있으나 새로 유입되는 유저는 적고 충성 유저가 많은 편
 
 ### 따라와만의 차별적인 서비스
 
 1. 경로 안내 및 반납 도우미
-    - 반납 시간이 다가오면 반납 알림을 주고, 주변 대여소를 선택
+   - 반납 시간이 다가오면 반납 알림을 주고, 주변 대여소를 선택
 2. 목적지 추천
-    - 자신의 위치, 주행기록을 기반으로 목적지 추천
+   - 자신의 위치, 주행기록을 기반으로 목적지 추천
 3. 따릉이 여행 커뮤니티
-    - 주행 코스를 동유하여 다른 사람들의 주행 경로를 따라 여행 가능
-    - 새로운 유저 유입 증가
-    
+   - 주행 코스를 동유하여 다른 사람들의 주행 경로를 따라 여행 가능
+   - 새로운 유저 유입 증가
 
 ## 개발 환경
 
@@ -62,8 +59,8 @@
 - TypeScript
 - Recoil
 - Axios
-- WebView
 - google map API
+- Tmap API
 - 따릉이 API
 
 ### Back-End
