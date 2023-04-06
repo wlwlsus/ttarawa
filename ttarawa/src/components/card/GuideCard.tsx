@@ -18,11 +18,11 @@ interface Props {
 
 export default function GuideCard({ index, content }: Props) {
   const imgTable: any[] = [
-    require('@assets/guide/recom.jpg'),
-    require('@assets/ttarawa/riding.png'),
-    require('@assets/guide/rest.jpg'),
-    require('@assets/ttarawa/riding.png'),
-    require('@assets/ttarawa/profile.png'),
+    require('@assets/guide/recom.png'),
+    require('@assets/guide/path.png'),
+    require('@assets/guide/rest.png'),
+    require('@assets/guide/sns.png'),
+    require('@assets/guide/badges.png'),
     require('@assets/ttarawa/profile.png'),
   ]
 
@@ -38,8 +38,9 @@ export default function GuideCard({ index, content }: Props) {
 
   return (
     <Animated.View style={[card.container, { opacity: fadeAnim }]}>
-      <Image resizeMode="contain" source={imgTable[index]} style={card.img} />
-
+      <View style={card.imgContainer}>
+        <Image resizeMode="stretch" source={imgTable[index]} style={card.img} />
+      </View>
       <Text style={card.text}>{content}</Text>
     </Animated.View>
   )
@@ -49,19 +50,25 @@ const card = StyleSheet.create({
   container: {
     marginTop: 10,
     marginBottom: 20,
-    paddingTop: 50,
+    paddingTop: 300,
     height: screenHeight,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  imgContainer: {
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 100,
+  },
   img: {
-    flex: 0.4,
-    width: '80%',
-    marginBottom: 50,
-    borderRadius: 5,
+    borderRadius: 10,
+    transform: [{ scale: 0.3 }],
   },
 
   text: {
+    flex: 1,
     textAlign: 'center',
     color: color.whiteGray,
     fontSize: 17,
