@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { locationListState, departState, destinState } from '@store/atoms'
 import { useRecoilValue } from 'recoil'
 
-const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
+const EndModal = ({ ridingTime, modalVisible, cancleModal, navigate }) => {
   // recoil에 저장된 출발지, 목적지 가져오기
   const depart: {
     name: undefined
@@ -70,13 +70,11 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     for (let i = 1; i < locationData.length; i++) {
       const currentCoords = locationData[i]
       let d = calculateDistance(prevCoords, currentCoords)
-      console.log('d', d)
 
       if (d <= 1) {
         d = 0
       }
       totalDistance += d
-      console.log('total', totalDistance)
       prevCoords = currentCoords
     }
     return totalDistance
@@ -99,7 +97,7 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
     const formData = new FormData()
 
     formData.append('personal', 1)
-    formData.append('time', time)
+    formData.append('time', ridingTime)
     formData.append('distance', calculateTotalDistance(locationData))
     formData.append('content', '')
     formData.append('startLat', depart.lat)
@@ -121,7 +119,6 @@ const EndModal = ({ time, modalVisible, cancleModal, navigate }) => {
           },
         },
       )
-      console.log('Response:', response.data)
       navigate()
     } catch (error) {
       console.error('Error:', error)

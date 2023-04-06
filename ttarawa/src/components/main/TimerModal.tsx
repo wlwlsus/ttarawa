@@ -2,15 +2,18 @@ import { Modal, Pressable, Text, Image, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import { color } from '@styles/GlobalStyles'
 import { FontAwesome } from '@expo/vector-icons'
-const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
+
+export default function TimerModal({
+  modalVisible,
+  setModalVisible,
+  setRentalTime,
+}) {
   const [time, setTime] = useState(0)
   const [selected, setSelected] = useState()
 
-  const handlePress = (time: number) => {
-    handleSetTime(time)
-  }
-  const cancleTimer = () => {
-    cancleTime()
+  const handleConfirm = () => {
+    setModalVisible(false)
+    setRentalTime(time)
   }
 
   return (
@@ -61,10 +64,10 @@ const TimerModal = ({ modalVisible, handleSetTime, cancleTime }) => {
         </View>
 
         <View style={[styles.buttonContainer, styles.shadow]}>
-          <Text style={styles.cancel} onPress={() => cancleTimer()}>
+          <Text style={styles.cancel} onPress={() => setModalVisible(false)}>
             취소
           </Text>
-          <Text style={styles.confirm} onPress={() => handlePress(time)}>
+          <Text style={styles.confirm} onPress={handleConfirm}>
             확인
           </Text>
         </View>
