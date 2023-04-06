@@ -42,7 +42,7 @@ export default function NaviTimer({
   // 잔여시간 20분, 10분시 반납 알람
   useEffect(() => {
     if (time === 1200 || time === 600) {
-      const min = time % 60
+      const min = time / 60
       noti.returnNoti(min)
     }
   }, [time])

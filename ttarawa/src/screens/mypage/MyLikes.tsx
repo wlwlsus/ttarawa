@@ -28,8 +28,6 @@ interface SnsData {
   startLng: number
   endLat: number
   endLng: number
-  // startAddress: string // (시작 도로명 주소"서울특별시 강남구 역삼동 테헤란로 212"),
-  // endAddress: string // (도착 도로명 주소"서울특별시 강남구 강남대로 438 스타플렉스"),
   isMyHistory: number // (1: 내가 쓴 게시물, 0 : 내가 쓴 게시물 아님)
 }
 

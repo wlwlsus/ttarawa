@@ -33,9 +33,10 @@ export default function SnsContent() {
   const [dataLst, setDataLst] = useState<SnsData[]>([])
 
   const setModalVisible = useSetRecoilState(snsModal)
-  const [params, setParams] = useRecoilState(snsParamsState)
+  const [snsParams, setSnsParams] = useRecoilState(snsParamsState)
 
-  let page: number = 0
+  const [page, setPage] = useState<number>(0)
+  // let page: number = 0
 
   // 조회 axios 함수
   const getData = (params: string, page: number) => {
