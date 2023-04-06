@@ -31,11 +31,10 @@ export default function MyHistory() {
   const { saveLike, deleteLike, updatePost, deletePost } = snsaxios
   const [isEditMode, setIsEditMode] = useState(false)
   const [contentText, setContentText] = useState('')
+  const [page, setPage] = useState(0)
 
-  useEffect(() => {
-    // axios
-    user.fetchRide(0).then((res) => {
-      // console.log(res)
+  const getData: (params: number) => void = (page: number) => {
+    user.fetchRide(page).then((res) => {
       if (!res) return
       const newData: FeedData[] = res.map((data) => {
         return {
@@ -44,10 +43,23 @@ export default function MyHistory() {
           personal: data.personal === 1 ? true : false,
         }
       })
-      setDataLst(newData)
+      setDataLst((prevData) => [...prevData, ...newData])
     })
+  }
+
+  useEffect(() => {
+    // axios
+    getData(page)
     setModalVisible(false)
   }, [])
+
+  // 끝에 도달했을 때 새로운 데이터 불러오기
+  const handleLoadMore = () => {
+    console.log('check')
+    console.log(page)
+    getData(page + 1)
+    setPage((prevPage) => prevPage + 1)
+  }
 
   const pressLike = (key: number) => {
     const check = dataLst.find((data) => data.historyId === key)
@@ -202,6 +214,9 @@ export default function MyHistory() {
             )
           }}
           keyExtractor={(item) => item.historyId.toString()}
+          // 끝에까지 닿았다면?
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
           // 스크롤 감추기
           showsVerticalScrollIndicator={false}
         />
