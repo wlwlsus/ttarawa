@@ -1,10 +1,4 @@
-import {
-  View,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  FlatList,
-} from 'react-native'
+import { View, SafeAreaView, Image, Dimensions, FlatList } from 'react-native'
 import GuideCard from '~/components/card/GuideCard'
 import { color } from '@styles/GlobalStyles'
 import { Octicons } from '@expo/vector-icons'
@@ -44,7 +38,9 @@ const PAGE_HEIGHT = Dimensions.get('window').height // 페이지 높이
 export default function Guide({ navigation }) {
   const [index, setIndex] = useState(0)
   const [token, setToken] = useState(null)
+  const [loading, setLoading] = useState(true)
 
+  // 스크롤에 따라 index 이동
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y
     const pageIndex = Math.round(offsetY / PAGE_HEIGHT)
@@ -61,7 +57,17 @@ export default function Guide({ navigation }) {
       setToken(token)
     }
     getAccessToken()
+
+    // 2초 후 로딩 끝
+    setTimeout(() => setLoading(false), 2000)
   }, [])
+
+  if (loading) {
+    // 로딩 중이면 gif 이미지 표시
+    return (
+      <Image source={require('@assets/guide/splash.gif')} style={{ flex: 1 }} />
+    )
+  }
 
   return (
     <SafeAreaView style={guide.container}>

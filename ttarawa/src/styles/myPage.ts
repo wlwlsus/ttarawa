@@ -30,6 +30,10 @@ export const myPage = StyleSheet.create({
     color: color.primary,
     fontWeight: 'bold',
   },
+  img: {
+    width: 40,
+    height: 30,
+  },
 
   imgContainer: {
     alignSelf: 'center',
@@ -74,7 +78,7 @@ export const myPage = StyleSheet.create({
 
   rank: {
     marginTop: 80,
-    fontSize: 17,
+    fontSize: 20,
   },
   nameContainer: {
     width: '60%',
