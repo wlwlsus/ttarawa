@@ -195,7 +195,13 @@ export default function NaviPath(props: {
           ...prevData,
           { longitude: longitude, latitude: latitude },
         ])
-        setRegion({ ...region, latitude: latitude, longitude: longitude })
+        setRegion({
+          ...region,
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        })
       },
     )
     setWatcher(watcher)
