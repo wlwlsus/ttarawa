@@ -8,6 +8,7 @@ export const userState = atom({
     badgeName: undefined,
     totalDistance: undefined,
     profile: undefined,
+    badgeImg: undefined,
   },
 })
 

@@ -9,6 +9,8 @@ import HistoryMenu from '@components/mypage/HistoryMenu'
 import user from '@services/user'
 import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
+import { userState } from '@store/atoms'
+import { useRecoilValue } from 'recoil'
 
 import { captureRef } from 'react-native-view-shot'
 import * as Sharing from 'expo-sharing'
@@ -32,6 +34,7 @@ export default function MyHistory() {
   const [isEditMode, setIsEditMode] = useState(false)
   const [contentText, setContentText] = useState('')
   const [page, setPage] = useState(0)
+  const {nickname, badgeImg, profile} = useRecoilValue(userState)
 
   const getData: (params: number) => void = (page: number) => {
     user.fetchRide(page).then((res) => {
@@ -53,13 +56,7 @@ export default function MyHistory() {
     setModalVisible(false)
   }, [])
 
-  // 끝에 도달했을 때 새로운 데이터 불러오기
-  const handleLoadMore = () => {
-    console.log('check')
-    console.log(page)
-    getData(page + 1)
-    setPage((prevPage) => prevPage + 1)
-  }
+  
 
   const pressLike = (key: number) => {
     const check = dataLst.find((data) => data.historyId === key)
@@ -184,6 +181,12 @@ export default function MyHistory() {
     setModalVisible(true)
   }
 
+  // 끝에 도달했을 때 새로운 데이터 불러오기
+  const handleLoadMore = () => {
+    getData(page + 1)
+    setPage((prevPage) => prevPage + 1)
+  }
+  
   return (
     <View style={sns.container} ref={myRef}>
       {dataLst && (
@@ -195,6 +198,10 @@ export default function MyHistory() {
 
             return (
               <FeedCard
+                isHistory={true}
+                userName={nickname}
+                userImg={profile}
+                rank={badgeImg}
                 imagePath={item.image}
                 isLock={item.personal}
                 pressLock={() => pressLock(item.historyId)}
