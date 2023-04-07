@@ -20,6 +20,8 @@ interface result {
   category: number
   subCategory?: string
   tourId?: number
+  rating: number
+  reviews: number
   adress?: string
   lat: number
   lng: number
@@ -114,6 +116,8 @@ export default function Recom({ navigation }) {
               lng={recom.lng}
               distance={recom.distances}
               visit={recom.visit}
+              rating={recom.rating}
+              reviews={recom.reviews}
               category={recom.category}
               navigation={navigation}
             />

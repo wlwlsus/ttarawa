@@ -13,6 +13,8 @@ interface Props {
   lng: number
   distance: number
   visit: number
+  rating: number
+  reviews: number
   category: number
   navigation: NavigationProp<any>
 }
@@ -23,6 +25,8 @@ export default function RecomCard({
   lng,
   distance,
   visit,
+  rating,
+  reviews,
   category,
   navigation,
 }: Props) {
@@ -53,7 +57,10 @@ export default function RecomCard({
       <View style={styles.cardBody}>
         <Text style={styles.distance}>주행거리: 약 {distance}km</Text>
         <Text style={styles.distance}>
-          최근 <Text style={styles.cnt}>{visit}</Text>명 방문
+          최근 <Text style={styles.cnt}>{reviews}</Text>명 방문
+        </Text>
+        <Text style={styles.distance}>
+          ⭐ <Text style={styles.cnt}>{rating}</Text>
         </Text>
       </View>
       <IconButton
