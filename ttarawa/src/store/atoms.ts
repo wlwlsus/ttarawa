@@ -8,6 +8,7 @@ export const userState = atom({
     badgeName: undefined,
     totalDistance: undefined,
     profile: undefined,
+    badgeImg: undefined,
   },
 })
 
@@ -63,12 +64,6 @@ export const snsModal = atom({
 export const snsParamsState = atom({
   key: 'snsParamsState',
   default: 'createdDate,desc',
-})
-
-// History bottoms params
-export const historyParams = atom({
-  key: 'historyParams',
-  default: '',
 })
 
 export const remainingDistanceState = atom({

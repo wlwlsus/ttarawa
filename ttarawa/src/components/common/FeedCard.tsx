@@ -15,6 +15,7 @@ import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 
 interface Props {
+  isHistory?: boolean
   // User Info
   userName?: string
   userImg?: string
@@ -53,6 +54,8 @@ interface Props {
 }
 
 export default function FeedCard({
+  isHistory,
+
   userName,
   userImg,
   rank,
@@ -85,15 +88,14 @@ export default function FeedCard({
   return (
     <View style={styles.cardContainer}>
       {/* ID, Profile */}
-      {userName ? (
-        <View style={styles.userInfo}>
-          <View style={styles.imgContainer}>
-            <Image source={{ uri: userImg }} style={styles.userImg} />
-          </View>
-          <Text style={styles.userName}>{userName}</Text>
-          <Image source={{ uri: rank }} style={{ width: 30, height: 20 }} />
+      <View style={styles.userInfo}>
+        <View style={styles.imgContainer}>
+          <Image source={{ uri: userImg }} style={styles.userImg} />
         </View>
-      ) : null}
+        <Text style={styles.userName}>{userName}</Text>
+        <Image source={{ uri: rank }} style={{ width: 30, height: 20 }} />
+      </View>
+
 
       {/* 경로 이미지 */}
       <View style={styles.cardImgContainer}>
@@ -103,7 +105,7 @@ export default function FeedCard({
           style={styles.cardImg}
         />
         {/* <Image source={imagePath} style={styles.cardImg} /> */}
-        {userName ? null : (
+        {isHistory ? (
           <View style={styles.lock}>
             <IconButton
               icon1={
@@ -116,7 +118,7 @@ export default function FeedCard({
               press={pressLock}
             />
           </View>
-        )}
+        ) : null}
       </View>
 
       <View style={styles.cardContent}>
@@ -142,7 +144,7 @@ export default function FeedCard({
           {/* userName 유무에 따라 공유 or 수정 아이콘 */}
 
           <View>
-            {userName ? (
+            {!isHistory ? (
               <IconButton
                 icon1={
                   <Ionicons
