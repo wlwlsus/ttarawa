@@ -9,9 +9,8 @@ import HistoryMenu from '@components/mypage/HistoryMenu'
 import user from '@services/user'
 import snsaxios from '@services/sns'
 import { convertToKm, convertToTime } from '@utils/caculator'
-
-import { useRecoilState } from 'recoil'
-import { historyParams } from '@store/atoms'
+import { userState } from '@store/atoms'
+import { useRecoilValue } from 'recoil'
 
 import { captureRef } from 'react-native-view-shot'
 import * as Sharing from 'expo-sharing'
@@ -34,11 +33,11 @@ export default function MyHistory() {
   const { saveLike, deleteLike, updatePost, deletePost } = snsaxios
   const [isEditMode, setIsEditMode] = useState(false)
   const [contentText, setContentText] = useState('')
+  const [page, setPage] = useState(0)
+  const {nickname, badgeImg, profile} = useRecoilValue(userState)
 
-  useEffect(() => {
-    // axios
-    user.fetchRide(0).then((res) => {
-      // console.log(res)
+  const getData: (params: number) => void = (page: number) => {
+    user.fetchRide(page).then((res) => {
       if (!res) return
       const newData: FeedData[] = res.map((data) => {
         return {
@@ -47,10 +46,17 @@ export default function MyHistory() {
           personal: data.personal === 1 ? true : false,
         }
       })
-      setDataLst(newData)
+      setDataLst((prevData) => [...prevData, ...newData])
     })
+  }
+
+  useEffect(() => {
+    // axios
+    getData(page)
     setModalVisible(false)
   }, [])
+
+  
 
   const pressLike = (key: number) => {
     const check = dataLst.find((data) => data.historyId === key)
@@ -175,6 +181,12 @@ export default function MyHistory() {
     setModalVisible(true)
   }
 
+  // 끝에 도달했을 때 새로운 데이터 불러오기
+  const handleLoadMore = () => {
+    getData(page + 1)
+    setPage((prevPage) => prevPage + 1)
+  }
+  
   return (
     <View style={sns.container} ref={myRef}>
       {dataLst && (
@@ -186,6 +198,10 @@ export default function MyHistory() {
 
             return (
               <FeedCard
+                isHistory={true}
+                userName={nickname}
+                userImg={profile}
+                rank={badgeImg}
                 imagePath={item.image}
                 isLock={item.personal}
                 pressLock={() => pressLock(item.historyId)}
@@ -205,6 +221,9 @@ export default function MyHistory() {
             )
           }}
           keyExtractor={(item) => item.historyId.toString()}
+          // 끝에까지 닿았다면?
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.1} // 밑으로 내리는 거 몇 초 했는지?
           // 스크롤 감추기
           showsVerticalScrollIndicator={false}
         />

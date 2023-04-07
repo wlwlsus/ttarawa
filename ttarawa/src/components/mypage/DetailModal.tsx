@@ -11,6 +11,7 @@ import * as Sharing from 'expo-sharing'
 interface ModalProps {
   visible: boolean
   onClose: () => void
+  pressLike: (historyId: number) => void
   data: {
     userId?: number
     historyId: number
@@ -29,13 +30,13 @@ interface ModalProps {
   } // FeedCard에 전달할 데이터
 }
 
-export default function DetailModal({ visible, onClose, data }: ModalProps) {
+export default function DetailModal({ visible, onClose, data, pressLike }: ModalProps) {
   const [modalVisible, setModalVisible] = useState(visible)
   // const { saveLike, deleteLike } = snsaxios
 
   useEffect(() => {
     setModalVisible(visible)
-  }, [visible])
+  }, [visible, data])
 
   const distance = convertToKm(data.distance)
   const time = convertToTime(data.time)
@@ -76,7 +77,7 @@ export default function DetailModal({ visible, onClose, data }: ModalProps) {
             imagePath={data.image}
             likes={data.favoritesCount}
             isLike={data.isMyFavorite == 1 ? true : false}
-            // pressLike={() => pressLike(data.historyId, data.isMyFavorite)}
+            pressLike={() => pressLike(data.historyId)}
             distence={distance}
             time={time}
             content={data.content}
