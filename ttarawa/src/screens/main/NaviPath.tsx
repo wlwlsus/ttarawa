@@ -36,7 +36,7 @@ export default function NaviPath(props: {
   distance: any
 }) {
   // 카테고리 가져오기
-  const category = useRecoilValue(markerCategoryState)
+  const [category, setCategory] = useRecoilState(markerCategoryState)
   const icons = [bikeIcon, restaurantIcon, cafeIcon, cultureIcon, toiletIcon]
 
   // 카테고리별 Marker 커스터마이징
@@ -209,6 +209,7 @@ export default function NaviPath(props: {
   // 시작 시 실행
   useEffect(() => {
     startLocationTracking()
+    setCategory(5)
   }, [])
 
   // 저장 종료

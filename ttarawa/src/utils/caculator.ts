@@ -3,7 +3,6 @@
 export const convertToTime = (seconds: number): string => {
   let minutes: number
   let hours: number
-  let time: string
 
   // 1시간 넘어가면,
   if (seconds >= 3600) {
@@ -19,7 +18,7 @@ export const convertToTime = (seconds: number): string => {
 
     // 1분도 되지 않는다면,
   } else {
-    return `${seconds}초`
+    return `${Math.floor(seconds)}초`
   }
 }
 
