@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    image: app:0.1
+    container_name: app_blue
+    environment:
+      - "spring_profiles_active=blue"
+    ports:
+      - "8085:8080"
+    networks:
+      - ttarawa-net
+    volumes:
+      - /var/log/logs:/logs
+
+
+networks:
+  ttarawa-net:
+    name: docker_ttarawa-net

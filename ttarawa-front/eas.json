@@ -1,0 +1,45 @@
+{
+  "cli": {
+    "version": ">= 3.8.1"
+  },
+  // "build": {
+  //   "development": {
+  //     "developmentClient": true,
+  //     "distribution": "internal",
+  //     "ios": {
+  //       "resourceClass": "m-medium"
+  //     }
+  //   },
+  //   "preview": {
+  //     "distribution": "internal",
+  //     "ios": {
+  //       "resourceClass": "m-medium"
+  //     }
+  //   },
+  //   "production": {
+  //     "ios": {
+  //       "resourceClass": "m-medium"
+  //     }
+  //   }
+  // },
+  "build": {
+    // apk파일로 build 설정
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}

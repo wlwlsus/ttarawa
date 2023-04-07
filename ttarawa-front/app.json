@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "ttarawa",
+    "slug": "ttarawa",
+    "version": "1.0.0",
+    "sdkVersion": "48.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ttarawa/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/ttarawa/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "notification": {
+      "icon": "./assets/ttarawa/notification.png",
+      "color": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["location"]
+      },
+      "bundleIdentifier": "com.hyejin3681.ttarawa"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ttarawa/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.hyejin3681.ttarawa"
+    },
+    "web": {
+      "favicon": "./assets/ttarawa/logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a87ed305-05d4-41cf-ac0e-d03d9a8d3691"
+      }
+    }
+    // // QR코드 고정하는 코드 (나중에 고정해서 PPT에 넣기?)
+    // "packagerOpts": {
+    //   "hostType": "tunnel"
+    // }
+  }
+}
